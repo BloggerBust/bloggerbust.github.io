@@ -2,31 +2,31 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Blogger Bust</title>
-    <link>https://bloggerbust.github.io/bloggerbust.io/</link>
+    <link>https://bloggerbust.ca/</link>
     <description>Recent content on Blogger Bust</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-CA</language>
     <copyright>Copyright (c) 2018, all rights reserved.</copyright>
     <lastBuildDate>Thu, 07 Jun 2018 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="https://bloggerbust.github.io/bloggerbust.io/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://bloggerbust.ca/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>About</title>
-      <link>https://bloggerbust.github.io/bloggerbust.io/about/</link>
+      <link>https://bloggerbust.ca/about/</link>
       <pubDate>Thu, 07 Jun 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://bloggerbust.github.io/bloggerbust.io/about/</guid>
+      <guid>https://bloggerbust.ca/about/</guid>
       <description>Who am I This is where I will say something about myself.</description>
     </item>
     
     <item>
       <title>Hello World</title>
-      <link>https://bloggerbust.github.io/bloggerbust.io/post/hello/</link>
+      <link>https://bloggerbust.ca/post/hello/</link>
       <pubDate>Thu, 07 Jun 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://bloggerbust.github.io/bloggerbust.io/post/hello/</guid>
+      <guid>https://bloggerbust.ca/post/hello/</guid>
       <description>First deployment Hi, this is just a test for me to see that I have things setup correctly. More to come...</description>
     </item>
     

@@ -3,45 +3,45 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>https://bloggerbust.github.io/bloggerbust.io/about/</loc>
+    <loc>https://bloggerbust.ca/about/</loc>
     <lastmod>2018-06-07T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://bloggerbust.github.io/bloggerbust.io/post/hello/</loc>
+    <loc>https://bloggerbust.ca/post/hello/</loc>
     <lastmod>2018-06-07T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://bloggerbust.github.io/bloggerbust.io/</loc>
-    <lastmod>2018-06-07T00:00:00+00:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://bloggerbust.github.io/bloggerbust.io/categories/</loc>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://bloggerbust.github.io/bloggerbust.io/post/</loc>
+    <loc>https://bloggerbust.ca/</loc>
     <lastmod>2018-06-07T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://bloggerbust.github.io/bloggerbust.io/tags/</loc>
+    <loc>https://bloggerbust.ca/categories/</loc>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://bloggerbust.github.io/bloggerbust.io/categories/test-category/</loc>
+    <loc>https://bloggerbust.ca/post/</loc>
     <lastmod>2018-06-07T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://bloggerbust.github.io/bloggerbust.io/tags/test-tag/</loc>
+    <loc>https://bloggerbust.ca/tags/</loc>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://bloggerbust.ca/categories/test-category/</loc>
+    <lastmod>2018-06-07T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://bloggerbust.ca/tags/test-tag/</loc>
     <lastmod>2018-06-07T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>

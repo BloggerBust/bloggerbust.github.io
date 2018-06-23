@@ -4,17 +4,12 @@
   
   <url>
     <loc>https://bloggerbust.ca/about/</loc>
-    <lastmod>2018-06-07T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://bloggerbust.ca/post/hello/</loc>
-    <lastmod>2018-06-07T00:00:00+00:00</lastmod>
+    <lastmod>2018-06-23T06:35:48-06:00</lastmod>
   </url>
   
   <url>
     <loc>https://bloggerbust.ca/</loc>
-    <lastmod>2018-06-07T00:00:00+00:00</lastmod>
+    <lastmod>2018-06-23T06:35:48-06:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -24,25 +19,7 @@
   </url>
   
   <url>
-    <loc>https://bloggerbust.ca/post/</loc>
-    <lastmod>2018-06-07T00:00:00+00:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
     <loc>https://bloggerbust.ca/tags/</loc>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://bloggerbust.ca/categories/test-category/</loc>
-    <lastmod>2018-06-07T00:00:00+00:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://bloggerbust.ca/tags/test-tag/</loc>
-    <lastmod>2018-06-07T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   

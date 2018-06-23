@@ -11,14 +11,5 @@
 	<atom:link href="https://bloggerbust.ca/tags/index.xml" rel="self" type="application/rss+xml" />
     
     
-    <item>
-      <title>Test Tag</title>
-      <link>https://bloggerbust.ca/tags/test-tag/</link>
-      <pubDate>Thu, 07 Jun 2018 00:00:00 +0000</pubDate>
-      
-      <guid>https://bloggerbust.ca/tags/test-tag/</guid>
-      <description></description>
-    </item>
-    
   </channel>
 </rss>

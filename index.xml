@@ -7,10 +7,20 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-CA</language>
     <copyright>Copyright (c) 2018, all rights reserved.</copyright>
-    <lastBuildDate>Thu, 07 Jun 2018 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 20 Jun 2018 07:09:19 -0600</lastBuildDate>
     
 	<atom:link href="https://bloggerbust.ca/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>&#34;Anchor links not working in hugo&#34;</title>
+      <link>https://bloggerbust.ca/post/anchor-links-not-working-in-hugo/</link>
+      <pubDate>Wed, 20 Jun 2018 07:09:19 -0600</pubDate>
+      
+      <guid>https://bloggerbust.ca/post/anchor-links-not-working-in-hugo/</guid>
+      <description>What is the issue If I create a link to a local heading a header link, the browser renders the link relative to the webroot. If you click on the link it will navigate the browser to the webroot and query for the anchor from that location rather than the current document. The same issue happens when tring to link to a footnote 1.
+Footnotes  this is a footnote. [return]   </description>
+    </item>
     
     <item>
       <title>About</title>

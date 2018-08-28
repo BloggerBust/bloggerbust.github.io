@@ -3,34 +3,34 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>https://bloggerbust.ca/post/anchor-links-not-working-in-hugo/</loc>
-    <lastmod>2018-08-27T06:16:37-06:00</lastmod>
+    <loc>/post/anchor-links-not-working-in-hugo/</loc>
+    <lastmod>2018-08-28T05:12:14-06:00</lastmod>
   </url>
   
   <url>
-    <loc>https://bloggerbust.ca/about/</loc>
+    <loc>/about/</loc>
     <lastmod>2018-06-23T06:35:48-06:00</lastmod>
   </url>
   
   <url>
-    <loc>https://bloggerbust.ca/</loc>
-    <lastmod>2018-08-27T06:16:37-06:00</lastmod>
+    <loc>/</loc>
+    <lastmod>2018-08-28T05:12:14-06:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://bloggerbust.ca/categories/</loc>
+    <loc>/categories/</loc>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://bloggerbust.ca/post/</loc>
-    <lastmod>2018-08-27T06:16:37-06:00</lastmod>
+    <loc>/post/</loc>
+    <lastmod>2018-08-28T05:12:14-06:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://bloggerbust.ca/tags/</loc>
+    <loc>/tags/</loc>
     <priority>0</priority>
   </url>
   

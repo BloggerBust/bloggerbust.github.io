@@ -7,9 +7,37 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-CA</language>
     <copyright>Copyright (c) 2018, all rights reserved.</copyright>
+    <lastBuildDate>Thu, 11 Oct 2018 06:07:13 -0600</lastBuildDate>
     
 	<atom:link href="/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Separate Dependencies From Implementation Using Nauci Base Entry Docker Image</title>
+      <link>/post/separate-dependencies-from-implementation-using-nauci-base-entry-docker-image/</link>
+      <pubDate>Thu, 11 Oct 2018 06:07:13 -0600</pubDate>
+      
+      <guid>/post/separate-dependencies-from-implementation-using-nauci-base-entry-docker-image/</guid>
+      <description>The motivation I am going to develop a responsive web-extension using angular. The web-extension is for a project that I am starting called nauci. I will talk about nauci more in future posts. In this post I intend to introduce the nauci base entry docker image and how I am using it to encapsulate the nauci project dependencies in a docker sub image, but not the source code. The plan is to bind my local nauci source directory to a docker container built with the nauci dependencies image, thereby separating dependency and tooling concerns from project implementation.</description>
+    </item>
+    
+    <item>
+      <title>Literate Programming</title>
+      <link>/post/literate-programming/</link>
+      <pubDate>Sat, 01 Sep 2018 12:43:27 -0600</pubDate>
+      
+      <guid>/post/literate-programming/</guid>
+      <description>A quick note about my use of Literate Programming My blog is generated using a static site generator called Hugo. Hugo naively supports both Markdown and Org-Mode format, so naturally I have chosen to compose my blog posts in emacs Org-Mode. Org-mode is similar to Markdown in the sense that it uses a simple plain text markup syntax for formatting documents. However, Org-Mode has far more features than Markdown and has fantastic literate programming support via Org-Babel.</description>
+    </item>
+    
+    <item>
+      <title>About</title>
+      <link>/about/</link>
+      <pubDate>Thu, 07 Jun 2018 00:00:00 -0600</pubDate>
+      
+      <guid>/about/</guid>
+      <description>About Me I am a software developer and independent contractor residing in Edmonton Alberta, Canada. I have been developing software professionally since 2001 and graduated from the University of Alberta in 2005 with a major mathematics and minor in computing science. One thing that I love about being an independent contractor, is that over the years I have worked for lots of different companies which has allowed me to contribute to a large variety of exciting projects written in many different languages.</description>
+    </item>
     
   </channel>
 </rss>

@@ -3,7 +3,29 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>/post/separate-dependencies-from-implementation-using-nauci-base-entry-docker-image/</loc>
+    <lastmod>2018-10-11T14:54:39-06:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/post/literate-programming/</loc>
+    <lastmod>2018-10-11T14:12:07-06:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/about/</loc>
+    <lastmod>2018-06-07T00:00:00-06:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/</loc>
+    <lastmod>2018-10-11T14:54:39-06:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>/</loc>
+    <lastmod>2018-10-11T14:54:39-06:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -13,7 +35,14 @@
   </url>
   
   <url>
+    <loc>/post/</loc>
+    <lastmod>2018-10-11T14:54:39-06:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>/tags/</loc>
+    <lastmod>2018-10-11T14:54:39-06:00</lastmod>
     <priority>0</priority>
   </url>
   

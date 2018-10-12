@@ -14,7 +14,7 @@
 <meta property="og:description" content="The motivation I am going to develop a responsive web-extension using angular. The web-extension is for a project that I am starting called nauci. I will talk about nauci more in future posts. In this post I intend to introduce the nauci base entry docker image and how I am using it to encapsulate the nauci project dependencies in a docker sub image, but not the source code. The plan is to bind my local nauci source directory to a docker container built with the nauci dependencies image, thereby separating dependency and tooling concerns from project implementation." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/post/separate-dependencies-from-implementation-using-nauci-base-entry-docker-image/" /><meta property="article:published_time" content="2018-10-11T06:07:13-06:00"/>
-<meta property="article:modified_time" content="2018-10-11T14:54:39-06:00"/>
+<meta property="article:modified_time" content="2018-10-11T18:22:24-06:00"/>
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Separate Dependencies From Implementation Using Nauci Base Entry Docker Image"/>
 <meta name="twitter:description" content="The motivation I am going to develop a responsive web-extension using angular. The web-extension is for a project that I am starting called nauci. I will talk about nauci more in future posts. In this post I intend to introduce the nauci base entry docker image and how I am using it to encapsulate the nauci project dependencies in a docker sub image, but not the source code. The plan is to bind my local nauci source directory to a docker container built with the nauci dependencies image, thereby separating dependency and tooling concerns from project implementation."/>
@@ -27,7 +27,7 @@
 
 <meta itemprop="datePublished" content="2018-10-11T06:07:13-06:00" />
 <meta itemprop="dateModified" content="2018-10-11T06:07:13-06:00" />
-<meta itemprop="wordCount" content="3419">
+<meta itemprop="wordCount" content="3404">
 
 
 
@@ -251,7 +251,7 @@ ls -la</code></pre></div><div class="highlight"><pre style="color:#d0d0d0;backgr
 : drwxr-xr-x  3 dustfinger dustfinger  3 Oct 11 10:41 .
 : drwxr-xr-x 37 dustfinger dustfinger 43 Oct 11 10:41 ..
 : drwxrwsr-x  2 dustfinger developer   2 Oct 11 10:41 src</code></pre></div>
-<p>You can see that there is an <strong><em>s</em></strong> in the execute bit position for group ownership. That is how you know setgit has actually been applied. You  might be also interested in trying out the getfacl to view the effective access control list.</p>
+<p>You can see that there is an <strong><em>s</em></strong> in the execute bit position for group ownership. That is how you know setgid mode bit has actually been applied. You  might be also interested in trying out the getfacl to view the effective access control list.</p>
 <div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">getfacl -e src/</code></pre></div><div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">: # file: src/
 : # owner: dustfinger
 : # group: developer
@@ -275,7 +275,7 @@ ls -la src/</code></pre></div><div class="highlight"><pre style="color:#d0d0d0;b
 tank/root/home  aclinherit  restricted     default
 tank/root/home  acltype     posixacl       local
 tank/root/home  xattr       sa             inherited from tank</code></pre></div>
-<p>Now all we need to do is use the setfacl command to set the default acl for the developer group to apply rw permissions.</p>
+<p>Now all we need to do is use the setfacl command to set the default ACL for the developer group to apply rw permissions.</p>
 <div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">setfacl -Rdm g:developer:rw src
 touch src/example2
 ls -la src</code></pre></div><div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">: total 2
@@ -283,7 +283,7 @@ ls -la src</code></pre></div><div class="highlight"><pre style="color:#d0d0d0;ba
 : drwxr-xr-x  3 dustfinger dustfinger 3 Oct 11 10:41 ..
 : -rw-r--r--  1 dustfinger developer  0 Oct 11 11:38 example
 : -rw-rw-r--+ 1 dustfinger developer  0 Oct 11 11:40 example2</code></pre></div>
-<p>Let&rsquo;s see how that has effected the effective rights of our access control list.</p>
+<p>Let&rsquo;s see how that has affected the effective rights of our access control list.</p>
 <div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">getfacl -e src/</code></pre></div><div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text"># file: src/
 # owner: dustfinger
 # group: developer
@@ -359,7 +359,7 @@ docker ps -a</code></pre></div><div class="highlight"><pre style="color:#d0d0d0;
 
 <h2 id="conclusion">Conclusion</h2>
 
-<p>To be honest, when I started writing this post I new very little about docker. The experience I have gained has been my reward. I hope that by following along you have gained the same. If you notice something wrong please create an issue on the <a href="https://github.com/BloggerBust/nauci%5Fbase%5Finit/issues">nauci base entry GitHub issues page</a>. If you would like to share some tips for improvements, or just feel like commenting for any other reason, please email me directly, or if this post happens to be picked up by hacker news then you may comment there as well. In my next post I will use the nauci base entry image to derive a dependency image that will allow me to create a web extension that will run on multiple browsers and on android. Then you will understand why the entry point creates a USB group.</p>
+<p>To be honest, when I started writing this post I new very little about docker. The experience I have gained has been my reward. I hope that by following along you have gained the same. If you notice something wrong please create an issue on the <a href="https://github.com/BloggerBust/nauci%5Fbase%5Finit/issues">nauci base entry GitHub issues page</a>. If you would like to share some tips for improvements, or just feel like commenting for any other reason, please email me directly, or post a comment on <a href="https://news.ycombinator.com/item?id=18197162">Show Hacker News</a>. In my next post I will use these same techniques to rapidly develop and debug a web-extension, on both a mobile device and desktop, directly from the guest container. Then you will understand why the entry point creates a USB group.</p>
  </div>
     <footer class="post-footer">
 

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Docker on Blogger Bust</title>
+    <link>/tags/docker/</link>
+    <description>Recent content in Docker on Blogger Bust</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-CA</language>
+    <copyright>Copyright (c) 2018, all rights reserved.</copyright>
+    <lastBuildDate>Thu, 11 Oct 2018 06:07:13 -0600</lastBuildDate>
+    
+	<atom:link href="/tags/docker/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Separate Dependencies From Implementation Using Nauci Base Entry Docker Image</title>
+      <link>/post/separate-dependencies-from-implementation-using-nauci-base-entry-docker-image/</link>
+      <pubDate>Thu, 11 Oct 2018 06:07:13 -0600</pubDate>
+      
+      <guid>/post/separate-dependencies-from-implementation-using-nauci-base-entry-docker-image/</guid>
+      <description>The motivation I am going to develop a responsive web-extension using angular. The web-extension is for a project that I am starting called nauci. I will talk about nauci more in future posts. In this post I intend to introduce the nauci base entry docker image and how I am using it to encapsulate the nauci project dependencies in a docker sub image, but not the source code. The plan is to bind my local nauci source directory to a docker container built with the nauci dependencies image, thereby separating dependency and tooling concerns from project implementation.</description>
+    </item>
+    
+  </channel>
+</rss>

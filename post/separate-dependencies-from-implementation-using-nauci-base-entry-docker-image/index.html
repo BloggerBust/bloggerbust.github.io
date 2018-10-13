@@ -5,7 +5,7 @@
 <meta charset="utf-8" />
 <meta name="author" content="Trevor Wilson" />
 <meta name="description" content="a place for me to bust out a blog on programming, infosec, emacs and things that interest me." />
-<meta name="keywords" content="[programming coding infosec cybersecurity webextensions blog blogger bust]" />
+<meta name="keywords" content="[programming coding infosec cybersecurity webextensions blog blogger bust docker linux emacs free software]" />
 <meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1">
 <meta name="generator" content="Hugo 0.48" />
 
@@ -14,7 +14,8 @@
 <meta property="og:description" content="The motivation I am going to develop a responsive web-extension using angular. The web-extension is for a project that I am starting called nauci. I will talk about nauci more in future posts. In this post I intend to introduce the nauci base entry docker image and how I am using it to encapsulate the nauci project dependencies in a docker sub image, but not the source code. The plan is to bind my local nauci source directory to a docker container built with the nauci dependencies image, thereby separating dependency and tooling concerns from project implementation." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/post/separate-dependencies-from-implementation-using-nauci-base-entry-docker-image/" /><meta property="article:published_time" content="2018-10-11T06:07:13-06:00"/>
-<meta property="article:modified_time" content="2018-10-11T18:22:24-06:00"/>
+<meta property="article:modified_time" content="2018-10-13T06:06:32-06:00"/>
+
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Separate Dependencies From Implementation Using Nauci Base Entry Docker Image"/>
 <meta name="twitter:description" content="The motivation I am going to develop a responsive web-extension using angular. The web-extension is for a project that I am starting called nauci. I will talk about nauci more in future posts. In this post I intend to introduce the nauci base entry docker image and how I am using it to encapsulate the nauci project dependencies in a docker sub image, but not the source code. The plan is to bind my local nauci source directory to a docker container built with the nauci dependencies image, thereby separating dependency and tooling concerns from project implementation."/>
@@ -27,11 +28,11 @@
 
 <meta itemprop="datePublished" content="2018-10-11T06:07:13-06:00" />
 <meta itemprop="dateModified" content="2018-10-11T06:07:13-06:00" />
-<meta itemprop="wordCount" content="3404">
+<meta itemprop="wordCount" content="3405">
 
 
 
-<meta itemprop="keywords" content="," />
+<meta itemprop="keywords" content="nauci,docker," />
 
 
 <link rel="stylesheet" href="/css/layout.css" />
@@ -128,6 +129,10 @@ th {
     
     <a class="nav-item" href="/about/"><div class="nav-item-title">About</div></a>
     
+    <a class="nav-item" href="/categories"><div class="nav-item-title">Categories</div></a>
+    
+    <a class="nav-item" href="/series"><div class="nav-item-title">Series</div></a>
+    
     <a class="nav-item" href="/tags/"><div class="nav-item-title">Tags</div></a>
     
     <a class="nav-item active" href="/post/"><div class="nav-item-title">Posts</div></a>
@@ -167,7 +172,7 @@ th {
 
 <p>I am going to develop a responsive web-extension using angular. The web-extension is for a project that I am starting called <em>nauci</em>. I will talk about nauci more in future posts. In this post I intend to introduce the <em>nauci base entry</em> docker image and how I am using it to encapsulate the nauci project dependencies in a docker sub image, but not the source code. The plan is to bind my local nauci source directory to a docker container built with the nauci dependencies image, thereby separating dependency and tooling concerns from project implementation. If someone wants to contribute to nauci, they can simply grab the nauci dependencies image from docker hub once it is available, bind it to their clone of the nauci GitHub repository and contribute to the code base using using their preferred locally installed developer tools. I should mention that the nauci source is not on GitHub yet, but once it is ready to be pushed to the public repository I intend to license the project as free-software.</p>
 
-<p>I personally like to install as few packages on my dev box as possible and the idea of helping others avoid the same is appealing. The <a href="https://hub.docker.com/r/nauci/nauci%5Fbase%5Fentry/">nauci base entry image is publicly available on docker hub</a> and everyone is welcome to use it as a base image to encapsulate their own project dependencies. From now on I will refer to the nauci base entry image simply as <em>base image</em>. This is my significantfirst post. I hope you enjoy it.</p>
+<p>I personally like to install as few packages on my dev box as possible and the idea of helping others avoid the same is appealing. The <a href="https://hub.docker.com/r/nauci/nauci%5Fbase%5Fentry/">nauci base entry image is publicly available on docker hub</a> and everyone is welcome to use it as a base image to encapsulate their own project dependencies. From now on I will refer to the nauci base entry image simply as <em>base image</em>. This is my first significant post. I hope you enjoy it.</p>
 
 <h2 id="preparing-for-collaboration">Preparing for collaboration</h2>
 
@@ -221,11 +226,11 @@ drwxr-xr-x 2 dustfinger dustfinger 2 Oct 11 10:41 src</code></pre></div>
 <p>As I mentioned in <a href="/post/literate-programming/">Literate Programming</a>, sometimes I make use of regular expressions to filter the output for presentation purposes. In the next source block I am grepping <code>/etc/logins.defs</code> for the GID ranges. I could have just written <code>grep -i gid /etc/login.defs</code>, but I wanted to avoid pulling in comments that contain the word GID. By adding the optional E flag I was able to add the regular expression <code>^[^#].*gid</code> to return lines that contain the word <em>gid</em> and do not begin with the comment symbol <em>#</em>.</p>
 
 <p><a id="code-snippet-1"></a></p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">grep -iE ^[^#].*gid /etc/login.defs</code></pre></div><div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">SYS_GID_MIN		  101
-SYS_GID_MAX		  999
-SUB_GID_MIN		   100000
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">grep -iE ^[^#].*gid /etc/login.defs</code></pre></div><div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">SYS_GID_MIN     101
+SYS_GID_MAX     999
+SUB_GID_MIN      100000
 SUB_GID_MAX		600100000
-SUB_GID_COUNT		    65536</code></pre></div>
+SUB_GID_COUNT       65536</code></pre></div>
 <p>The system allocated GIDs range from 101-999. It is important that we do not create a new group within that range. Instead, we should assign our new group a GID within the range GID_MIN to GID_MAX. The constants starting with SUB are reserved for subordinate groups which we will not be using. Normally default user groups have IDs starting at 1000 and have the same value as their paired user ID (UID). In an attempt to avoid conflict with user&rsquo;s default group IDs I decided to create my new group starting from GID 2000.</p>
 
 <h3 id="ensure-that-your-chosen-group-id-has-not-already-been-assigned">Ensure that your chosen group id has not already been assigned</h3>
@@ -368,7 +373,11 @@ docker ps -a</code></pre></div><div class="highlight"><pre style="color:#d0d0d0;
 <div class="tags">
     
       <div class="tag">
-        <a href="/tags/">#</a>
+        <a href="/tags/nauci">#nauci</a>
+      </div>
+    
+      <div class="tag">
+        <a href="/tags/docker">#docker</a>
       </div>
     
 </div>

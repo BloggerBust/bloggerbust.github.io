@@ -10,25 +10,25 @@
 <meta name="generator" content="Hugo 0.48" />
 
 <link rel="canonical" href="/post/separate-dependencies-from-implementation-using-nauci-base-entry-docker-image/">
-<meta property="og:title" content="Separate Dependencies From Implementation Using Nauci Base Entry Docker Image" />
+<meta property="og:title" content="Separate Dependencies From Implementation Using POSIX ACL Extended Attributes &amp; Docker" />
 <meta property="og:description" content="The motivation I am going to develop a responsive web-extension using angular. The web-extension is for a project that I am starting called nauci. I will talk about nauci more in future posts. In this post I intend to introduce the nauci base entry docker image and how I am using it to encapsulate the nauci project dependencies in a docker sub image, but not the source code. The plan is to bind my local nauci source directory to a docker container built with the nauci dependencies image, thereby separating dependency and tooling concerns from project implementation." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/post/separate-dependencies-from-implementation-using-nauci-base-entry-docker-image/" /><meta property="article:published_time" content="2018-10-11T06:07:13-06:00"/>
-<meta property="article:modified_time" content="2018-10-13T07:23:29-06:00"/>
+<meta property="article:modified_time" content="2018-10-26T08:32:07-06:00"/>
 
 <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Separate Dependencies From Implementation Using Nauci Base Entry Docker Image"/>
+<meta name="twitter:title" content="Separate Dependencies From Implementation Using POSIX ACL Extended Attributes &amp; Docker"/>
 <meta name="twitter:description" content="The motivation I am going to develop a responsive web-extension using angular. The web-extension is for a project that I am starting called nauci. I will talk about nauci more in future posts. In this post I intend to introduce the nauci base entry docker image and how I am using it to encapsulate the nauci project dependencies in a docker sub image, but not the source code. The plan is to bind my local nauci source directory to a docker container built with the nauci dependencies image, thereby separating dependency and tooling concerns from project implementation."/>
 
 
 
-<meta itemprop="name" content="Separate Dependencies From Implementation Using Nauci Base Entry Docker Image">
+<meta itemprop="name" content="Separate Dependencies From Implementation Using POSIX ACL Extended Attributes &amp; Docker">
 <meta itemprop="description" content="The motivation I am going to develop a responsive web-extension using angular. The web-extension is for a project that I am starting called nauci. I will talk about nauci more in future posts. In this post I intend to introduce the nauci base entry docker image and how I am using it to encapsulate the nauci project dependencies in a docker sub image, but not the source code. The plan is to bind my local nauci source directory to a docker container built with the nauci dependencies image, thereby separating dependency and tooling concerns from project implementation.">
 
 
 <meta itemprop="datePublished" content="2018-10-11T06:07:13-06:00" />
 <meta itemprop="dateModified" content="2018-10-11T06:07:13-06:00" />
-<meta itemprop="wordCount" content="3405">
+<meta itemprop="wordCount" content="3578">
 
 
 
@@ -107,7 +107,7 @@ th {
 <title>
 
 
-     Separate Dependencies From Implementation Using Nauci Base Entry Docker Image 
+     Separate Dependencies From Implementation Using POSIX ACL Extended Attributes &amp; Docker 
 
 </title>
 
@@ -161,7 +161,7 @@ th {
 
 
 <article class="post">
-    <h1 class="title"> Separate Dependencies From Implementation Using Nauci Base Entry Docker Image </h1>
+    <h1 class="title"> Separate Dependencies From Implementation Using POSIX ACL Extended Attributes &amp; Docker </h1>
     <div class="content"> 
 
 <h2 id="the-motivation">The motivation</h2>
@@ -169,6 +169,10 @@ th {
 <p>I am going to develop a responsive web-extension using angular. The web-extension is for a project that I am starting called <em>nauci</em>. I will talk about nauci more in future posts. In this post I intend to introduce the <em>nauci base entry</em> docker image and how I am using it to encapsulate the nauci project dependencies in a docker sub image, but not the source code. The plan is to bind my local nauci source directory to a docker container built with the nauci dependencies image, thereby separating dependency and tooling concerns from project implementation. If someone wants to contribute to nauci, they can simply grab the nauci dependencies image from docker hub once it is available, bind it to their clone of the nauci GitHub repository and contribute to the code base using using their preferred locally installed developer tools. I should mention that the nauci source is not on GitHub yet, but once it is ready to be pushed to the public repository I intend to license the project as free-software.</p>
 
 <p>I personally like to install as few packages on my dev box as possible and the idea of helping others avoid the same is appealing. The <a href="https://hub.docker.com/r/nauci/nauci%5Fbase%5Fentry/">nauci base entry image is publicly available on docker hub</a> and everyone is welcome to use it as a base image to encapsulate their own project dependencies. From now on I will refer to the nauci base entry image simply as <em>base image</em>. This is my first significant post. I hope you enjoy it.</p>
+
+<h2 id="prerequisites">Prerequisites</h2>
+
+<p>If you would like to follow along then your host file system must support both <a href="http://man7.org/linux/man-pages/man5/acl.5.html">POSIX Access Control Lists</a> and <a href="http://man7.org/linux/man-pages/man5/attr.5.html">Extended Attributes</a>. It might be the case that other ACL models will also work thanks to ACL Interoperability. However, <a href="http://wiki.linux-nfs.org/wiki/index.php/ACLs#The%5FACL%5FInteroperability%5FProblem">ACL Interoperability is not standardized</a> and I have not tested its behavior. Extended attributes are necessary to attach ACL rules directly to files and directories making them available to docker via an attached volume. Not all file systems support ACLs, and the ones that do may not have the support enabled by default. <a href="https://unix.stackexchange.com/questions/176666/how-do-i-know-acls-are-supported-on-my-file-system">This stack exchange</a> explains several ways to test if your file system has POSIX ACL support enabled. Most Linux distributions have articles explaining how to install and configure POSIX ACL support for various file systems. i.e. An <a href="https://wiki.archlinux.org/index.php/Access%5FControl%5FLists">Access Control Lists article</a> for Archlinux. I have not tried other ACL models or different access control systems such as Role Based Access Control (RBAC). If you know how to achieve the same with different prerequisites then please contact me with the details.</p>
 
 <h2 id="preparing-for-collaboration">Preparing for collaboration</h2>
 
@@ -191,7 +195,7 @@ ls -l</code></pre></div><div class="highlight"><pre style="color:#d0d0d0;backgro
 drwxr-xr-x 2 dustfinger dustfinger 2 Oct 11 10:41 src</code></pre></div>
 <p>I am showing you the long listing format of the project directory on purpose. I want to draw your attention to the default ownership and permissions of the src directory for reasons that will become evident in the next section titled <a href="#creating-a-bind-compatible-user">Creating a bind compatible user</a>.</p>
 
-<h3 id="a-simplified-look-at-permissions">A Simplified look at permissions</h3>
+<h3 id="a-simplified-look-at-permissions">A simplified look at permissions</h3>
 
 <p>Consider the permissions descriptor <code>drwxr-xr-x</code>. We can divide the permissions descriptor into four parts.</p>
 <div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-org" data-lang="org"><span style="color:#ed9d13">| type | User (u) | Group (g) | Other (o) |</span>
@@ -309,11 +313,11 @@ RUN apt-get -qqy install firefox-esr;</code></pre></div>
 <p>Don&rsquo;t forget to add docker ignore rules for anything that you do not want to be part of the image. Then build the docker file in the usual way.</p>
 <div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">docker build -t my_project_deps .</code></pre></div>
 <p>You should now have the following images in your local docker repository</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">docker images</code></pre></div><div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">: REPOSITORY               TAG                 IMAGE ID            CREATED             SIZE
-: my_project_deps          latest              fea6e0093b59        42 seconds ago      601MB
-: nauci/nauci_base_entry   latest              82d57770d7cf        4 hours ago         215MB</code></pre></div>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">docker images</code></pre></div><div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">: REPOSITORY               TAG       IMAGE ID            CREATED             SIZE
+: my_project_deps          latest    fea6e0093b59        42 seconds ago      601MB
+: nauci/nauci_base_entry   latest    82d57770d7cf        4 hours ago         215MB</code></pre></div>
 <p>Our last step is to run our dependency image interactively passing in our custom parameters to the base entry point. After running the image the shell will switch to an interactive shell inside the docker container. It is now time to set user passwords and any other administration tasks that your project may require.</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text"># docker run -it -p 23:22 my_project_deps -s -n dustfinger -gusers,video,plugdev
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text"># docker run -it -p 23:22 my_project_deps -s -n dustfinger -gusers,sudoer,video,plugdev
 root@3c46128579fc:/# service ssh status
 [[ ok  sshd is running.
 root@3c46128579fc:/# passwd dustfinger
@@ -343,8 +347,8 @@ root@3c46128579fc:/# exit</code></pre></div>
 <p>If you inspect the final output from the interactive session in <a href="#create-a-project-dependencies-image">Create a project dependencies image</a> you will notice that dustfinger&rsquo;s home directory has the same setgit applied to ~/dev/. If we commit this container and run the image again this time attaching my_project/src as a volume mapped to /home/dustfinger/src then both the host user and the guest user will have compatible rights to the shared source. That is exactly what I will demonstrate in my next post. For now, let&rsquo;s test x-forwarding by seeing if we can launch Firefox and have its GUI forwarded from the container to the host.</p>
 
 <p>First let&rsquo;s see what our container is called.</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">docker ps -a</code></pre></div><div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">: CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS                      PORTS               NAMES
-: 3c46128579fc        my_project_deps     &#34;nauci_base_init.sh …&#34;   17 minutes ago      Exited (0) 12 minutes ago                       hungry_poitras</code></pre></div>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">docker ps -a</code></pre></div><div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">: CONTAINER ID  IMAGE               COMMAND                  CREATED             STATUS                      PORTS   NAMES
+: 3c46128579fc  my_project_deps     &#34;nauci_base_init.sh …&#34;   17 minutes ago      Exited (0) 12 minutes ago           hungry_poitras</code></pre></div>
 <p>The status tells us that the container is not running, so let&rsquo;s start it now.</p>
 <div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">docker start hungry_poitras
 docker ps -a</code></pre></div><div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">: hungry_poitras

@@ -1,0 +1,917 @@
+<!DOCTYPE html>
+<html lang="en-CA">
+
+<head>
+<meta charset="utf-8" />
+<meta name="author" content="Trevor Wilson" />
+<meta name="description" content="a place for me to bust out a blog on programming, infosec, emacs and things that interest me." />
+<meta name="keywords" content="[programming coding infosec cybersecurity webextensions blog blogger bust docker linux emacs free software]" />
+<meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1">
+<meta name="generator" content="Hugo 0.48" />
+
+<link rel="canonical" href="/post/encapsulate-angular-webextension-dependencies-in-a-docker-image/">
+<meta property="og:title" content="Encapsulate Angular WebExtension Dependencies In a Docker Image" />
+<meta property="og:description" content="A quick recap In the previous article titled Separate Dependencies From Implementation Using POSIX ACL Extended Attributes &amp; Docker, I discussed the prerequisites to provide read and write access to a volume shared between the host system and guest docker container. My proposal involved encapsulating all of the project dependencies inside of the docker container while keeping the project&rsquo;s source code and development tools on the host. There are clear benefits to this approach." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/post/encapsulate-angular-webextension-dependencies-in-a-docker-image/" /><meta property="article:published_time" content="2018-10-13T00:00:00-06:00"/>
+<meta property="article:modified_time" content="2018-10-26T08:35:32-06:00"/>
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Encapsulate Angular WebExtension Dependencies In a Docker Image"/>
+<meta name="twitter:description" content="A quick recap In the previous article titled Separate Dependencies From Implementation Using POSIX ACL Extended Attributes &amp; Docker, I discussed the prerequisites to provide read and write access to a volume shared between the host system and guest docker container. My proposal involved encapsulating all of the project dependencies inside of the docker container while keeping the project&rsquo;s source code and development tools on the host. There are clear benefits to this approach."/>
+
+
+
+<meta itemprop="name" content="Encapsulate Angular WebExtension Dependencies In a Docker Image">
+<meta itemprop="description" content="A quick recap In the previous article titled Separate Dependencies From Implementation Using POSIX ACL Extended Attributes &amp; Docker, I discussed the prerequisites to provide read and write access to a volume shared between the host system and guest docker container. My proposal involved encapsulating all of the project dependencies inside of the docker container while keeping the project&rsquo;s source code and development tools on the host. There are clear benefits to this approach.">
+
+
+<meta itemprop="datePublished" content="2018-10-13T00:00:00-06:00" />
+<meta itemprop="dateModified" content="2018-10-13T00:00:00-06:00" />
+<meta itemprop="wordCount" content="6860">
+
+
+
+<meta itemprop="keywords" content="nauci,docker," />
+
+
+<link rel="stylesheet" href="/css/layout.css" />
+<style type="text/css">
+body {
+  background-color: #26282A;
+  color: #dbdbdb;
+}
+
+a { color: #dbdbdb; }
+
+pre {
+  background: #1D1F21;
+  border: 1px solid #dbdbdb;
+  border-radius: 5px;
+}
+
+code {
+  background: #1D1F21;
+}
+
+blockquote {
+  background: #1D1F21;
+  border-left: 3px solid #dbdbdb;
+}
+
+table {
+  margin: 1em auto;
+  border-collapse: collapse;
+}
+
+table, th, td {
+  border: 1px solid #dbdbdb;
+}
+
+th {
+  background: #dbdbdb;
+  color: #26282A;
+}
+
+.siteTitle a { color: #99cc66; }
+
+.post .content h1{ color: #99cc66; }
+.post .content h2{ color: #99cc66; }
+.post .content h3{ color: #99cc66; }
+.post .content h4{ color: #99cc66; }
+.post .content h5{ color: #99cc66; }
+.post .content h6{ color: #99cc66; }
+.post .content a:hover { color: #99cc66; }
+.social-link:hover { color: #99cc66; }
+.nav-item-title:hover { color: #99cc66; }
+.tag a:hover { color: #99cc66; }
+.copyright { color: #404040 }
+.poweredby { color: #404040 }
+.poweredby a { color: #404040; }
+.post-preview .title a{ color: #99cc66; }
+.content-item a:hover{
+  text-decoration: underline;
+  color: #99cc66;
+}
+.post-list .title { color: #99cc66; }
+.rmore { color: #99cc66; }
+.terms .term a:hover {
+  text-decoration: underline;
+  color: #99cc66;
+}
+
+</style>
+
+
+
+<title>
+
+
+     Encapsulate Angular WebExtension Dependencies In a Docker Image 
+
+</title>
+
+</head>
+
+
+<body>
+<div class="main">
+<header>
+
+<div class="header-bar">
+
+  <nav>
+    <div class="siteTitle">
+      <a href="/">Blogger Bust</a>
+    </div> 
+
+    
+    
+    <a class="nav-item" href="/about/"><div class="nav-item-title">About</div></a>
+    
+    <a class="nav-item" href="/series"><div class="nav-item-title">Series</div></a>
+    
+    <a class="nav-item active" href="/post/"><div class="nav-item-title">Posts</div></a>
+    
+
+  </nav>
+</div>
+
+  
+<div class="social-links-header">
+
+  
+  <a href="mailto:trevor.wilson@bloggerbust.ca"><div class="social-link">email</div></a>
+  
+
+  
+  <a href="https://github.com/bloggerbust" target="_blank"><div class="social-link">gh</div></a>
+  
+
+  
+
+  
+
+  
+
+</div>
+
+
+</header>
+
+
+<article class="post">
+    <h1 class="title"> Encapsulate Angular WebExtension Dependencies In a Docker Image </h1>
+    <div class="content"> 
+
+<h2 id="a-quick-recap">A quick recap</h2>
+
+<p>In the previous article titled <a href="/post/separate-dependencies-from-implementation-using-nauci-base-entry-docker-image/">Separate Dependencies From Implementation Using POSIX ACL Extended Attributes &amp; Docker</a>, I discussed <a href="/post/separate-dependencies-from-implementation-using-nauci-base-entry-docker-image/">the prerequisites</a> to provide read and write access to a volume shared between the host system and guest docker container. My proposal involved encapsulating all of the project dependencies inside of the docker container while keeping the project&rsquo;s source code and development tools on the host. There are clear benefits to this approach. By separating implementation concerns from the project dependencies, the resulting docker dependency image will be reusable in multiple projects. Moreover, on boarding remote collaborators will be easier because they will be able to use implementation tools that they already have installed, customized and are intimately familiar with. Collaborators will be happier because they will not need to install, or configure project dependencies that could cause conflicts on their host environment. In this article, I will build on what was previously covered by encapsulating all of the dependencies required to build an Angular WebExtension into a dependency image. I will then build, simultaneously deploy and run an Angular WebExtension on both desktop and mobile browsers all from the comfort of my host editor.</p>
+
+<p>If you are not familiar with <a href="/post/separate-dependencies-from-implementation-using-nauci-base-entry-docker-image/">the prerequisites</a> then please read that section now. I also assume that you have <a href="https://docs.docker.com/engine/reference/builder/">read the Dockerfile reference documentation</a> and are familiar with <a href="https://docs.docker.com/engine/reference/commandline/cli/">the Docker CLI</a>.</p>
+
+<h2 id="build-the-dependency-image">Build the dependency image</h2>
+
+<p>In the previous article of this series I demonstrated <a href="/post/separate-dependencies-from-implementation-using-nauci-base-entry-docker-image/">how to create a basic image that inherits from nauci base entry and encapsulates the Firefox browser</a>. Now it is time to encapsulate all of the dependencies necessary to create a simple Angular Hello World browser extension. Start by creating a project directory named <em>hello_angular_webext</em>.</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">mkdir -p ~/dev/hello_angular_webext/src/
+touch ~/dev/hello_angular_webext/dockerfile</code></pre></div>
+<h3 id="create-the-dockerfile">Create the Dockerfile</h3>
+
+<p>Fire up your favourite editor and replace the content of the Dockerfile with the following:</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">FROM node as n
+FROM nauci/nauci_base_entry as nbe
+MAINTAINER dustfinger@nauci.org
+
+RUN apt-get -qqy install \
+   # The Android Debug Bridge is used by webext to deploy the web
+   # extension.
+   android-tools-adb \
+   # make is required for building node-gyp and possibly other
+   # dependencies
+   make \
+   # I don&#39;t like having to install a bunch of browsers on my
+   # development machine. I often have to test on several versions of
+   # several browsers. It is nice to be able to encapsulate supported
+   # browsers into one or more dependency containers.
+   firefox-esr  \
+   chromium;
+
+# The node base image did a bunch of work. If we want our new image to
+# reap the benefit then we must copy over the desired results.
+COPY --from=n /opt /opt/
+COPY --from=n /usr/local/bin/ /usr/local/binnode
+COPY --from=n /usr/local/sbin/ /usr/local/sbinnode
+COPY --from=n /usr/local/lib/ /usr/local/libnode
+
+# Now let&#39;s recursively update the corresponding bin directories in
+# our new image. We won&#39;t clobber existing files. There is some danger
+# here, but how else is a programmer supposed to get cheap adrenaline
+# thrills :-P
+RUN cp -run /usr/local/binnode/* /usr/local/bin/; \
+    cp -run /usr/local/libnode/* /usr/local/lib/; \
+    rm -rf /usr/local/binnode/ &amp;&amp; rm -rf /usr/local/libnode/;
+
+# Next we will install the angular cli and web-ext
+# dependencies. node-gyp is a dependency of web-ext. There seems to be
+# a bug in the installation of the node-gyp package. When it installs
+# globally it is trying to install itself directly in /root/ directory
+# and makes that incorrect assumption that the directory already
+# exists. We will help it along its way by creating the directory
+# ahead of time.
+RUN mkdir -p /root/.node-gyp; \
+    npm install -g @angular/cli; \
+    npm install web-ext;</code></pre></div>
+<p>You may have noticed that we are inheriting from both nauci_base_entry and the official node image. The Node image does a bunch of work for us and then we copy the results that we need into our image.</p>
+
+<h3 id="build-the-image">Build the image</h3>
+
+<p>From <em><code>~/dev/hello_angular_webext</code></em> build the image in the usual way.</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">docker build -qt hello_angular_webext_deps .</code></pre></div>
+<p>You should now have the following images in your local docker repository.</p>
+
+<p><a id="code-snippet-1"></a></p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">docker images</code></pre></div><div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">REPOSITORY                  TAG      IMAGE ID       CREATED         SIZE
+hello_angular_webext_deps   latest   a0b8c8ee5ff6   2 minutes ago   874MB
+&lt;none&gt;                      &lt;none&gt;   794f03619a67   3 minutes ago   922MB
+my_project_deps             latest   1dab70d08bd4   21 hours ago    601MB
+node                        latest   462743bd5c7f   4 days ago      674MB
+nauci/nauci_base_entry      latest   82d57770d7cf   4 days ago      215MB</code></pre></div>
+<h2 id="create-a-shareable-file-system-or-directory">Create a shareable file system or directory</h2>
+
+<p>By default the <a href="https://github.com/BloggerBust/nauci%5Fbase%5Finit/blob/master/nauci%5Fbase%5Finit.sh">base entry point init script</a> expects to find <strong><em>shared</em></strong> with POSIX ACL support enabled. A different path can be provided using the <strong>-v</strong> option. The <a href="/post/separate-dependencies-from-implementation-using-nauci-base-entry-docker-image/">prerequisite section</a> of the previous article contains sources that provide guidance on how to determine if your system supports POSIX ACL and how to install and configure POSIX ACL if necessary.</p>
+
+<p>Moving forward, I am going to refer to the <em>base entry point init script</em> simply as <em>entry point</em>, which is a <a href="https://docs.docker.com/glossary/?term=ENTRYPOINT">term defined in the Docker glossary</a>. While writing this article I decided to provide better support for multi user collaboration. I know that sounds weird, after all what other kind of collaboration is there anyway? If you recall in the <a href="/post/separate-dependencies-from-implementation-using-nauci-base-entry-docker-image/">Preparing for collaboration</a> section of the previous article in this series I drew a distinction between centrally hosted and distributed collaboration. The line I drew dividing these methodologies was too stark since it is perfectly valid for many locally centralized tiny groups to collaborate in a distributed fashion. That is why the <a href="https://github.com/BloggerBust/nauci%5Fbase%5Finit/blob/master/nauci%5Fbase%5Finit.sh">entry point</a> was designed to accept a CVS of user names in the first place. The trouble I ran into is that the tree structure of the <em><code>/home/</code></em> directory separates each user&rsquo;s <em><code>~/dev/</code></em> directory posing a challenge when it comes time to attach volumes to be shared by each host and guest pair. One strategy would be to attach many volumes, one for each pair, but that felt really cumbersome even with only a few users. A much better solution is to create a single shared volume and then create soft links inside each user&rsquo;s directory.</p>
+
+<p>Please create a shared directory with POSIX ACL support enabled before proceeding. Don&rsquo;t worry about setting up the default ACL rules yourself. In the previous article, on <a href="/post/separate-dependencies-from-implementation-using-nauci-base-entry-docker-image/">setting up default permissions</a>, I talked about manually setting the setgid mode bit and ACL rules. Since then I realized that with extended attributes enabled the ACL rules will be available inside the Docker container where the entry point is executed. Initially I didn&rsquo;t think that was going to be possible due to container isolation. I have updated the entry point script to pragmatically set the setgid mode bit and ACL rules directly from within the running container :-).</p>
+
+<h2 id="a-note-to-zfs-users-using-altroot">A note to ZFS users using altroot</h2>
+
+<p>My drives are fully encrypted. I configured my boot loader to call a custom initramfs which deploys busybox, cryptsetup and all of the ZFS related modules. Since busybox claims normal root, zpool cannot be imported into the same. That is why my pool was created with altroot set to <em><code>/mnt/root/</code></em> and each dataset was created with a mountpoint to altroot. When I add a new dataset to a running system I have to account for this. It is also convenient to set the acltype at creation time. Recall <a href="/post/separate-dependencies-from-implementation-using-nauci-base-entry-docker-image/">that if the acltype is not set we will not be able to create ACL rules</a>.</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">/sbin/zfs create -o <span style="color:#40ffff">mountpoint</span>=/shared -o <span style="color:#40ffff">acltype</span>=posixacl tank/root/shared
+mkdir /shared
+mount --rbind /mnt/root/shared /shared
+umount /mnt/root/shared</code></pre></div>
+<p>It is never a bad idea to run a sanity check on the extended attribute (<strong>xattr</strong>) and ACL type (<strong>acltype</strong>) property settings to ensure that they are set accordingly. In case you are not aware, setting <strong>xattr=sa</strong> means that it is stored as a system attribute as apposed to a file attribute. System attributes provide a more efficient storage and retrieval strategy, but not all systems support this feature. If your system lacks support for system attributes then you should set <strong>xattr=on</strong> instead.</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">/sbin/zfs get aclinherit,acltype,xattr tank/root/shared</code></pre></div><div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">NAME              PROPERTY    VALUE          SOURCE
+tank/root/shared  aclinherit  restricted     default
+tank/root/shared  acltype     posixacl       local
+tank/root/shared  xattr       sa             inherited from tank</code></pre></div>
+<h2 id="ensure-usb-device-bus-bind-compatibility">Ensure USB Device Bus Bind Compatibility</h2>
+
+<p>In the <a href="/post/separate-dependencies-from-implementation-using-nauci-base-entry-docker-image/">conclusion of the previous article</a> in this series I mentioned that I would explain why the entry point creates a USB user group. Just as the guest user you created in the Docker container must be bind compatible with the host user in order for the two to share read write access to the source code on the shared volume, so to must they be bind compatible with respect to the USB character device nodes. An alternative approach is to run Docker in privileged mode, but that is not as secure.</p>
+
+<p>Let&rsquo;s take a peek at how USB devices are represented in the file system:</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">tree -pugla /dev/bus/usb/</code></pre></div><div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">/dev/bus/usb/
+├── [drwxr-xr-x root     root    ]  001
+│   ├── [crw-rw-r-- root     usb     ]  001
+│   ├── [crw-rw-r-- root     usb     ]  002
+│   ├── [crw-rw-r-- root     usb     ]  003
+│   ├── [crw-rw-r-- root     usb     ]  004
+│   ├── [crw-rw---- root     usb     ]  011
+│   └── [crw-rw---- root     usb     ]  012
+└── [drwxr-xr-x root     root    ]  002
+    └── [crw-rw-r-- root     usb     ]  001
+
+2 directories, 7 files</code></pre></div>
+<p>The child nodes of <em><code>dev/bus/usb</code></em> are directories with names containing three digits that represent a bus number beginning sequentially from <em>001</em>. Each Bus contains one or more character device nodes, which is why the file type symbol preceding the permissions is a <em>c</em>. The name of each of these character device nodes is also a three digit number that represents the bus ID of that node. The physical USB ports that you plug USB cables into are connected to an internal hub. Your computer may have multiple internal hubs supporting different versions of the USB protocol. Each time you attach a USB device into a USB port, that port&rsquo;s associated hub will assign a new bus ID and create a character device node named accordingly. Each USB hub has a counter that determines the bus ID that will be created. The counter increments by one after each use until the system is rebooted. Bus ID <em>001</em> is reserved for the root of the USB hub itself.</p>
+
+<p>This is where things get a little bit tricky. If your system sets the character device nodes group ownership to <em>root</em>, then you might have a <em>polkit</em> daemon managing authorization of those devices for non root users. If that is the case, I encourage you to read the <a href="https://www.linux.org/docs/man8/polkit.html">polkit man page</a> as well as the man pages referenced within to learn how to better manage user authorization for privileged processes on your system. I will not be delving into that in this article. Consider that the dependency container, which we will be attaching these device nodes to as a volume, does not have polkit installed. If you do have polkit running on the host, but do not know how to manage it, fear not! We are going to change the USB group ownership which hopefully will not cause you any problems. If you run into issues, you can set the group ownership back to root when you are finished.</p>
+
+<p>If the group ownership of these character devices is something other than <em>root</em> or <em>usb</em>, such as <em>plugdev</em> for example, then you do not need to modify the group ownership. Instead, simply pass -u <group-name> -U <GID> when you <a href="#run-the-image">run the image</a> so that the entry point script running inside of the container can create the correct USB group for bind compatibility.</p>
+
+<h3 id="create-the-usb-group-if-needed">Create the USB group if needed</h3>
+
+<p>You may skip this section if your USB character device nodes already have non root group ownership. Otherwise, you must ensure that the usb group exists. The following command will print the GID of the group named usb followed by the name of the group with GID 85. If either of the square brackets in the output enclose an empty string, then that indicates the group or GID is missing. If the group is missing, then you will need to create it. If the group is missing and GID 85 is assigned to another group, then you will need to create the group with a different GID &ndash; see <a href="/post/separate-dependencies-from-implementation-using-nauci-base-entry-docker-image/">Ensure that your chosen group id has not already been assigned</a>.</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">getent group usb | cut -d: -f3 | uniq | xargs <span style="color:#24909d">printf</span> <span style="color:#ed9d13">&#34;The group named usb has GID [%s]\n&#34;</span>
+getent group <span style="color:#3677a9">85</span> | cut -d: -f1 | uniq | xargs <span style="color:#24909d">printf</span> <span style="color:#ed9d13">&#34;GID 85 has group name [%s]\n&#34;</span></code></pre></div><div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">The group named usb has GID [85]
+GID 85 has group name [usb]</code></pre></div>
+<p>Below is an example of the command you should run if you need to create the group named <em>usb</em> and GID 85 is available. Replace <em>dustfinger</em> with your own username of course:</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">groupadd -g <span style="color:#3677a9">85</span> usb
+usermod -aG usb dustfinger</code></pre></div>
+<h3 id="set-usb-character-device-node-group-ownership">Set USB character device node group ownership</h3>
+
+<p>The following command will set group ownership to <em>usb</em> on all of the device nodes where the group ownership is <em>root</em>.</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">find /dev/bus/usb/ -type c -group root -exec chown :usb &#39;{}&#39; \;</code></pre></div>
+<p>If you would like to set the group ownership back to root when you are done then run the following command:</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">find /dev/bus/usb/ -type c -group usb -exec chown :root &#39;{}&#39; \;</code></pre></div>
+<h2 id="run-the-image">Run the image</h2>
+
+<p>Before you run the image you should make sure that there are no containers listening on port 23. Note that I removed some of the columns from the next command&rsquo;s output so that it would display nicely on the screen. I will consider doing a PR for my chosen Hugo theme to make code execution output responsive, but for now shortening the width of the output by removing some columns will have to do.</p>
+
+<p><a id="code-snippet-1"></a></p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">docker container ls</code></pre></div><div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">CONTAINER ID  IMAGE            STATUS       PORTS               NAMES
+2e233c30ebfa  my_project_deps  Up 21 hours  0.0.0.0:23-&gt;22/tcp  goofy_fermat</code></pre></div>
+<p>Since the container named <em>goofy_fermat</em> is listening on port 23 I must either map my new container to a different port or stop goofy_fermat. I am going to map my new container to port 24 so that I can run both containers at the same time. For your own benefit, you should browse over this <a href="https://en.wikipedia.org/wiki/List%5Fof%5FTCP%5Fand%5FUDP%5Fport%5Fnumbers">list of known tcp / udb port mappings</a> to avoid present or future conflicts when choosing a port for any of your projects.</p>
+
+<p>You may want to take an opportunity now to look over the different optional parameters accepted by the <a href="https://github.com/BloggerBust/nauci%5Fbase%5Finit/blob/master/nauci%5Fbase%5Finit.sh">entry point</a> if you have not already done so. All of the arguments following the name of the image <em>hello_angular_webext_deps</em> are passed to the entry point script. If your USB group name is not <em>usb</em> or the USB GID is not <em>85</em> then you will want to override the defaults with the <em>-u</em> and <em>-U</em> options. Similarly, if your POSIX ACL enabled shared volume is not located at <em><code>/shared/</code></em> then you will want to override the default path by passing in the <em>-v</em> option. For the sake of copy, paste, modify convenience I will apply the optional parameters <em>-u</em>,/-U/ and <em>-v</em> even though the values I pass in are the same as the defaults.</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">docker run -it -p 127.0.0.1:24:22 --name nauci_dev -h nauci_dev --device=/dev/bus/usb -v /shared:/shared hello_angular_webext_deps -s -n dustfinger,cenedra -u usb -U 85 -v /shared -gusers,sudo,video,plugdev,staff</code></pre></div>
+<h3 id="set-user-passwords">Set user passwords</h3>
+
+<p>Once the image has started successfully the execution context should switch to an interactive terminal command prompt. It is time to provide each user a password so that they can use ssh.</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">root@nauci_dev:/# passwd dustfinger
+Enter new UNIX password:
+Retype new UNIX password:
+passwd: password updated successfully
+root@nauci_dev:/# passwd cenedra
+Enter new UNIX password:
+Retype new UNIX password:
+passwd: password updated successfully</code></pre></div>
+<h3 id="verify-that-setgid-and-acl-was-applied">Verify that setgid and ACL was applied</h3>
+
+<p>Let&rsquo;s take this opportunity to verify that the setgid mode bit and ACL rules were correctly applied to the shared volume. If you attached a volume to a location other than <em><code>/shared/</code></em> then you will need to modify the path argument passed to <em>getfacl</em> accordingly. Note that if the setgid mode bit is applied correctly then you should see the -S- flag in the printed metadata.</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">root@nauci_dev:/# getfacl /shared/*/dev
+getfacl: Removing leading &#39;/&#39; from absolute path names
+# file: shared/cenedra/dev
+# owner: root
+# group: developer
+# flags: -s-
+user::rwx
+group::r-x
+other::r-x
+default:user::rwx
+default:group::r-x
+default:group:developer:rwx
+default:mask::rwx
+default:other::r-x
+
+# file: shared/dustfinger/dev
+# owner: root
+# group: developer
+# flags: -s-
+user::rwx
+group::r-x
+other::r-x
+default:user::rwx
+default:group::r-x
+default:group:developer:rwx
+default:mask::rwx
+default:other::r-x</code></pre></div>
+<h3 id="verify-dev-soft-links">Verify <em><code>~/dev</code></em> soft links</h3>
+
+<p>When you run the next command look in the output following each user&rsquo;s dev directory for <code>-&gt;</code> followed by a path to that same user&rsquo;s corresponding shared dev directory. It is very important that these links exist.</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">root@nauci_dev:/# ls -la /home/*/dev
+lrwxrwxrwx 1 cenedra    developer 19 Oct 19 02:17 /home/cenedra/dev -&gt; /shared/cenedra/dev
+lrwxrwxrwx 1 dustfinger developer 22 Oct 19 02:17 /home/dustfinger/dev -&gt; /shared/dustfinger/dev</code></pre></div>
+<h2 id="restart-the-container">Restart the container</h2>
+
+<p>Type exit and hit the enter key to leave the interactive terminal session with our Docker container. The container will stop running. Since we want to be able to continue to interact with the container via ssh we must start the container again.</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">root@nauci_dev:/# exit
+logout
+dustfinger@galactica ~/dev/hello_angular_webext $</code></pre></div>
+<p>Now start the container again. It is not a bad idea to take a quick peak at the container status and port mapping to make sure that it is running and mapped to the port that you expect. Once again I have removed unimportant columns from the output to make it fit nicely on the page. If you are viewing this from a mobile device the output might wrap and look awful.</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">docker start nauci_dev
+docker container ls -a</code></pre></div><div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">nauci_dev
+IMAGE                      STATUS                  PORTS                  NAMES
+hello_angular_webext_deps  Up Less than a second   127.0.0.1:24-&gt;22/tcp   nauci_dev
+my_project_deps            Exited (0) 2 days ago                          goofy_fermat</code></pre></div>
+<h2 id="setup-an-alias-for-x-forwarding">Setup an alias for x-forwarding</h2>
+
+<p>It is worth while setting up an alias for sending x-forwarding requests to the container. If you want the alias to be permanent then simply add it to your <code>~/.bashrc</code>, or <code>~/.bash_aliases</code>. Be aware that if you are thinking about scripting commands for automation, bash only expands aliases if the session is interactive. You can override this behaviour with the <em>shopt</em> builtin command <code>shopt -s expand_aliases</code>.</p>
+
+<p>Below I append the alias to <code>~/.bashrc</code> so that it will be available to new shell sessions and then I source <code>~/.bashrc</code> making the alias available in the current shell session.</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh"><span style="color:#24909d">echo</span> <span style="color:#ed9d13">&#34;alias sshnauci_dev=&#39;ssh -Yt -p 24 dustfinger@localhost&#39;&#34;</span> &gt;&gt; ~/.bashrc
+<span style="color:#24909d">source</span> ~/.bashrc</code></pre></div>
+<h2 id="test-that-x-forwarding-is-working">Test that x-forwarding is working</h2>
+
+<p>I have a love for x-forwarding via ssh and a hatred for remote desktop protocol (RDP). However, I find myself doing the latter for my day job more often then not. I am thankful for the enormous effort that the <a href="https://www.freerdp.com/">FreeRDP community</a> has committed to disassembling the RDP proprietary protocol and bringing a usable solution to distributions running the Linux kernel.</p>
+
+<p>We are going to quickly test a number of different programs using the <a href="#setup-an-alias-for-x-forwarding">alias that we setup in the previous section</a>. If you did not create an alias then that is okay, you will need to substitute the actual command in place of <em>sshnauci_dev</em> in each of the following examples.</p>
+
+<p><strong>Test interactive shell:</strong></p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">dustfinger@galactica ~/dev/hello_angular_webext $ sshnauci_dev
+The authenticity of host &#39;[localhost]:24 ([127.0.0.1]:24)&#39; can&#39;t be established.
+ECDSA key fingerprint is SHA256:WDK+MuS5MXphhfRVRUdVTFr9DmBtoqCf4j8Sh1FMMGE.
+Are you sure you want to continue connecting (yes/no)? yes
+Warning: Permanently added &#39;[localhost]:24&#39; (ECDSA) to the list of known hosts.
+dustfinger@localhost&#39;s password:
+Linux nauci_dev 4.14.12-gentoo #17 SMP Tue Sep 18 05:07:39 MDT 2018 x86_64
+
+The programs included with the Debian GNU/Linux system are free software;
+the exact distribution terms for each program are described in the
+individual files in /usr/share/doc/*/copyright.
+
+Debian GNU/Linux comes with ABSOLUTELY NO WARRANTY, to the extent
+permitted by applicable law.
+/usr/bin/xauth:  file /home/dustfinger/.Xauthority does not exist
+
+Last login: Mon Oct 22 13:55:26 2018 from 172.17.0.1
+$</code></pre></div>
+<p><strong>Test Display Environment Variable:</strong></p>
+
+<p>Now let&rsquo;s just check that our display for x-forwarding is known to the container. We don&rsquo;t need to actually sign in with an interactive login shell for this test. We can just send the commands to be run on the guest container. The single quotes around the command are important. Without them bash will expand the <em>$DISPLAY</em> environment variable, sending the resulting value to the guest.</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">sshnauci_dev <span style="color:#24909d">echo</span> <span style="color:#ed9d13">&#34;host display=</span><span style="color:#40ffff">$DISPLAY</span><span style="color:#ed9d13">&#34;</span>
+sshnauci_dev <span style="color:#ed9d13">&#39;echo &#34;guest display=$DISPLAY&#34;&#39;</span></code></pre></div><div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">host display=:0
+guest display=nauci_dev:10.0</code></pre></div>
+<p>Your display values might not be the same as mine. The important thing is that the guest display has a value. If it does not have a value, then somehow x-forwarding is not working on your system. You can increase verbosity by supplying the <em>-vv</em> optional parameter and then run the test again, but in that case look for errors or warnings in the output.</p>
+
+<p><strong>Test Firefox:</strong></p>
+
+<p>The purpose of this test is to ensure that both Firefox and x-forwarding are working. After Firefox opens you may close it.</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">sshnauci_dev firefox
+dustfinger@localhost<span style="color:#ed9d13">&#39;s password:
+</span><span style="color:#ed9d13">(firefox-esr:148): Gtk-WARNING **: Locale not supported by C library.
+</span><span style="color:#ed9d13">      Using the fallback &#39;</span>C<span style="color:#ed9d13">&#39; locale.
+</span><span style="color:#ed9d13">
+</span><span style="color:#ed9d13">(/usr/lib/firefox-esr/firefox-esr:209): Gtk-WARNING **: Locale not supported by C library.
+</span><span style="color:#ed9d13">        Using the fallback &#39;</span>C<span style="color:#ed9d13">&#39; locale.
+</span><span style="color:#ed9d13">
+</span><span style="color:#ed9d13">(/usr/lib/firefox-esr/firefox-esr:262): Gtk-WARNING **: Locale not supported by C library.
+</span><span style="color:#ed9d13">        Using the fallback &#39;</span>C<span style="color:#ed9d13">&#39; locale.
+</span><span style="color:#ed9d13">
+</span><span style="color:#ed9d13">(/usr/lib/firefox-esr/firefox-esr:297): Gtk-WARNING **: Locale not supported by C library.
+</span><span style="color:#ed9d13">        Using the fallback &#39;</span>C<span style="color:#a61717;background-color:#e3d2d2">&#39;</span> locale.</code></pre></div>
+<p><strong>Test chromium:</strong></p>
+
+<p>I found that Chromium crashes catastrophically.</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">sshnauci_dev chromium
+dustfinger@localhost<span style="color:#a61717;background-color:#e3d2d2">&#39;</span>s password:
+Failed to move to new namespace: PID namespaces supported, Network namespace supported, but failed: <span style="color:#40ffff">errno</span> = Operation not permitted
+[<span style="color:#3677a9">962</span>:962:1019/092456.311001:FATAL:zygote_host_impl_linux.cc(<span style="color:#3677a9">187</span>)] Check failed: ReceiveFixedMessage(fds[<span style="color:#3677a9">0</span>], kZygoteBootMessage, sizeof(kZygoteBootMessage), &amp;boot_pid).
+<span style="color:#999;font-style:italic">#0 0x55706718ee3e &lt;unknown&gt;
+</span><span style="color:#999;font-style:italic">#1 0x5570670f86fc &lt;unknown&gt;
+</span><span style="color:#999;font-style:italic">#2 0x557067cee720 &lt;unknown&gt;
+</span><span style="color:#999;font-style:italic">#3 0x557066e21a74 &lt;unknown&gt;
+</span><span style="color:#999;font-style:italic">#4 0x557067ced9fb &lt;unknown&gt;
+</span><span style="color:#999;font-style:italic">#5 0x557067cef881 &lt;unknown&gt;
+</span><span style="color:#999;font-style:italic">#6 0x557066e217db &lt;unknown&gt;
+</span><span style="color:#999;font-style:italic">#7 0x557066e26d6e &lt;unknown&gt;
+</span><span style="color:#999;font-style:italic">#8 0x557066e1ffa1 &lt;unknown&gt;
+</span><span style="color:#999;font-style:italic">#9 0x5570655cbe90 ChromeMain
+</span><span style="color:#999;font-style:italic">#10 0x7f116ece12e1 __libc_start_main
+</span><span style="color:#999;font-style:italic">#11 0x5570655cbcea _start
+</span><span style="color:#999;font-style:italic"></span>
+Received signal <span style="color:#3677a9">6</span>
+<span style="color:#999;font-style:italic">#0 0x55706718ee3e &lt;unknown&gt;
+</span><span style="color:#999;font-style:italic">#1 0x55706718f23b &lt;unknown&gt;
+</span><span style="color:#999;font-style:italic">#2 0x55706718f8be &lt;unknown&gt;
+</span><span style="color:#999;font-style:italic">#3 0x7f117c6860c0 &lt;unknown&gt;
+</span><span style="color:#999;font-style:italic">#4 0x7f116ecf3fff gsignal
+</span><span style="color:#999;font-style:italic">#5 0x7f116ecf542a abort
+</span><span style="color:#999;font-style:italic">#6 0x55706718ee05 &lt;unknown&gt;
+</span><span style="color:#999;font-style:italic">#7 0x5570670f8676 &lt;unknown&gt;
+</span><span style="color:#999;font-style:italic">#8 0x557067cee720 &lt;unknown&gt;
+</span><span style="color:#999;font-style:italic">#9 0x557066e21a74 &lt;unknown&gt;
+</span><span style="color:#999;font-style:italic">#10 0x557067ced9fb &lt;unknown&gt;
+</span><span style="color:#999;font-style:italic">#11 0x557067cef881 &lt;unknown&gt;
+</span><span style="color:#999;font-style:italic">#12 0x557066e217db &lt;unknown&gt;
+</span><span style="color:#999;font-style:italic">#13 0x557066e26d6e &lt;unknown&gt;
+</span><span style="color:#999;font-style:italic">#14 0x557066e1ffa1 &lt;unknown&gt;
+</span><span style="color:#999;font-style:italic">#15 0x5570655cbe90 ChromeMain
+</span><span style="color:#999;font-style:italic">#16 0x7f116ece12e1 __libc_start_main
+</span><span style="color:#999;font-style:italic">#17 0x5570655cbcea _start
+</span><span style="color:#999;font-style:italic"></span>  r8: <span style="color:#3677a9">0000000000000000</span>  r9: 00007ffc367c3b70 r10: <span style="color:#3677a9">0000000000000008</span> r11: <span style="color:#3677a9">0000000000000246</span>
+ r12: 00007ffc367c3fe0 r13: 00007ffc367c4000 r14: 00000000000000a8 r15: 00007ffc367c3de0
+  di: <span style="color:#3677a9">0000000000000002</span>  si: 00007ffc367c3b70  bp: 00007ffc367c3db0  bx: <span style="color:#3677a9">0000000000000006</span>
+  dx: <span style="color:#3677a9">0000000000000000</span>  ax: <span style="color:#3677a9">0000000000000000</span>  cx: 00007f116ecf3fff  sp: 00007ffc367c3be8
+  ip: 00007f116ecf3fff efl: <span style="color:#3677a9">0000000000000246</span> cgf: 002b000000000033 erf: <span style="color:#3677a9">0000000000000000</span>
+ trp: <span style="color:#3677a9">0000000000000000</span> msk: <span style="color:#3677a9">0000000000000000</span> cr2: <span style="color:#3677a9">0000000000000000</span>
+[end of stack trace]
+Calling _exit(<span style="color:#3677a9">1</span>). Core file will not be generated.</code></pre></div>
+<h2 id="configure-key-based-authentication">Configure key-based authentication</h2>
+
+<p>We are going to be sending lots of commands to the container via ssh. If you don&rsquo;t want to type in a password following every command then you should setup key-based authentication. However, doing so is less secure. If anyone were to gain access to your host and tried to ssh to the container they would not be asked to authenticate. If you feel the need to have a passphrase that is fine. You can always add or remove your passphrase at any time using <code>ssh-keygen -p -f ~/.ssh/id_rsa</code>. Alternatively, you can stick with simple password authentication, in which case you may skip this step.</p>
+
+<p>If you already have an ssh key pair then skip the next section and proceed to <a href="#send-the-public-key-to-the-guest-container">Send the public key to the guest container</a> unless you wish to <a href="https://stackoverflow.com/questions/2419566/best-way-to-use-multiple-ssh-private-keys-on-one-client#2419609">manage multiple ssh keys</a>.</p>
+
+<h3 id="generate-an-ssh-private-and-public-key-pair">Generate an ssh private and public key pair</h3>
+
+<p>Simply run the command and follow the instructions.</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">$ ssh-keygen
+Generating public/private rsa key pair.
+Enter file in which to save the key (/home/dustfinger/.ssh/id_rsa):
+Enter passphrase (empty for no passphrase):
+Enter same passphrase again:
+Your identification has been saved in /home/dustfinger/.ssh/id_rsa.
+Your public key has been saved in /home/dustfinger/.ssh/id_rsa.pub.
+The key fingerprint is:
+SHA256:+r4smZfvlz+TpC+ocm7p9eHlsFcKy+9zy4c0605xero dustfinger@galactica
+The key&#39;s randomart image is:
++---[RSA 2048]----+
+|                 |
+|                 |
+|                 |
+|                 |
+|        S     . .|
+|       .    . ++.|
+|      .o o.ooB+B.|
+|      =o*..oBB@oo|
+|       XO=o.+XEOo|
++----[SHA256]-----+</code></pre></div>
+<h3 id="send-the-public-key-to-the-guest-container">Send the public key to the guest container</h3>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">$ ssh-copy-id -p 24 dustfinger@localhost
+/usr/bin/ssh-copy-id: INFO: Source of key(s) to be installed: &#34;/home/dustfinger/.ssh/id_rsa.pub&#34;
+/usr/bin/ssh-copy-id: INFO: attempting to log in with the new key(s), to filter out any that are already installed
+/usr/bin/ssh-copy-id: INFO: 1 key(s) remain to be installed -- if you are prompted now it is to install the new keys
+dustfinger@localhost&#39;s password:
+
+Number of key(s) added: 1
+
+Now try logging into the machine, with:   &#34;ssh -p &#39;24&#39; &#39;dustfinger@localhost&#39;&#34;
+and check to make sure that only the key(s) you wanted were added.</code></pre></div>
+<p>Now relish in the joy of password-less authentication. Let&rsquo;s test it out by listing the contents of our guest user&rsquo;s home directory.</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">s sshnauci_dev <span style="color:#ed9d13">&#39;ls&#39;</span></code></pre></div><div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">Desktop
+dev</code></pre></div>
+<p>You should not have be prompted for a password. If you were, then something has gone wrong. In that case, increase verbosity by adding the <code>-vv</code> optional parameter before the <em>ls</em> command like this <code>sshnauci_dev -vv ls</code></p>
+
+<h2 id="build-the-angular-app">Build the Angular app</h2>
+
+<p>This is not an article about how to build an Angular application. Therefore we are going to cut a very long story short by taking advantage of the <code>ng new</code> command which creates a new hello-world-style application. The name of the angular app must start with a letter and may contain alphanumeric characters or dashes. <a href="https://github.com/angular/angular-cli/issues/3816">There is a defect (issue 3816)</a> though that causes an error if you end the project name with a number. In the next section we will be converting our Angular application into a WebExtension, so I aptly named the app <em>hello-angular-webext</em>. When prompted whether or not you would like to add Angular routing, type <em>y</em> and hit return.</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">sshnauci_dev <span style="color:#ed9d13">&#39;cd ~/dev; ng new hello-angular-webext&#39;</span></code></pre></div><div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">? Would you like to add Angular routing? YesN) y
+? Which stylesheet format would you like to use? Stylus [ http://stylus-lang.com ]
+CREATE hello-angular-webext/README.md (1035 bytes)
+CREATE hello-angular-webext/angular.json (3985 bytes)
+CREATE hello-angular-webext/package.json (1327 bytes)
+CREATE hello-angular-webext/tsconfig.json (408 bytes)
+CREATE hello-angular-webext/tslint.json (2837 bytes)
+CREATE hello-angular-webext/.editorconfig (245 bytes)
+CREATE hello-angular-webext/.gitignore (503 bytes)
+CREATE hello-angular-webext/src/favicon.ico (5430 bytes)
+CREATE hello-angular-webext/src/index.html (305 bytes)
+CREATE hello-angular-webext/src/main.ts (372 bytes)
+CREATE hello-angular-webext/src/polyfills.ts (3234 bytes)
+CREATE hello-angular-webext/src/test.ts (642 bytes)
+CREATE hello-angular-webext/src/styles.styl (80 bytes)
+CREATE hello-angular-webext/src/browserslist (388 bytes)
+CREATE hello-angular-webext/src/karma.conf.js (964 bytes)
+CREATE hello-angular-webext/src/tsconfig.app.json (166 bytes)
+CREATE hello-angular-webext/src/tsconfig.spec.json (256 bytes)
+CREATE hello-angular-webext/src/tslint.json (314 bytes)
+CREATE hello-angular-webext/src/assets/.gitkeep (0 bytes)
+CREATE hello-angular-webext/src/environments/environment.prod.ts (51 bytes)
+CREATE hello-angular-webext/src/environments/environment.ts (662 bytes)
+CREATE hello-angular-webext/src/app/app-routing.module.ts (245 bytes)
+CREATE hello-angular-webext/src/app/app.module.ts (393 bytes)
+CREATE hello-angular-webext/src/app/app.component.styl (0 bytes)
+CREATE hello-angular-webext/src/app/app.component.html (1173 bytes)
+CREATE hello-angular-webext/src/app/app.component.spec.ts (1137 bytes)
+CREATE hello-angular-webext/src/app/app.component.ts (225 bytes)
+CREATE hello-angular-webext/e2e/protractor.conf.js (752 bytes)
+CREATE hello-angular-webext/e2e/tsconfig.e2e.json (213 bytes)
+CREATE hello-angular-webext/e2e/src/app.e2e-spec.ts (316 bytes)
+CREATE hello-angular-webext/e2e/src/app.po.ts (208 bytes)
+
+&gt; node-sass@4.9.3 install /shared/dustfinger/dev/hello-angular-webext/node_modules/node-sass
+&gt; node scripts/install.js
+
+Downloading binary from https://github.com/sass/node-sass/releases/download/v4.9.3/linux-x64-64_binding.node
+Download complete  ] - :
+Binary saved to /shared/dustfinger/dev/hello-angular-webext/node_modules/node-sass/vendor/linux-x64-64/binding.node
+Caching binary to /home/dustfinger/.npm/node-sass/4.9.3/linux-x64-64_binding.node
+
+&gt; circular-json@0.5.7 postinstall /shared/dustfinger/dev/hello-angular-webext/node_modules/circular-json
+&gt; echo &#39;&#39;; echo &#34;\x1B[1mCircularJSON\x1B[0m is in \x1B[4mmaintenance only\x1B[0m, \x1B[1mflatted\x1B[0m is its successor.&#34;; echo &#39;&#39;
+
+
+\x1B[1mCircularJSON\x1B[0m is in \x1B[4mmaintenance only\x1B[0m, \x1B[1mflatted\x1B[0m is its successor.
+
+
+&gt; node-sass@4.9.3 postinstall /shared/dustfinger/dev/hello-angular-webext/node_modules/node-sass
+&gt; node scripts/build.js
+
+Binary found at /shared/dustfinger/dev/hello-angular-webext/node_modules/node-sass/vendor/linux-x64-64/binding.node
+Testing binary
+Binary is fine
+npm WARN optional SKIPPING OPTIONAL DEPENDENCY: fsevents@1.2.4 (node_modules/fsevents):
+npm WARN notsup SKIPPING OPTIONAL DEPENDENCY: Unsupported platform for fsevents@1.2.4: wanted {&#34;os&#34;:&#34;darwin&#34;,&#34;arch&#34;:&#34;any&#34;} (current: {&#34;os&#34;:&#34;linux&#34;,&#34;arch&#34;:&#34;x64&#34;})
+
+added 1097 packages from 1292 contributors and audited 39125 packages in 23.582s
+found 0 vulnerabilities
+
+/bin/sh: 1: git: not found
+Connection to localhost closed.
+#+END_SRC
+
+now build the project
+#+BEGIN_SRC sh :results output silent :shebang &#34;#!/bin/env bash&#34;
+sshnauci_dev &#39;cd dev/hello-angular-webext; ng build&#39;
+dustfinger@localhost&#39;s password:
+
+Date: 2018-10-19T10:14:52.725Z
+Hash: 94301c33eb20663e3ad2
+Time: 5278ms
+chunk {main} main.js, main.js.map (main) 11.9 kB [initial] [rendered]
+chunk {polyfills} polyfills.js, polyfills.js.map (polyfills) 228 kB [initial] [rendered]
+chunk {runtime} runtime.js, runtime.js.map (runtime) 6.22 kB [entry] [rendered]
+chunk {styles} styles.js, styles.js.map (styles) 17.1 kB [initial] [rendered]
+chunk {vendor} vendor.js, vendor.js.map (vendor) 3.37 MB [initial] [rendered]
+Connection to localhost closed.</code></pre></div>
+<h2 id="link-the-host-project-src-directory-to-the-shared-dev-directory">Link the host project src directory to the shared dev directory</h2>
+
+<p>Now that the Angular project source directory exists on the guest we can link it to our project&rsquo;s <em>src</em> directory on the host as a nice convenience. After creating the link you may wish to create a <a href="https://docs.docker.com/engine/reference/builder/#dockerignore-file">.dockerignore file</a> in <em><code>~/dev/hello_angular_webext/</code></em> with a rule to ignore the linked src directory in case you want to rebuild the image in the future.</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">ln -sn /shared/dustfinger/dev/hello-angular-webext /home/dustfinger/dev/hello_angular_webext/src
+getfacl /home/dustfinger/dev/hello_angular_webext/src</code></pre></div><div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text"># file: home/dustfinger/dev/hello_angular_webext/src
+# owner: dustfinger
+# group: developer
+# flags: -s-
+user::rwx
+group::r-x
+group:developer:rwx
+mask::rwx
+other::r-x
+default:user::rwx
+default:group::r-x
+default:group:developer:rwx
+default:mask::rwx
+default:other::r-x</code></pre></div>
+<p>Moving forward we will use editing tools on our host system to develop the Angular app into a WebExtension.</p>
+
+<h2 id="the-project-layout">The project layout</h2>
+
+<p>This is the directory hierarchy from the <em><code>~/dev/hello_angular_webext</code></em> directory where we built our docker image.</p>
+
+<p><a id="code-snippet-1"></a></p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">tree -puglad -I <span style="color:#ed9d13">&#34;node_modules&#34;</span> -L <span style="color:#3677a9">4</span></code></pre></div><div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">.
+└── [lrwxrwxrwx dustfinger dustfinger]  src -&gt; /shared/dustfinger/dev/hello-angular-webext
+    ├── [drwxr-sr-x dustfinger developer]  dist
+    │   └── [drwxr-sr-x dustfinger developer]  hello-angular-webext
+    ├── [drwxrwsr-x dustfinger developer]  e2e
+    │   └── [drwxrwsr-x dustfinger developer]  src
+    └── [drwxrwsr-x dustfinger developer]  src
+        ├── [drwxrwsr-x dustfinger developer]  app
+        ├── [drwxrwsr-x dustfinger developer]  assets
+        └── [drwxrwsr-x dustfinger developer]  environments
+
+9 directories</code></pre></div>
+<p>At the top most level you can see that the src subdirectory is soft linked to our project&rsquo;s Angular source on the shared file system for the guest user named dustfinger. From now on I will use <em><code>src/</code></em> when referring to this soft link.</p>
+
+<p>Taking a closer look down the tree you can see a directory named <em><code>src/dist/hello-angular-webext</code></em>. The dist folder is where ng build places the transpiled angular app. Do not modify anything under the dist directory because it is replaced with each run of <em>ng build</em>. The non-transpiled source code for the Angular app which you can edit is located under <em><code>src/src/</code></em> along with the applications static assets located <em><code>src/src/assets/</code></em>.</p>
+
+<h2 id="transmogrify-the-angular-web-application-into-a-webextension">Transmogrify the Angular web application into a WebExtension</h2>
+
+<p>A WebExtension needs the following things:</p>
+
+<ol>
+<li>a manifest.json file</li>
+<li>an extension icon</li>
+<li>one or more templates</li>
+</ol>
+
+<p>We have arrived at the final leg of the journey. In the remaining sections everything should come together and make sense. Our dependencies which include web browsers, JavaScript libraries, package management, transpiler, deployment tooling etc are all in the container. With all of those dependencies separated from our favourite development tools we can edit the project source code, send shell commands to build the app in the container, and as you will soon see, deploy and run the app in multiple devices simultaneously without having to install any of that project specific cruft on our host - w00t!</p>
+
+<p>You may want to refer to <a href="#the-project-layout">the project layout</a> from time to time. Also, in that section I mentioned that we will be using <em><code>src/</code></em> as shorthand for the link <em><code>/home/dustfinger/dev/hello_angular_webext/src/</code></em>.</p>
+
+<h3 id="create-the-manifest-dot-json">Create the manifest.json</h3>
+
+<p>From the host use your favourite text editor to create a file called <em><code>src/src/manifest.json</code></em> with the following content:</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{
+  <span style="color:#6ab825;font-weight:bold">&#34;manifest_version&#34;</span>: <span style="color:#3677a9">2</span>,
+  <span style="color:#6ab825;font-weight:bold">&#34;applications&#34;</span>: {
+    <span style="color:#6ab825;font-weight:bold">&#34;gecko&#34;</span>: {
+      <span style="color:#6ab825;font-weight:bold">&#34;id&#34;</span>: <span style="color:#ed9d13">&#34;trevor.wilson@bloggerbust.ca&#34;</span>
+    }
+  },
+  <span style="color:#6ab825;font-weight:bold">&#34;name&#34;</span>: <span style="color:#ed9d13">&#34;Hello Angular Extension&#34;</span>,
+  <span style="color:#6ab825;font-weight:bold">&#34;description&#34;</span>: <span style="color:#ed9d13">&#34;a simple hello world extension using angular&#34;</span>,
+  <span style="color:#6ab825;font-weight:bold">&#34;version&#34;</span>: <span style="color:#ed9d13">&#34;1.0&#34;</span>,
+  <span style="color:#6ab825;font-weight:bold">&#34;browser_action&#34;</span>: {
+    <span style="color:#6ab825;font-weight:bold">&#34;default_icon&#34;</span>: <span style="color:#ed9d13">&#34;assets/hello-angular-icon-48.svg&#34;</span>,
+    <span style="color:#6ab825;font-weight:bold">&#34;default_popup&#34;</span>: <span style="color:#ed9d13">&#34;index.html&#34;</span>
+  },
+  <span style="color:#6ab825;font-weight:bold">&#34;permissions&#34;</span>: [],
+  <span style="color:#6ab825;font-weight:bold">&#34;content_security_policy&#34;</span>: <span style="color:#ed9d13">&#34;script-src &#39;self&#39; &#39;unsafe-eval&#39;; object-src &#39;self&#39;&#34;</span>,
+  <span style="color:#6ab825;font-weight:bold">&#34;web_accessible_resources&#34;</span>: [
+    <span style="color:#ed9d13">&#34;assets/css/*&#34;</span>,
+    <span style="color:#ed9d13">&#34;assets/js/*&#34;</span>,
+    <span style="color:#ed9d13">&#34;assets/fonts/*&#34;</span>
+  ]
+}</code></pre></div>
+<h3 id="add-an-icon">Add an icon</h3>
+
+<p>Our WebExtension will have an Angular view that is accessible from a toolbar button embellished with an icon. For our example I used the <a href="https://commons.wikimedia.org/w/index.php?curid=68531022">BulbIcon By Respublika Narodnaya - Own work, CC BY-SA 4.0</a>, a simple SVG courteously uploaded to Wikimedia commons. <a href="https://upload.wikimedia.org/wikipedia/commons/2/2b/BulbIcon.svg">Download BulbIcon.svg</a> and save it as <em><code>src/src/assets/hello-angular-icon-48.svg</code></em>.</p>
+
+<h3 id="declare-the-assets">Declare the assets</h3>
+
+<p>In order for our Angular application to be a valid WebExtension we need to place the manifest.json in the root directory of the transpiled application. Recall that the Angular transpiler places the application in <em><code>src/dist/hello-angular-webext/</code></em>. Each time the Angular transpiler builds the application the old <em><code>src/dist/hello-angular-webext/</code></em> is replaced. Thankfully, Angular provides a way of dealing with this behaviour. By declaring our manifest and icon an asset in the angular.json file the transpiler will copy our manifest and icon into the transpiled application for us each time we run a build. Open <em><code>src/angular.json</code></em> and locate the <em>assets</em> node located at <em>projects.hello-angular-webext.architect.build.options.assets</em>. The assets node will already list the assets directory which contains the hello-angular-icon-48.svg. Add the manifest.json as a root level asset.</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json"><span style="color:#ed9d13">&#34;assets&#34;</span><span style="color:#a61717;background-color:#e3d2d2">:</span> [
+  <span style="color:#ed9d13">&#34;src/favicon.ico&#34;</span>,
+  <span style="color:#ed9d13">&#34;src/assets&#34;</span>,
+  <span style="color:#ed9d13">&#34;src/manifest.json&#34;</span>
+]<span style="color:#a61717;background-color:#e3d2d2">,</span></code></pre></div>
+<h3 id="test-the-extension-in-firefox-from-your-development-machine">Test the extension in Firefox from your development machine</h3>
+
+<p>You will need to build the app once again so that our assets are deployed to the dist directory.</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">sshnauci_dev <span style="color:#ed9d13">&#39;cd dev/hello-angular-webext; ng build; echo &#34;\nlisting content of dist/hello-angular-webext ...\n&#34;; ls dist/hello-angular-webext&#39;</span></code></pre></div><div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">Date: 2018-10-21T11:36:16.677Z
+Hash: 94301c33eb20663e3ad2
+Time: 4852ms
+chunk {main} main.js, main.js.map (main) 11.9 kB [initial] [rendered]
+chunk {polyfills} polyfills.js, polyfills.js.map (polyfills) 228 kB [initial] [rendered]
+chunk {runtime} runtime.js, runtime.js.map (runtime) 6.22 kB [entry] [rendered]
+chunk {styles} styles.js, styles.js.map (styles) 17.1 kB [initial] [rendered]
+chunk {vendor} vendor.js, vendor.js.map (vendor) 3.37 MB [initial] [rendered]
+
+listing content of dist/hello-angular-webext ...
+
+assets
+favicon.ico
+index.html
+main.js
+main.js.map
+manifest.json
+polyfills.js
+polyfills.js.map
+runtime.js
+runtime.js.map
+styles.js
+styles.js.map
+vendor.js
+vendor.js.map</code></pre></div>
+<p>Let&rsquo;s manually test our WebExtension using Firefox. By manually testing the WebExtension you will understand how to temporarily install a local WebExtension in a browser. You will also gain an appreciation for how cumbersome things would be if you had to manually deploy the WebExtension each time you modified it during development :-). Now launch Firefox and follow the steps listed below:</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">sshnauci_dev <span style="color:#ed9d13">&#39;firefox&#39;</span></code></pre></div>
+<p>Manual Deployment Steps:</p>
+
+<ol>
+<li>In Firefox&rsquo;s address bar type <em>about:debugging</em> and hit enter</li>
+<li>Click the button labelled <strong>Load Temporary Add-on</strong></li>
+<li>A dialog will open which will allow you to select a manifest or a package. The path is going to be relative to the container since that is where Firefox is actually running. Open <em><code>~/dev/hello-angular-webext/dist/hello-angular-webext/manifest.json</code></em></li>
+<li>Now you should see the <a href="https://upload.wikimedia.org/wikipedia/commons/2/2b/BulbIcon.svg">light bulb icon</a> appear in the right hand corner of the browser. Click the light bulb. A popup window should appear with the heading <strong>Welcome to hello-angular-webext!</strong>. Congratulations you just deployed an Angular WebExtension!</li>
+</ol>
+
+<p>WebExtension removal Steps:</p>
+
+<ol>
+<li>In Firefox&rsquo;s address bar type <em>Enter about:addons</em> and hit enter</li>
+<li>Click on the Extensions menu item in the left hand pane</li>
+<li>Locate the add-on titled <em>Hello Angular Extension</em> in the right hand pane</li>
+<li>Click the remove button.</li>
+</ol>
+
+<h3 id="test-that-web-ext-is-working">Test that web-ext is working</h3>
+
+<p>You may rest at ease. Thanks to web-ext there will be no need for manual deployment during the develop-test-repeat loop. Let&rsquo;s quickly test that web-ext is working.</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">sshnauci_dev <span style="color:#ed9d13">&#39;web-ext run -s dev/hello-angular-webext/dist/hello-angular-webext/&#39;</span></code></pre></div><div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">Running WebExtension from /home/dustfinger/dev/hello-angular-webext/dist/hello-angular-webext
+Use --verbose or open Tools &gt; Web Developer &gt; Browser Console to see logging
+Installed /home/dustfinger/dev/hello-angular-webext/dist/hello-angular-webext as a temporary add-on
+The extension will reload if any source file changes
+Press R to reload (and Ctrl-C to quit)
+Connection to localhost closed.</code></pre></div>
+<p>The Firefox browser should launch with the extension already loaded. Whew!</p>
+
+<h3 id="setup-an-android-device-for-webextension-deployment">Setup an Android Device For WebExtension Deployment</h3>
+
+<p>If you don&rsquo;t have an Android device then you can skip this step. Alternatively, you could try to figure out the steps required for the device that you do have :-) If that is the path you choose, then I welcome you to make a pull request or submit your instructions so that I may update this post with support for additional devices.</p>
+
+<p>In this section you may refer to <a href="https://developer.mozilla.org/en-US/Add-ons/WebExtensions/Developing%5FWebExtensions%5Ffor%5FFirefox%5Ffor%5FAndroid">Developing WebExtensions for Firefox and Android</a> and <a href="https://developer.mozilla.org/en-US/Add-ons/WebExtensions/Getting%5Fstarted%5Fwith%5Fweb-ext">get started with web-ext</a> if you run into difficulty. Otherwise, as long as you have an Android device with Firefox installed you may proceed with the sub-section below.</p>
+
+<h4 id="establish-an-usb-debugging-session-with-android-debug-bridge--adb">Establish an USB Debugging Session With Android Debug Bridge (ADB)</h4>
+
+<p>Web-ext depends on ADB for deployment to Android devices. The hello-angular-webext Dockerfile installed the standalone Android SDK Platform-Tools package named android-tools-adb into the dependency image. The Platform-Tools package contains the ADB CLI which we will now use to establish a USB debugging session with our Android device. First, <a href="https://developer.android.com/studio/debug/dev-options">follow these instructions to enable USB debugging on your Android device</a>. Next, plug your Android device into a USB port on your host machine and test that ADB CLI can detect it. You will need to ensure that your device is not locked while trying to establish a debugging session. As <a href="#ensure-usb-device-bus-bind-compatibility">mentioned previously</a>, an important concept to understand is that a new BUS ID will be created each time a device is connected to the host machine even if the device had been previously connected. Consequently, if the Android device was not connected to the container with USB debugging enabled at the time that the container was started then the container will need to be restarted in order to pick up the newly assigned USB character device node.</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">docker container restart nauci_dev</code></pre></div><div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">nauci_dev</code></pre></div>
+<p>Send a command to the ADB CLI which will ask the ADB daemon to list all of the devices that it can find attached to the container. The first time you run this command the ADB daemon will start if it is not currently running. When the ADB attempts a handshake with your device a popup will appear on your device requesting that you acknowledge the debug session. If you do not click okay then the ADB daemon will not be able to establish the USB debugging session with your device. The message will read:</p>
+
+<blockquote>
+<p>Allow USB debugging?</p>
+
+<p>The computer&rsquo;s RSA key fingerprint is:</p>
+
+<p><code>&lt;your-host-containers-RSA-key-fingerprint&gt;</code></p>
+</blockquote>
+
+<p>Now send a remote command to tell ADB to list all Android devices that it can detect inside of the container.</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">sshnauci_dev <span style="color:#ed9d13">&#39;adb devices -l&#39;</span></code></pre></div><div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">List of devices attached
+* daemon not running. starting it now on port 5037 *
+* daemon started successfully *
+84B7N15A28004543       device usb:1-8 product:angler model:Nexus_6P device:angler</code></pre></div>
+<p>If you accidentally click outside of the popup requesting authorization to establish the USB debugging session then it will disappear from view. In that case you will need to kill the ADB daemon with <code>sshnauci_dev 'adb kill-server'</code> and run the command to list the devices again.</p>
+
+<h3 id="simultaneous-automatic-code-reload-on-both-desktop-and-android">Simultaneous automatic code reload on both desktop and Android</h3>
+
+<p>This is the moment I have been leading up to. From my host, with no Node.js server, Android Debug Bridge, Angular transpiler or web-ext CLI installed I will send a remote command that will deploy and launch the WebExtension in both my Android device and the desktop Firefox browser installed in the container. I will then edit the source using my favourite editor on my host machine and watch both browsers update automatically.</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">sshnauci_dev <span style="color:#ed9d13">&#39;cd dev/hello-angular-webext; ng build --watch&#39;</span></code></pre></div><div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">Date: 2018-10-21T17:37:32.496Z
+Hash: 94301c33eb20663e3ad2
+Time: 5122ms
+chunk {main} main.js, main.js.map (main) 11.9 kB [initial] [rendered]
+chunk {polyfills} polyfills.js, polyfills.js.map (polyfills) 228 kB [initial] [rendered]
+chunk {runtime} runtime.js, runtime.js.map (runtime) 6.22 kB [entry] [rendered]
+chunk {styles} styles.js, styles.js.map (styles) 17.1 kB [initial] [rendered]
+chunk {vendor} vendor.js, vendor.js.map (vendor) 3.37 MB [initial] [rendered]</code></pre></div>
+<p>I should warn you that if you have any tabs open in the Android Firefox browser they will disappear without warning once you run the next command. I believe that the command starts a new guest session in Firefox, but I have not investigated. If this does happen then don&rsquo;t panic, if you reboot the device (or probably just exit the guest session), then your lost tabs will return.</p>
+
+<p>In a separate terminal run the following web-ext command.</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">sshnauci_dev <span style="color:#ed9d13">&#39;web-ext run -s dev/hello-angular-webext/dist/hello-angular-webext/ --target=firefox-desktop --target=firefox-android --android-device 84B7N15A28004543&#39;</span></code></pre></div>
+<p>You should now see the desktop Firefox browser open via x-forwarding with the light-bulb icon visible on the toolbar whilst simultaneously the Firefox browser on your Android should launch with the extension also loaded. To see the extension on Android Firefox you may need to open the browser context menu by touching the ellipses in the upper right corner, then look to the bottom of the menu where you should see the menu item libelled <em>Hello Angular Extension</em>. Touch the Hello Angular Extension menu item to load the welcome screen. Do the same on the desktop by clicking the light-bulb icon.</p>
+
+<p>From your host edit <em><code>src/src/app/app.component.html</code></em>. Add some text beneath the header such as &ndash; <em>Updated, w00t!</em>:</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html">&lt;<span style="color:#6ab825;font-weight:bold">h1</span>&gt;
+  Welcome to {{ title }}!
+&lt;/<span style="color:#6ab825;font-weight:bold">h1</span>&gt;
+Updated, w00t!</code></pre></div>
+<p>Since we passed the <em>&ndash;watch</em> optional parameter to the <em>ng build</em> command the Angular CLI should detect the change automatically and rebuild the app. The app should be transpiled, and copied to the <em><code>src/dist/</code></em> directory. The web-ext run command should then detect the change in the <em><code>src/dist/</code></em> directory and automatically deploy the WebExtension to both desktop Firefox running in the container and mobile Firefox running on the Android device.</p>
+
+
+<figure>
+    
+        <img src="/post/encapsulate-angular-webextension-dependencies-in-a-docker-image/20181023-webext-launch-angular-webextension-in-desktop-android-firefox.jpg" />
+    
+    
+</figure>
+
+
+<style>.org-center { margin-left: auto; margin-right: auto; text-align: center; }</style>
+
+<div class="org-center">
+  <div></div>
+
+<p>Double W00t!</p>
+
+<p></div></p>
+
+<h2 id="retrospective">Retrospective</h2>
+
+<p>That is the end of my first series. I hope you learned something. I sure did, though I will admit that this solution is not without its drawbacks.</p>
+
+<p><strong>Drawbacks:</strong></p>
+
+<ol>
+<li>The file system used as the shared volume must have POSIX ACL enabled with extended attributes. Will this work with other ACL models? NSFv4ACL for example? <a href="http://wiki.linux-nfs.org/wiki/index.php/ACLs#The%5FACL%5FInteroperability%5FProblem">ACL Interoperability is not standardized</a>, but it might work. I have not tested it</li>
+<li>The entry point does not setup user passwords</li>
+<li>Chromium bails when run in docker</li>
+<li>Everyone in the developer group has <code>rwx</code> access to each other&rsquo;s shared dev folders</li>
+<li>Developer dev directories are on the host</li>
+</ol>
+
+<p><strong>It does have some nice benefits though:</strong></p>
+
+<ol>
+<li>Separates project dependencies from source code allowing dependency image reuse</li>
+<li>Separates project dependencies from tooling allowing developers to choose emacs. err&hellip; I mean optional tooling. i.e. editor, network analyzer, debugger, performance profiler etc.</li>
+<li>The entry point automates quite a bit of the required user and file system setup</li>
+<li>Supports bind compatible USB character device nodes and shared file system</li>
+<li>Makes it easier for remote collaborates to contribute to your project</li>
+</ol>
+
+<p><strong>Here are some improvement ideas:</strong></p>
+
+<ol>
+<li>Update the <a href="https://github.com/BloggerBust/nauci%5Fbase%5Finit/blob/master/nauci%5Fbase%5Finit.sh">base entry point init script</a> with optional support for the <a href="http://man7.org/linux/man-pages/man8/newusers.8.html">newusers command</a> making it possible to securely create a batch of users with default passwords</li>
+<li>Test the current solutions interoperability with other ACL models. Add support for ACL models that are not interoperable with the current solution.</li>
+<li>Investigate <a href="https://docs.docker.com/engine/security/userns-remap/">Docker&rsquo;s user namespace remap support</a> to see if it is possible to use subordinate GID remapping to replace the current developer / usb group bind compatibility strategy</li>
+<li>A NAS device could be mounted as a volume on the container as well as the individual developer machines to help address drawback number 5</li>
+</ol>
+
+<p>If you have any feedback, please either email me or create an issue in my GitHub. For the time being I do not have comments setup for this blog.</p>
+ </div>
+    <footer class="post-footer">
+
+  <div class="post-footer-data">
+    
+<div class="tags">
+    
+      <div class="tag">
+        <a href="/tags/nauci">#nauci</a>
+      </div>
+    
+      <div class="tag">
+        <a href="/tags/docker">#docker</a>
+      </div>
+    
+</div>
+
+    <div class="date"> Oct 13, 2018 </div>
+  </div>
+
+</footer>
+
+
+  
+
+
+</article>
+
+  <footer>
+
+  <div class="social-links-footer">
+
+  
+  <a href="mailto:trevor.wilson@bloggerbust.ca"><div class="social-link">Email</div></a>
+  
+
+  
+  <a href="https://github.com/bloggerbust" target="_blank"><div class="social-link">GitHub</div></a>
+  
+
+  
+
+  
+
+  
+
+  <div class="social-link">
+  <a href="/index.xml" target="_blank">RSS</a>
+  </div>
+
+</div>
+
+
+  <div class="copyright"> Copyright (c) 2018, all rights reserved. </div>
+
+  <div class="poweredby">
+    Powered by <a href="https://gohugo.io/">Hugo</a>.
+  </div>
+
+  </footer>
+
+</div> 
+
+</body>
+</html>
+

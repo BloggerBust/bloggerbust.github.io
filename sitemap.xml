@@ -3,8 +3,13 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>/post/encapsulate-angular-webextension-dependencies-in-a-docker-image/</loc>
+    <lastmod>2018-10-26T08:35:32-06:00</lastmod>
+  </url>
+  
+  <url>
     <loc>/post/separate-dependencies-from-implementation-using-nauci-base-entry-docker-image/</loc>
-    <lastmod>2018-10-13T07:23:29-06:00</lastmod>
+    <lastmod>2018-10-26T08:32:07-06:00</lastmod>
   </url>
   
   <url>
@@ -19,7 +24,7 @@
   
   <url>
     <loc>/</loc>
-    <lastmod>2018-10-13T07:23:29-06:00</lastmod>
+    <lastmod>2018-10-26T08:35:32-06:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -30,7 +35,7 @@
   
   <url>
     <loc>/tags/docker/</loc>
-    <lastmod>2018-10-13T07:23:29-06:00</lastmod>
+    <lastmod>2018-10-26T08:35:32-06:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -54,7 +59,7 @@
   
   <url>
     <loc>/tags/nauci/</loc>
-    <lastmod>2018-10-13T07:23:29-06:00</lastmod>
+    <lastmod>2018-10-26T08:35:32-06:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -66,13 +71,13 @@
   
   <url>
     <loc>/post/</loc>
-    <lastmod>2018-10-13T07:23:29-06:00</lastmod>
+    <lastmod>2018-10-26T08:35:32-06:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>/categories/programming/</loc>
-    <lastmod>2018-10-13T07:23:29-06:00</lastmod>
+    <lastmod>2018-10-26T08:35:32-06:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -83,13 +88,13 @@
   
   <url>
     <loc>/tags/</loc>
-    <lastmod>2018-10-13T07:23:29-06:00</lastmod>
+    <lastmod>2018-10-26T08:35:32-06:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>/series/using-docker-to-separate-dependencies-from-implementation/</loc>
-    <lastmod>2018-10-13T07:23:29-06:00</lastmod>
+    <lastmod>2018-10-26T08:35:32-06:00</lastmod>
     <priority>0</priority>
   </url>
   

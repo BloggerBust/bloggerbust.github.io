@@ -7,7 +7,7 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-CA</language>
     <copyright>Copyright (c) 2018, all rights reserved.</copyright>
-    <lastBuildDate>Thu, 11 Oct 2018 06:07:13 -0600</lastBuildDate>
+    <lastBuildDate>Sat, 13 Oct 2018 00:00:00 -0600</lastBuildDate>
     
 	<atom:link href="/tags/index.xml" rel="self" type="application/rss+xml" />
     
@@ -15,7 +15,7 @@
     <item>
       <title>Docker</title>
       <link>/tags/docker/</link>
-      <pubDate>Thu, 11 Oct 2018 06:07:13 -0600</pubDate>
+      <pubDate>Sat, 13 Oct 2018 00:00:00 -0600</pubDate>
       
       <guid>/tags/docker/</guid>
       <description></description>
@@ -42,7 +42,7 @@
     <item>
       <title>Nauci</title>
       <link>/tags/nauci/</link>
-      <pubDate>Thu, 11 Oct 2018 06:07:13 -0600</pubDate>
+      <pubDate>Sat, 13 Oct 2018 00:00:00 -0600</pubDate>
       
       <guid>/tags/nauci/</guid>
       <description></description>

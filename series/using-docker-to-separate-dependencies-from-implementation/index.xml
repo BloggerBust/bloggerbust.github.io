@@ -18,7 +18,7 @@
       <pubDate>Sat, 13 Oct 2018 00:00:00 -0600</pubDate>
       
       <guid>/post/encapsulate-angular-webextension-dependencies-in-a-docker-image/</guid>
-      <description>A quick recap In the previous article titled Separate Dependencies From Implementation Using POSIX ACL Extended Attributes &amp;amp; Docker, I discussed the prerequisites to provide read and write access to a volume shared between the host system and guest docker container. My proposal involved encapsulating all of the project dependencies inside of the docker container while keeping the project&amp;rsquo;s source code and development tools on the host. There are clear benefits to this approach.</description>
+      <description>A quick recap The purpose of this article is to provide a concrete example detailing precisely how to encapsulate the dependencies of an Angular WebExtension inside of a docker container whilst keeping the source code and optional tooling on the host system, thereby separating the dependencies from the implementation. In order for the two systems to work in tandem, files that are written to from within the container must remain writable outside of the container and vice versa.</description>
     </item>
     
     <item>

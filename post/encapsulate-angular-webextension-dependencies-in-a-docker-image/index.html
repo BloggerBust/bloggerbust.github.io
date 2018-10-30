@@ -11,24 +11,24 @@
 
 <link rel="canonical" href="/post/encapsulate-angular-webextension-dependencies-in-a-docker-image/">
 <meta property="og:title" content="Encapsulate Angular WebExtension Dependencies In a Docker Image" />
-<meta property="og:description" content="A quick recap In the previous article titled Separate Dependencies From Implementation Using POSIX ACL Extended Attributes &amp; Docker, I discussed the prerequisites to provide read and write access to a volume shared between the host system and guest docker container. My proposal involved encapsulating all of the project dependencies inside of the docker container while keeping the project&rsquo;s source code and development tools on the host. There are clear benefits to this approach." />
+<meta property="og:description" content="A quick recap The purpose of this article is to provide a concrete example detailing precisely how to encapsulate the dependencies of an Angular WebExtension inside of a docker container whilst keeping the source code and optional tooling on the host system, thereby separating the dependencies from the implementation. In order for the two systems to work in tandem, files that are written to from within the container must remain writable outside of the container and vice versa." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/post/encapsulate-angular-webextension-dependencies-in-a-docker-image/" /><meta property="article:published_time" content="2018-10-13T00:00:00-06:00"/>
-<meta property="article:modified_time" content="2018-10-26T08:54:08-06:00"/>
+<meta property="article:modified_time" content="2018-10-30T08:15:34-06:00"/>
 
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Encapsulate Angular WebExtension Dependencies In a Docker Image"/>
-<meta name="twitter:description" content="A quick recap In the previous article titled Separate Dependencies From Implementation Using POSIX ACL Extended Attributes &amp; Docker, I discussed the prerequisites to provide read and write access to a volume shared between the host system and guest docker container. My proposal involved encapsulating all of the project dependencies inside of the docker container while keeping the project&rsquo;s source code and development tools on the host. There are clear benefits to this approach."/>
+<meta name="twitter:description" content="A quick recap The purpose of this article is to provide a concrete example detailing precisely how to encapsulate the dependencies of an Angular WebExtension inside of a docker container whilst keeping the source code and optional tooling on the host system, thereby separating the dependencies from the implementation. In order for the two systems to work in tandem, files that are written to from within the container must remain writable outside of the container and vice versa."/>
 
 
 
 <meta itemprop="name" content="Encapsulate Angular WebExtension Dependencies In a Docker Image">
-<meta itemprop="description" content="A quick recap In the previous article titled Separate Dependencies From Implementation Using POSIX ACL Extended Attributes &amp; Docker, I discussed the prerequisites to provide read and write access to a volume shared between the host system and guest docker container. My proposal involved encapsulating all of the project dependencies inside of the docker container while keeping the project&rsquo;s source code and development tools on the host. There are clear benefits to this approach.">
+<meta itemprop="description" content="A quick recap The purpose of this article is to provide a concrete example detailing precisely how to encapsulate the dependencies of an Angular WebExtension inside of a docker container whilst keeping the source code and optional tooling on the host system, thereby separating the dependencies from the implementation. In order for the two systems to work in tandem, files that are written to from within the container must remain writable outside of the container and vice versa.">
 
 
 <meta itemprop="datePublished" content="2018-10-13T00:00:00-06:00" />
 <meta itemprop="dateModified" content="2018-10-13T00:00:00-06:00" />
-<meta itemprop="wordCount" content="6865">
+<meta itemprop="wordCount" content="7196">
 
 
 
@@ -166,9 +166,63 @@ th {
 
 <h2 id="a-quick-recap">A quick recap</h2>
 
-<p>In the previous article titled <a href="/post/separate-dependencies-from-implementation-using-nauci-base-entry-docker-image/">Separate Dependencies From Implementation Using POSIX ACL Extended Attributes &amp; Docker</a>, I discussed <a href="/post/separate-dependencies-from-implementation-using-nauci-base-entry-docker-image/">the prerequisites</a> to provide read and write access to a volume shared between the host system and guest docker container. My proposal involved encapsulating all of the project dependencies inside of the docker container while keeping the project&rsquo;s source code and development tools on the host. There are clear benefits to this approach. By separating implementation concerns from the project dependencies, the resulting docker dependency image will be reusable in multiple projects. Moreover, on boarding remote collaborators will be easier because they will be able to use implementation tools that they already have installed, customized and are intimately familiar with. Collaborators will be happier because they will not need to install, or configure project dependencies that could cause conflicts on their host environment. In this article, I will build on what was previously covered by encapsulating all of the dependencies required to build an Angular WebExtension into a dependency image. I will then build, simultaneously deploy and run an Angular WebExtension on both desktop and mobile browsers all from the comfort of my host editor.</p>
+<p>The purpose of this article is to provide a concrete example detailing precisely how to encapsulate the dependencies of an Angular WebExtension inside of a docker container whilst keeping the source code and optional tooling on the host system, thereby separating the dependencies from the implementation. In order for the two systems to work in tandem, files that are written to from within the container must remain writable outside of the container and vice versa. The mechanism that makes this possible is a combination of <em>POSIX ACL</em> rules with <em>extended attributes</em> enabled and <em>setgit mode bit</em> applied to a volume shared between the host and the container. In the previous article, titled <a href="/post/separate-dependencies-from-implementation-using-nauci-base-entry-docker-image/">Separate Dependencies From Implementation Using POSIX ACL Extended Attributes &amp; Docker</a>, I discussed <a href="/post/separate-dependencies-from-implementation-using-nauci-base-entry-docker-image/">these prerequisites</a> in detail. There are clear benefits to this approach. By separating implementation concerns from the project dependencies, the resulting docker dependency image will be reusable in multiple projects. Moreover, on boarding remote collaborators will be made easier because the new recruits will be able to use implementation tools that they already have installed, customized and are intimately familiar with. The new recruits will be happier because they will not need to install or configure project dependencies that could cause conflicts in their host environment. By the end of this article you will be able to simultaneously build, deploy, and run an Angular WebExtension on both desktop and mobile browsers all from the comfort of your home directory.</p>
 
 <p>If you are not familiar with <a href="/post/separate-dependencies-from-implementation-using-nauci-base-entry-docker-image/">the prerequisites</a> then please read that section now. I also assume that you have <a href="https://docs.docker.com/engine/reference/builder/">read the Dockerfile reference documentation</a> and are familiar with <a href="https://docs.docker.com/engine/reference/commandline/cli/">the Docker CLI</a>.</p>
+
+<h2 id="steps-for-the-impatient">Steps for the impatient</h2>
+
+<p>This section provides less verbose instructions for those knowledgeable enough to not need further explanation. It also provides an overview of the steps we will be taking throughout the rest of the article. For a deeper look into each step please continue to the next section titled &ndash; <a href="#build-the-dependency-image">Build the dependency image</a>.</p>
+
+<ol>
+<li>Read the <a href="/post/separate-dependencies-from-implementation-using-nauci-base-entry-docker-image/">prerequisite section</a> and ensure that you have a directory setup with POSIX ACL support and extended attributes enabled. We will refer to this directory as <em><code>/shared/</code></em></li>
+
+<li><p>run <code>ls -la /dev/bus/usb/*/</code> and note the USB character device nodes group ownership. If your USB character device nodes do not have <em>usb</em> group ownership then:</p>
+
+<ol>
+<li><p><a href="#create-the-usb-group-if-needed">create the USB group if needed</a></p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">groupadd -g <span style="color:#3677a9">85</span> usb
+usermod -aG usb dustfinger</code></pre></div></li>
+
+<li><p><a href="#set-usb-character-device-node-group-ownership">set USB character device node group ownership</a>.</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">find /dev/bus/usb/ -type c -group root -exec chown :usb <span style="color:#ed9d13">&#39;{}&#39;</span> <span style="color:#ed9d13">\;</span></code></pre></div></li>
+</ol></li>
+
+<li><p>Create the Dockerfile</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">mkdir -p ~/dev/hello_angular_webext/src/ &amp;&amp; touch ~/dev/hello_angular_webext/Dockerfile</code></pre></div></li>
+
+<li><p>copy <a href="#create-the-dockerfile">the Dockerfile</a> contents to <em><code>~/dev/hello_angular_webext/Dockerfile</code></em></p></li>
+
+<li><p>Build the dependency image</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh"><span style="color:#24909d">cd</span> ~/dev/hello_angular_webext/ &amp;&amp; docker build -qt hello_angular_webext_deps .</code></pre></div></li>
+
+<li><p><a href="#run-the-image">Run the image</a> with</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">docker run -it -p <span style="color:#3677a9">127</span>.0.0.1:24:22 --name nauci_dev -h nauci_dev --device=/dev/bus/usb -v /shared:/shared hello_angular_webext_deps -s -n dustfinger,cenedra -u usb -U <span style="color:#3677a9">85</span> -v /shared -gusers,sudo,video,plugdev,staff</code></pre></div></li>
+
+<li><p>Set each user&rsquo;s passwords with <code>passwd &lt;user name&gt;</code> and <a href="#restart-the-container">restart the container</a></p></li>
+
+<li><p><a href="#setup-an-alias-for-x-forwarding">Setup an alias</a> for X-Forwarding (optional)</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh"><span style="color:#24909d">echo</span> <span style="color:#ed9d13">&#34;alias sshnauci_dev=&#39;ssh -Yt -p 24 dustfinger@localhost&#39;&#34;</span> &gt;&gt; ~/.bashrc
+<span style="color:#24909d">source</span> ~/.bashrc</code></pre></div></li>
+
+<li><p>Configure key-based authentication</p>
+
+<ol>
+<li><p>If you don&rsquo;t have an RSA key at <em>=~</em>.ssh/id_rsa=/ then generate one. Leave the password blank if you want passwordless authentication (less secure, but more convenient)</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">ssh-keygen</code></pre></div></li>
+
+<li><p>Send the public RSA id to the container</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">ssh-copy-id -p <span style="color:#3677a9">24</span> dustfinger@localhost</code></pre></div></li>
+</ol></li>
+
+<li><p><a href="#build-the-angular-app">Build the Angular App</a></p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">sshnauci_dev <span style="color:#ed9d13">&#39;cd ~/dev; ng new hello-angular-webext&#39;</span></code></pre></div></li>
+
+<li><p><a href="#link-the-host-project-src-directory-to-the-shared-dev-directory">Link project src with shared directory</a></p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">ln -sn /shared/dustfinger/dev/hello-angular-webext /home/dustfinger/dev/hello_angular_webext/src</code></pre></div></li>
+
+<li><p>follow the steps in <a href="#transmogrify-the-angular-web-application-into-a-webextension">Transmogrify the Angular web application into a WebExtension</a> through to the end.</p></li>
+</ol>
 
 <h2 id="build-the-dependency-image">Build the dependency image</h2>
 
@@ -178,49 +232,49 @@ touch ~/dev/hello_angular_webext/dockerfile</code></pre></div>
 <h3 id="create-the-dockerfile">Create the Dockerfile</h3>
 
 <p>Fire up your favourite editor and replace the content of the Dockerfile with the following:</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">FROM node as n
-FROM nauci/nauci_base_entry as nbe
-MAINTAINER dustfinger@nauci.org
-
-RUN apt-get -qqy install \
-   # The Android Debug Bridge is used by webext to deploy the web
-   # extension.
-   android-tools-adb \
-   # make is required for building node-gyp and possibly other
-   # dependencies
-   make \
-   # I don&#39;t like having to install a bunch of browsers on my
-   # development machine. I often have to test on several versions of
-   # several browsers. It is nice to be able to encapsulate supported
-   # browsers into one or more dependency containers.
-   firefox-esr  \
-   chromium;
-
-# The node base image did a bunch of work. If we want our new image to
-# reap the benefit then we must copy over the desired results.
-COPY --from=n /opt /opt/
-COPY --from=n /usr/local/bin/ /usr/local/binnode
-COPY --from=n /usr/local/sbin/ /usr/local/sbinnode
-COPY --from=n /usr/local/lib/ /usr/local/libnode
-
-# Now let&#39;s recursively update the corresponding bin directories in
-# our new image. We won&#39;t clobber existing files. There is some danger
-# here, but how else is a programmer supposed to get cheap adrenaline
-# thrills :-P
-RUN cp -run /usr/local/binnode/* /usr/local/bin/; \
-    cp -run /usr/local/libnode/* /usr/local/lib/; \
-    rm -rf /usr/local/binnode/ &amp;&amp; rm -rf /usr/local/libnode/;
-
-# Next we will install the angular cli and web-ext
-# dependencies. node-gyp is a dependency of web-ext. There seems to be
-# a bug in the installation of the node-gyp package. When it installs
-# globally it is trying to install itself directly in /root/ directory
-# and makes that incorrect assumption that the directory already
-# exists. We will help it along its way by creating the directory
-# ahead of time.
-RUN mkdir -p /root/.node-gyp; \
-    npm install -g @angular/cli; \
-    npm install web-ext;</code></pre></div>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-docker" data-lang="docker"><span style="color:#6ab825;font-weight:bold">FROM</span><span style="color:#ed9d13"> node as n</span><span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span><span style="color:#6ab825;font-weight:bold">FROM</span><span style="color:#ed9d13"> nauci/nauci_base_entry as nbe</span><span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span><span style="color:#6ab825;font-weight:bold">MAINTAINER</span><span style="color:#ed9d13"> dustfinger@nauci.org</span><span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span><span style="color:#6ab825;font-weight:bold">RUN</span> apt-get -qqy install <span style="color:#ed9d13">\
+</span><span style="color:#ed9d13"></span>   # The Android Debug Bridge is used by webext to deploy the web<span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>   # extension.<span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>   android-tools-adb <span style="color:#ed9d13">\
+</span><span style="color:#ed9d13"></span>   # make is required <span style="color:#6ab825;font-weight:bold">for</span> building node-gyp and possibly other<span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>   # dependencies<span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>   make <span style="color:#ed9d13">\
+</span><span style="color:#ed9d13"></span>   # I don<span style="color:#a61717;background-color:#e3d2d2">&#39;</span>t like having to install a bunch of browsers on my<span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>   # development machine. I often have to <span style="color:#24909d">test</span> on several versions of<span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>   # several browsers. It is nice to be able to encapsulate supported<span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>   # browsers into one or more dependency containers.<span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>   firefox-esr  <span style="color:#ed9d13">\
+</span><span style="color:#ed9d13"></span>   chromium;<span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span><span style="color:#999;font-style:italic"># The node base image did a bunch of work. If we want our new image to</span><span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span><span style="color:#999;font-style:italic"># reap the benefit then we must copy over the desired results.</span><span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>COPY --from=n /opt /opt/<span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>COPY --from=n /usr/local/bin/ /usr/local/binnode<span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>COPY --from=n /usr/local/sbin/ /usr/local/sbinnode<span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>COPY --from=n /usr/local/lib/ /usr/local/libnode<span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span><span style="color:#999;font-style:italic"># Now let&#39;s recursively update the corresponding bin directories in</span><span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span><span style="color:#999;font-style:italic"># our new image. We won&#39;t clobber existing files. There is some danger</span><span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span><span style="color:#999;font-style:italic"># here, but how else is a programmer supposed to get cheap adrenaline</span><span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span><span style="color:#999;font-style:italic"># thrills :-P</span><span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span><span style="color:#6ab825;font-weight:bold">RUN</span> cp -run /usr/local/binnode/* /usr/local/bin/; <span style="color:#ed9d13">\
+</span><span style="color:#ed9d13"></span>    cp -run /usr/local/libnode/* /usr/local/lib/; <span style="color:#ed9d13">\
+</span><span style="color:#ed9d13"></span>    rm -rf /usr/local/binnode/ &amp;&amp; rm -rf /usr/local/libnode/;<span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span><span style="color:#999;font-style:italic"># Next we will install the angular cli and web-ext</span><span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span><span style="color:#999;font-style:italic"># dependencies. node-gyp is a dependency of web-ext. There seems to be</span><span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span><span style="color:#999;font-style:italic"># a bug in the installation of the node-gyp package. When it installs</span><span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span><span style="color:#999;font-style:italic"># globally it is trying to install itself directly in /root/ directory</span><span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span><span style="color:#999;font-style:italic"># and makes that incorrect assumption that the directory already</span><span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span><span style="color:#999;font-style:italic"># exists. We will help it along its way by creating the directory</span><span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span><span style="color:#999;font-style:italic"># ahead of time.</span><span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span><span style="color:#6ab825;font-weight:bold">RUN</span> mkdir -p /root/.node-gyp; <span style="color:#ed9d13">\
+</span><span style="color:#ed9d13"></span>    npm install -g @angular/cli; <span style="color:#ed9d13">\
+</span><span style="color:#ed9d13"></span>    npm install web-ext;</code></pre></div>
 <p>You may have noticed that we are inheriting from both nauci_base_entry and the official node image. The Node image does a bunch of work for us and then we copy the results that we need into our image.</p>
 
 <h3 id="build-the-image">Build the image</h3>
@@ -238,7 +292,7 @@ node                        latest   462743bd5c7f   4 days ago      674MB
 nauci/nauci_base_entry      latest   82d57770d7cf   4 days ago      215MB</code></pre></div>
 <h2 id="create-a-shareable-file-system-or-directory">Create a shareable file system or directory</h2>
 
-<p>By default the <a href="https://github.com/BloggerBust/nauci%5Fbase%5Finit/blob/master/nauci%5Fbase%5Finit.sh">base entry point init script</a> expects to find <strong><em>shared</em></strong> with POSIX ACL support enabled. A different path can be provided using the <strong>-v</strong> option. The <a href="/post/separate-dependencies-from-implementation-using-nauci-base-entry-docker-image/">prerequisite section</a> of the previous article contains sources that provide guidance on how to determine if your system supports POSIX ACL and how to install and configure POSIX ACL if necessary.</p>
+<p>By default the <a href="https://github.com/BloggerBust/nauci%5Fbase%5Finit/blob/master/nauci%5Fbase%5Finit.sh">base entry point init script</a> expects to find the directory <strong><code>/shared/</code></strong> with POSIX ACL support enabled. A different path can be provided using the <strong>-v</strong> option. The <a href="/post/separate-dependencies-from-implementation-using-nauci-base-entry-docker-image/">prerequisite section</a> of the previous article contains sources that provide guidance on how to determine if your system supports POSIX ACL and how to install and configure POSIX ACL if necessary.</p>
 
 <p>Moving forward, I am going to refer to the <em>base entry point init script</em> simply as <em>entry point</em>, which is a <a href="https://docs.docker.com/glossary/?term=ENTRYPOINT">term defined in the Docker glossary</a>. While writing this article I decided to provide better support for multi user collaboration. I know that sounds weird, after all what other kind of collaboration is there anyway? If you recall in the <a href="/post/separate-dependencies-from-implementation-using-nauci-base-entry-docker-image/">Preparing for collaboration</a> section of the previous article in this series I drew a distinction between centrally hosted and distributed collaboration. The line I drew dividing these methodologies was too stark since it is perfectly valid for many locally centralized tiny groups to collaborate in a distributed fashion. That is why the <a href="https://github.com/BloggerBust/nauci%5Fbase%5Finit/blob/master/nauci%5Fbase%5Finit.sh">entry point</a> was designed to accept a CVS of user names in the first place. The trouble I ran into is that the tree structure of the <em><code>/home/</code></em> directory separates each user&rsquo;s <em><code>~/dev/</code></em> directory posing a challenge when it comes time to attach volumes to be shared by each host and guest pair. One strategy would be to attach many volumes, one for each pair, but that felt really cumbersome even with only a few users. A much better solution is to create a single shared volume and then create soft links inside each user&rsquo;s directory.</p>
 
@@ -291,9 +345,9 @@ usermod -aG usb dustfinger</code></pre></div>
 <h3 id="set-usb-character-device-node-group-ownership">Set USB character device node group ownership</h3>
 
 <p>The following command will set group ownership to <em>usb</em> on all of the device nodes where the group ownership is <em>root</em>.</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">find /dev/bus/usb/ -type c -group root -exec chown :usb &#39;{}&#39; \;</code></pre></div>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">find /dev/bus/usb/ -type c -group root -exec chown :usb <span style="color:#ed9d13">&#39;{}&#39;</span> <span style="color:#ed9d13">\;</span></code></pre></div>
 <p>If you would like to set the group ownership back to root when you are done then run the following command:</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">find /dev/bus/usb/ -type c -group usb -exec chown :root &#39;{}&#39; \;</code></pre></div>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">find /dev/bus/usb/ -type c -group usb -exec chown :root <span style="color:#ed9d13">&#39;{}&#39;</span> <span style="color:#ed9d13">\;</span></code></pre></div>
 <h2 id="run-the-image">Run the image</h2>
 
 <p>Before you run the image you should make sure that there are no containers listening on port 23. Note that I removed some of the columns from the next command&rsquo;s output so that it would display nicely on the screen. I will consider doing a PR for my chosen Hugo theme to make code execution output responsive, but for now shortening the width of the output by removing some columns will have to do.</p>

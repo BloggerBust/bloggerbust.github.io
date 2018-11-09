@@ -3,13 +3,18 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>/post/licensed-nauci-base-entry-with-apache-version-2/</loc>
+    <lastmod>2018-11-09T07:10:51-07:00</lastmod>
+  </url>
+  
+  <url>
     <loc>/post/encapsulate-angular-webextension-dependencies-in-a-docker-image/</loc>
-    <lastmod>2018-11-09T05:00:02-07:00</lastmod>
+    <lastmod>2018-11-09T06:42:28-07:00</lastmod>
   </url>
   
   <url>
     <loc>/post/separate-dependencies-from-implementation-using-nauci-base-entry-docker-image/</loc>
-    <lastmod>2018-11-09T04:59:24-07:00</lastmod>
+    <lastmod>2018-11-09T06:31:32-07:00</lastmod>
   </url>
   
   <url>
@@ -24,7 +29,7 @@
   
   <url>
     <loc>/</loc>
-    <lastmod>2018-11-09T05:00:02-07:00</lastmod>
+    <lastmod>2018-11-09T07:10:51-07:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -35,7 +40,7 @@
   
   <url>
     <loc>/tags/docker/</loc>
-    <lastmod>2018-11-09T05:00:02-07:00</lastmod>
+    <lastmod>2018-11-09T07:10:51-07:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -59,7 +64,7 @@
   
   <url>
     <loc>/tags/nauci/</loc>
-    <lastmod>2018-11-09T05:00:02-07:00</lastmod>
+    <lastmod>2018-11-09T07:10:51-07:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -71,13 +76,13 @@
   
   <url>
     <loc>/post/</loc>
-    <lastmod>2018-11-09T05:00:02-07:00</lastmod>
+    <lastmod>2018-11-09T07:10:51-07:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>/categories/programming/</loc>
-    <lastmod>2018-11-09T05:00:02-07:00</lastmod>
+    <lastmod>2018-11-09T07:10:51-07:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -88,13 +93,13 @@
   
   <url>
     <loc>/tags/</loc>
-    <lastmod>2018-11-09T05:00:02-07:00</lastmod>
+    <lastmod>2018-11-09T07:10:51-07:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>/series/using-docker-to-separate-dependencies-from-implementation/</loc>
-    <lastmod>2018-11-09T05:00:02-07:00</lastmod>
+    <lastmod>2018-11-09T06:42:28-07:00</lastmod>
     <priority>0</priority>
   </url>
   

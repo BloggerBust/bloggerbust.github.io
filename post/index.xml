@@ -7,10 +7,20 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-CA</language>
     <copyright>Copyright (c) 2018, all rights reserved.</copyright>
-    <lastBuildDate>Fri, 09 Nov 2018 00:00:00 -0700</lastBuildDate>
+    <lastBuildDate>Sat, 22 Dec 2018 00:00:00 -0700</lastBuildDate>
     
 	<atom:link href="/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>ox-hugo Dependency Image</title>
+      <link>/post/ox-hugo-dependency-image/</link>
+      <pubDate>Sat, 22 Dec 2018 00:00:00 -0700</pubDate>
+      
+      <guid>/post/ox-hugo-dependency-image/</guid>
+      <description>Motivation I decided that I would like to contribute to the ox-hugo project from time to time. I do not have pandoc or pandoc-citeproc installed locally nor have never used either before. I did consider emerging pandoc, but when I saw the list of dependencies being pulled from portage I immediately cancelled the install.
+This command displays the number of packages, including pandoc itself, that would have been emerged. Most of those dependencies are from Haskell.</description>
+    </item>
     
     <item>
       <title>Licensed Nauci Base Entry With Apache Version 2</title>

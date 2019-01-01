@@ -7,10 +7,20 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-CA</language>
     <copyright>Copyright (c) 2018, all rights reserved.</copyright>
-    <lastBuildDate>Fri, 09 Nov 2018 00:00:00 -0700</lastBuildDate>
+    <lastBuildDate>Sat, 22 Dec 2018 00:00:00 -0700</lastBuildDate>
     
 	<atom:link href="/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>ox-hugo Dependency Image</title>
+      <link>/post/ox-hugo-dependency-image/</link>
+      <pubDate>Sat, 22 Dec 2018 00:00:00 -0700</pubDate>
+      
+      <guid>/post/ox-hugo-dependency-image/</guid>
+      <description>Motivation I decided that I would like to contribute to the ox-hugo project from time to time. I do not have pandoc or pandoc-citeproc installed locally nor have never used either before. I did consider emerging pandoc, but when I saw the list of dependencies being pulled from portage I immediately cancelled the install.
+This command displays the number of packages, including pandoc itself, that would have been emerged. Most of those dependencies are from Haskell.</description>
+    </item>
     
     <item>
       <title>Licensed Nauci Base Entry With Apache Version 2</title>
@@ -52,7 +62,7 @@ Broken Links I noticed that all of my cross post anchor links are broken. They n
     <item>
       <title>About</title>
       <link>/about/</link>
-      <pubDate>Thu, 07 Jun 2018 00:00:00 -0600</pubDate>
+      <pubDate>Thu, 07 Jun 2018 00:00:00 +0000</pubDate>
       
       <guid>/about/</guid>
       <description>About Me My name is Trevor Wilson. I am a software developer and independent contractor residing in Edmonton Alberta, Canada. I have been developing software professionally since 2001 and graduated from the University of Alberta in 2005 with a major mathematics and minor in computing science. One thing that I love about being an independent contractor, is that over the years I have worked for lots of different companies which has allowed me to contribute to a large variety of exciting projects written in many different languages.</description>

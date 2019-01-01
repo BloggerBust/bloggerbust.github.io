@@ -8,14 +8,15 @@
 <meta name="description" content="a place for me to bust out a blog on programming, infosec, emacs and things that interest me." />
 <meta name="keywords" content="[programming coding infosec cybersecurity webextensions blog blogger bust docker linux emacs free software]" />
 <meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1">
-<meta name="generator" content="Hugo 0.48" />
+<meta name="generator" content="Hugo 0.53-DEV" />
 
 <link rel="canonical" href="/">
 <meta property="og:title" content="Blogger Bust" />
 <meta property="og:description" content="" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="/" />
-<meta property="og:updated_time" content="2018-11-09T00:00:00-07:00"/>
+<meta property="og:updated_time" content="2018-12-22T00:00:00-07:00"/>
+
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Blogger Bust"/>
 <meta name="twitter:description" content=""/>
@@ -159,6 +160,40 @@ th {
     <article class="post-preview">
 
   <header>
+    <h2 class="title"> <a href='/post/ox-hugo-dependency-image/'> ox-hugo Dependency Image</a> </h2>
+    <div class="meta">
+      Dec 22, 2018 - 15 minutes
+    </div>
+    
+<div class="tags">
+    
+      <div class="tag">
+        <a href="/tags/docker">#docker</a>
+      </div>
+    
+      <div class="tag">
+        <a href="/tags/ox-hugo">#ox-hugo</a>
+      </div>
+    
+</div>
+
+  </header>
+
+  <div class="summary">
+    Motivation I decided that I would like to contribute to the ox-hugo project from time to time. I do not have pandoc or pandoc-citeproc installed locally nor have never used either before. I did consider emerging pandoc, but when I saw the list of dependencies being pulled from portage I immediately cancelled the install.
+This command displays the number of packages, including pandoc itself, that would have been emerged. Most of those dependencies are from Haskell.
+    <a href='/post/ox-hugo-dependency-image/' class="rmore">Read more ...</a>
+  </div>
+
+  <div class="rmore">
+  </div>
+
+</article>
+
+
+    <article class="post-preview">
+
+  <header>
     <h2 class="title"> <a href='/post/licensed-nauci-base-entry-with-apache-version-2/'> Licensed Nauci Base Entry With Apache Version 2</a> </h2>
     <div class="meta">
       Nov 9, 2018 - 1 minutes
@@ -195,7 +230,7 @@ Broken Links I noticed that all of my cross post anchor links are broken. They n
   <header>
     <h2 class="title"> <a href='/post/encapsulate-angular-webextension-dependencies-in-a-docker-image/'> Encapsulate Angular WebExtension Dependencies In a Docker Image</a> </h2>
     <div class="meta">
-      Oct 13, 2018 - 34 minutes
+      Oct 13, 2018 - 35 minutes
     </div>
     
 <div class="tags">
@@ -215,39 +250,6 @@ Broken Links I noticed that all of my cross post anchor links are broken. They n
   <div class="summary">
     A quick recap The purpose of this article is to provide a concrete example detailing precisely how to encapsulate the dependencies of an Angular WebExtension inside of a docker container whilst keeping the source code and optional tooling on the host system, thereby separating the dependencies from the implementation. In order for the two systems to work in tandem, files that are written to from within the container must remain writable outside of the container and vice versa.
     <a href='/post/encapsulate-angular-webextension-dependencies-in-a-docker-image/' class="rmore">Read more ...</a>
-  </div>
-
-  <div class="rmore">
-  </div>
-
-</article>
-
-
-    <article class="post-preview">
-
-  <header>
-    <h2 class="title"> <a href='/post/separate-dependencies-from-implementation-using-nauci-base-entry-docker-image/'> Separate Dependencies From Implementation Using POSIX ACL Extended Attributes &amp; Docker</a> </h2>
-    <div class="meta">
-      Oct 11, 2018 - 17 minutes
-    </div>
-    
-<div class="tags">
-    
-      <div class="tag">
-        <a href="/tags/nauci">#nauci</a>
-      </div>
-    
-      <div class="tag">
-        <a href="/tags/docker">#docker</a>
-      </div>
-    
-</div>
-
-  </header>
-
-  <div class="summary">
-    The motivation I am going to develop a responsive web-extension using angular. The web-extension is for a project that I am starting called nauci. I will talk about nauci more in future posts. In this post I intend to introduce the nauci base entry docker image and how I am using it to encapsulate the nauci project dependencies in a docker sub image, but not the source code. The plan is to bind my local nauci source directory to a docker container built with the nauci dependencies image, thereby separating dependency and tooling concerns from project implementation.
-    <a href='/post/separate-dependencies-from-implementation-using-nauci-base-entry-docker-image/' class="rmore">Read more ...</a>
   </div>
 
   <div class="rmore">

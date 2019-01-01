@@ -7,14 +7,15 @@
 <meta name="description" content="a place for me to bust out a blog on programming, infosec, emacs and things that interest me." />
 <meta name="keywords" content="[programming coding infosec cybersecurity webextensions blog blogger bust docker linux emacs free software]" />
 <meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1">
-<meta name="generator" content="Hugo 0.48" />
+<meta name="generator" content="Hugo 0.53-DEV" />
 
 <link rel="canonical" href="/post/encapsulate-angular-webextension-dependencies-in-a-docker-image/">
 <meta property="og:title" content="Encapsulate Angular WebExtension Dependencies In a Docker Image" />
 <meta property="og:description" content="A quick recap The purpose of this article is to provide a concrete example detailing precisely how to encapsulate the dependencies of an Angular WebExtension inside of a docker container whilst keeping the source code and optional tooling on the host system, thereby separating the dependencies from the implementation. In order for the two systems to work in tandem, files that are written to from within the container must remain writable outside of the container and vice versa." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/post/encapsulate-angular-webextension-dependencies-in-a-docker-image/" /><meta property="article:published_time" content="2018-10-13T00:00:00-06:00"/>
-<meta property="article:modified_time" content="2018-11-09T06:42:28-07:00"/>
+<meta property="article:modified_time" content="2019-01-01T05:48:37-07:00"/>
+
 
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Encapsulate Angular WebExtension Dependencies In a Docker Image"/>
@@ -27,8 +28,8 @@
 
 
 <meta itemprop="datePublished" content="2018-10-13T00:00:00-06:00" />
-<meta itemprop="dateModified" content="2018-10-13T00:00:00-06:00" />
-<meta itemprop="wordCount" content="7196">
+<meta itemprop="dateModified" content="2019-01-01T05:48:37-07:00" />
+<meta itemprop="wordCount" content="7391">
 
 
 
@@ -177,51 +178,81 @@ th {
 <ol>
 <li>Read the <a href="/post/separate-dependencies-from-implementation-using-nauci-base-entry-docker-image/">prerequisite section</a> and ensure that you have a directory setup with POSIX ACL support and extended attributes enabled. We will refer to this directory as <em><code>/shared/</code></em></li>
 
-<li><p>run <code>ls -la /dev/bus/usb/*/</code> and note the USB character device nodes group ownership. If your USB character device nodes do not have <em>usb</em> group ownership then:</p>
+<li><p><a href="/post/separate-dependencies-from-implementation-using-nauci-base-entry-docker-image/">Create a new group named developer</a> and add your host user to that group.</p>
 
-<ol>
-<li><p><a href="#create-the-usb-group-if-needed">create the USB group if needed</a></p>
+<ul>
+<li><p>You may call this group something other than <em>developer</em>, but then you will need to pass the <code>-d</code> optional flag to the entrypoint in step 7 to override the default group name. See the <a href="https://github.com/BloggerBust/nauci%5Fbase%5Finit/blob/master/README.md#the-nauci-base-image-entry-point-init-script-usage-documentation">nauci_base_init entrypoint usage documentation</a>.</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">groupadd -g <span style="color:#3677a9">2000</span> developer
+usermod -aG developer dustfinger
+chown :developer -R src</code></pre></div></li>
+</ul></li>
+
+<li><p>run <code>ls -la /dev/bus/usb/*/</code> and note the USB character device nodes group ownership. If your USB character device nodes do not have <em>usb</em> group ownership then</p>
+
+<ul>
+<li><p><a href="#create-the-usb-group-if-needed">create the USB group if needed</a>.</p>
 <div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">groupadd -g <span style="color:#3677a9">85</span> usb
-usermod -aG usb dustfinger</code></pre></div></li>
-
-<li><p><a href="#set-usb-character-device-node-group-ownership">set USB character device node group ownership</a>.</p>
+usermod -aG usb dustfinger</code></pre></div>
+<p><a href="#set-usb-character-device-node-group-ownership">set USB character device node group ownership</a></p>
 <div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">find /dev/bus/usb/ -type c -group root -exec chown :usb <span style="color:#ed9d13">&#39;{}&#39;</span> <span style="color:#ed9d13">\;</span></code></pre></div></li>
-</ol></li>
+</ul></li>
 
 <li><p>Create the Dockerfile</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">mkdir -p ~/dev/hello_angular_webext/src/ &amp;&amp; touch ~/dev/hello_angular_webext/Dockerfile</code></pre></div></li>
 
-<li><p>copy <a href="#create-the-dockerfile">the Dockerfile</a> contents to <em><code>~/dev/hello_angular_webext/Dockerfile</code></em></p></li>
+<ul>
+<li><p>First create the src directory and Dockerfile</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">mkdir -p ~/dev/hello_angular_webext/src/ &amp;&amp; touch ~/dev/hello_angular_webext/Dockerfile</code></pre></div>
+<p>Then copy <a href="#create-the-dockerfile">the Dockerfile content</a> into <em><code>~/dev/hello_angular_webext/Dockerfile</code></em></p></li>
+</ul></li>
 
 <li><p>Build the dependency image</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh"><span style="color:#24909d">cd</span> ~/dev/hello_angular_webext/ &amp;&amp; docker build -qt hello_angular_webext_deps .</code></pre></div></li>
 
-<li><p><a href="#run-the-image">Run the image</a> with</p>
+<ul>
+<li><p>Don&rsquo;t forget to include the trailing period at the end of the command. That tells the Docker build command to grab content from the current directory.</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh"><span style="color:#24909d">cd</span> ~/dev/hello_angular_webext/ &amp;&amp; docker build -qt hello_angular_webext_deps .</code></pre></div></li>
+</ul></li>
+
+<li><p><a href="#run-the-image">Run the image</a></p>
+
+<ul>
+<li><p>All of the arguments following the name of the image are passed to the nauci_base_init entrypoint. The name of the image is <em>hello_angular_webext_deps</em> and the arguments being passed to the entrypoint are: <code>-s -n dustfinger,cenedra -u usb -U 85 -v /shared -gusers,sudo,video,plugdev,staff</code></p>
 <div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">docker run -it -p <span style="color:#3677a9">127</span>.0.0.1:24:22 --name nauci_dev -h nauci_dev --device=/dev/bus/usb -v /shared:/shared hello_angular_webext_deps -s -n dustfinger,cenedra -u usb -U <span style="color:#3677a9">85</span> -v /shared -gusers,sudo,video,plugdev,staff</code></pre></div></li>
+</ul></li>
 
 <li><p>Set each user&rsquo;s passwords with <code>passwd &lt;user name&gt;</code> and <a href="#restart-the-container">restart the container</a></p></li>
 
-<li><p><a href="#setup-an-alias-for-x-forwarding">Setup an alias</a> for X-Forwarding (optional)</p>
+<li><p><a href="#setup-an-alias-for-x-forwarding">Setup an alias</a> for X-Forwarding</p>
+
+<ul>
+<li><p>This is optional, but I do recommend using an alias for frequently run commands.</p>
 <div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh"><span style="color:#24909d">echo</span> <span style="color:#ed9d13">&#34;alias sshnauci_dev=&#39;ssh -Yt -p 24 dustfinger@localhost&#39;&#34;</span> &gt;&gt; ~/.bashrc
 <span style="color:#24909d">source</span> ~/.bashrc</code></pre></div></li>
+</ul></li>
 
 <li><p>Configure key-based authentication</p>
 
-<ol>
-<li><p>If you don&rsquo;t have an RSA key at <em>=~</em>.ssh/id_rsa=/ then generate one. Leave the password blank if you want passwordless authentication (less secure, but more convenient)</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">ssh-keygen</code></pre></div></li>
-
-<li><p>Send the public RSA id to the container</p>
+<ul>
+<li><p>If you don&rsquo;t have an RSA key at <em>=~</em>.ssh/id_rsa=/ then generate one. Leave the password blank if you want password-less authentication (less secure, but more convenient)</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">ssh-keygen</code></pre></div>
+<p>Send the public RSA id to the container</p>
 <div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">ssh-copy-id -p <span style="color:#3677a9">24</span> dustfinger@localhost</code></pre></div></li>
-</ol></li>
+</ul></li>
 
 <li><p><a href="#build-the-angular-app">Build the Angular App</a></p>
+
+<ul>
+<li><p>Quote the commands that you want to send to the container for processing.</p>
 <div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">sshnauci_dev <span style="color:#ed9d13">&#39;cd ~/dev; ng new hello-angular-webext&#39;</span></code></pre></div></li>
+</ul></li>
 
 <li><p><a href="#link-the-host-project-src-directory-to-the-shared-dev-directory">Link project src with shared directory</a></p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">ln -sn /shared/dustfinger/dev/hello-angular-webext /home/dustfinger/dev/hello_angular_webext/src</code></pre></div></li>
 
-<li><p>follow the steps in <a href="#transmogrify-the-angular-web-application-into-a-webextension">Transmogrify the Angular web application into a WebExtension</a> through to the end.</p></li>
+<ul>
+<li><p>Linking the shared source as a child of my home dev directory is convenient, but it also feels more natural to be working within a child of your home directory.</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">ln -sn /shared/dustfinger/dev/hello-angular-webext /home/dustfinger/dev/hello_angular_webext/src</code></pre></div></li>
+</ul></li>
+
+<li><p>Follow the steps in <a href="#transmogrify-the-angular-web-application-into-a-webextension">Transmogrify the Angular web application into a WebExtension</a> through to the end.</p></li>
 </ol>
 
 <h2 id="build-the-dependency-image">Build the dependency image</h2>
@@ -237,16 +268,16 @@ touch ~/dev/hello_angular_webext/dockerfile</code></pre></div>
 </span><span style="color:#a61717;background-color:#e3d2d2"></span><span style="color:#6ab825;font-weight:bold">MAINTAINER</span><span style="color:#ed9d13"> dustfinger@nauci.org</span><span style="color:#a61717;background-color:#e3d2d2">
 </span><span style="color:#a61717;background-color:#e3d2d2">
 </span><span style="color:#a61717;background-color:#e3d2d2"></span><span style="color:#6ab825;font-weight:bold">RUN</span> apt-get -qqy install <span style="color:#ed9d13">\
-</span><span style="color:#ed9d13"></span>   # The Android Debug Bridge is used by webext to deploy the web<span style="color:#a61717;background-color:#e3d2d2">
-</span><span style="color:#a61717;background-color:#e3d2d2"></span>   # extension.<span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#ed9d13"></span>   <span style="color:#999;font-style:italic"># The Android Debug Bridge is used by webext to deploy the web</span><span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>   <span style="color:#999;font-style:italic"># extension.</span><span style="color:#a61717;background-color:#e3d2d2">
 </span><span style="color:#a61717;background-color:#e3d2d2"></span>   android-tools-adb <span style="color:#ed9d13">\
-</span><span style="color:#ed9d13"></span>   # make is required <span style="color:#6ab825;font-weight:bold">for</span> building node-gyp and possibly other<span style="color:#a61717;background-color:#e3d2d2">
-</span><span style="color:#a61717;background-color:#e3d2d2"></span>   # dependencies<span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#ed9d13"></span>   <span style="color:#999;font-style:italic"># make is required for building node-gyp and possibly other</span><span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>   <span style="color:#999;font-style:italic"># dependencies</span><span style="color:#a61717;background-color:#e3d2d2">
 </span><span style="color:#a61717;background-color:#e3d2d2"></span>   make <span style="color:#ed9d13">\
-</span><span style="color:#ed9d13"></span>   # I don<span style="color:#a61717;background-color:#e3d2d2">&#39;</span>t like having to install a bunch of browsers on my<span style="color:#a61717;background-color:#e3d2d2">
-</span><span style="color:#a61717;background-color:#e3d2d2"></span>   # development machine. I often have to <span style="color:#24909d">test</span> on several versions of<span style="color:#a61717;background-color:#e3d2d2">
-</span><span style="color:#a61717;background-color:#e3d2d2"></span>   # several browsers. It is nice to be able to encapsulate supported<span style="color:#a61717;background-color:#e3d2d2">
-</span><span style="color:#a61717;background-color:#e3d2d2"></span>   # browsers into one or more dependency containers.<span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#ed9d13"></span>   <span style="color:#999;font-style:italic"># I don&#39;t like having to install a bunch of browsers on my</span><span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>   <span style="color:#999;font-style:italic"># development machine. I often have to test on several versions of</span><span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>   <span style="color:#999;font-style:italic"># several browsers. It is nice to be able to encapsulate supported</span><span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>   <span style="color:#999;font-style:italic"># browsers into one or more dependency containers.</span><span style="color:#a61717;background-color:#e3d2d2">
 </span><span style="color:#a61717;background-color:#e3d2d2"></span>   firefox-esr  <span style="color:#ed9d13">\
 </span><span style="color:#ed9d13"></span>   chromium;<span style="color:#a61717;background-color:#e3d2d2">
 </span><span style="color:#a61717;background-color:#e3d2d2">
@@ -481,39 +512,39 @@ dustfinger@localhost<span style="color:#ed9d13">&#39;s password:
 dustfinger@localhost<span style="color:#a61717;background-color:#e3d2d2">&#39;</span>s password:
 Failed to move to new namespace: PID namespaces supported, Network namespace supported, but failed: <span style="color:#40ffff">errno</span> = Operation not permitted
 [<span style="color:#3677a9">962</span>:962:1019/092456.311001:FATAL:zygote_host_impl_linux.cc(<span style="color:#3677a9">187</span>)] Check failed: ReceiveFixedMessage(fds[<span style="color:#3677a9">0</span>], kZygoteBootMessage, sizeof(kZygoteBootMessage), &amp;boot_pid).
-<span style="color:#999;font-style:italic">#0 0x55706718ee3e &lt;unknown&gt;
-</span><span style="color:#999;font-style:italic">#1 0x5570670f86fc &lt;unknown&gt;
-</span><span style="color:#999;font-style:italic">#2 0x557067cee720 &lt;unknown&gt;
-</span><span style="color:#999;font-style:italic">#3 0x557066e21a74 &lt;unknown&gt;
-</span><span style="color:#999;font-style:italic">#4 0x557067ced9fb &lt;unknown&gt;
-</span><span style="color:#999;font-style:italic">#5 0x557067cef881 &lt;unknown&gt;
-</span><span style="color:#999;font-style:italic">#6 0x557066e217db &lt;unknown&gt;
-</span><span style="color:#999;font-style:italic">#7 0x557066e26d6e &lt;unknown&gt;
-</span><span style="color:#999;font-style:italic">#8 0x557066e1ffa1 &lt;unknown&gt;
-</span><span style="color:#999;font-style:italic">#9 0x5570655cbe90 ChromeMain
-</span><span style="color:#999;font-style:italic">#10 0x7f116ece12e1 __libc_start_main
-</span><span style="color:#999;font-style:italic">#11 0x5570655cbcea _start
-</span><span style="color:#999;font-style:italic"></span>
+<span style="color:#999;font-style:italic">#0 0x55706718ee3e &lt;unknown&gt;</span>
+<span style="color:#999;font-style:italic">#1 0x5570670f86fc &lt;unknown&gt;</span>
+<span style="color:#999;font-style:italic">#2 0x557067cee720 &lt;unknown&gt;</span>
+<span style="color:#999;font-style:italic">#3 0x557066e21a74 &lt;unknown&gt;</span>
+<span style="color:#999;font-style:italic">#4 0x557067ced9fb &lt;unknown&gt;</span>
+<span style="color:#999;font-style:italic">#5 0x557067cef881 &lt;unknown&gt;</span>
+<span style="color:#999;font-style:italic">#6 0x557066e217db &lt;unknown&gt;</span>
+<span style="color:#999;font-style:italic">#7 0x557066e26d6e &lt;unknown&gt;</span>
+<span style="color:#999;font-style:italic">#8 0x557066e1ffa1 &lt;unknown&gt;</span>
+<span style="color:#999;font-style:italic">#9 0x5570655cbe90 ChromeMain</span>
+<span style="color:#999;font-style:italic">#10 0x7f116ece12e1 __libc_start_main</span>
+<span style="color:#999;font-style:italic">#11 0x5570655cbcea _start</span>
+
 Received signal <span style="color:#3677a9">6</span>
-<span style="color:#999;font-style:italic">#0 0x55706718ee3e &lt;unknown&gt;
-</span><span style="color:#999;font-style:italic">#1 0x55706718f23b &lt;unknown&gt;
-</span><span style="color:#999;font-style:italic">#2 0x55706718f8be &lt;unknown&gt;
-</span><span style="color:#999;font-style:italic">#3 0x7f117c6860c0 &lt;unknown&gt;
-</span><span style="color:#999;font-style:italic">#4 0x7f116ecf3fff gsignal
-</span><span style="color:#999;font-style:italic">#5 0x7f116ecf542a abort
-</span><span style="color:#999;font-style:italic">#6 0x55706718ee05 &lt;unknown&gt;
-</span><span style="color:#999;font-style:italic">#7 0x5570670f8676 &lt;unknown&gt;
-</span><span style="color:#999;font-style:italic">#8 0x557067cee720 &lt;unknown&gt;
-</span><span style="color:#999;font-style:italic">#9 0x557066e21a74 &lt;unknown&gt;
-</span><span style="color:#999;font-style:italic">#10 0x557067ced9fb &lt;unknown&gt;
-</span><span style="color:#999;font-style:italic">#11 0x557067cef881 &lt;unknown&gt;
-</span><span style="color:#999;font-style:italic">#12 0x557066e217db &lt;unknown&gt;
-</span><span style="color:#999;font-style:italic">#13 0x557066e26d6e &lt;unknown&gt;
-</span><span style="color:#999;font-style:italic">#14 0x557066e1ffa1 &lt;unknown&gt;
-</span><span style="color:#999;font-style:italic">#15 0x5570655cbe90 ChromeMain
-</span><span style="color:#999;font-style:italic">#16 0x7f116ece12e1 __libc_start_main
-</span><span style="color:#999;font-style:italic">#17 0x5570655cbcea _start
-</span><span style="color:#999;font-style:italic"></span>  r8: <span style="color:#3677a9">0000000000000000</span>  r9: 00007ffc367c3b70 r10: <span style="color:#3677a9">0000000000000008</span> r11: <span style="color:#3677a9">0000000000000246</span>
+<span style="color:#999;font-style:italic">#0 0x55706718ee3e &lt;unknown&gt;</span>
+<span style="color:#999;font-style:italic">#1 0x55706718f23b &lt;unknown&gt;</span>
+<span style="color:#999;font-style:italic">#2 0x55706718f8be &lt;unknown&gt;</span>
+<span style="color:#999;font-style:italic">#3 0x7f117c6860c0 &lt;unknown&gt;</span>
+<span style="color:#999;font-style:italic">#4 0x7f116ecf3fff gsignal</span>
+<span style="color:#999;font-style:italic">#5 0x7f116ecf542a abort</span>
+<span style="color:#999;font-style:italic">#6 0x55706718ee05 &lt;unknown&gt;</span>
+<span style="color:#999;font-style:italic">#7 0x5570670f8676 &lt;unknown&gt;</span>
+<span style="color:#999;font-style:italic">#8 0x557067cee720 &lt;unknown&gt;</span>
+<span style="color:#999;font-style:italic">#9 0x557066e21a74 &lt;unknown&gt;</span>
+<span style="color:#999;font-style:italic">#10 0x557067ced9fb &lt;unknown&gt;</span>
+<span style="color:#999;font-style:italic">#11 0x557067cef881 &lt;unknown&gt;</span>
+<span style="color:#999;font-style:italic">#12 0x557066e217db &lt;unknown&gt;</span>
+<span style="color:#999;font-style:italic">#13 0x557066e26d6e &lt;unknown&gt;</span>
+<span style="color:#999;font-style:italic">#14 0x557066e1ffa1 &lt;unknown&gt;</span>
+<span style="color:#999;font-style:italic">#15 0x5570655cbe90 ChromeMain</span>
+<span style="color:#999;font-style:italic">#16 0x7f116ece12e1 __libc_start_main</span>
+<span style="color:#999;font-style:italic">#17 0x5570655cbcea _start</span>
+  r8: <span style="color:#3677a9">0000000000000000</span>  r9: 00007ffc367c3b70 r10: <span style="color:#3677a9">0000000000000008</span> r11: <span style="color:#3677a9">0000000000000246</span>
  r12: 00007ffc367c3fe0 r13: 00007ffc367c4000 r14: 00000000000000a8 r15: 00007ffc367c3de0
   di: <span style="color:#3677a9">0000000000000002</span>  si: 00007ffc367c3b70  bp: 00007ffc367c3db0  bx: <span style="color:#3677a9">0000000000000006</span>
   dx: <span style="color:#3677a9">0000000000000000</span>  ax: <span style="color:#3677a9">0000000000000000</span>  cx: 00007f116ecf3fff  sp: 00007ffc367c3be8
@@ -851,12 +882,8 @@ chunk {vendor} vendor.js, vendor.js.map (vendor) 3.37 MB [initial] [rendered]</c
 Updated, w00t!</code></pre></div>
 <p>Since we passed the <em>&ndash;watch</em> optional parameter to the <em>ng build</em> command the Angular CLI should detect the change automatically and rebuild the app. The app should be transpiled, and copied to the <em><code>src/dist/</code></em> directory. The web-ext run command should then detect the change in the <em><code>src/dist/</code></em> directory and automatically deploy the WebExtension to both desktop Firefox running in the container and mobile Firefox running on the Android device.</p>
 
-
 <figure>
-    
-        <img src="/post/encapsulate-angular-webextension-dependencies-in-a-docker-image/20181023-webext-launch-angular-webextension-in-desktop-android-firefox.jpg" />
-    
-    
+    <img src="/post/encapsulate-angular-webextension-dependencies-in-a-docker-image/20181023-webext-launch-angular-webextension-in-desktop-android-firefox.jpg"/> 
 </figure>
 
 

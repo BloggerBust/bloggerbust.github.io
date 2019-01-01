@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en-CA">
+
+<head>
+<meta charset="utf-8" />
+<meta name="author" content="Trevor Wilson" />
+<meta name="description" content="a place for me to bust out a blog on programming, infosec, emacs and things that interest me." />
+<meta name="keywords" content="[programming coding infosec cybersecurity webextensions blog blogger bust docker linux emacs free software]" />
+<meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1">
+<meta name="generator" content="Hugo 0.53-DEV" />
+
+<link rel="canonical" href="/post/ox-hugo-dependency-image/">
+<meta property="og:title" content="ox-hugo Dependency Image" />
+<meta property="og:description" content="Motivation I decided that I would like to contribute to the ox-hugo project from time to time. I do not have pandoc or pandoc-citeproc installed locally nor have never used either before. I did consider emerging pandoc, but when I saw the list of dependencies being pulled from portage I immediately cancelled the install.
+This command displays the number of packages, including pandoc itself, that would have been emerged. Most of those dependencies are from Haskell." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/post/ox-hugo-dependency-image/" /><meta property="article:published_time" content="2018-12-22T00:00:00-07:00"/>
+<meta property="article:modified_time" content="2019-01-01T07:22:03-07:00"/>
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="ox-hugo Dependency Image"/>
+<meta name="twitter:description" content="Motivation I decided that I would like to contribute to the ox-hugo project from time to time. I do not have pandoc or pandoc-citeproc installed locally nor have never used either before. I did consider emerging pandoc, but when I saw the list of dependencies being pulled from portage I immediately cancelled the install.
+This command displays the number of packages, including pandoc itself, that would have been emerged. Most of those dependencies are from Haskell."/>
+
+
+
+<meta itemprop="name" content="ox-hugo Dependency Image">
+<meta itemprop="description" content="Motivation I decided that I would like to contribute to the ox-hugo project from time to time. I do not have pandoc or pandoc-citeproc installed locally nor have never used either before. I did consider emerging pandoc, but when I saw the list of dependencies being pulled from portage I immediately cancelled the install.
+This command displays the number of packages, including pandoc itself, that would have been emerged. Most of those dependencies are from Haskell.">
+
+
+<meta itemprop="datePublished" content="2018-12-22T00:00:00-07:00" />
+<meta itemprop="dateModified" content="2019-01-01T07:22:03-07:00" />
+<meta itemprop="wordCount" content="2994">
+
+
+
+<meta itemprop="keywords" content="docker,ox-hugo," />
+
+
+<link rel="stylesheet" href="/css/layout.css" />
+<style type="text/css">
+body {
+  background-color: #26282A;
+  color: #dbdbdb;
+}
+
+a { color: #dbdbdb; }
+
+pre {
+  background: #1D1F21;
+  border: 1px solid #dbdbdb;
+  border-radius: 5px;
+}
+
+code {
+  background: #1D1F21;
+}
+
+blockquote {
+  background: #1D1F21;
+  border-left: 3px solid #dbdbdb;
+}
+
+table {
+  margin: 1em auto;
+  border-collapse: collapse;
+}
+
+table, th, td {
+  border: 1px solid #dbdbdb;
+}
+
+th {
+  background: #dbdbdb;
+  color: #26282A;
+}
+
+.siteTitle a { color: #99cc66; }
+
+.post .content h1{ color: #99cc66; }
+.post .content h2{ color: #99cc66; }
+.post .content h3{ color: #99cc66; }
+.post .content h4{ color: #99cc66; }
+.post .content h5{ color: #99cc66; }
+.post .content h6{ color: #99cc66; }
+.post .content a:hover { color: #99cc66; }
+.social-link:hover { color: #99cc66; }
+.nav-item-title:hover { color: #99cc66; }
+.tag a:hover { color: #99cc66; }
+.copyright { color: #404040 }
+.poweredby { color: #404040 }
+.poweredby a { color: #404040; }
+.post-preview .title a{ color: #99cc66; }
+.content-item a:hover{
+  text-decoration: underline;
+  color: #99cc66;
+}
+.post-list .title { color: #99cc66; }
+.rmore { color: #99cc66; }
+.terms .term a:hover {
+  text-decoration: underline;
+  color: #99cc66;
+}
+
+</style>
+
+
+
+<title>
+
+
+     ox-hugo Dependency Image 
+
+</title>
+
+</head>
+
+
+<body>
+<div class="main">
+<header>
+
+<div class="header-bar">
+
+  <nav>
+    <div class="siteTitle">
+      <a href="/">Blogger Bust</a>
+    </div> 
+
+    
+    
+    <a class="nav-item" href="/about/"><div class="nav-item-title">About</div></a>
+    
+    <a class="nav-item" href="/series"><div class="nav-item-title">Series</div></a>
+    
+    <a class="nav-item active" href="/post/"><div class="nav-item-title">Posts</div></a>
+    
+
+  </nav>
+</div>
+
+  
+<div class="social-links-header">
+
+  
+  <a href="mailto:trevor.wilson@bloggerbust.ca"><div class="social-link">email</div></a>
+  
+
+  
+  <a href="https://github.com/bloggerbust" target="_blank"><div class="social-link">gh</div></a>
+  
+
+  
+
+  
+
+  
+
+</div>
+
+
+</header>
+
+
+<article class="post">
+    <h1 class="title"> ox-hugo Dependency Image </h1>
+    <div class="content"> 
+
+<h2 id="motivation">Motivation</h2>
+
+<p>I decided that I would like to contribute to the ox-hugo project from time to time. I do not have pandoc or pandoc-citeproc installed locally nor have never used either before. I did consider emerging pandoc, but when I saw the list of dependencies being pulled from portage I immediately cancelled the install.</p>
+
+<p>This command displays the number of packages, including pandoc itself, that would have been emerged. Most of those dependencies are from Haskell.</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">emerge -putDN pandoc | grep <span style="color:#ed9d13">&#39;ebuild  N&#39;</span> | wc -l</code></pre></div><div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">98</code></pre></div>
+<p>Egad! That is a lot of dependencies. What if I need to test against multiple versions of pandoc which together depend on multiple versions of one or more of those 98 dependencies? I really don&rsquo;t like polluting my local environment with a ton of packages if I can avoid it; hence, my motivation to encapsulate ox-hugo dependencies into a dependency container.</p>
+
+<h2 id="initial-setup">Initial setup</h2>
+
+<p>You might find it useful to refer to the following repositories during the initial setup:</p>
+
+<dl>
+<dt><a href="https://github.com/BloggerBust/nauci%5Fbase%5Finit">Blogger Bust GitHub nauci_base_entry</a></dt>
+<dd>Contains the entry point source used by the nauci/ox-hugo_deps image. The readme contains documentation on usage.</dd>
+<dt><a href="https://github.com/BloggerBust/ox-hugo%5Fdeps">Blogger Bust GitHub ox-hugo_deps</a></dt>
+<dd>Contains the Dockerfile used to create the ox-hugo_deps image. It also contains a number of important shell scripts in the bin directory that you will need</dd>
+<dt><a href="https://cloud.docker.com/u/nauci/repository/docker/nauci/ox-hugo%5Fdeps">nauci Docker Hub nauci/ox-hugo_deps</a></dt>
+<dd>Contains the latest pre-built nauci/ox-hugo_deps image</dd>
+</dl>
+
+<h3 id="create-a-shared-directory-with-posix-acl-support">Create a shared directory with POSIX ACL support</h3>
+
+<p>Before you begin, you will need a file system with POSIX ACL support and extended attributes enabled as described in - <a href="/post/encapsulate-angular-webextension-dependencies-in-a-docker-image/">Create a shareable file system or directory</a>. Once you have a file system with POSIX ACL support enabled you can simply create a directory for sharing projects between your host and any future dependency containers you create. I named this directory <em><code>/shared/</code></em>, but ultimately you can name it anything you like.</p>
+
+<h3 id="create-a-developer-group">Create a developer group</h3>
+
+<p>Your host user must be a member of the developer group as described in <a href="/post/separate-dependencies-from-implementation-using-nauci-base-entry-docker-image/">Create a new group named developer</a>.</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">groupadd -g <span style="color:#3677a9">2000</span> developer
+usermod -aG developer dustfinger</code></pre></div>
+<h3 id="pull-nauci-ox-hugo-deps-image">Pull nauci/ox-hugo_deps image</h3>
+
+<p>If you have not already done so, please <a href="https://docs.docker.com/glossary/">install docker for your platform</a>. Docker has no dependencies and uninstalls cleanly, therefore you can install it just to try out this example and uninstall it afterwards if you wish. Once Docker has been installed, you may proceed by pulling the ox-hugo_deps image from Docker Hub.</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">docker pull nauci/ox-hugo_deps</code></pre></div><div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">Using default tag: latest
+latest: Pulling from nauci/ox-hugo_deps
+54f7e8ac135a: Pulling fs layer
+c63217f7ef68: Pulling fs layer
+dfd98676afbf: Pulling fs layer
+33204c21b26d: Pulling fs layer
+5b0628993196: Pulling fs layer
+5df98747341b: Pulling fs layer
+3f2bb18273d2: Pulling fs layer
+33204c21b26d: Waiting
+5b0628993196: Waiting
+3f2bb18273d2: Waiting
+5df98747341b: Waiting
+dfd98676afbf: Verifying Checksum
+dfd98676afbf: Download complete
+33204c21b26d: Verifying Checksum
+33204c21b26d: Download complete
+54f7e8ac135a: Verifying Checksum
+54f7e8ac135a: Download complete
+5df98747341b: Verifying Checksum
+5df98747341b: Download complete
+54f7e8ac135a: Pull complete
+c63217f7ef68: Verifying Checksum
+c63217f7ef68: Download complete
+c63217f7ef68: Pull complete
+dfd98676afbf: Pull complete
+33204c21b26d: Pull complete
+5b0628993196: Verifying Checksum
+5b0628993196: Download complete
+3f2bb18273d2: Verifying Checksum
+3f2bb18273d2: Download complete
+5b0628993196: Pull complete
+5df98747341b: Pull complete
+3f2bb18273d2: Pull complete
+Digest: sha256:054a0365d144c2ee6942a74c0511723182a81a0bfb4c8e1207c6b4f0f0f06556
+Status: Downloaded newer image for nauci/ox-hugo_deps:latest</code></pre></div>
+<p>You can list your local copy of nauci/ox-hugo_deps using the <em>docker images</em> command.</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">docker images nauci/ox-hugo_deps</code></pre></div><div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">REPOSITORY           TAG                 IMAGE ID            CREATED             SIZE
+nauci/ox-hugo_deps   latest              e0190fa60a02        46 hours ago        925MB</code></pre></div>
+<h3 id="run-the-nauci-ox-hugo-deps-image-and-install-go">Run the nauci/ox-hugo_deps image and install Go</h3>
+
+<p>Docker images are immutable, therefore the <code>docker run</code> command cannot actually run a Docker image. Instead, <code>docker run</code> creates a new container with an initial state exactly matching the Docker image being passed to it. To be honest, I am still learning a lot about the <code>docker run</code> command. It is complex, so let&rsquo;s simplify our mental model by accepting that its ultimate responsibility is to create an environment in which to run the image&rsquo;s entry point. This environment includes its own file system, its own networking, and its own isolated process tree. In the case of the nauci/ox-hugo_deps image, the entry point is the nauci_base_init.sh script as defined in the base image nauci/nauci_base_entry.</p>
+
+<p>The last argument that is processed by <code>docker-run</code> is the name of the image. All of the arguments following the name of the image are passed to the entry point as additional options to its default behaviour. In particular, the <code>-s</code> optional parameter will cause the image to enter an interactive bash shell provided that the docker run command is run interactively and provides a pseudo terminal via the <code>-it</code> optional parameters. It is important that we enter the interactive shell because we need to perform two manual steps:</p>
+
+<ol>
+<li>Set a password for our guest user</li>
+<li>install hugo as a Go module</li>
+</ol>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">docker run -it -p <span style="color:#3677a9">127</span>.0.0.1:23:22 -p <span style="color:#3677a9">127</span>.0.0.1:1313:1313 --name ox-hugo_deps -h ox-hugo_deps -v /shared:/shared nauci/ox-hugo_deps -s -n dustfinger -v /shared -gusers,sudo,video,plugdev,staff</code></pre></div><div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">[[ ok  Starting OpenBSD Secure Shell server: sshd.
+
+##########################################################################
+# Welcome. You have entered an interactive shell. This is a good time to #
+# set user passwords. When you are finished, run the exit command to     #
+# continue with the init script. Any trailing commands that you entered  #
+# will then execute.                                                     #
+##########################################################################
+
+root@ox-hugo_deps:/# passwd dustfinger
+Enter new UNIX password:
+Retype new UNIX password:
+passwd: password updated successfully
+root@ox-hugo_deps:/# su dustfinger
+Password:
+dustfinger@ox-hugo_deps:~$ go get github.com/gohugoio/hugo
+dustfinger@ox-hugo_deps:~$ exit
+root@ox-hugo_deps:/# exit
+exit</code></pre></div>
+<p>My motivation for installing hugo as a Go module was to provide an easy way to install the latest release from GitHub source. Hopefully they <a href="https://stackoverflow.com/questions/30188499/how-to-do-go-get-on-a-specific-tag-of-a-github-repository">add the ability to use <em>go get</em> to install a module by git tag</a> in the future. You might also be wondering why the <code>docker run</code> command includes the port mapping 1313 &ndash;&gt; 1313. This is so that we can run the hugo server inside of the container while working on a blog. For this to work correctly it is important that the hugo port mapping is one-to-one. If instead you provide two different ports then the browser will fail to download site resources and links since the respective URIs will contain the remote port known to the hugo server rather than the local port reachable by your local browser.</p>
+
+<p>If you take a look at the nauci/ox-hugo_deps container you will notice that it is not running.</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">docker container ls -a -f <span style="color:#40ffff">name</span>=ox-hugo_deps</code></pre></div><div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">CONTAINER ID        IMAGE                COMMAND                  CREATED             STATUS                          PORTS               NAMES
+8b17a78e93e3        nauci/ox-hugo_deps   &#34;nauci_base_init.sh …&#34;   12 minutes ago      Exited (0) About a minute ago                       ox-hugo_deps</code></pre></div>
+<p>That is because we were running an interactive bash session from our entry_point and when we exited bash the rest of the entry point executed and then exited leaving no process to keep the container in a running state. Use <code>docker start</code> to start the container again without an interactive session.</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">docker start ox-hugo_deps
+docker container ls -a -f <span style="color:#40ffff">name</span>=ox-hugo_deps</code></pre></div><div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">ox-hugo_deps
+CONTAINER ID        IMAGE                COMMAND                  CREATED             STATUS                  PORTS                                            NAMES
+8b17a78e93e3        nauci/ox-hugo_deps   &#34;nauci_base_init.sh …&#34;   12 minutes ago      Up Less than a second   127.0.0.1:1313-&gt;1313/tcp, 127.0.0.1:23-&gt;22/tcp   ox-hugo_deps</code></pre></div>
+<h3 id="fork-the-ox-hugo-repository-in-the-shared-volume">Fork the ox-hugo repository in the shared volume</h3>
+
+<p>If you would like to <a href="https://github.com/kaushalmodi/ox-hugo/blob/master/CONTRIBUTING.org">contribute to the ox-hugo project</a> then you will need to fork ox-hugo in your own GitHub repository. In my example I will be using my own fork of ox-hugo. Once you have ox-hugo forked you should clone the repository in your shared directory. If you have never forked a project before then see the <a href="https://help.github.com/articles/fork-a-repo/">GitHub documentation on forking a repository</a>. If you do not wish to make a fork at this time that is fine, you may simply clone the official repository.</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh"><span style="color:#24909d">cd</span> /shared/dustfinger/dev/
+git clone https://github.com/BloggerBust/ox-hugo.git
+ln -sn /shared/dustfinger/dev/ox-hugo /home/dustfinger/dev/ox-hugo
+<span style="color:#24909d">cd</span> ~/dev/ox-hugo</code></pre></div>
+<p>At this point you should have a link named ox-hugo in your home dev directory to the ox-hugo git repository located in your shared dev directory and your user should be a member of the developer group.</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">ls -la ~/dev/ | grep -iE <span style="color:#ed9d13">&#39;ox-hugo$&#39;</span>
+getent group developer</code></pre></div><div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">lrwxrwxrwx  1 dustfinger dustfinger      30 Dec 17 12:56 ox-hugo -&gt; /shared/dustfinger/dev/ox-hugo
+developer:x:2000:dustfinger</code></pre></div>
+<h3 id="install-and-configure-the-ox-hugo-deps-shell-scripts">Install and configure the ox-hugo_deps shell scripts</h3>
+
+<p>The <a href="https://github.com/BloggerBust/ox-hugo%5Fdeps/tree/master/bin">ox-hugo_deps GitHub repository bin directory</a> has a number of bash shell scripts that you must install and configure. These shell scripts act as proxies for the <code>go</code>, <code>hugo</code>, <code>pandoc</code> and <code>pandoc-citeproc</code> commands within the nauci/ox-hugo_deps running container.</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">mkdir -p ~/bin
+<span style="color:#24909d">cd</span> ~/bin
+curl --remote-name-all -JL https://raw.githubusercontent.com/BloggerBust/ox-hugo_deps/master/bin/{go,hugo,ox-hugo_deps,pandoc,pandoc-citeproc}
+chmod <span style="color:#3677a9">700</span> {go,hugo,ox-hugo_deps,pandoc,pandoc-citeproc}
+ls -la {go,hugo,ox-hugo_deps,pandoc,pandoc-citeproc}</code></pre></div><div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">-rwx------ 1 dustfinger dustfinger 152 Dec 20 05:47 go
+-rwx------ 1 dustfinger dustfinger 212 Dec 20 05:47 hugo
+-rwx------ 1 dustfinger dustfinger 368 Dec 20 05:47 ox-hugo_deps
+-rwx------ 1 dustfinger dustfinger 164 Dec 20 05:47 pandoc
+-rwx------ 1 dustfinger dustfinger 191 Dec 20 05:47 pandoc-citeproc</code></pre></div>
+<p>Now open <em><code>~/bin/ox-hugo_deps</code></em> and set <em>USER</em> to your guest username. Depending on how and where you ran the image you may also need to change <em>PORT</em> and <em>HOST</em>.</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh"><span style="color:#999;font-style:italic"># The username, host and port used to connect to a running ox-hugo_deps container</span>
+<span style="color:#24909d">readonly</span> <span style="color:#40ffff">USER</span>=dustfinger
+<span style="color:#24909d">readonly</span> <span style="color:#40ffff">PORT</span>=<span style="color:#3677a9">23</span>
+<span style="color:#24909d">readonly</span> <span style="color:#40ffff">HOST</span>=<span style="color:#ed9d13">&#34;localhost&#34;</span></code></pre></div>
+<p>Save your changes and then test that the script works.</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">$ ~/bin/ox-hugo_deps
+dustfinger@localhost&#39;s password:
+Linux ox-hugo_deps 4.14.12-gentoo #20 SMP Sun Nov 11 04:46:14 MST 2018 x86_64
+
+The programs included with the Debian GNU/Linux system are free software;
+the exact distribution terms for each program are described in the
+individual files in /usr/share/doc/*/copyright.
+
+Debian GNU/Linux comes with ABSOLUTELY NO WARRANTY, to the extent
+permitted by applicable law.
+Last login: Thu Dec 20 12:57:22 2018 from 172.17.0.1
+dustfinger@ox-hugo_deps:~$ exit
+logout
+Connection to localhost closed.</code></pre></div>
+<h3 id="configure-key-based-authentication">Configure key-based authentication</h3>
+
+<p>If you don&rsquo;t have an RSA key at <em>=~</em>.ssh/id_rsa=/ then generate one by running the next command. Leave the password blank if you want password-less authentication (less secure, but more convenient)</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">ssh-keygen</code></pre></div>
+<p>Once you have an RSA key, send the public RSA id to the container.</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">ssh-copy-id -p <span style="color:#3677a9">23</span> dustfinger@localhost</code></pre></div><div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">/usr/bin/ssh-copy-id: INFO: Source of key(s) to be installed: &#34;/home/dustfinger/.ssh/id_rsa.pub&#34;
+/usr/bin/ssh-copy-id: INFO: attempting to log in with the new key(s), to filter out any that are already installed
+/usr/bin/ssh-copy-id: INFO: 1 key(s) remain to be installed -- if you are prompted now it is to install the new keys
+dustfinger@localhost&#39;s password:
+
+Number of key(s) added: 1
+
+Now try logging into the machine, with:   &#34;ssh -p &#39;23&#39; &#39;dustfinger@localhost&#39;&#34;
+and check to make sure that only the key(s) you wanted were added.</code></pre></div>
+<h3 id="add-bin-to-path">Add bin to PATH</h3>
+
+<p>This step is environment specific. We want to add the <em><code>~/bin/</code></em> directory to our path. I will show you how to do this for bash, but if you are not using bash then you will need to look up how to do this for your host environment.</p>
+
+<p>Edit <code>~/.bash_profile</code> and set the PATH after <code>~/.bashrc</code> has been loaded.</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh"><span style="color:#999;font-style:italic"># /etc/skel/.bash_profile</span>
+
+<span style="color:#999;font-style:italic"># This file is sourced by bash for login shells.  The following line</span>
+<span style="color:#999;font-style:italic"># runs your .bashrc and is recommended by the bash info pages.</span>
+<span style="color:#6ab825;font-weight:bold">if</span> [[ -f ~/.bashrc ]] ; <span style="color:#6ab825;font-weight:bold">then</span>
+    . ~/.bashrc
+<span style="color:#6ab825;font-weight:bold">fi</span>
+
+<span style="color:#40ffff">PATH</span>=<span style="color:#40ffff">$PATH</span>:~/bin/</code></pre></div>
+<p>My preference is to append <em><code>~/bin/</code></em> to the end of the path so that it does not overwrite any global equivalents. If I want to run a script that needs to use my local bin then I simply use <code>env</code> to set the path for that command instance. We will be doing this shortly.</p>
+
+<p>Now source your changes so that they apply to the current environment</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh"><span style="color:#24909d">source</span> ~/.bash_profile</code></pre></div>
+<h3 id="test-each-of-the-binaries">Test each of the binaries</h3>
+
+<p>This is the last step of the setup. We want to ensure that <code>~/bin/go</code>, <code>/bin/hugo</code>, <code>/bin/pandoc</code> and <code>/bin/pandoc-citeproc</code> are all actually working.</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh"><span style="color:#40ffff">STAY</span>=<span style="color:#24909d">true</span> ~/bin/go version
+<span style="color:#40ffff">STAY</span>=<span style="color:#24909d">true</span> pandoc --version | grep -E ^pandoc
+<span style="color:#40ffff">STAY</span>=<span style="color:#24909d">true</span> pandoc-citeproc --version
+<span style="color:#40ffff">STAY</span>=<span style="color:#24909d">true</span> hugo version</code></pre></div><div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">go version go1.11.3 linux/amd64
+pandoc 2.2.1
+pandoc-citeproc 0.14.3.1
+Hugo Static Site Generator v0.53-DEV linux/amd64 BuildDate: unknown</code></pre></div>
+<p>By default, when a proxy is invoked it will cd to the current working directory that matches the host&rsquo;s. This is necessary so that when building and testing ox-hugo commands that use relative paths are run from the expected directory. If you want to be able to run an ad hoc command without changing the container&rsquo;s current working directory then you set the environment variable <code>STAY=true</code>.</p>
+
+<h2 id="build-ox-hugo">Build ox-hugo</h2>
+
+<p>You might want to refer to the ox-hugo <a href="https://ox-hugo.scripter.co/doc/contributing-guide/">Contributing Guide</a>. Step 3. of the guide instructs the reader to run <code>make md doc</code>. A lot of output is produced during the build so I won&rsquo;t include the full results below. To ensure that we run our proxy binaries we will use the <code>env</code> command to modify <code>$PATH</code> so that <code>~/bin</code> is searched first. By not providing a PATH override bash will find host installed versions of the commands rather than the proxies.</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh"><span style="color:#24909d">cd</span> ~/dev/ox-hugo
+env - <span style="color:#40ffff">PATH</span>=~/bin:<span style="color:#40ffff">$PATH</span> make md doc &amp;&amp; <span style="color:#24909d">test</span> <span style="color:#3677a9">0</span> -eq <span style="color:#40ffff">$?</span> &amp;&amp; <span style="color:#24909d">echo</span> <span style="color:#ed9d13">&#34;BUILD PASSED&#34;</span> || <span style="color:#24909d">echo</span> <span style="color:#ed9d13">&#34;BUILD FAILED&#34;</span></code></pre></div><div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text"># A lot more output above this point...
+
+                   | EN
++------------------+----+
+  Pages            |  8
+  Paginator pages  |  0
+  Non-page files   |  0
+  Static files     | 14
+  Processed images |  0
+  Aliases          |  0
+  Sitemaps         |  1
+  Cleaned          |  0
+
+Total in 53 ms
+Connection to localhost closed.
+[GitHub Docs] Generating README.org and CONTRIBUTING.org for GitHub ..
+
+./doc/github-files.org ::
+Loading /shared/dustfinger/dev/ox-hugo/test/setup-ox-hugo.el (source)...
+Debug on Error enabled globally
+Mark set
+Replaced 3 occurrences
+[GitHub Docs] Done
+BUILD PASSED</code></pre></div>
+<p>If you see the summary at the end with the last line of text reading <em>TESTS PASSED</em> then that means that the markdown was generated and the docs were built successfully. If on the other hand the last line of text reads &ldquo;TESTS FAILED&rdquo; then the error should be reported in the standard output. In that case, you might also want to check the log files in your shared dev directory for each of the proxy commands. Both stdout and stderr from the proxy commands are sent to these log files.</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">ls -la /shared/dustfinger/dev/*.out</code></pre></div><div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">-rw-rw-r--+ 1 dustfinger developer    32 Dec 27 06:41 /shared/dustfinger/dev/go.out
+-rw-rw-r--+ 1 dustfinger developer 13053 Dec 27 06:46 /shared/dustfinger/dev/hugo.out
+-rw-rw-r--+ 1 dustfinger developer     0 Dec 27 06:53 /shared/dustfinger/dev/pandoc.out</code></pre></div>
+<p>Finally, follow step 6 by running the tests.</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">env - <span style="color:#40ffff">PATH</span>=~/bin:<span style="color:#40ffff">$PATH</span> make -j1 <span style="color:#24909d">test</span> &amp;&amp; <span style="color:#24909d">test</span> <span style="color:#3677a9">0</span> -eq <span style="color:#40ffff">$?</span> &amp;&amp; <span style="color:#24909d">echo</span> <span style="color:#ed9d13">&#34;TESTS PASSED&#34;</span> || <span style="color:#24909d">echo</span> <span style="color:#ed9d13">&#34;TESTS FAILED&#34;</span></code></pre></div><div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">/shared/dustfinger/dev/ox-hugo/test/site/content-org/deep-nesting.org ::
+Loading /shared/dustfinger/dev/ox-hugo/test/setup-ox-hugo.el (source)...
+Debug on Error enabled globally
+[ox-hugo] 1/ Exporting `Index&#39; ..
+[ox-hugo] 2/ Exporting `Chapter 1 Index&#39; ..
+[ox-hugo] 3/ Exporting `sub section 1&#39; ..
+[ox-hugo] 4/ Exporting `sub section 2&#39; ..
+[ox-hugo] 5/ Exporting `Chapter 2 Index&#39; ..
+[ox-hugo] 6/ Exporting `sub section 1&#39; ..
+[ox-hugo] 7/ Exporting `sub section 2&#39; ..
+[ox-hugo] Exported 7 subtrees from deep-nesting.org
+TESTS PASSED</code></pre></div>
+<p>Again, you will know that the tests have failed if the last line reads <em>TESTS FAILED</em>. In that case there should be an error reported to standard output. As mentioned previously, you can check the proxy command log files for additional insight.</p>
+
+<h2 id="using-the-hugo-proxy-server">Using the hugo proxy server</h2>
+
+<p>If you find yourself contributing to ox-hugo it is probably because you found a defect while working on your own blog. Or perhaps you are adding a brand new feature that you would like to be able to use while composing your own blog. In either case, you probably have a Hugo generated blog. It makes sense that you will want to test your code changes against your own blog from your host environment. If a different version of any one of the proxy binaries (<code>hugo</code>, <code>go</code>, <code>pandoc</code>, <code>pandoc-citeproc</code>) is installed on the host, then you will need to configure ox-hugo to invoke the proxy binaries. I actually only have <code>go</code> installed on my host, so I will use that to illustrate how to change the exec-path in emacs to point to the proxy binaries:</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-emacs-lisp" data-lang="emacs-lisp">(<span style="color:#24909d">setq</span> <span style="color:#40ffff">exec-path</span> (<span style="color:#40ffff">split-string</span> (<span style="color:#40ffff">getenv</span> <span style="color:#ed9d13">&#34;PATH&#34;</span>) <span style="color:#40ffff">path-separator</span>))
+(<span style="color:#447fcf">print</span> (<span style="color:#447fcf">format</span> <span style="color:#ed9d13">&#34;before inserting ~/bin at head of exec-path: %s&#34;</span> (<span style="color:#40ffff">executable-find</span> <span style="color:#ed9d13">&#34;go&#34;</span>)))
+(<span style="color:#24909d">setq</span> <span style="color:#40ffff">exec-path</span> (<span style="color:#447fcf">append</span> `(<span style="color:#ed9d13">&#34;~/bin&#34;</span>) (<span style="color:#40ffff">split-string</span> (<span style="color:#40ffff">getenv</span> <span style="color:#ed9d13">&#34;PATH&#34;</span>) <span style="color:#40ffff">path-separator</span>)))
+(<span style="color:#447fcf">print</span> (<span style="color:#447fcf">format</span> <span style="color:#ed9d13">&#34;after inserting ~/bin at head of exec-path: %s&#34;</span> (<span style="color:#40ffff">executable-find</span> <span style="color:#ed9d13">&#34;go&#34;</span>)))</code></pre></div><div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">&#34;
+\&#34;before inserting ~/bin at head of exec-path: /usr/bin/go\&#34;
+
+\&#34;after inserting ~/bin at head of exec-path: /home/dustfinger/bin/go\&#34;
+&#34;</code></pre></div>
+<p>Now when you run <code>org-hugo-export-to-md</code> it will invoke the proxy binaries.</p>
+
+<p>It should be clear by now that whenever you are sharing content between your host and dependency container, that content must reside as a child of <em><code>/shared/dev/</code></em>. Blog content is no exception, otherwise the <code>hugo</code> proxy binary will not be able to cd to the root directory of your blog from within the Docker container.</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">mkdir /shared/dustfinger/dev/org-publish
+ln -sn /shared/dustfinger/dev/org-publish/ /home/dustfinger/dev/org-publish
+<span style="color:#24909d">cd</span> ~/dev/org-publish/
+git clone https://github.com/BloggerBust/bloggerbust.ca
+<span style="color:#24909d">cd</span> bloggerbust.ca/</code></pre></div>
+<p>Now let&rsquo;s test hugo server and verify that we can use a local browser to view edits in real-time. When we run hugo server we will need to make sure that it is bound to the correct interface. This is why we mapped port 1313 back in <a href="#run-the-nauci-ox-hugo-deps-image-and-install-go">Run the nauci/ox-hugo_deps image and install Go</a>.</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">ox-hugo_deps ip addr show</code></pre></div><div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">1: lo: &lt;LOOPBACK,UP,LOWER_UP&gt; mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+    inet 127.0.0.1/8 scope host lo
+       valid_lft forever preferred_lft forever
+2: sit0@NONE: &lt;NOARP&gt; mtu 1480 qdisc noop state DOWN group default qlen 1000
+    link/sit 0.0.0.0 brd 0.0.0.0
+24: eth0@if25: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc noqueue state UP group default
+    link/ether 02:42:ac:11:00:02 brd ff:ff:ff:ff:ff:ff link-netnsid 0
+    inet 172.17.0.2/16 brd 172.17.255.255 scope global eth0
+       valid_lft forever preferred_lft forever</code></pre></div>
+<p>Since the only external interface my container has configured is eth0 I know that I need to bind to IP <em>172.17.0.2</em>.</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">hugo server --bind <span style="color:#3677a9">172</span>.17.0.2 -D</code></pre></div><div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">Building sites …
+                   | EN
++------------------+----+
+  Pages            | 35
+  Paginator pages  |  1
+  Non-page files   |  0
+  Static files     |  5
+  Processed images |  0
+  Aliases          |  1
+  Sitemaps         |  1
+  Cleaned          |  0
+
+Total in 62 ms
+Watching for changes in /shared/dustfinger/dev/org-publish/bloggerbust.ca/{content,data,layouts,static,themes}
+Watching for config changes in /shared/dustfinger/dev/org-publish/bloggerbust.ca/config.toml
+Environment: &#34;development&#34;
+Serving pages from memory
+Running in Fast Render Mode. For full rebuilds on change: hugo server --disableFastRender
+Web Server is available at //localhost:1313/ (bind address 172.17.0.2)
+Press Ctrl+C to stop</code></pre></div>
+<p>Now you should be able to browse your blog from localhost:1313 and the request will be mapped to the container through port 1313 with the hugo server listening on bind address <em>172.17.0.2</em>. Any edits that you make using ox-hugo should be noticed by the hugo server running inside of the container and the change should be pushed to the local browser automatically.</p>
+
+<figure>
+    <img src="/post/ox-hugo-dependency-image/20190101-ox-hugo-deps-browse-hugo-server.jpg"/> 
+</figure>
+
+
+<p>Sorry, but I have not yet decided on a good screen capture tool so for now I took a picture with my phone. I tried <a href="https://github.com/tarsius/frameshot">frameshot</a>, but it is not capturing the content in Firefox. The frame containing Firefox just shows up blank.</p>
+ </div>
+    <footer class="post-footer">
+
+  <div class="post-footer-data">
+    
+<div class="tags">
+    
+      <div class="tag">
+        <a href="/tags/docker">#docker</a>
+      </div>
+    
+      <div class="tag">
+        <a href="/tags/ox-hugo">#ox-hugo</a>
+      </div>
+    
+</div>
+
+    <div class="date"> Dec 22, 2018 </div>
+  </div>
+
+</footer>
+
+
+  
+
+
+</article>
+
+  <footer>
+
+  <div class="social-links-footer">
+
+  
+  <a href="mailto:trevor.wilson@bloggerbust.ca"><div class="social-link">Email</div></a>
+  
+
+  
+  <a href="https://github.com/bloggerbust" target="_blank"><div class="social-link">GitHub</div></a>
+  
+
+  
+
+  
+
+  
+
+  <div class="social-link">
+  <a href="/index.xml" target="_blank">RSS</a>
+  </div>
+
+</div>
+
+
+  <div class="copyright"> Copyright (c) 2018, all rights reserved. </div>
+
+  <div class="poweredby">
+    Powered by <a href="https://gohugo.io/">Hugo</a>.
+  </div>
+
+  </footer>
+
+</div> 
+
+</body>
+</html>
+

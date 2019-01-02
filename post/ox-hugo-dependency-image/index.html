@@ -15,7 +15,7 @@
 This command displays the number of packages, including pandoc itself, that would have been emerged. Most of those dependencies are from Haskell." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/post/ox-hugo-dependency-image/" /><meta property="article:published_time" content="2018-12-22T00:00:00-07:00"/>
-<meta property="article:modified_time" content="2019-01-01T07:22:03-07:00"/>
+<meta property="article:modified_time" content="2019-01-02T05:04:11-07:00"/>
 
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="ox-hugo Dependency Image"/>
@@ -30,8 +30,8 @@ This command displays the number of packages, including pandoc itself, that woul
 
 
 <meta itemprop="datePublished" content="2018-12-22T00:00:00-07:00" />
-<meta itemprop="dateModified" content="2019-01-01T07:22:03-07:00" />
-<meta itemprop="wordCount" content="2994">
+<meta itemprop="dateModified" content="2019-01-02T05:04:11-07:00" />
+<meta itemprop="wordCount" content="3028">
 
 
 
@@ -169,7 +169,7 @@ th {
 
 <h2 id="motivation">Motivation</h2>
 
-<p>I decided that I would like to contribute to the ox-hugo project from time to time. I do not have pandoc or pandoc-citeproc installed locally nor have never used either before. I did consider emerging pandoc, but when I saw the list of dependencies being pulled from portage I immediately cancelled the install.</p>
+<p>I decided that I would like to contribute to <a href="https://ox-hugo.scripter.co/doc/why-ox-hugo/">the ox-hugo project</a> from time to time. I do not have pandoc or pandoc-citeproc installed locally nor have never used either before. I did consider emerging pandoc, but when I saw the list of dependencies being pulled from portage I immediately cancelled the install.</p>
 
 <p>This command displays the number of packages, including pandoc itself, that would have been emerged. Most of those dependencies are from Haskell.</p>
 <div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">emerge -putDN pandoc | grep <span style="color:#ed9d13">&#39;ebuild  N&#39;</span> | wc -l</code></pre></div><div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">98</code></pre></div>
@@ -470,7 +470,11 @@ Press Ctrl+C to stop</code></pre></div>
 </figure>
 
 
-<p>Sorry, but I have not yet decided on a good screen capture tool so for now I took a picture with my phone. I tried <a href="https://github.com/tarsius/frameshot">frameshot</a>, but it is not capturing the content in Firefox. The frame containing Firefox just shows up blank.</p>
+<p>Sorry, but I have not yet decided on a good screen capture tool, so for now I took a picture with my phone. I tried <a href="https://github.com/tarsius/frameshot">frameshot</a>, but it is not capturing the rendered content in the Firefox buffer. The window containing Firefox just shows up blank in the screen capture.</p>
+
+<h2 id="want-to-leave-a-comment">Want to leave a comment?</h2>
+
+<p>To leave a comment, please <a href="https://github.com/BloggerBust/bloggerbust.github.io/issues">create an issue in GitHub</a> labelled <em>article comment</em> linking back to this article in the opening paragraph.</p>
  </div>
     <footer class="post-footer">
 

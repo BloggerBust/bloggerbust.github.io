@@ -11,27 +11,27 @@
 
 <link rel="canonical" href="/post/ox-hugo-dependency-image/">
 <meta property="og:title" content="ox-hugo Dependency Image" />
-<meta property="og:description" content="Motivation I decided that I would like to contribute to the ox-hugo project from time to time. I do not have pandoc or pandoc-citeproc installed locally nor have never used either before. I did consider emerging pandoc, but when I saw the list of dependencies being pulled from portage I immediately cancelled the install.
-This command displays the number of packages, including pandoc itself, that would have been emerged. Most of those dependencies are from Haskell." />
+<meta property="og:description" content="Motivation I decided that I would like to contribute to the ox-hugo project from time to time. I do not have pandoc or pandoc-citeproc installed locally nor have I ever used either before. I did consider emerging pandoc, but when I saw the list of dependencies being pulled from portage I immediately cancelled the install.
+For those that are unfamiliar with Gentoo, Portage is Gentoo&rsquo;s package manager and emerge is Portage&rsquo;s command-line interface." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/post/ox-hugo-dependency-image/" /><meta property="article:published_time" content="2019-01-01T00:00:00-07:00"/>
-<meta property="article:modified_time" content="2019-01-02T08:17:28-07:00"/>
+<meta property="article:modified_time" content="2019-01-03T03:51:59-07:00"/>
 
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="ox-hugo Dependency Image"/>
-<meta name="twitter:description" content="Motivation I decided that I would like to contribute to the ox-hugo project from time to time. I do not have pandoc or pandoc-citeproc installed locally nor have never used either before. I did consider emerging pandoc, but when I saw the list of dependencies being pulled from portage I immediately cancelled the install.
-This command displays the number of packages, including pandoc itself, that would have been emerged. Most of those dependencies are from Haskell."/>
+<meta name="twitter:description" content="Motivation I decided that I would like to contribute to the ox-hugo project from time to time. I do not have pandoc or pandoc-citeproc installed locally nor have I ever used either before. I did consider emerging pandoc, but when I saw the list of dependencies being pulled from portage I immediately cancelled the install.
+For those that are unfamiliar with Gentoo, Portage is Gentoo&rsquo;s package manager and emerge is Portage&rsquo;s command-line interface."/>
 
 
 
 <meta itemprop="name" content="ox-hugo Dependency Image">
-<meta itemprop="description" content="Motivation I decided that I would like to contribute to the ox-hugo project from time to time. I do not have pandoc or pandoc-citeproc installed locally nor have never used either before. I did consider emerging pandoc, but when I saw the list of dependencies being pulled from portage I immediately cancelled the install.
-This command displays the number of packages, including pandoc itself, that would have been emerged. Most of those dependencies are from Haskell.">
+<meta itemprop="description" content="Motivation I decided that I would like to contribute to the ox-hugo project from time to time. I do not have pandoc or pandoc-citeproc installed locally nor have I ever used either before. I did consider emerging pandoc, but when I saw the list of dependencies being pulled from portage I immediately cancelled the install.
+For those that are unfamiliar with Gentoo, Portage is Gentoo&rsquo;s package manager and emerge is Portage&rsquo;s command-line interface.">
 
 
 <meta itemprop="datePublished" content="2019-01-01T00:00:00-07:00" />
-<meta itemprop="dateModified" content="2019-01-02T08:17:28-07:00" />
-<meta itemprop="wordCount" content="3028">
+<meta itemprop="dateModified" content="2019-01-03T03:51:59-07:00" />
+<meta itemprop="wordCount" content="3055">
 
 
 
@@ -169,9 +169,9 @@ th {
 
 <h2 id="motivation">Motivation</h2>
 
-<p>I decided that I would like to contribute to <a href="https://ox-hugo.scripter.co/doc/why-ox-hugo/">the ox-hugo project</a> from time to time. I do not have pandoc or pandoc-citeproc installed locally nor have never used either before. I did consider emerging pandoc, but when I saw the list of dependencies being pulled from portage I immediately cancelled the install.</p>
+<p>I decided that I would like to contribute to <a href="https://ox-hugo.scripter.co/doc/why-ox-hugo/">the ox-hugo project</a> from time to time. I do not have pandoc or pandoc-citeproc installed locally nor have I ever used either before. I did consider emerging pandoc, but when I saw the list of dependencies being pulled from portage I immediately cancelled the install.</p>
 
-<p>This command displays the number of packages, including pandoc itself, that would have been emerged. Most of those dependencies are from Haskell.</p>
+<p>For those that are unfamiliar with Gentoo, <a href="https://wiki.gentoo.org/wiki/Portage">Portage is Gentoo&rsquo;s package manager</a> and <a href="https://wiki.gentoo.org/wiki/Portage#emerge">emerge is Portage&rsquo;s command-line interface</a>. The following command displays the number of packages, including pandoc itself, that would have been emerged as new packages to the world set. Most of those dependencies are from Haskell.</p>
 <div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">emerge -putDN pandoc | grep <span style="color:#ed9d13">&#39;ebuild  N&#39;</span> | wc -l</code></pre></div><div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">98</code></pre></div>
 <p>Egad! That is a lot of dependencies. What if I need to test against multiple versions of pandoc which together depend on multiple versions of one or more of those 98 dependencies? I really don&rsquo;t like polluting my local environment with a ton of packages if I can avoid it; hence, my motivation to encapsulate ox-hugo dependencies into a dependency container.</p>
 
@@ -184,7 +184,7 @@ th {
 <dd>Contains the entry point source used by the nauci/ox-hugo_deps image. The readme contains documentation on usage.</dd>
 <dt><a href="https://github.com/BloggerBust/ox-hugo%5Fdeps">Blogger Bust GitHub ox-hugo_deps</a></dt>
 <dd>Contains the Dockerfile used to create the ox-hugo_deps image. It also contains a number of important shell scripts in the bin directory that you will need</dd>
-<dt><a href="https://cloud.docker.com/u/nauci/repository/docker/nauci/ox-hugo%5Fdeps">nauci Docker Hub nauci/ox-hugo_deps</a></dt>
+<dt><a href="https://hub.docker.com/r/nauci/ox-hugo%5Fdeps">nauci Docker Hub nauci/ox-hugo_deps</a></dt>
 <dd>Contains the latest pre-built nauci/ox-hugo_deps image</dd>
 </dl>
 

@@ -7,15 +7,16 @@
 <meta name="description" content="a place for me to bust out a blog on programming, infosec, emacs and things that interest me." />
 <meta name="keywords" content="[programming coding infosec cybersecurity webextensions blog blogger bust docker linux emacs free software]" />
 <meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1">
-<meta name="generator" content="Hugo 0.53-DEV" />
+<meta name="generator" content="Hugo 0.55.0-DEV" />
 
 <link rel="canonical" href="/post/ox-hugo-dependency-image/">
 <meta property="og:title" content="ox-hugo Dependency Image" />
 <meta property="og:description" content="Motivation I decided that I would like to contribute to the ox-hugo project from time to time. I do not have pandoc or pandoc-citeproc installed locally nor have I ever used either before. I did consider emerging pandoc, but when I saw the list of dependencies being pulled from portage I immediately cancelled the install.
 For those that are unfamiliar with Gentoo, Portage is Gentoo&rsquo;s package manager and emerge is Portage&rsquo;s command-line interface." />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="/post/ox-hugo-dependency-image/" /><meta property="article:published_time" content="2019-01-01T00:00:00-07:00"/>
-<meta property="article:modified_time" content="2019-01-03T03:51:59-07:00"/>
+<meta property="og:url" content="/post/ox-hugo-dependency-image/" />
+<meta property="article:published_time" content="2019-01-01T00:00:00-07:00"/>
+<meta property="article:modified_time" content="2019-03-16T05:39:49-06:00"/>
 
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="ox-hugo Dependency Image"/>
@@ -30,7 +31,7 @@ For those that are unfamiliar with Gentoo, Portage is Gentoo&rsquo;s package man
 
 
 <meta itemprop="datePublished" content="2019-01-01T00:00:00-07:00" />
-<meta itemprop="dateModified" content="2019-01-03T03:51:59-07:00" />
+<meta itemprop="dateModified" content="2019-03-16T05:39:49-06:00" />
 <meta itemprop="wordCount" content="3055">
 
 
@@ -104,6 +105,8 @@ th {
 }
 
 </style>
+
+<link rel="stylesheet" href="/css/site.css">
 
 
 
@@ -247,8 +250,8 @@ nauci/ox-hugo_deps   latest              e0190fa60a02        46 hours ago       
 
 <ol>
 <li>Set a password for our guest user</li>
-<li>install hugo as a Go module</li>
-</ol>
+
+<li><p>install hugo as a Go module</p>
 <div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">docker run -it -p <span style="color:#3677a9">127</span>.0.0.1:23:22 -p <span style="color:#3677a9">127</span>.0.0.1:1313:1313 --name ox-hugo_deps -h ox-hugo_deps -v /shared:/shared nauci/ox-hugo_deps -s -n dustfinger -v /shared -gusers,sudo,video,plugdev,staff</code></pre></div><div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">[[ ok  Starting OpenBSD Secure Shell server: sshd.
 
 ##########################################################################
@@ -267,7 +270,9 @@ Password:
 dustfinger@ox-hugo_deps:~$ go get github.com/gohugoio/hugo
 dustfinger@ox-hugo_deps:~$ exit
 root@ox-hugo_deps:/# exit
-exit</code></pre></div>
+exit</code></pre></div></li>
+</ol>
+
 <p>My motivation for installing hugo as a Go module was to provide an easy way to install the latest release from GitHub source. Hopefully they <a href="https://stackoverflow.com/questions/30188499/how-to-do-go-get-on-a-specific-tag-of-a-github-repository">add the ability to use <em>go get</em> to install a module by git tag</a> in the future. You might also be wondering why the <code>docker run</code> command includes the port mapping 1313 &ndash;&gt; 1313. This is so that we can run the hugo server inside of the container while working on a blog. For this to work correctly it is important that the hugo port mapping is one-to-one. If instead you provide two different ports then the browser will fail to download site resources and links since the respective URIs will contain the remote port known to the hugo server rather than the local port reachable by your local browser.</p>
 
 <p>If you take a look at the nauci/ox-hugo_deps container you will notice that it is not running.</p>

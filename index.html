@@ -16,7 +16,7 @@
 <meta property="og:type" content="website" />
 <meta property="og:url" content="/" />
 
-<meta property="og:updated_time" content="2019-01-01T00:00:00-07:00"/>
+<meta property="og:updated_time" content="2019-03-24T03:07:24&#43;00:00"/>
 
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Blogger Bust"/>
@@ -160,6 +160,57 @@ th {
 
 
   
+    <article class="post-preview">
+
+  <header>
+    <h2 class="title"> <a href='/post/adding-a-dependency-based-on-autotools-to-a-bazel-project/'> Adding a Dependency Based on Autotools to a Bazel Project</a> </h2>
+    <div class="meta">
+      Mar 24, 2019 - 8 minutes
+    </div>
+    
+<div class="tags">
+    
+</div>
+
+  </header>
+
+  <div class="summary">
+    Motivation In my spare time I have been experimenting with the Bazel build runner. I wanted to add Libsodium as a dependency to my Bazel C/C++ project. The Libsodium project is not a Bazel package and therefore Bazel will not know how to treat it as a dependency. If I wish to add Libsodium as a repository based dependency to my project, then It makes sense to write a BUILD file defining how Bazel should build the Libsodium library.
+    <a href='/post/adding-a-dependency-based-on-autotools-to-a-bazel-project/' class="rmore">Read more ...</a>
+  </div>
+
+  <div class="rmore">
+  </div>
+
+</article>
+
+
+    <article class="post-preview">
+
+  <header>
+    <h2 class="title"> <a href='/post/mount-tmp-as-non-executable/'> Mount /tmp as Non Executable</a> </h2>
+    <div class="meta">
+      Mar 20, 2019 - 2 minutes
+    </div>
+    
+<div class="tags">
+    
+</div>
+
+  </header>
+
+  <div class="summary">
+    Mounting /tmp as non executable improves security and increases awareness For security reasons I mount my /tmp directory as non executable. Since I use the zfs file system, I accomplish this by turning off the exec property:
+/sbin/zfs get exec tank/tmp/rootNAME PROPERTY VALUE SOURCE tank/tmp/root exec off local It is easy to search online how to accomplish the same for other file systems. I highly recommend mounting /tmp as none executable.
+    <a href='/post/mount-tmp-as-non-executable/' class="rmore">Read more ...</a>
+  </div>
+
+  <div class="rmore">
+  </div>
+
+</article>
+
+
     <article class="post-preview">
 
   <header>

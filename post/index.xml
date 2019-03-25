@@ -7,10 +7,29 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-CA</language>
     <copyright>Copyright (c) 2018, all rights reserved.</copyright>
-    <lastBuildDate>Tue, 01 Jan 2019 00:00:00 -0700</lastBuildDate>
+    <lastBuildDate>Sun, 24 Mar 2019 03:07:24 +0000</lastBuildDate>
     
 	<atom:link href="/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Adding a Dependency Based on Autotools to a Bazel Project</title>
+      <link>/post/adding-a-dependency-based-on-autotools-to-a-bazel-project/</link>
+      <pubDate>Sun, 24 Mar 2019 03:07:24 +0000</pubDate>
+      
+      <guid>/post/adding-a-dependency-based-on-autotools-to-a-bazel-project/</guid>
+      <description>Motivation In my spare time I have been experimenting with the Bazel build runner. I wanted to add Libsodium as a dependency to my Bazel C/C++ project. The Libsodium project is not a Bazel package and therefore Bazel will not know how to treat it as a dependency. If I wish to add Libsodium as a repository based dependency to my project, then It makes sense to write a BUILD file defining how Bazel should build the Libsodium library.</description>
+    </item>
+    
+    <item>
+      <title>Mount /tmp as Non Executable</title>
+      <link>/post/mount-tmp-as-non-executable/</link>
+      <pubDate>Wed, 20 Mar 2019 10:27:43 +0000</pubDate>
+      
+      <guid>/post/mount-tmp-as-non-executable/</guid>
+      <description>Mounting /tmp as non executable improves security and increases awareness For security reasons I mount my /tmp directory as non executable. Since I use the zfs file system, I accomplish this by turning off the exec property:
+/sbin/zfs get exec tank/tmp/rootNAME PROPERTY VALUE SOURCE tank/tmp/root exec off local It is easy to search online how to accomplish the same for other file systems. I highly recommend mounting /tmp as none executable.</description>
+    </item>
     
     <item>
       <title>ox-hugo Dependency Image</title>

@@ -15,7 +15,7 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/post/adding-a-dependency-based-on-autotools-to-a-bazel-project/" />
 <meta property="article:published_time" content="2019-03-24T03:07:24&#43;00:00"/>
-<meta property="article:modified_time" content="2019-03-25T06:03:50-06:00"/>
+<meta property="article:modified_time" content="2019-03-28T08:12:34-06:00"/>
 
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Adding a Dependency Based on Autotools to a Bazel Project"/>
@@ -28,8 +28,8 @@
 
 
 <meta itemprop="datePublished" content="2019-03-24T03:07:24&#43;00:00" />
-<meta itemprop="dateModified" content="2019-03-25T06:03:50-06:00" />
-<meta itemprop="wordCount" content="1616">
+<meta itemprop="dateModified" content="2019-03-28T08:12:34-06:00" />
+<meta itemprop="wordCount" content="1601">
 
 
 
@@ -225,9 +225,7 @@ th {
 <p>The purpose of the sha256 hash validation is to ensure that subsequent downloads from either the same or different environments are building exactly the same dependencies. It is more about build integrity then security. Please download the zip archive for commit <code>a3593905f73ce19c09d21f9968f1d3f5bc115157</code> and then calculate its sha256 hash. You can determine the URI of a commit using the pattern: <code>https://github.com/&lt;user-name&gt;/&lt;commit-hash&gt;.zip</code></p>
 <div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">wget https://github.com/bazelbuild/rules_foreign_cc/archive/a3593905f73ce19c09d21f9968f1d3f5bc115157.zip
 sha256sum a3593905f73ce19c09d21f9968f1d3f5bc115157.zip
-rm a3593905f73ce19c09d21f9968f1d3f5bc115157.zip</code></pre></div>
-<p>e#+RESULTS:</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">6f3484eacc172c90d605e79130f9f01ec827a98b99c499c396eddc597a9c219d  a3593905f73ce19c09d21f9968f1d3f5bc115157.zip</code></pre></div>
+rm a3593905f73ce19c09d21f9968f1d3f5bc115157.zip</code></pre></div><div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">6f3484eacc172c90d605e79130f9f01ec827a98b99c499c396eddc597a9c219d  a3593905f73ce19c09d21f9968f1d3f5bc115157.zip</code></pre></div>
 <p>Now we know that the sha256 hash is <code>6f3484eacc172c90d605e79130f9f01ec827a98b99c499c396eddc597a9c219d</code> and with that we can configure the build to validate the hash before building the dependency.</p>
 
 <p>It is important to understand that what I have just explained is a flawed protocol if my intention was to protect myself against a sophisticated man in the middle attack. Consider that if I download the archive and calculate the hash, then ask the build to download the archive and compare to what I had previously calculated, of course I should expect it to be the same. Following this protocol I should expect the hash to validate even if a hostile proxy was delivering a modified archive. To mitigate the threat of a man in the middle attack, the Libsodium project supports <a href="https://download.libsodium.org/doc/installation#integrity-checking">cryptographic integrity checking</a> which I will not be covering in this post.</p>
@@ -330,8 +328,6 @@ INFO: Build completed successfully, 1 total action</code></pre></div></dd>
 <h2 id="conclusion">Conclusion</h2>
 
 <p>Thanks to the rules_foreign_cc project adding Libsodium as a dependency was easy. For GNU configure/make Autotools based projects with foreign dependencies of their own additional work would be needed. Also, keep in mind that the project is experimental and is unlikely to maintain backwards compatibility until it is deemed stable. I hope that you found this post useful.</p>
-
-<p>Want to comment? I will be adding comment support soon via <a href="https://staticman.net/">Static Man</a>.</p>
  </div>
     <footer class="post-footer">
 
@@ -347,6 +343,15 @@ INFO: Build completed successfully, 1 total action</code></pre></div></dd>
 </footer>
 
 
+<hr>
+<h2 id="Comments">
+  Comments
+</h2>
+
+comming soon ...
+
+  
+    
   
 
 

@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en-CA">
+
+<head>
+<meta charset="utf-8" />
+<meta name="author" content="Trevor Wilson" />
+<meta name="description" content="a place for me to bust out a blog on programming, infosec, emacs and things that interest me." />
+<meta name="keywords" content="[programming coding infosec cybersecurity webextensions blog blogger bust docker linux emacs free software]" />
+<meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1">
+<meta name="generator" content="Hugo 0.55.0-DEV" />
+
+<link rel="canonical" href="/post/staticman-with-github-and-zeit-now/">
+<meta property="og:title" content="Staticman with GitHub and Zeit Now - part 1" />
+<meta property="og:description" content="Why Staticman? I would like to add comment support to my Blog. The trouble is that I don&rsquo;t trust comment engines to respect the privacy of my readers. Do I even have any readers? Who can tell! None of my posts have a comment section and I don&rsquo;t collect analytics. Clearly this is a problem worth solving.
+I recently came across the Staticman comment engine which uses pull requests to update static blogs with static user comments." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/post/staticman-with-github-and-zeit-now/" />
+<meta property="article:published_time" content="2019-03-28T04:36:51&#43;00:00"/>
+<meta property="article:modified_time" content="2019-03-30T07:18:42-06:00"/>
+
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Staticman with GitHub and Zeit Now - part 1"/>
+<meta name="twitter:description" content="Why Staticman? I would like to add comment support to my Blog. The trouble is that I don&rsquo;t trust comment engines to respect the privacy of my readers. Do I even have any readers? Who can tell! None of my posts have a comment section and I don&rsquo;t collect analytics. Clearly this is a problem worth solving.
+I recently came across the Staticman comment engine which uses pull requests to update static blogs with static user comments."/>
+
+
+
+<meta itemprop="name" content="Staticman with GitHub and Zeit Now - part 1">
+<meta itemprop="description" content="Why Staticman? I would like to add comment support to my Blog. The trouble is that I don&rsquo;t trust comment engines to respect the privacy of my readers. Do I even have any readers? Who can tell! None of my posts have a comment section and I don&rsquo;t collect analytics. Clearly this is a problem worth solving.
+I recently came across the Staticman comment engine which uses pull requests to update static blogs with static user comments.">
+
+
+<meta itemprop="datePublished" content="2019-03-28T04:36:51&#43;00:00" />
+<meta itemprop="dateModified" content="2019-03-30T07:18:42-06:00" />
+<meta itemprop="wordCount" content="1295">
+
+
+
+<meta itemprop="keywords" content="hugo,staticman,serverless,git," />
+
+
+<link rel="stylesheet" href="/css/layout.css" />
+<style type="text/css">
+body {
+  background-color: #26282A;
+  color: #dbdbdb;
+}
+
+a { color: #dbdbdb; }
+
+pre {
+  background: #1D1F21;
+  border: 1px solid #dbdbdb;
+  border-radius: 5px;
+}
+
+code {
+  background: #1D1F21;
+}
+
+blockquote {
+  background: #1D1F21;
+  border-left: 3px solid #dbdbdb;
+}
+
+table {
+  margin: 1em auto;
+  border-collapse: collapse;
+}
+
+table, th, td {
+  border: 1px solid #dbdbdb;
+}
+
+th {
+  background: #dbdbdb;
+  color: #26282A;
+}
+
+.siteTitle a { color: #99cc66; }
+
+.post .content h1{ color: #99cc66; }
+.post .content h2{ color: #99cc66; }
+.post .content h3{ color: #99cc66; }
+.post .content h4{ color: #99cc66; }
+.post .content h5{ color: #99cc66; }
+.post .content h6{ color: #99cc66; }
+.post .content a:hover { color: #99cc66; }
+.social-link:hover { color: #99cc66; }
+.nav-item-title:hover { color: #99cc66; }
+.tag a:hover { color: #99cc66; }
+.copyright { color: #404040 }
+.poweredby { color: #404040 }
+.poweredby a { color: #404040; }
+.post-preview .title a{ color: #99cc66; }
+.content-item a:hover{
+  text-decoration: underline;
+  color: #99cc66;
+}
+.post-list .title { color: #99cc66; }
+.rmore { color: #99cc66; }
+.terms .term a:hover {
+  text-decoration: underline;
+  color: #99cc66;
+}
+
+</style>
+
+<link rel="stylesheet" href="/css/site.css">
+
+
+
+<title>
+
+
+     Staticman with GitHub and Zeit Now - part 1 
+
+</title>
+
+</head>
+
+
+<body>
+<div class="main">
+<header>
+
+<div class="header-bar">
+
+  <nav>
+    <div class="siteTitle">
+      <a href="/">Blogger Bust</a>
+    </div> 
+
+    
+    
+    <a class="nav-item" href="/about/"><div class="nav-item-title">About</div></a>
+    
+    <a class="nav-item" href="/series"><div class="nav-item-title">Series</div></a>
+    
+    <a class="nav-item active" href="/post/"><div class="nav-item-title">Posts</div></a>
+    
+
+  </nav>
+</div>
+
+  
+<div class="social-links-header">
+
+  
+  <a href="mailto:trevor.wilson@bloggerbust.ca"><div class="social-link">email</div></a>
+  
+
+  
+  <a href="https://github.com/bloggerbust" target="_blank"><div class="social-link">gh</div></a>
+  
+
+  
+
+  
+
+  
+
+</div>
+
+
+</header>
+
+
+<article class="post">
+    <h1 class="title"> Staticman with GitHub and Zeit Now - part 1 </h1>
+    <div class="content"> 
+
+<h2 id="why-staticman">Why Staticman?</h2>
+
+<p>I would like to add comment support to my Blog. The trouble is that I don&rsquo;t trust comment engines to respect the privacy of my readers. Do I even have any readers? Who can tell! None of my posts have a comment section and I don&rsquo;t collect analytics. Clearly this is a problem worth solving.</p>
+
+<p>I recently came across the <a href="https://staticman.net/">Staticman comment engine</a> which uses pull requests to update static blogs with static user comments. Fantastic! Finally an open source comment engine that I can trust to respect my readers&rsquo; privacy. There is just one issue, the <a href="https://staticman.net/docs/">Staticman - Getting Started documentation</a> provides instructions to add the GitHub app named <em>staticmanapp</em> to your repository; however, <a href="https://github.com/eduardoboucas/staticman/issues/279">GitHub limits the number of requests that staticmanapp can service</a> and it is constantly exceeding its limit. The solution is to self-host an instance and for that I turned to <a href="https://zeit.co/now">Zeit Now</a>.</p>
+
+<h2 id="why-zeit-now">Why Zeit Now?</h2>
+
+<p>Simply because it provides global serverless deployments with built in support for GitHub. Zeit Now directly supports GitLab as well, and to be honest, you could rig something up with any source control system that supports <a href="https://git-scm.com/book/en/v2/Customizing-Git-Git-Hooks">Git hooks</a>. Also, the <a href="https://zeit.co/pricing">free plan provides 100GB / month</a> which is much more than adequate for a blog comment engine.</p>
+
+<h2 id="create-a-github-bot-account">Create a GitHub bot account</h2>
+
+<p>The plan is to have the Zeit Now hosted Staticman application make pull requests for user comments to my static blog. GitHub pull requests can only be made from GitHub accounts. That means that the Staticman application will need its own GitHub account. If you are currently signed in to GitHub you will need to sign out now if you wish to follow along.</p>
+
+<p>Now go ahead and create <a href="https://github.com/join?source=header-home">a new GitHub account</a> for your Staticman instance. Unfortunately, you will not be able to use the same email address for your bot account as you do for your blog account. Thankfully, you won&rsquo;t need to create a new email address either. If you find that confusing, then you probably have not heard of <a href="https://www.cs.rutgers.edu/~watrous/plus-signs-in-email-addresses.html">dynamic email address aliases</a>, a feature supported by most email service providers today. If your email address is first.last@example.com, then append a tag such as &lsquo;bot&rsquo; or &lsquo;staticman&rsquo; to the end of your username and your service provider will treat it as an email alias.</p>
+
+<div class="table">
+  <div></div>
+
+<table>
+<thead>
+<tr>
+<th>email</th>
+<th>alias</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>first.last@example.com</td>
+<td>fist.last+bot@example.com</td>
+</tr>
+</tbody>
+</table>
+
+<p></div></p>
+
+<p>Next, follow the instructions to <a href="https://help.github.com/en/articles/creating-a-personal-access-token-for-the-command-line">Create a personal access token for the command line</a> from your bot account. In step 7 you will be presented with a long list of permissions that you can grant your access token. Since I am not sure yet how this access token will be used I chose to not grant it any permissions at all. This decision might cause me problems, but I can always edit these permissions later if the need arises.</p>
+
+<h2 id="create-a-github-ssh-key-for-the-bot-account">Create a GitHub SSH key for the bot account</h2>
+
+<p>Please follow these <a href="https://help.github.com/en/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent">instructions to generate a new SSH Key</a>. If you do not wish to enter a passphrase then simply hit <em>ENTER</em> without typing anything when prompted, but be aware that having no passphrase is not as secure. If you are choosing not to enter a passphrase because you do not wish to be frequently interrupted with passphrase prompts, then please note that the recommended solution is to use the ssh-agent daemon which caches your credentials for short periods of time. If you are not familiar with using an SSH key to access GitHub then you might want to read over their documentation on <a href="https://help.github.com/en/articles/connecting-to-github-with-ssh">connecting to GitHub with SSH</a>. I skipped the section on adding the SSH key to the ssh-agent daemon since I do not run ssh-agent. I don&rsquo;t mind typing my passphrase frequently. On the other hand, if you already have an SSH key that you use for accessing GitHub and you are unfamiliar with managing multiple SSH keys, then you might want to read up on <a href="https://gist.github.com/jexchan/2351996/">managing multiple SSH keys with multiple GitHub accounts</a>. The information contained in that article is actually valid for any account used with SSH, not just GitHub.</p>
+
+<p>Once you have your sparkling new SSH key, follow these instructions to <a href="https://help.github.com/en/articles/adding-a-new-ssh-key-to-your-github-account">add the SSH key to your GitHub account</a>.</p>
+
+<h2 id="clone-the-staticman-repo">Clone the staticman repo</h2>
+
+<p>Now that you have created <a href="#create-a-github-bot-account">a GitHub bot account</a> and <a href="#create-a-github-ssh-key-for-the-bot-account">a GitHub SSH key for the bot account</a> please clone the official staticman repository.</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh"><span style="color:#24909d">cd</span> ~/dev
+git clone https://github.com/BloggerBust-bot/staticman.git</code></pre></div>
+<p>By default your repo will be using your global git config, but that is not what we want. Instead, we want the local git config to override these settings with your bot username and email address.</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">git config --local user.name <span style="color:#ed9d13">&#34;BloggerBust-bot&#34;</span>
+git config --local user.email <span style="color:#ed9d13">&#34;trevor.wilson+bot@bloggerbust.ca&#34;</span>
+git config --local --list</code></pre></div><div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">core.repositoryformatversion=0
+core.filemode=true
+core.bare=false
+core.logallrefupdates=true
+remote.origin.url=https://github.com/BloggerBust-bot/staticman.git
+remote.origin.fetch=+refs/heads/*:refs/remotes/origin/*
+branch.master.remote=origin
+branch.master.merge=refs/heads/master
+user.email=trevor.wilson+bot@bloggerbust.ca
+user.name=BloggerBust-bot</code></pre></div>
+<h2 id="authorize-now-github-app">Authorize Now GitHub App</h2>
+
+<p>Visit the <a href="https://zeit.co/signup?next=%2Fgithub-setup">Sign Up for Zeit</a> page and click the <em>CONTINUE WITH GITHUB</em> button. A list of resources that Zeit Now needs access to will be displayed. At the time of writing only <em>read</em> access permission for your email address is requested. Once you have granted the Zeit Now GitHub app with the requested permission a tiny notice stating that your request is pending moderation and that you should contact support@zeit.co will appear at the bottom of the page. Within moments the GitHub notification service will send you an email similar to the following:</p>
+
+<blockquote>
+<p>From: GitHub <a href="mailto:noreply@github.com">noreply@github.com</a></p>
+
+<p>Subject: [GitHub] A third-party GitHub application has been added to your account</p>
+
+<p>To: BloggerBust-bot <a href="mailto:trevor.wilson+bot@bloggerbust.ca">trevor.wilson+bot@bloggerbust.ca</a></p>
+
+<p>Hey BloggerBust-bot!</p>
+
+<p>A third-party GitHub Application (Now) with the following permissions:</p>
+
+<ul>
+<li>View your email addresses</li>
+</ul>
+
+<p>Was recently authorized to access your account.</p>
+
+<p>Visit <a href="https://github.com/settings/connections/applications/Iv1.9d7d662ea00b8481">https://github.com/settings/connections/applications/Iv1.9d7d662ea00b8481</a> for more information.</p>
+
+<p>To see this and other security events for your account, visit <a href="https://github.com/settings/security">https://github.com/settings/security</a></p>
+
+<p>If you run into problems, please contact support by visiting <a href="https://github.com/contact">https://github.com/contact</a></p>
+
+<p>Thanks,
+Your friends at GitHub</p>
+</blockquote>
+
+<p>I followed the instructions from Zeit Now by sending this email to support@zeit.co:</p>
+
+<blockquote>
+<p>To: support@zeit.co</p>
+
+<p>Subject: account pending moderation - please activate</p>
+
+<p>Hi,</p>
+
+<p>I just granted Zeit now <span class="underline">read</span> access to my email address resource on my
+BloggerBust-bot GitHub account. After doing so, I was notified that my
+Zeit Now account is pending moderation and that I should contact
+support. I am doing so now. Please activate my Zeit Now account as soon
+as possible.</p>
+
+<p>Thank you kindly,</p>
+
+<p>Trevor Wilson</p>
+</blockquote>
+
+<p>They responded a short while later with the following email:</p>
+
+<blockquote>
+<p>From: support@zeit.co</p>
+
+<p>Subject: Re: account pending moderation - please activate</p>
+
+<p>Thank you for reaching out to ZEIT support. Our abuse system has flagged your account and we need to validate a few more details in order to continue with your signup.
+Can you kindly provide me with the following:</p>
+
+<ul>
+<li>GitHub account name.</li>
+<li>Twitter or any social media with your name.</li>
+<li>The company that you work for (optional).</li>
+<li>What are your plans when using the platform?</li>
+</ul>
+
+<p>Thanks for your cooperation and your patience is appreciated.</p>
+</blockquote>
+
+<p>Wow, that is a lot of personal information they are asking for. This was my response:</p>
+
+<blockquote>
+<p>To: support@zeit.co</p>
+
+<p>Subject: Re: account pending moderation - please activate</p>
+
+<p>Hi,</p>
+
+<p>Thank you for your quick response. Here is the information that you
+requested:</p>
+
+<ul>
+<li><p>GitHub account name.</p>
+
+<p>A: BloggerBust-bot</p></li>
+
+<li><p>Twitter or any social media with your name.</p>
+
+<p>A: Sorry, but I care about my privacy and refuse to provide you with this information</p></li>
+
+<li><p>The company that you work for (optional).</p>
+
+<p>A: Sorry, I won&rsquo;t provide you with that information</p></li>
+
+<li><p>What are your plans when using the platform?</p>
+
+<p>A: I plan on running a Nodejs application</p></li>
+</ul>
+
+<p>Sincerely,</p>
+
+<p>Trevor Wilson</p>
+</blockquote>
+
+<p>After a while they responded with this email stating that they have whitelisted my GitHub account.</p>
+
+<blockquote>
+<p>From: support@zeit.co</p>
+
+<p>Subject: Re: account pending moderation - please activate</p>
+
+<p>Thank you for the information.
+After reviewing your information, I have whitelisted your GitHub account.
+You should be able to register again with it in 24 hours.</p>
+</blockquote>
+
+<p>I guess I will have to wait 24 hours before continuing&hellip;</p>
+ </div>
+    <footer class="post-footer">
+
+  <div class="post-footer-data">
+    
+<div class="tags">
+    
+      <div class="tag">
+        <a href="/tags/hugo">#hugo</a>
+      </div>
+    
+      <div class="tag">
+        <a href="/tags/staticman">#staticman</a>
+      </div>
+    
+      <div class="tag">
+        <a href="/tags/serverless">#serverless</a>
+      </div>
+    
+      <div class="tag">
+        <a href="/tags/git">#git</a>
+      </div>
+    
+</div>
+
+    <div class="date"> Mar 28, 2019 </div>
+  </div>
+
+</footer>
+
+
+<hr>
+<h2 id="Comments">
+  Comments
+</h2>
+
+comming soon ...
+
+  
+    
+  
+
+
+</article>
+
+  <footer>
+
+  <div class="social-links-footer">
+
+  
+  <a href="mailto:trevor.wilson@bloggerbust.ca"><div class="social-link">Email</div></a>
+  
+
+  
+  <a href="https://github.com/bloggerbust" target="_blank"><div class="social-link">GitHub</div></a>
+  
+
+  
+
+  
+
+  
+
+  <div class="social-link">
+  <a href="/index.xml" target="_blank">RSS</a>
+  </div>
+
+</div>
+
+
+  <div class="copyright"> Copyright (c) 2018, all rights reserved. </div>
+
+  <div class="poweredby">
+    Powered by <a href="https://gohugo.io/">Hugo</a>.
+  </div>
+
+  </footer>
+
+</div> 
+
+</body>
+</html>
+

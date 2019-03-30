@@ -7,10 +7,20 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-CA</language>
     <copyright>Copyright (c) 2018, all rights reserved.</copyright>
-    <lastBuildDate>Sun, 24 Mar 2019 03:07:24 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 28 Mar 2019 04:36:51 +0000</lastBuildDate>
     
 	<atom:link href="/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Staticman with GitHub and Zeit Now - part 1</title>
+      <link>/post/staticman-with-github-and-zeit-now/</link>
+      <pubDate>Thu, 28 Mar 2019 04:36:51 +0000</pubDate>
+      
+      <guid>/post/staticman-with-github-and-zeit-now/</guid>
+      <description>Why Staticman? I would like to add comment support to my Blog. The trouble is that I don&amp;rsquo;t trust comment engines to respect the privacy of my readers. Do I even have any readers? Who can tell! None of my posts have a comment section and I don&amp;rsquo;t collect analytics. Clearly this is a problem worth solving.
+I recently came across the Staticman comment engine which uses pull requests to update static blogs with static user comments.</description>
+    </item>
     
     <item>
       <title>Adding a Dependency Based on Autotools to a Bazel Project</title>

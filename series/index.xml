@@ -12,6 +12,15 @@
     
     
     <item>
+      <title>Staticman With Github and Zeit Now</title>
+      <link>/series/staticman-with-github-and-zeit-now/</link>
+      <pubDate>Thu, 28 Mar 2019 04:36:51 +0000</pubDate>
+      
+      <guid>/series/staticman-with-github-and-zeit-now/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>Using Docker to Separate Dependencies From Implementation</title>
       <link>/series/using-docker-to-separate-dependencies-from-implementation/</link>
       <pubDate>Sat, 13 Oct 2018 00:00:00 -0600</pubDate>

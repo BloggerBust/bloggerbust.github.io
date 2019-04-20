@@ -7,10 +7,19 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-CA</language>
     <copyright>Copyright (c) 2018, all rights reserved.</copyright>
-    <lastBuildDate>Thu, 28 Mar 2019 04:36:51 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 30 Mar 2019 10:20:23 +0000</lastBuildDate>
     
 	<atom:link href="/series/staticman-with-github-and-zeit-now/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Broken links</title>
+      <link>/post/broken-links/</link>
+      <pubDate>Sat, 30 Mar 2019 10:20:23 +0000</pubDate>
+      
+      <guid>/post/broken-links/</guid>
+      <description>What is going on? A while back I noticed that all of my cross post anchor links are broken. They no longer link to anchors within the post, but instead link to the post itself. I planned on resolving this quickly, but it turned out to be more involved then I had hopped. In order to resolve the issue I needed to first register as a contributor of GNU emacs which I discussed here.</description>
+    </item>
     
     <item>
       <title>Staticman with GitHub and Zeit Now - part 1</title>

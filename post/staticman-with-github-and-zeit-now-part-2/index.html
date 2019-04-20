@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en-CA">
+
+<head>
+<meta charset="utf-8" />
+<meta name="author" content="Trevor Wilson" />
+<meta name="description" content="a place for me to bust out a blog on programming, infosec, emacs and things that interest me." />
+<meta name="keywords" content="[programming coding infosec cybersecurity webextensions blog blogger bust docker linux emacs free software]" />
+<meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1">
+<meta name="generator" content="Hugo 0.55.0-DEV" />
+
+<link rel="canonical" href="/post/staticman-with-github-and-zeit-now-part-2/">
+<meta property="og:title" content="Staticman with GitHub and Zeit Now - part 2" />
+<meta property="og:description" content="A quick recap In part 1 of this series we rationalized our choice to use Staticman as a comment engine for Blogger Bust, and Zeit Now to host Staticman. We also discussed how to create a GitHub bot account and began the process of authorizing the Zeit Now GitHub app, but we ran into some trouble when our account was flagged by the Zeit abuse system. After answering a few of their questions they whitelisted our account, a process that takes 24 hours to propagate through their system." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/post/staticman-with-github-and-zeit-now-part-2/" />
+<meta property="article:published_time" content="2019-04-19T07:25:30&#43;00:00"/>
+<meta property="article:modified_time" content="2019-04-20T06:41:49-06:00"/>
+
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Staticman with GitHub and Zeit Now - part 2"/>
+<meta name="twitter:description" content="A quick recap In part 1 of this series we rationalized our choice to use Staticman as a comment engine for Blogger Bust, and Zeit Now to host Staticman. We also discussed how to create a GitHub bot account and began the process of authorizing the Zeit Now GitHub app, but we ran into some trouble when our account was flagged by the Zeit abuse system. After answering a few of their questions they whitelisted our account, a process that takes 24 hours to propagate through their system."/>
+
+
+
+<meta itemprop="name" content="Staticman with GitHub and Zeit Now - part 2">
+<meta itemprop="description" content="A quick recap In part 1 of this series we rationalized our choice to use Staticman as a comment engine for Blogger Bust, and Zeit Now to host Staticman. We also discussed how to create a GitHub bot account and began the process of authorizing the Zeit Now GitHub app, but we ran into some trouble when our account was flagged by the Zeit abuse system. After answering a few of their questions they whitelisted our account, a process that takes 24 hours to propagate through their system.">
+
+
+<meta itemprop="datePublished" content="2019-04-19T07:25:30&#43;00:00" />
+<meta itemprop="dateModified" content="2019-04-20T06:41:49-06:00" />
+<meta itemprop="wordCount" content="2719">
+
+
+
+<meta itemprop="keywords" content="hugo,staticman,serverless,git," />
+
+
+<link rel="stylesheet" href="/css/layout.css" />
+<style type="text/css">
+body {
+  background-color: #26282A;
+  color: #dbdbdb;
+}
+
+a { color: #dbdbdb; }
+
+pre {
+  background: #1D1F21;
+  border: 1px solid #dbdbdb;
+  border-radius: 5px;
+}
+
+code {
+  background: #1D1F21;
+}
+
+blockquote {
+  background: #1D1F21;
+  border-left: 3px solid #dbdbdb;
+}
+
+table {
+  margin: 1em auto;
+  border-collapse: collapse;
+}
+
+table, th, td {
+  border: 1px solid #dbdbdb;
+}
+
+th {
+  background: #dbdbdb;
+  color: #26282A;
+}
+
+.siteTitle a { color: #99cc66; }
+
+.post .content h1{ color: #99cc66; }
+.post .content h2{ color: #99cc66; }
+.post .content h3{ color: #99cc66; }
+.post .content h4{ color: #99cc66; }
+.post .content h5{ color: #99cc66; }
+.post .content h6{ color: #99cc66; }
+.post .content a:hover { color: #99cc66; }
+.social-link:hover { color: #99cc66; }
+.nav-item-title:hover { color: #99cc66; }
+.tag a:hover { color: #99cc66; }
+.copyright { color: #404040 }
+.poweredby { color: #404040 }
+.poweredby a { color: #404040; }
+.post-preview .title a{ color: #99cc66; }
+.content-item a:hover{
+  text-decoration: underline;
+  color: #99cc66;
+}
+.post-list .title { color: #99cc66; }
+.rmore { color: #99cc66; }
+.terms .term a:hover {
+  text-decoration: underline;
+  color: #99cc66;
+}
+
+</style>
+
+<link rel="stylesheet" href="/css/site.css">
+
+
+
+<title>
+
+
+     Staticman with GitHub and Zeit Now - part 2 
+
+</title>
+
+</head>
+
+
+<body>
+<div class="main">
+<header>
+
+<div class="header-bar">
+
+  <nav>
+    <div class="siteTitle">
+      <a href="/">Blogger Bust</a>
+    </div> 
+
+    
+    
+    <a class="nav-item" href="/about/"><div class="nav-item-title">About</div></a>
+    
+    <a class="nav-item" href="/series"><div class="nav-item-title">Series</div></a>
+    
+    <a class="nav-item active" href="/post/"><div class="nav-item-title">Posts</div></a>
+    
+
+  </nav>
+</div>
+
+  
+<div class="social-links-header">
+
+  
+  <a href="mailto:trevor.wilson@bloggerbust.ca"><div class="social-link">email</div></a>
+  
+
+  
+  <a href="https://github.com/bloggerbust" target="_blank"><div class="social-link">gh</div></a>
+  
+
+  
+
+  
+
+  
+
+</div>
+
+
+</header>
+
+
+<article class="post">
+    <h1 class="title"> Staticman with GitHub and Zeit Now - part 2 </h1>
+    <div class="content"> 
+
+<h2 id="a-quick-recap">A quick recap</h2>
+
+<p>In <a href="/post/staticman-with-github-and-zeit-now/">part 1 of this series</a> we rationalized our choice to use Staticman as a comment engine for Blogger Bust, and <a href="https://zeit.co/now">Zeit Now</a> to host <a href="https://staticman.net">Staticman</a>. We also discussed how to <a href="/post/staticman-with-github-and-zeit-now/">create a GitHub bot account</a> and began the process of <a href="/post/staticman-with-github-and-zeit-now/">authorizing the Zeit Now GitHub app</a>, but we ran into some trouble when our account was flagged by the Zeit abuse system. After answering a few of their questions they whitelisted our account, a process that takes 24 hours to propagate through their system. We may now continue our quest to setup Staticman via Zeit Now.</p>
+
+<h2 id="re-register-with-zeit-now">Re-register with Zeit Now</h2>
+
+<p>Hopefully enough time has passed for registration to complete successfully. The first step is to sign in to GitHub using your <a href="/post/staticman-with-github-and-zeit-now/">GitHub bot account that we created in part 1</a> of this series. Next, revisit the <a href="https://zeit.co/signup?next=%2Fgithub-setup">Zeit Now GitHub setup page</a> and click <em>CONTINUE WITH GITHUB</em>. For me, the page redirected to itself. I decided to try their <a href="https://zeit.co/login">sign-in page instead</a>. After clicking the <em>CONTINUE WITH GITHUB</em> link I was presented with a view containing the text &ldquo;<em>Are you BloggerBust-bot?:</em>&rdquo;. Since I am, I clicked the <em>CONTINUE AS BloggerBust-bot</em> link and I was finally signed in to their dashboard.</p>
+
+<p>If you ever want to revoke the Zeit Now app from your GitHub bot account you can visit the <a href="https://github.com/settings/apps/authorizations">Authorized GitHub Apps view</a> and click the <em>Revoke</em> link.</p>
+
+<h2 id="install-now-for-github">Install Now for GitHub</h2>
+
+<p>Please refer to the official <a href="https://zeit.co/docs/v2/integrations/now-for-github/">Zeit Now documentation to install Now for GitHub</a> if you have any trouble following these instructions. From your <a href="https://zeit.co/account">Zeit Account Settings view</a> find the card with the heading <strong>GitHub Integration</strong> and click the <em>INSTALL NOW FOR GITHUB</em> link. You will then be prompted to pick between authorizing the Zeit Now GitHub app for all repositories or limit authorization to a whitelist. The choice is yours to make. I decided to grant the Now app access to a whitelist of repositories despite the fact that, at the time of this writing, this account has but a single repository. Once you have made your choice, read over the permissions that it is requesting and if you are okay granting it those permissions then go ahead and click the <em>Install</em> button at the bottom of the view.</p>
+
+<p>Later, if you decide that you want to uninstall the Zeit Now GitHub account, simply visit your GitHub account&rsquo;s <a href="https://github.com/settings/installations">Installed GitHub Apps view</a>, then click the <em>Configure</em> button followed by the <em>Uninstall</em> button that will be visible on the app&rsquo;s configuration view. From the configuration view you can also review the permissions that the app has been granted and update the repository access settings.</p>
+
+<h2 id="install-the-now-cli">Install the Now CLI</h2>
+
+<p>The Now CLI is <a href="https://github.com/zeit/now-cli">open source on GitHub</a>. Please follow their instructions to install the CLI. If you choose to install the CLI with <em>npm</em> then you must have <a href="https://www.npmjs.com/get-npm">Node.js installed</a>. Alternatively, you may choose to <a href="https://github.com/zeit/now-desktop">install the Now Desktop</a> which includes the Now CLI. I choose not to install &ldquo;<em>desktop</em>&rdquo; applications of this nature because I do not like how tightly they integrate my development environment with the provider&rsquo;s service infrastructure.</p>
+
+<h2 id="install-npm">Install npm</h2>
+
+<p>If you <a href="#install-the-now-cli">installed the Now CLI</a> with the Now Desktop app then you can technically skip this section. Otherwise, you will need to install npm to install the Now CLI. Even if you did install the Now Desktop app, you may want to be able to contribute to Staticman.net, or just run the unit tests as a sanity check, in which case you should install npm.</p>
+
+<p>Npm is the default JavaScript package manager for Node.js. Staticman.net was designed to be hosted by Node.js. Zeit Now was designed to host serverless Node applications. My preference is to install npm with a custom prefix so that I can avoid installing global packages in a location that would require root privileges.</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">mkdir ~/.npm-global
+npm config <span style="color:#24909d">set</span> prefix <span style="color:#ed9d13">&#34;~/.npm-global&#34;</span>
+npm install now -g</code></pre></div><div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">/home/dustfinger/.npm-global/bin/now -&gt; /home/dustfinger/.npm-global/lib64/node_modules/now/download/dist/now
+
+&gt; now@14.2.4 postinstall /home/dustfinger/.npm-global/lib64/node_modules/now
+&gt; node download/install.js
+
+&gt; For the source code, check out: https://github.com/zeit/now-cli
+
+
+
++ now@14.2.4
+added 2 packages from 2 contributors in 10.423s</code></pre></div>
+<p>If you choose to change your npm global prefix then you will also need to update your path environment variable to include <code>~/.npm-global/bin</code> or you won&rsquo;t be able to run now without providing the path to the binary. I simply add the following to my <code>~/.bash_profile</code></p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh"><span style="color:#40ffff">PATH</span>=<span style="color:#40ffff">$PATH</span>:~/.npm-global/bin</code></pre></div>
+<p>and then source it.</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh"><span style="color:#24909d">source</span> ~/.bash_profile</code></pre></div>
+<h2 id="generate-rsa-pem-private-and-public-keys">Generate RSA PEM Private &amp; Public Keys</h2>
+
+<p>Staticman uses a <a href="http://fileformats.archiveteam.org/wiki/PEM%5Fencoded%5FRSA%5Fprivate%5Fkey">PEM encoded RSA private key</a> to decrypt a select set of sensitive configuration parameters using the <a href="https://www.npmjs.com/package/node-rsa">node-rsa npm package</a>. The private key must be generated using one of the <a href="https://www.npmjs.com/package/node-rsa#format-string-syntax">format schemes supported by node-rsa</a>. The corresponding public key is kept in a file named <em>staticman_key.pub</em> and is checked into the Git repository. The public key is meant to be used by the end user to <a href="https://staticman.net/docs/configuration">encrypt sensitive parameters</a> that need to be stored in the <em>staticman.yml</em> of a pregenerated GitHub or GitLab repository. As you will soon see, I am not going to be using this approach. None the less, I will show you how to generate both the public and private RSA keys. The git ignore rules exclude a file named staticman_key, so that seems like a good place to store our private key for later use. Let&rsquo;s create an RSA private key for this purpose now. Remember &ndash; Keep it secret, keep it safe.</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">openssl genpkey -outform PEM -algorithm RSA &gt; staticman_key
+openssl pkey -inform PEM -in staticman_key -pubout &gt; staticman_key.pub</code></pre></div>
+<h2 id="keep-our-secrets-safe-for-now">Keep our secrets safe for Now</h2>
+
+<p>The <a href="https://github.com/eduardoboucas/staticman#setting-up-the-server">Staticman Readme - Setting up the server</a> documentation instructs us to copy the <a href="https://github.com/eduardoboucas/staticman/blob/master/config.sample.json">config.sample.json</a>, to config.{environment}.json, as a starting place when configuring the Staticman server. However, Now GitHub deployments are immutable, therefore we would be required to push a commit containing our config.production.json. Under these circumstances, if we thoughtlessly followed instructions, then our GitHub bot repository would contain our GitHub token and private RSA key within the config.production.json resulting in a fallible deployment strategy. I have decided to improve security by taking advantage of Zeit Now&rsquo;s support for <a href="https://zeit.co/docs/v2/deployments/environment-variables-and-secrets/#securing-environment-variables-using-secrets">securing environment variables using secrets</a>. It so happens that the <a href="https://staticman.net/docs/api#githubToken">githubToken</a> and <a href="https://staticman.net/docs/api#rsaPrivateKey">rsaPrivateKey</a> config properties have corresponding environment variables. Moreover, all of the config properties correspond to an environment variable, so we could get rid of config.production.json entirely. In fact, that is what we are going to do.</p>
+
+<h3 id="sign-into-now-using-the-cli">Sign into Now using the CLI</h3>
+
+<p>The Now CLI requires an authentication token in order to operate on your account. To that end, we simply call the login verb from a terminal.</p>
+
+<p><a id="code-snippet--now-login"></a></p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">now login</code></pre></div>
+<p>The protocol will instruct the Zeit Now service to send you a confirmation email. The email will contain a link that when opened in your browser will present a CAPTCHA. I hate CAPTCHAs. As soon as you answer the CAPTCHA, the Now CLI will store the authentication token.</p>
+
+<p>For your amusement I will tell you that I had opened this CAPTCHA in a separate <em>EXWM</em> workspace and did not notice when the Now CLI had validated the email confirmation. As a result, I answered several CAPTCHAs before I got annoyed and flipped back to the workspace containing my terminal with the CLI output, only to find that it had already validated.</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">&gt; We sent an email to trevor.wilson+bot@bloggerbust.ca. Please follow the steps provided
+  inside it and make sure the security code matches Handsome Snowshoe.
+✔ Email confirmed
+&gt; Ready! Authentication token and personal details saved in &#34;~/.now&#34;</code></pre></div>
+<p>Be warned, the CAPTCHA may continue to present you with new CAPTCHAs without end. Although, on subsequent trials I was instead presented with the following confirmation message directly in the browser immediately after passing the CAPTCHA. I guess the behaviour may vary:</p>
+
+<style>.org-center { margin-left: auto; margin-right: auto; text-align: center; }</style>
+
+<div class="org-center">
+  <div></div>
+
+<p>Email Address Confirmed</p>
+
+<p>You have been correctly authenticated. You may now close this window!</p>
+
+<p></div></p>
+
+<h3 id="create-the-rsa-private-key-secret">Create the RSA private key secret</h3>
+
+<p>After looking over the node-rsa <a href="https://www.npmjs.com/package/node-rsa#importexport-keys">Import/Export keys example</a> I was under the impression that end-of-line delimiters need to be removed from the key data. In retrospective, removing end-of-line delimiters is probably not necessary, but since I have not tested it otherwise I will leave the bash pipeline transformation as is. For convenience we will use the <code>tr</code> (translate) command to delete carriage returns and newline characters, then pipe the result to <code>xargs</code> which will invoke <code>sh</code> with our private key as a positional argument. The <code>sh</code> command will read our <code>now secret</code> command from a string, perform positional parameter substitution using the parameters passed to it by <code>xargs</code> and evaluate the resulting expression. The final product will be a Now Secret, named <em>staticman-rsa-private-key</em>, saved in your Now account and readable only by the code that is running it.</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">tr -d [<span style="color:#ed9d13">&#39;\r&#39;</span>,<span style="color:#ed9d13">&#39;\n&#39;</span>] &lt; staticman_key | xargs -0 sh -c <span style="color:#ed9d13">&#39;now secret add -- staticman-rsa-private-key &#34;$0&#34;&#39;</span></code></pre></div><div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">&gt; UPDATE AVAILABLE The latest version of Now CLI is 15.0.1
+&gt; Read more about how to update here: https://zeit.co/update-cli
+&gt; Changelog: https://github.com/zeit/now-cli/releases/tag/15.0.1
+&gt; Success! Secret staticman-rsa-private-key added (trevorwilsonbot) [289ms]</code></pre></div>
+<h3 id="create-the-github-token-secret">Create the GitHub token secret</h3>
+
+<p>Copy the GitHub access token that you created for Staticman and add it as a Now secret just as we did with the RSA private key.</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">now secret add staticman-github-token <span style="color:#ed9d13">&#34;6GhMuCvs9AXS3XCxxozUSIYGwuTKTHdUFcHYIm2d&#34;</span></code></pre></div><div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">&gt; Success! Secret staticman-github-token added (trevorwilsonbot) [290ms]</code></pre></div>
+<h2 id="prepare-staticman-for-now">Prepare Staticman for Now</h2>
+
+<p>In part 1 of this series we <a href="/post/staticman-with-github-and-zeit-now/">cloned the staticman repo</a>. However, I found <a href="https://github.com/eduardoboucas/staticman/issues/283">some issues</a> with the Staticman master branch and have since made a few pull requests &ndash; <a href="https://github.com/eduardoboucas/staticman/pull/285">PR #285</a>, <a href="https://github.com/eduardoboucas/staticman/pull/288">PR #288</a>, <a href="https://github.com/eduardoboucas/staticman/pull/289">PR #289</a>. For now, you might want to just clone <a href="https://github.com/BloggerBust-bot/staticman/tree/now%5Fmaster">my working branch</a> until upstream stabilizes. Or <a href="https://github.com/login?return%5Fto=%2FBloggerBust-bot%2Fstaticman">fork it</a> and then switch to your forked copy of my working branch if you wish to take advantage of automatic serverless deployments.</p>
+
+<h3 id="configuration-for-now">Configuration for Now</h3>
+
+<p>The Now GitHub app requires a <em>now.json</em> configuration file to exist in the <strong>root directory</strong> of any app that we wish to configure for automatic serverless deployment. It is in the Now configuration that we can set Staticman environment variables to either hard coded values or our Now secrets as discussed in <a href="#keep-our-secrets-safe-for-now">Keep our secrets safe for Now</a>. Let&rsquo;s create that configuration file now.</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{
+  <span style="color:#6ab825;font-weight:bold">&#34;version&#34;</span>: <span style="color:#3677a9">2</span>,
+  <span style="color:#6ab825;font-weight:bold">&#34;env&#34;</span>: {
+    <span style="color:#6ab825;font-weight:bold">&#34;NODE_ENV&#34;</span>: <span style="color:#ed9d13">&#34;development&#34;</span>,
+    <span style="color:#6ab825;font-weight:bold">&#34;GITHUB_TOKEN&#34;</span>: <span style="color:#ed9d13">&#34;@staticman-github-token&#34;</span>,
+    <span style="color:#6ab825;font-weight:bold">&#34;RSA_PRIVATE_KEY&#34;</span>: <span style="color:#ed9d13">&#34;@staticman-rsa-private-key&#34;</span>
+  },
+  <span style="color:#6ab825;font-weight:bold">&#34;builds&#34;</span>: [
+    { <span style="color:#6ab825;font-weight:bold">&#34;src&#34;</span>: <span style="color:#ed9d13">&#34;index.js&#34;</span>, <span style="color:#6ab825;font-weight:bold">&#34;use&#34;</span>: <span style="color:#ed9d13">&#34;@now/node-server&#34;</span> }
+  ],
+  <span style="color:#6ab825;font-weight:bold">&#34;routes&#34;</span>: [
+    { <span style="color:#6ab825;font-weight:bold">&#34;src&#34;</span>: <span style="color:#ed9d13">&#34;/(.*)&#34;</span>, <span style="color:#6ab825;font-weight:bold">&#34;dest&#34;</span>: <span style="color:#ed9d13">&#34;/index.js&#34;</span> }
+  ]
+}</code></pre></div>
+<p>The point of <em>serverless</em> hosting is to host one lambda per route so that server resource utilization is minimized. It also frees up developers from having to concern themselves with server-side resource management. If you have been sitting there this whole time with your hand up, squirming in your seat, desperately wanting to point out that <a href="https://github.com/eduardoboucas/staticman/blob/master/server.js">Staticman has server code</a> and isn&rsquo;t designed for serverless, then you may put your hand down now. You are correct &ndash; sort of.</p>
+
+<p>Zeit Now provides the <a href="https://zeit.co/docs/v2/deployments/official-builders/node-js-server-now-node-server/">@now/node-server official builder</a> for Node.js applications that manage their own server-side resources. If you thought that Staticman is not designed for serverless, then you are right, but if you thought that our deployment of Staticman is not serverless, then you are wrong. You see, Staticman uses <a href="https://expressjs.com/">Express</a> web framework which the @now/node-server builder then wraps in a single lambda named <em>index.js</em>. This is why we route everything to <em>index.js in the /routes</em> property of the now.json pasted above. As soon as the route has been resolved to the one and only lambda, Staticman Express routing takes over and handles application level routing internally.</p>
+
+<p>If you are curious what else you can add to the now.json configuration, then on your quest for more details, I refer you to the Now <a href="https://zeit.co/docs/v2/deployments/configuration/">Deployment Configuration documentation</a>. You might also be interested in this article on <a href="https://zeit.co/blog/customizable-lambda-sizes">customizable lambda sizes</a>.</p>
+
+<h3 id="ignore-things-for-now">Ignore things for Now</h3>
+
+<p>Just like Git, Zeit Now has <a href="https://zeit.co/guides/prevent-uploading-sourcepaths-with-nowignore">an ignore file</a> called <em>.nowignore</em>. The syntax is identical to <em>.gitignore</em>. It is best to ignore everything that is being ignored in .gitignore. You wouldn&rsquo;t want to accidentally deploy your <em>staticman_key</em> to be served up publicly now would you. Also, the node_modules directory can be quite large, it would be nice to not have that as part of the deployment. npm can install the node modules on the Zeit Now instance as part of the build procedure.</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">cp .gitignore .nowignore</code></pre></div>
+<p>Let&rsquo;s edit our .nowignore to ignore a few more things explicitly.</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">.idea/
+*.iml
+
+config.json
+config.*.json
+!config.test.json
+!config.example.json
+coverage/
+node_modules/
+staticman_key
+test/
+docs/
+**/*.md
+!LICENSE.md
+Dockerfile</code></pre></div>
+<h2 id="deploy-our-staticman-instance">Deploy our Staticman instance</h2>
+
+<p><strong>IMPORTANT:</strong> As I mentioned in <a href="#prepare-staticman-for-now">Prepare Staticman for Now</a> I found some issues in the upstream master branch. I have a working branch named <a href="https://github.com/BloggerBust-bot/staticman/tree/now%5Fmaster">now_master</a> in my fork of the Staticman repository that has already been prepared for Now deployments. I recommend that you use my working branch until the upstream master branch has stabilized.</p>
+
+<p>Once I felt that my fork of Staticman was ready for deployment I pushed my changes to my remote expecting the GitHub Now App to automatically deploy my modified Staticman app and provide me with the details. That did not seem to happen though. I looked around both my GitHub and Now dashboards for a while. After trying quite a few different things I finally resolved myself to just use the now CLI and deploy it manually.</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">now</code></pre></div><div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">&gt; UPDATE AVAILABLE The latest version of Now CLI is 15.0.1
+&gt; Read more about how to update here: https://zeit.co/update-cli
+&gt; Changelog: https://github.com/zeit/now-cli/releases/tag/15.0.1
+&gt; Deploying ~/dev/staticman under bloggerbust-bot
+&gt; Using project staticman
+&gt; https://staticman-ol2ejawgs.now.sh [v2] [2s]
+┌ index.js        Ready               [1m]
+└── λ index.js (12.36MB) [sfo1]
+&gt; Ready! Aliased to https://staticman.bloggerbust-bot.now.sh [1m]</code></pre></div>
+<p>That worked! I will mess around with automatic serverless deployment using the Now GitHub app another time. For now, I am happy to manually deploy.</p>
+
+<h2 id="invite-staticman-to-be-your-collaborator">Invite Staticman to be your collaborator</h2>
+
+<p>In order for Staticman to push comments to my blog, its GitHub account must be registered as a collaborator with my GitHub account, and it must be given write access to my blog&rsquo;s GitHub Pages repository. After registering the Staticman GitHub bot account an invitation will be issued that Staticman must accept. However, Staticman is not aware that the invitation has been created; therefore, we must ask Staticman to accept the invitation by sending the invitation details to our Staticman instance using a RESTful request. It is true that we could accept the invitation on behalf of Staticman since we have access to both accounts, but we want to make sure that things are working correctly, so no cheating!</p>
+
+<p>Now, sign into your blogging GitHub account. Navigate to the settings profile and click on <em>Repositories</em> under the <em>Personal settings</em> menu. In the right hand pane you will see a list of repositories, each repository has a <em>collaborators</em> link. Click the collaborators link next to your GitHub pages repository. The list of repositories will be replaced with a form to add a collaborator. To get there quickly fill out the following URI pattern in your browser&rsquo;s address bar and hit enter:</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">https://github.com/{YOUR-GITHUB-USERNAME}/{YOUR-PREGENERATED-BLOG-REPOSITORY}/settings/collaboration</code></pre></div>
+<p>You should now be looking at the Collaborators form. In the search field type the name of your bot account and click the <em>Add collaborator</em> button. Your bot account should now be listed above the <em>Add collaborator</em> search field with a status label similar to:</p>
+
+<blockquote>
+<p>Awaiting BloggerBust-bot&rsquo;s response</p>
+</blockquote>
+
+<p>It is time to send a request to our Staticman instance and ask it to accept the invitation. The request requires three pieces of information.</p>
+
+<dl>
+<dt>YOUR-DEPLOYMENT-ALIAS</dt>
+<dd>The alias was printed to the terminal when we <a href="#deploy-our-staticman-instance">deployed our Staticman instance</a>. If you forgot the name of your instance then go to your <a href="https://zeit.co/dashboard">Zeit Now dashboard</a> and click the deployment details for <em>staticman</em></dd>
+<dt>YOUR-GITHUB-USERNAME</dt>
+<dd>The username containing your GitHub pages.</dd>
+<dt>YOUR-REPOSITORY-NAME</dt>
+<dd>The name of your GitHub pages repository</dd>
+<dt>STATICMAN-API-VERSION</dt>
+<dd>The number representing the Staticman API version. We are using API version 2.</dd>
+</dl>
+
+<p>Then all you need to do is open a new browser tab and compose the following URI filled in with the correct information and then hit enter:</p>
+
+<blockquote>
+<p><code>https://{YOUR-DEPLOYMENT-ALIAS}/{API-VERSION}/connect/{YOUR-GitHub-USERNAME}/{YOUR-REPOSITORY-NAME}</code></p>
+</blockquote>
+
+<p>If everything goes right then you will receive the message <strong>OK!</strong>. If on the other-hand, something goes wrong, you can access your logs like this:</p>
+
+<blockquote>
+<p><code>https://{YOUR-DEPLOYMENT-ALIAS}/_logs</code></p>
+</blockquote>
+
+<p>and your source files like this:</p>
+
+<blockquote>
+<p><code>https://{YOUR-DEPLOYMENT-ALIAS}/_src</code></p>
+</blockquote>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>That covers the basis of what you need to do to setup Staticman with Zeit Now. In the third and final part of <a href="https://bloggerbust.ca/series/staticman-with-github-and-zeit-now/">this series</a> I will talk a about how I configured Blogger Bust to interopt with my instance of Staticman the end result being functional static comments on all of my posts.</p>
+ </div>
+    <footer class="post-footer">
+
+  <div class="post-footer-data">
+    
+<div class="tags">
+    
+      <div class="tag">
+        <a href="/tags/hugo">#hugo</a>
+      </div>
+    
+      <div class="tag">
+        <a href="/tags/staticman">#staticman</a>
+      </div>
+    
+      <div class="tag">
+        <a href="/tags/serverless">#serverless</a>
+      </div>
+    
+      <div class="tag">
+        <a href="/tags/git">#git</a>
+      </div>
+    
+</div>
+
+    <div class="date"> Apr 19, 2019 </div>
+  </div>
+
+</footer>
+
+
+
+  
+<hr>
+<h2 id="Comments">
+  Comments
+</h2>
+    <form class="comment" method="POST" action="https://staticman.bloggerbust-bot.now.sh/v2/entry/BloggerBust/bloggerbust.ca/master/comments" class="flex-container flex-column">
+  <input type="hidden" name="options[redirect]" value="/post/staticman-with-github-and-zeit-now-part-2/#comment-submitted">
+  <input type="hidden" name="options[slug]" value="staticman-with-github-and-zeit-now-part-2">
+  <div class="flex-container flex-row">
+    <input name="fields[name]" type="text" placeholder="Your name" class="flex-item">
+    <input name="fields[email]" type="email" placeholder="Your email address" class="flex-item">
+  </div>
+  <div class="flex-container flex-row">
+    <textarea name="fields[message]" placeholder="Your message. Feel free to use Markdown." rows="10" class="flex-item"></textarea>
+  </div>
+  <div class="flex-container flex-row">
+    <input type="submit" value="Submit" class="flex-item">
+  </div>
+</form>
+
+    
+
+
+
+
+  
+
+
+
+<p>Be the first to comment on this article.</p>
+
+
+  
+
+
+</article>
+
+  <footer>
+
+  <div class="social-links-footer">
+
+  
+  <a href="mailto:trevor.wilson@bloggerbust.ca"><div class="social-link">Email</div></a>
+  
+
+  
+  <a href="https://github.com/bloggerbust" target="_blank"><div class="social-link">GitHub</div></a>
+  
+
+  
+
+  
+
+  
+
+  <div class="social-link">
+  <a href="/index.xml" target="_blank">RSS</a>
+  </div>
+
+</div>
+
+
+  <div class="copyright"> Copyright (c) 2018, all rights reserved. </div>
+
+  <div class="poweredby">
+    Powered by <a href="https://gohugo.io/">Hugo</a>.
+  </div>
+
+  </footer>
+
+</div> 
+
+</body>
+</html>
+

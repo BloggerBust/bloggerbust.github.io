@@ -4,12 +4,17 @@
   
   <url>
     <loc>/post/broken-links/</loc>
-    <lastmod>2019-04-20T05:12:55-06:00</lastmod>
+    <lastmod>2019-04-20T06:22:05-06:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/post/staticman-with-github-and-zeit-now-part-2/</loc>
+    <lastmod>2019-04-20T06:20:37-06:00</lastmod>
   </url>
   
   <url>
     <loc>/post/staticman-with-github-and-zeit-now/</loc>
-    <lastmod>2019-04-20T05:33:04-06:00</lastmod>
+    <lastmod>2019-04-20T06:20:05-06:00</lastmod>
   </url>
   
   <url>
@@ -54,19 +59,19 @@
   
   <url>
     <loc>/</loc>
-    <lastmod>2019-04-20T05:12:55-06:00</lastmod>
+    <lastmod>2019-04-20T06:22:05-06:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>/categories/blogging/</loc>
-    <lastmod>2019-04-20T05:12:55-06:00</lastmod>
+    <lastmod>2019-04-20T06:22:05-06:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>/categories/</loc>
-    <lastmod>2019-04-20T05:12:55-06:00</lastmod>
+    <lastmod>2019-04-20T06:22:05-06:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -84,13 +89,13 @@
   
   <url>
     <loc>/tags/git/</loc>
-    <lastmod>2019-04-20T05:33:04-06:00</lastmod>
+    <lastmod>2019-04-20T06:20:37-06:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>/tags/hugo/</loc>
-    <lastmod>2019-04-20T05:33:04-06:00</lastmod>
+    <lastmod>2019-04-20T06:20:37-06:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -103,6 +108,12 @@
   <url>
     <loc>/tags/nauci/</loc>
     <lastmod>2018-11-12T04:19:52-07:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/tags/notice/</loc>
+    <lastmod>2019-04-20T06:22:05-06:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -120,7 +131,7 @@
   
   <url>
     <loc>/post/</loc>
-    <lastmod>2019-04-20T05:12:55-06:00</lastmod>
+    <lastmod>2019-04-20T06:22:05-06:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -137,19 +148,19 @@
   
   <url>
     <loc>/tags/serverless/</loc>
-    <lastmod>2019-04-20T05:33:04-06:00</lastmod>
+    <lastmod>2019-04-20T06:20:37-06:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>/tags/staticman/</loc>
-    <lastmod>2019-04-20T05:33:04-06:00</lastmod>
+    <lastmod>2019-04-20T06:20:37-06:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>/series/staticman-with-github-and-zeit-now/</loc>
-    <lastmod>2019-04-20T05:12:55-06:00</lastmod>
+    <lastmod>2019-04-20T06:20:37-06:00</lastmod>
     <priority>0</priority>
   </url>
   

@@ -22,6 +22,15 @@
     </item>
     
     <item>
+      <title>Staticman with GitHub and Zeit Now - part 2</title>
+      <link>/post/staticman-with-github-and-zeit-now-part-2/</link>
+      <pubDate>Sat, 30 Mar 2019 07:25:30 +0000</pubDate>
+      
+      <guid>/post/staticman-with-github-and-zeit-now-part-2/</guid>
+      <description>A quick recap In part 1 of this series we rationalized our choice to use Staticman as a comment engine for Blogger Bust, and Zeit Now to host Staticman. We also discussed how to create a GitHub bot account and began the process of authorizing the Zeit Now GitHub app, but we ran into some trouble when our account was flagged by the Zeit abuse system. After answering a few of their questions they whitelisted our account, a process that takes 24 hours to propagate through their system.</description>
+    </item>
+    
+    <item>
       <title>Staticman with GitHub and Zeit Now - part 1</title>
       <link>/post/staticman-with-github-and-zeit-now/</link>
       <pubDate>Thu, 28 Mar 2019 04:36:51 +0000</pubDate>

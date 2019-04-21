@@ -7,10 +7,19 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-CA</language>
     <copyright>Copyright (c) 2018, all rights reserved.</copyright>
-    <lastBuildDate>Fri, 19 Apr 2019 07:25:30 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 21 Apr 2019 10:14:27 +0000</lastBuildDate>
     
 	<atom:link href="/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Staticman With GitHub and Zeit Now - part 3</title>
+      <link>/post/staticman-with-github-and-zeit-now-part-3/</link>
+      <pubDate>Sun, 21 Apr 2019 10:14:27 +0000</pubDate>
+      
+      <guid>/post/staticman-with-github-and-zeit-now-part-3/</guid>
+      <description>A quick recap In part 2 of this series we created a Staticman GitHub bot account and walked through all of the steps required to deploy an instance of Staticman to Zeit Now. In this final post of the series we are going to invite our Staticman instance to be a collaborator of our unpublished GitHub blog repository. Then we will prepare our blog to send RESTful requests to our Staticman instance.</description>
+    </item>
     
     <item>
       <title>Staticman with GitHub and Zeit Now - part 2</title>

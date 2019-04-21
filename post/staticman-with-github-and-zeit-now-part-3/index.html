@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="en-CA">
+
+<head>
+<meta charset="utf-8" />
+<meta name="author" content="Trevor Wilson" />
+<meta name="description" content="a place for me to bust out a blog on programming, infosec, emacs and things that interest me." />
+<meta name="keywords" content="[programming coding infosec cybersecurity webextensions blog blogger bust docker linux emacs free software]" />
+<meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1">
+<meta name="generator" content="Hugo 0.55.0-DEV" />
+
+<link rel="canonical" href="/post/staticman-with-github-and-zeit-now-part-3/">
+<meta property="og:title" content="Staticman With GitHub and Zeit Now - part 3" />
+<meta property="og:description" content="A quick recap In part 2 of this series we created a Staticman GitHub bot account and walked through all of the steps required to deploy an instance of Staticman to Zeit Now. In this final post of the series we are going to invite our Staticman instance to be a collaborator of our unpublished GitHub blog repository. Then we will prepare our blog to send RESTful requests to our Staticman instance." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/post/staticman-with-github-and-zeit-now-part-3/" />
+<meta property="article:published_time" content="2019-04-21T10:14:27&#43;00:00"/>
+<meta property="article:modified_time" content="2019-04-21T05:22:49-06:00"/>
+
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Staticman With GitHub and Zeit Now - part 3"/>
+<meta name="twitter:description" content="A quick recap In part 2 of this series we created a Staticman GitHub bot account and walked through all of the steps required to deploy an instance of Staticman to Zeit Now. In this final post of the series we are going to invite our Staticman instance to be a collaborator of our unpublished GitHub blog repository. Then we will prepare our blog to send RESTful requests to our Staticman instance."/>
+
+
+
+<meta itemprop="name" content="Staticman With GitHub and Zeit Now - part 3">
+<meta itemprop="description" content="A quick recap In part 2 of this series we created a Staticman GitHub bot account and walked through all of the steps required to deploy an instance of Staticman to Zeit Now. In this final post of the series we are going to invite our Staticman instance to be a collaborator of our unpublished GitHub blog repository. Then we will prepare our blog to send RESTful requests to our Staticman instance.">
+
+
+<meta itemprop="datePublished" content="2019-04-21T10:14:27&#43;00:00" />
+<meta itemprop="dateModified" content="2019-04-21T05:22:49-06:00" />
+<meta itemprop="wordCount" content="2226">
+
+
+
+<meta itemprop="keywords" content="hugo,staticman,serverless,git," />
+
+
+<link rel="stylesheet" href="/css/layout.css" />
+<style type="text/css">
+body {
+  background-color: #26282A;
+  color: #dbdbdb;
+}
+
+a { color: #dbdbdb; }
+
+pre {
+  background: #1D1F21;
+  border: 1px solid #dbdbdb;
+  border-radius: 5px;
+}
+
+code {
+  background: #1D1F21;
+}
+
+blockquote {
+  background: #1D1F21;
+  border-left: 3px solid #dbdbdb;
+}
+
+table {
+  margin: 1em auto;
+  border-collapse: collapse;
+}
+
+table, th, td {
+  border: 1px solid #dbdbdb;
+}
+
+th {
+  background: #dbdbdb;
+  color: #26282A;
+}
+
+.siteTitle a { color: #99cc66; }
+
+.post .content h1{ color: #99cc66; }
+.post .content h2{ color: #99cc66; }
+.post .content h3{ color: #99cc66; }
+.post .content h4{ color: #99cc66; }
+.post .content h5{ color: #99cc66; }
+.post .content h6{ color: #99cc66; }
+.post .content a:hover { color: #99cc66; }
+.social-link:hover { color: #99cc66; }
+.nav-item-title:hover { color: #99cc66; }
+.tag a:hover { color: #99cc66; }
+.copyright { color: #404040 }
+.poweredby { color: #404040 }
+.poweredby a { color: #404040; }
+.post-preview .title a{ color: #99cc66; }
+.content-item a:hover{
+  text-decoration: underline;
+  color: #99cc66;
+}
+.post-list .title { color: #99cc66; }
+.rmore { color: #99cc66; }
+.terms .term a:hover {
+  text-decoration: underline;
+  color: #99cc66;
+}
+
+</style>
+
+<link rel="stylesheet" href="/css/site.css">
+
+
+
+<title>
+
+
+     Staticman With GitHub and Zeit Now - part 3 
+
+</title>
+
+</head>
+
+
+<body>
+<div class="main">
+<header>
+
+<div class="header-bar">
+
+  <nav>
+    <div class="siteTitle">
+      <a href="/">Blogger Bust</a>
+    </div> 
+
+    
+    
+    <a class="nav-item" href="/about/"><div class="nav-item-title">About</div></a>
+    
+    <a class="nav-item" href="/series"><div class="nav-item-title">Series</div></a>
+    
+    <a class="nav-item active" href="/post/"><div class="nav-item-title">Posts</div></a>
+    
+
+  </nav>
+</div>
+
+  
+<div class="social-links-header">
+
+  
+  <a href="mailto:trevor.wilson@bloggerbust.ca"><div class="social-link">email</div></a>
+  
+
+  
+  <a href="https://github.com/bloggerbust" target="_blank"><div class="social-link">gh</div></a>
+  
+
+  
+
+  
+
+  
+
+</div>
+
+
+</header>
+
+
+<article class="post">
+    <h1 class="title"> Staticman With GitHub and Zeit Now - part 3 </h1>
+    <div class="content"> 
+
+<h2 id="a-quick-recap">A quick recap</h2>
+
+<p>In <a href="/post/staticman-with-github-and-zeit-now-part-2/">part 2</a> of <a href="https://bloggerbust.ca/series/staticman-with-github-and-zeit-now/">this series</a> we created a Staticman GitHub bot account and walked through all of the steps required to deploy an instance of Staticman to Zeit Now. In this final post of the series we are going to invite our Staticman instance to be a collaborator of our unpublished GitHub blog repository. Then we will prepare our blog to send RESTful requests to our Staticman instance. So let&rsquo;s get started!</p>
+
+<h2 id="invite-staticman-to-be-your-collaborator">Invite Staticman to be your collaborator</h2>
+
+<p>I have two repositories associated with my blog.</p>
+
+<dl>
+<dt><a href="https://github.com/BloggerBust/bloggerbust.ca">bloggerbust.ca</a></dt>
+<dd>This is where I write my content prior to it being published. We may refer to this as the <em>unpublished repository</em></dd>
+<dt><a href="https://github.com/BloggerBust/bloggerbust.github.io">bloggerbust.github.io</a></dt>
+<dd>Hugo reads content from the unpublished site and writes the result to the this repository. We may simply refer to this as the <em>published repository</em>. The unpublished repository actually has the published repository as a Git sub-module</dd>
+</dl>
+
+<p>Staticman writes comments in data files that need to be processed by a static site generator. Therefore Staticman needs to somehow get those data files committed to my unpublished repository for processing. Rather than forking my unpublished repository, Staticman keeps things simple by creating a branch directly in my repository. This is accomplished by registering its GitHub account as a collaborator with my GitHub account. As a collaborator, it must be given write access to my unpublished repository.</p>
+
+<p>Sign into your blogging GitHub account. Navigate to the settings profile and click on <em>Repositories</em> under the <em>Personal settings</em> menu. In the right hand pane you will see a list of repositories, each repository has a <em>collaborators</em> link. Click the collaborators link next to your unpublished repository. The list of repositories will be replaced with a form to add a collaborator. You may navigate to this form directly by filling out the following URI pattern in your browser&rsquo;s address bar then hit enter:</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">https://github.com/{YOUR-GITHUB-USERNAME}/{YOUR-UNPUBLISHED-BLOG-REPOSITORY}/settings/collaboration</code></pre></div>
+<p>You should now be looking at the Collaborators form. In the search field type the name of your bot account and click the <em>Add collaborator</em> button. Your bot account should now be listed above the <em>Add collaborator</em> search field with a status label similar to:</p>
+
+<blockquote>
+<p>Awaiting BloggerBust-bot&rsquo;s response</p>
+</blockquote>
+
+<p>After registering the Staticman GitHub bot account an invitation will be issued that Staticman must accept. However, Staticman is not aware that the invitation has been created; therefore, we must ask Staticman to accept the invitation by sending the invitation details to our Staticman instance using a RESTful request. It is true that we could accept the invitation on behalf of Staticman since we have direct access to the bot account, but we want to make sure that things are working correctly, so no cheating!</p>
+
+<p>The request requires three pieces of information.</p>
+
+<dl>
+<dt>YOUR-DEPLOYMENT-ALIAS</dt>
+<dd>The alias was printed to the terminal when we <a href="/post/staticman-with-github-and-zeit-now-part-2/">deploy our Staticman instance</a>. If you forgot the name of your instance then go to your <a href="https://zeit.co/dashboard">Zeit Now dashboard</a> and click the deployment details for <em>staticman</em></dd>
+<dt>YOUR-GITHUB-USERNAME</dt>
+<dd>The username you use to push content to the unpublished repository</dd>
+<dt>YOUR-REPOSITORY-NAME</dt>
+<dd>The name of your unpublished repository</dd>
+<dt>STATICMAN-API-VERSION</dt>
+<dd>The number representing the Staticman API version. We are using API version 2.</dd>
+</dl>
+
+<p>Now all you need to do is enter following URI in your browser&rsquo;s address bar filled in with the correct information and then hit enter:</p>
+
+<blockquote>
+<p><code>https://{YOUR-DEPLOYMENT-ALIAS}/{API-VERSION}/connect/{YOUR-GitHub-USERNAME}/{YOUR-REPOSITORY-NAME}</code></p>
+</blockquote>
+
+<p>If everything goes right then you will receive the message <strong>OK!</strong>. If on the other-hand, something goes wrong, you can access your logs like this:</p>
+
+<blockquote>
+<p><code>https://{YOUR-DEPLOYMENT-ALIAS}/_logs</code></p>
+</blockquote>
+
+<p>and your source files like this:</p>
+
+<blockquote>
+<p><code>https://{YOUR-DEPLOYMENT-ALIAS}/_src</code></p>
+</blockquote>
+
+<h2 id="prepare-your-blog-for-staticman">Prepare your Blog for Staticman</h2>
+
+<p>The last thing you need to do before you can bask in the glory of victoriously adding static comments to your GitHub pages is five things :-P</p>
+
+<ol>
+<li>Add a configuration file named <em>staticman.yml</em> to the <em>root directory</em> of your blog&rsquo;s repository</li>
+<li>Add site parameters for Staticman to your site&rsquo;s configuration file</li>
+<li>Add a partial view to your layout that will allow your readers to create a new comment</li>
+<li>Add a partial view to your layout that will allow your readers to view existing comments</li>
+<li>Update your post footer partial to include the create / view comment partials</li>
+</ol>
+
+<p>Exactly how you should go about doing this depends on a number of factors, such as:</p>
+
+<dl>
+<dt>which <a href="https://staticsitegenerators.net/">static site generator</a> you are using</dt>
+<dd>Yes, I know, there are lots.</dd>
+<dt>which static site generator theme you are using</dt>
+<dd>I am using a simple theme named <a href="https://github.com/gyorb/hugo-dusk">Hugo Dusk</a>.</dd>
+<dt>which Git forge you are using</dt>
+<dd>Staticman currently only supports GitHub and GitLab so if you are using <a href="https://en.wikipedia.org/wiki/Comparison%5Fof%5Fsource-code-hosting%5Ffacilities">a different forge</a> then you will need to be prepared to implement support yourself. If you do, be sure to make a pull request so the rest of the community can benefit.</dd>
+<dt>Whether or not your unpublished content is in a separate repository from your published content</dt>
+<dd>My preference is to maintain two separated repositories</dd>
+</dl>
+
+<p>Based on these considerations I hope it is apparent that the following steps will require further customization on your part if you choose to integrate them into your own site.</p>
+
+<h3 id="add-staticman-dot-yml">Add Staticman.yml</h3>
+
+<p>You should read through the official <a href="https://staticman.net/docs/configuration">documentation discussing the staticman.yml configuration file</a> as I am not going to go into detail here. There is one thing that is important to understand before you move on to adding a <em>create comment</em> partial. The configuration file can have a root property, but it is not necessary. Take a look at the <a href="https://github.com/BloggerBust/bloggerbust.ca/blob/master/staticman.yml">staticman.yml for Blogger Bust</a> and notice that the root property is named <em>comments</em>.</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#999;font-style:italic"># Name of the property. You can have multiple properties with completely</span><span style="color:#666">
+</span><span style="color:#666"></span><span style="color:#999;font-style:italic"># different config blocks for different sections of your site.</span><span style="color:#666">
+</span><span style="color:#666"></span><span style="color:#999;font-style:italic"># For example, you can have one property to handle comment submission and</span><span style="color:#666">
+</span><span style="color:#666"></span><span style="color:#999;font-style:italic"># another one to handle posts.</span><span style="color:#666">
+</span><span style="color:#666"></span>comments:<span style="color:#666">
+</span><span style="color:#666">  </span><span style="color:#999;font-style:italic"># (*) REQUIRED</span><span style="color:#666">
+</span><span style="color:#666">  </span><span style="color:#999;font-style:italic">#</span><span style="color:#666">
+</span><span style="color:#666">  </span><span style="color:#999;font-style:italic"># Names of the fields the form is allowed to submit. If a field that is</span><span style="color:#666">
+</span><span style="color:#666">  </span><span style="color:#999;font-style:italic"># not here is part of the request, an error will be thrown.</span><span style="color:#666">
+</span><span style="color:#666">  </span>allowedFields:<span style="color:#666"> </span>[<span style="color:#ed9d13">&#34;name&#34;</span>,<span style="color:#666"> </span><span style="color:#ed9d13">&#34;email&#34;</span>,<span style="color:#666"> </span><span style="color:#ed9d13">&#34;message&#34;</span>]<span style="color:#666">
+</span><span style="color:#666">
+</span><span style="color:#666">  </span><span style="color:#999;font-style:italic"># (*) REQUIRED</span><span style="color:#666">
+</span><span style="color:#666">  </span><span style="color:#999;font-style:italic">#</span><span style="color:#666">
+</span><span style="color:#666">  </span><span style="color:#999;font-style:italic"># Name of the branch being used. Must match the one sent in the URL of the</span><span style="color:#666">
+</span><span style="color:#666">  </span><span style="color:#999;font-style:italic"># request.</span><span style="color:#666">
+</span><span style="color:#666">  </span>branch:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;master&#34;</span><span style="color:#666">
+</span><span style="color:#666">
+</span><span style="color:#666">  </span><span style="color:#999;font-style:italic"># Text to use as the commit message or pull request title. Accepts placeholders.</span><span style="color:#666">
+</span><span style="color:#666">  </span>commitMessage:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;Add Staticman reader comment&#34;</span><span style="color:#666">
+</span><span style="color:#666">
+</span><span style="color:#666">  </span><span style="color:#999;font-style:italic"># (*) REQUIRED</span><span style="color:#666">
+</span><span style="color:#666">  </span><span style="color:#999;font-style:italic">#</span><span style="color:#666">
+</span><span style="color:#666">  </span><span style="color:#999;font-style:italic"># Destination path (filename) for the data files. Accepts placeholders.</span><span style="color:#666">
+</span><span style="color:#666">  </span>filename:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;{@id}&#34;</span><span style="color:#666">
+</span><span style="color:#666">
+</span><span style="color:#666">  </span><span style="color:#999;font-style:italic"># The format of the generated data files. Accepted values are &#34;json&#34;, &#34;yaml&#34;</span><span style="color:#666">
+</span><span style="color:#666">  </span><span style="color:#999;font-style:italic"># or &#34;frontmatter&#34;</span><span style="color:#666">
+</span><span style="color:#666">  </span>format:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;json&#34;</span><span style="color:#666">
+</span><span style="color:#666">
+</span><span style="color:#666">  </span><span style="color:#999;font-style:italic"># List of fields to be populated automatically by Staticman and included in</span><span style="color:#666">
+</span><span style="color:#666">  </span><span style="color:#999;font-style:italic"># the data file. Keys are the name of the field. The value can be an object</span><span style="color:#666">
+</span><span style="color:#666">  </span><span style="color:#999;font-style:italic"># with a `type` property, which configures the generated field, or any value</span><span style="color:#666">
+</span><span style="color:#666">  </span><span style="color:#999;font-style:italic"># to be used directly (e.g. a string, number or array)</span><span style="color:#666">
+</span><span style="color:#666">  </span>generatedFields:<span style="color:#666">
+</span><span style="color:#666">    </span>date:<span style="color:#666">
+</span><span style="color:#666">      </span>type:<span style="color:#666"> </span>date<span style="color:#666">
+</span><span style="color:#666">      </span>options:<span style="color:#666">
+</span><span style="color:#666">        </span>format:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;timestamp-seconds&#34;</span><span style="color:#666">
+</span><span style="color:#666">
+</span><span style="color:#666">  </span><span style="color:#999;font-style:italic"># Whether entries need to be approved before they are published to the main</span><span style="color:#666">
+</span><span style="color:#666">  </span><span style="color:#999;font-style:italic"># branch. If set to `true`, a pull request will be created for your approval.</span><span style="color:#666">
+</span><span style="color:#666">  </span><span style="color:#999;font-style:italic"># Otherwise, entries will be published to the main branch automatically.</span><span style="color:#666">
+</span><span style="color:#666">  </span>moderation:<span style="color:#666"> </span><span style="color:#6ab825;font-weight:bold">true</span><span style="color:#666">
+</span><span style="color:#666">
+</span><span style="color:#666">  </span><span style="color:#999;font-style:italic"># Name of the site. Used in notification emails.</span><span style="color:#666">
+</span><span style="color:#666">  </span>name:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;staticman -&gt; bloggerbust.ca&#34;</span><span style="color:#666">
+</span><span style="color:#666">
+</span><span style="color:#666">  </span><span style="color:#999;font-style:italic"># (*) REQUIRED</span><span style="color:#666">
+</span><span style="color:#666">  </span><span style="color:#999;font-style:italic">#</span><span style="color:#666">
+</span><span style="color:#666">  </span><span style="color:#999;font-style:italic"># Destination path (directory) for the data files. Accepts placeholders.</span><span style="color:#666">
+</span><span style="color:#666">  </span>path:<span style="color:#666"> </span><span style="color:#ed9d13">&#34;data/comments/{options.slug}&#34;</span><span style="color:#666">
+</span><span style="color:#666">
+</span><span style="color:#666">  </span><span style="color:#999;font-style:italic"># Names of required fields. If any of these isn&#39;t in the request or is empty,</span><span style="color:#666">
+</span><span style="color:#666">  </span><span style="color:#999;font-style:italic"># an error will be thrown.</span><span style="color:#666">
+</span><span style="color:#666">  </span>requiredFields:<span style="color:#666"> </span>[<span style="color:#ed9d13">&#34;name&#34;</span>,<span style="color:#666"> </span><span style="color:#ed9d13">&#34;email&#34;</span>,<span style="color:#666"> </span><span style="color:#ed9d13">&#34;message&#34;</span>]<span style="color:#666">
+</span><span style="color:#666">
+</span><span style="color:#666">  </span><span style="color:#999;font-style:italic"># List of transformations to apply to any of the fields supplied. Keys are</span><span style="color:#666">
+</span><span style="color:#666">  </span><span style="color:#999;font-style:italic"># the name of the field and values are possible transformation types.</span><span style="color:#666">
+</span><span style="color:#666">  </span>transforms:<span style="color:#666">
+</span><span style="color:#666">    </span>email:<span style="color:#666"> </span>md5</code></pre></div>
+<p>You can name the root property anything you like, or remove it entirely, as long as the result is valid YAML. The root serves as a lookup key to a named configuration. If it is absent, then that means you can have only a single configuration. Otherwise, you can have one or many named configurations. If you read the comments in the header that were written by the original author it essentially explains this very concept. You could have a configuration for your comments, and a completely different configuration named <em>posts</em> for a forum. Honestly, you could get really creative with this.</p>
+
+<p>The other thing I want to point out is that the configuration let&rsquo;s you decide which fields are allowed to be posted to Staticman. This is accomplished through the <em>allowedFields</em> property. Thank you <a href="https://eduardoboucas.com/about/">Eduardo</a> for designing Staticman to be generic. Now take a moment to read up on things before moving on. Feel free to download my staticman.yml as a starting place if you wish. Remember that white space matters in YAML, so no mixing tabs and spaces inconsistently. You might want to run your configuration through a YAML linter if you hare having difficulty.</p>
+
+<h3 id="add-staticman-site-parameters-to-config-dot-toml">Add Staticman site parameters to config.toml</h3>
+
+<p>When our site posts content to Staticman for processing there are a number of parameters that must be passed. It is a good idea to keep the values for these parameters in your sites configuration file. The exact notation will depend on the static site generator that you are using. Here is what I added to the <a href="https://github.com/BloggerBust/bloggerbust.ca/blob/master/config.toml">Hugo TOML configuration for Blogger Bust</a>. If you are using <a href="https://jekyllrb.com/docs/variables/">Jekyll</a>, or another static site generator, then you will have to look up for your self how to configure it correctly.</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-toml" data-lang="toml">[params.staticman]
+  domain = <span style="color:#ed9d13">&#34;staticman.bloggerbust-bot.now.sh&#34;</span>
+  api_version = <span style="color:#ed9d13">&#34;2&#34;</span>
+  username = <span style="color:#ed9d13">&#34;BloggerBust&#34;</span>
+  repository = <span style="color:#ed9d13">&#34;bloggerbust.ca&#34;</span>
+  branch = <span style="color:#ed9d13">&#34;master&#34;</span></code></pre></div>
+<p>This is what each parameter is for:</p>
+
+<dl>
+<dt>domain</dt>
+<dd>the domain name of our Staticman Zeit Now instance.</dd>
+<dt>api_version</dt>
+<dd>valid versions are 1 and 2. Version 3 is partially implemented, but not working at the moment.</dd>
+<dt>username</dt>
+<dd>The username of the blog&rsquo;s account</dd>
+<dt>repository</dt>
+<dd>The name of the repository that contains the Staticman.yml configuration</dd>
+<dt>branch</dt>
+<dd>the target branch for your GitHub Staticman bot account&rsquo;s pull requests</dd>
+</dl>
+
+<h3 id="add-create-comments-partial">Add Create comments partial</h3>
+
+<p>Please refer to hugo-dusk <a href="https://github.com/gyorb/hugo-dusk/pull/31/files#diff-558257d0b9749ee771c7c53329732306">PR #31 create-comment partial</a>.</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html">&lt;<span style="color:#6ab825;font-weight:bold">form</span> <span style="color:#bbb">class</span>=<span style="color:#ed9d13">&#34;comment&#34;</span> <span style="color:#bbb">method</span>=<span style="color:#ed9d13">&#34;POST&#34;</span> <span style="color:#bbb">action</span>=<span style="color:#ed9d13">&#34;https://{{ .Site.Params.staticman.domain }}/v{{ .Site.Params.staticman.api_version }}/entry/{{ .Site.Params.staticman.username }}/{{ .Site.Params.staticman.repository }}/{{ .Site.Params.staticman.branch }}/comments&#34;</span> <span style="color:#bbb">class</span>=<span style="color:#ed9d13">&#34;flex-container flex-column&#34;</span>&gt;
+  &lt;<span style="color:#6ab825;font-weight:bold">input</span> <span style="color:#bbb">type</span>=<span style="color:#ed9d13">&#34;hidden&#34;</span> <span style="color:#bbb">name</span>=<span style="color:#ed9d13">&#34;options[redirect]&#34;</span> <span style="color:#bbb">value</span>=<span style="color:#ed9d13">&#34;{{ .Permalink }}#comment-submitted&#34;</span>&gt;
+  &lt;<span style="color:#6ab825;font-weight:bold">input</span> <span style="color:#bbb">type</span>=<span style="color:#ed9d13">&#34;hidden&#34;</span> <span style="color:#bbb">name</span>=<span style="color:#ed9d13">&#34;options[slug]&#34;</span> <span style="color:#bbb">value</span>=<span style="color:#ed9d13">&#34;{{ .Page.File.ContentBaseName }}&#34;</span>&gt;
+  &lt;<span style="color:#6ab825;font-weight:bold">div</span> <span style="color:#bbb">class</span>=<span style="color:#ed9d13">&#34;flex-container flex-row&#34;</span>&gt;
+    &lt;<span style="color:#6ab825;font-weight:bold">input</span> <span style="color:#bbb">name</span>=<span style="color:#ed9d13">&#34;fields[name]&#34;</span> <span style="color:#bbb">type</span>=<span style="color:#ed9d13">&#34;text&#34;</span> <span style="color:#bbb">placeholder</span>=<span style="color:#ed9d13">&#34;Your name&#34;</span> <span style="color:#bbb">class</span>=<span style="color:#ed9d13">&#34;flex-item&#34;</span>&gt;
+    &lt;<span style="color:#6ab825;font-weight:bold">input</span> <span style="color:#bbb">name</span>=<span style="color:#ed9d13">&#34;fields[email]&#34;</span> <span style="color:#bbb">type</span>=<span style="color:#ed9d13">&#34;email&#34;</span> <span style="color:#bbb">placeholder</span>=<span style="color:#ed9d13">&#34;Your email address&#34;</span> <span style="color:#bbb">class</span>=<span style="color:#ed9d13">&#34;flex-item&#34;</span>&gt;
+  &lt;/<span style="color:#6ab825;font-weight:bold">div</span>&gt;
+  &lt;<span style="color:#6ab825;font-weight:bold">div</span> <span style="color:#bbb">class</span>=<span style="color:#ed9d13">&#34;flex-container flex-row&#34;</span>&gt;
+    &lt;<span style="color:#6ab825;font-weight:bold">textarea</span> <span style="color:#bbb">name</span>=<span style="color:#ed9d13">&#34;fields[message]&#34;</span> <span style="color:#bbb">placeholder</span>=<span style="color:#ed9d13">&#34;Your message. Feel free to use Markdown.&#34;</span> <span style="color:#bbb">rows</span>=<span style="color:#ed9d13">&#34;10&#34;</span> <span style="color:#bbb">class</span>=<span style="color:#ed9d13">&#34;flex-item&#34;</span>&gt;&lt;/<span style="color:#6ab825;font-weight:bold">textarea</span>&gt;
+  &lt;/<span style="color:#6ab825;font-weight:bold">div</span>&gt;
+  &lt;<span style="color:#6ab825;font-weight:bold">div</span> <span style="color:#bbb">class</span>=<span style="color:#ed9d13">&#34;flex-container flex-row&#34;</span>&gt;
+    &lt;<span style="color:#6ab825;font-weight:bold">input</span> <span style="color:#bbb">type</span>=<span style="color:#ed9d13">&#34;submit&#34;</span> <span style="color:#bbb">value</span>=<span style="color:#ed9d13">&#34;Submit&#34;</span> <span style="color:#bbb">class</span>=<span style="color:#ed9d13">&#34;flex-item&#34;</span>&gt;
+  &lt;/<span style="color:#6ab825;font-weight:bold">div</span>&gt;
+&lt;/<span style="color:#6ab825;font-weight:bold">form</span>&gt;</code></pre></div>
+<p>Take a close look at the form&rsquo;s action. Notice, that at the end of URI, there is a URI path component segment named <code>/comments</code>. That segment must match the name of the Staticman.yml configuration key intended for this view. If you choose to not name your configuration, then you must remove the segment <code>/comments</code> from the end of the URI. Similarly, if you choose to name your configuration differently, then you must name the segment the same. I think the rest is self explanatory. Again, I have only tested this template with the Hugo static site generator. If you are using a different static site template engine, then you may need to access site parameters differently, but the required parameters and general structure of the form can remain the same.</p>
+
+<h3 id="add-view-comments-partial">Add View comments partial</h3>
+
+<p>Please refer to hugo-dusk <a href="https://github.com/gyorb/hugo-dusk/pull/31/files#diff-36aaf01e18f562918d919ac6e0283fc0">PR #31 view-comment partial</a>.</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html">{{ $comments := readDir &#34;data/comments&#34; }}
+{{ $.Scratch.Add &#34;hasComments&#34; 0 }}
+{{ $entryId := .Page.File.ContentBaseName }}
+
+{{ range $comments }}
+  {{ if eq .Name $entryId }}
+    {{ $.Scratch.Add &#34;hasComments&#34; 1 }}
+    {{ range $index, $comments := (index $.Site.Data.comments $entryId ) }}
+&lt;<span style="color:#6ab825;font-weight:bold">blockquote</span> <span style="color:#bbb">class</span>=<span style="color:#ed9d13">&#34;comment&#34;</span>&gt;
+  &lt;<span style="color:#6ab825;font-weight:bold">p</span>&gt;{{ .message | markdownify }}&lt;/<span style="color:#6ab825;font-weight:bold">p</span>&gt;
+  &lt;<span style="color:#6ab825;font-weight:bold">cite</span> <span style="color:#bbb">class</span>=<span style="color:#ed9d13">&#34;flex-container flex-row flex-end&#34;</span>&gt;
+    &lt;<span style="color:#6ab825;font-weight:bold">img</span> <span style="color:#bbb">class</span>=<span style="color:#ed9d13">&#34;flex-item avatar&#34;</span> <span style="color:#bbb">src</span>=<span style="color:#ed9d13">&#34;https://www.gravatar.com/avatar/{{ .email }}?s=50&amp;d=retro&#34;</span>&gt;
+    &lt;<span style="color:#6ab825;font-weight:bold">div</span> <span style="color:#bbb">class</span>=<span style="color:#ed9d13">&#34;flex-container flex-column flex-item flex-center&#34;</span>&gt;
+      &lt;<span style="color:#6ab825;font-weight:bold">strong</span>&gt;{{ .name }}&lt;/<span style="color:#6ab825;font-weight:bold">strong</span>&gt;&lt;<span style="color:#6ab825;font-weight:bold">br</span>&gt;{{ dateFormat &#34;02/01/2006&#34; .date }}
+    &lt;/<span style="color:#6ab825;font-weight:bold">div</span>&gt;
+  &lt;/<span style="color:#6ab825;font-weight:bold">cite</span>&gt;
+&lt;/<span style="color:#6ab825;font-weight:bold">blockquote</span>&gt;
+    {{ end }}
+  {{ end }}
+{{ end }}
+
+{{ if eq ($.Scratch.Get &#34;hasComments&#34;) 0 }}
+&lt;<span style="color:#6ab825;font-weight:bold">p</span>&gt;Be the first to comment on this article.&lt;/<span style="color:#6ab825;font-weight:bold">p</span>&gt;
+{{ end }}</code></pre></div>
+<p>In the first line you can see that the comments are being read from the <code>data/comments</code> directory. The Hugo static site generator uses <a href="https://gohugo.io/templates/data-templates/">the data directory</a> to store static template data in YAML files. Jekyll has an <a href="https://jekyllrb.com/docs/datafiles/">equivalent directory named _data</a>. Exactly where the comment data is written to by Staticman is specified by the <code>path</code> property of <a href="#add-staticman-dot-yml">the Staticman.yml</a>. Make sure that the Staticman.yml comments <code>path</code> property and the relative path passed to <code>readDir</code> in comment-view are the same. Everything has to be consistent for the machine to work.</p>
+
+<h3 id="update-post-footer-with-comments">Update post footer with comments</h3>
+
+<p>Please refer to hugo-dusk <a href="https://github.com/gyorb/hugo-dusk/pull/31/files#diff-344be16bd473773132ed4cbc881b83fc">PR #31 postfooter partial</a>.</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html">&lt;<span style="color:#6ab825;font-weight:bold">footer</span> <span style="color:#bbb">class</span>=<span style="color:#ed9d13">&#34;post-footer&#34;</span>&gt;
+
+  &lt;<span style="color:#6ab825;font-weight:bold">div</span> <span style="color:#bbb">class</span>=<span style="color:#ed9d13">&#34;post-footer-data&#34;</span>&gt;
+    {{ partial &#34;tags.html&#34; . }}
+    &lt;<span style="color:#6ab825;font-weight:bold">div</span> <span style="color:#bbb">class</span>=<span style="color:#ed9d13">&#34;date&#34;</span>&gt; {{ .Date.Format &#34;Jan 2, 2006&#34; }} &lt;/<span style="color:#6ab825;font-weight:bold">div</span>&gt;
+  &lt;/<span style="color:#6ab825;font-weight:bold">div</span>&gt;
+
+&lt;/<span style="color:#6ab825;font-weight:bold">footer</span>&gt;
+
+{{ if eq .Type &#34;post&#34; }}
+
+  {{ if ne (default &#34;undefined&#34; .Site.Params.staticman) &#34;undefined&#34; }}
+&lt;<span style="color:#6ab825;font-weight:bold">hr</span>&gt;
+&lt;<span style="color:#6ab825;font-weight:bold">h2</span> <span style="color:#bbb">id</span>=<span style="color:#ed9d13">&#34;Comments&#34;</span>&gt;
+  Comments
+&lt;/<span style="color:#6ab825;font-weight:bold">h2</span>&gt;
+    {{ partial &#34;staticman/create-comment&#34; . }}
+    {{ partial &#34;staticman/view-comments&#34; . }}
+  {{ else }}
+    {{ template &#34;_internal/disqus.html&#34; . }}
+  {{ end }}
+{{ end }}</code></pre></div>
+<p>In the postfooter partial of the hugo-dusk, theme I added logic to include the create and view comment partials. The logic works as follows: If the site parameter named <code>staticman</code> is <code>undefined</code>, then the default <em>disqus</em> internal template will be loaded; otherwise, a header named <em>Comments</em> will be rendered along with the create and view comment partials.</p>
+
+<p>Again, if you are using a different static site generator, or a different theme, then exactly how you include the create and view comment partials will differ in some way. This is a problem that you will have to solve for yourself.</p>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>That is it! If you followed along and were able to add a form for creating comments, as well as a template for viewing existing comments, in a way that is compatible with your static site generator and chosen theme, then your blog should now support static comments. Congratulations, you may now bask in the glory of victoriously adding static comment support to your GitHub pages. I hope you appreciate and enjoy the freedom of keeping your data where it belongs.</p>
+ </div>
+    <footer class="post-footer">
+
+  <div class="post-footer-data">
+    
+<div class="tags">
+    
+      <div class="tag">
+        <a href="/tags/hugo">#hugo</a>
+      </div>
+    
+      <div class="tag">
+        <a href="/tags/staticman">#staticman</a>
+      </div>
+    
+      <div class="tag">
+        <a href="/tags/serverless">#serverless</a>
+      </div>
+    
+      <div class="tag">
+        <a href="/tags/git">#git</a>
+      </div>
+    
+</div>
+
+    <div class="date"> Apr 21, 2019 </div>
+  </div>
+
+</footer>
+
+
+
+  
+<hr>
+<h2 id="Comments">
+  Comments
+</h2>
+    <form class="comment" method="POST" action="https://staticman.bloggerbust-bot.now.sh/v2/entry/BloggerBust/bloggerbust.ca/master/comments" class="flex-container flex-column">
+  <input type="hidden" name="options[redirect]" value="/post/staticman-with-github-and-zeit-now-part-3/#comment-submitted">
+  <input type="hidden" name="options[slug]" value="staticman-with-github-and-zeit-now-part-3">
+  <div class="flex-container flex-row">
+    <input name="fields[name]" type="text" placeholder="Your name" class="flex-item">
+    <input name="fields[email]" type="email" placeholder="Your email address" class="flex-item">
+  </div>
+  <div class="flex-container flex-row">
+    <textarea name="fields[message]" placeholder="Your message. Feel free to use Markdown." rows="10" class="flex-item"></textarea>
+  </div>
+  <div class="flex-container flex-row">
+    <input type="submit" value="Submit" class="flex-item">
+  </div>
+</form>
+
+    
+
+
+
+
+  
+
+
+
+<p>Be the first to comment on this article.</p>
+
+
+  
+
+
+</article>
+
+  <footer>
+
+  <div class="social-links-footer">
+
+  
+  <a href="mailto:trevor.wilson@bloggerbust.ca"><div class="social-link">Email</div></a>
+  
+
+  
+  <a href="https://github.com/bloggerbust" target="_blank"><div class="social-link">GitHub</div></a>
+  
+
+  
+
+  
+
+  
+
+  <div class="social-link">
+  <a href="/index.xml" target="_blank">RSS</a>
+  </div>
+
+</div>
+
+
+  <div class="copyright"> Copyright (c) 2018, all rights reserved. </div>
+
+  <div class="poweredby">
+    Powered by <a href="https://gohugo.io/">Hugo</a>.
+  </div>
+
+  </footer>
+
+</div> 
+
+</body>
+</html>
+

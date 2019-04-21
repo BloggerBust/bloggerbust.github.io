@@ -2,22 +2,22 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Literate Programming on Blogger Bust</title>
-    <link>/tags/literate-programming/</link>
+    <link>https://bloggerbust.ca/tags/literate-programming/</link>
     <description>Recent content in Literate Programming on Blogger Bust</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-CA</language>
     <copyright>Copyright (c) 2018, all rights reserved.</copyright>
     <lastBuildDate>Sat, 01 Sep 2018 12:43:27 -0600</lastBuildDate>
     
-	<atom:link href="/tags/literate-programming/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://bloggerbust.ca/tags/literate-programming/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Literate Programming</title>
-      <link>/post/literate-programming/</link>
+      <link>https://bloggerbust.ca/post/literate-programming/</link>
       <pubDate>Sat, 01 Sep 2018 12:43:27 -0600</pubDate>
       
-      <guid>/post/literate-programming/</guid>
+      <guid>https://bloggerbust.ca/post/literate-programming/</guid>
       <description>A quick note about my use of Literate Programming My blog is generated using a static site generator called Hugo. Hugo naively supports both Markdown and Org-Mode format, so naturally I have chosen to compose my blog posts in emacs Org-Mode. Org-mode is similar to Markdown in the sense that it uses a simple plain text markup syntax for formatting documents. However, Org-Mode has far more features than Markdown and has fantastic literate programming support via Org-Babel.</description>
     </item>
     

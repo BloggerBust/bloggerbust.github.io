@@ -9,11 +9,11 @@
 <meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1">
 <meta name="generator" content="Hugo 0.55.0-DEV" />
 
-<link rel="canonical" href="/post/encapsulate-angular-webextension-dependencies-in-a-docker-image/">
+<link rel="canonical" href="https://bloggerbust.ca/post/encapsulate-angular-webextension-dependencies-in-a-docker-image/">
 <meta property="og:title" content="Encapsulate Angular WebExtension Dependencies In a Docker Image" />
 <meta property="og:description" content="A quick recap The purpose of this article is to provide a concrete example detailing precisely how to encapsulate the dependencies of an Angular WebExtension inside of a docker container whilst keeping the source code and optional tooling on the host system, thereby separating the dependencies from the implementation. In order for the two systems to work in tandem, files that are written to from within the container must remain writable outside of the container and vice versa." />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="/post/encapsulate-angular-webextension-dependencies-in-a-docker-image/" />
+<meta property="og:url" content="https://bloggerbust.ca/post/encapsulate-angular-webextension-dependencies-in-a-docker-image/" />
 <meta property="article:published_time" content="2018-10-13T00:00:00-06:00"/>
 <meta property="article:modified_time" content="2019-01-01T05:48:37-07:00"/>
 
@@ -37,7 +37,7 @@
 <meta itemprop="keywords" content="nauci,docker," />
 
 
-<link rel="stylesheet" href="/css/layout.css" />
+<link rel="stylesheet" href="https://bloggerbust.ca/css/layout.css" />
 <style type="text/css">
 body {
   background-color: #26282A;
@@ -104,7 +104,7 @@ th {
 
 </style>
 
-<link rel="stylesheet" href="/css/site.css">
+<link rel="stylesheet" href="https://bloggerbust.ca/css/site.css">
 
 
 
@@ -126,16 +126,16 @@ th {
 
   <nav>
     <div class="siteTitle">
-      <a href="/">Blogger Bust</a>
+      <a href="https://bloggerbust.ca/">Blogger Bust</a>
     </div> 
 
     
     
-    <a class="nav-item" href="/about/"><div class="nav-item-title">About</div></a>
+    <a class="nav-item" href="https://bloggerbust.ca/about/"><div class="nav-item-title">About</div></a>
     
-    <a class="nav-item" href="/series"><div class="nav-item-title">Series</div></a>
+    <a class="nav-item" href="https://bloggerbust.ca/series"><div class="nav-item-title">Series</div></a>
     
-    <a class="nav-item active" href="/post/"><div class="nav-item-title">Posts</div></a>
+    <a class="nav-item active" href="https://bloggerbust.ca/post/"><div class="nav-item-title">Posts</div></a>
     
 
   </nav>
@@ -170,18 +170,18 @@ th {
 
 <h2 id="a-quick-recap">A quick recap</h2>
 
-<p>The purpose of this article is to provide a concrete example detailing precisely how to encapsulate the dependencies of an Angular WebExtension inside of a docker container whilst keeping the source code and optional tooling on the host system, thereby separating the dependencies from the implementation. In order for the two systems to work in tandem, files that are written to from within the container must remain writable outside of the container and vice versa. The mechanism that makes this possible is a combination of <em>POSIX ACL</em> rules with <em>extended attributes</em> enabled and <em>setgit mode bit</em> applied to a volume shared between the host and the container. In the previous article, titled <a href="/post/separate-dependencies-from-implementation-using-nauci-base-entry-docker-image/">Separate Dependencies From Implementation Using POSIX ACL Extended Attributes &amp; Docker</a>, I discussed <a href="/post/separate-dependencies-from-implementation-using-nauci-base-entry-docker-image/">these prerequisites</a> in detail. There are clear benefits to this approach. By separating implementation concerns from the project dependencies, the resulting docker dependency image will be reusable in multiple projects. Moreover, on boarding remote collaborators will be made easier because the new recruits will be able to use implementation tools that they already have installed, customized and are intimately familiar with. The new recruits will be happier because they will not need to install or configure project dependencies that could cause conflicts in their host environment. By the end of this article you will be able to simultaneously build, deploy, and run an Angular WebExtension on both desktop and mobile browsers all from the comfort of your home directory.</p>
+<p>The purpose of this article is to provide a concrete example detailing precisely how to encapsulate the dependencies of an Angular WebExtension inside of a docker container whilst keeping the source code and optional tooling on the host system, thereby separating the dependencies from the implementation. In order for the two systems to work in tandem, files that are written to from within the container must remain writable outside of the container and vice versa. The mechanism that makes this possible is a combination of <em>POSIX ACL</em> rules with <em>extended attributes</em> enabled and <em>setgit mode bit</em> applied to a volume shared between the host and the container. In the previous article, titled <a href="https://bloggerbust.ca/post/separate-dependencies-from-implementation-using-nauci-base-entry-docker-image/">Separate Dependencies From Implementation Using POSIX ACL Extended Attributes &amp; Docker</a>, I discussed <a href="https://bloggerbust.ca/post/separate-dependencies-from-implementation-using-nauci-base-entry-docker-image/">these prerequisites</a> in detail. There are clear benefits to this approach. By separating implementation concerns from the project dependencies, the resulting docker dependency image will be reusable in multiple projects. Moreover, on boarding remote collaborators will be made easier because the new recruits will be able to use implementation tools that they already have installed, customized and are intimately familiar with. The new recruits will be happier because they will not need to install or configure project dependencies that could cause conflicts in their host environment. By the end of this article you will be able to simultaneously build, deploy, and run an Angular WebExtension on both desktop and mobile browsers all from the comfort of your home directory.</p>
 
-<p>If you are not familiar with <a href="/post/separate-dependencies-from-implementation-using-nauci-base-entry-docker-image/">the prerequisites</a> then please read that section now. I also assume that you have <a href="https://docs.docker.com/engine/reference/builder/">read the Dockerfile reference documentation</a> and are familiar with <a href="https://docs.docker.com/engine/reference/commandline/cli/">the Docker CLI</a>.</p>
+<p>If you are not familiar with <a href="https://bloggerbust.ca/post/separate-dependencies-from-implementation-using-nauci-base-entry-docker-image/">the prerequisites</a> then please read that section now. I also assume that you have <a href="https://docs.docker.com/engine/reference/builder/">read the Dockerfile reference documentation</a> and are familiar with <a href="https://docs.docker.com/engine/reference/commandline/cli/">the Docker CLI</a>.</p>
 
 <h2 id="steps-for-the-impatient">Steps for the impatient</h2>
 
 <p>This section provides less verbose instructions for those knowledgeable enough to not need further explanation. It also provides an overview of the steps we will be taking throughout the rest of the article. For a deeper look into each step please continue to the next section titled &ndash; <a href="#build-the-dependency-image">Build the dependency image</a>.</p>
 
 <ol>
-<li>Read the <a href="/post/separate-dependencies-from-implementation-using-nauci-base-entry-docker-image/">prerequisite section</a> and ensure that you have a directory setup with POSIX ACL support and extended attributes enabled. We will refer to this directory as <em><code>/shared/</code></em></li>
+<li>Read the <a href="https://bloggerbust.ca/post/separate-dependencies-from-implementation-using-nauci-base-entry-docker-image/">prerequisite section</a> and ensure that you have a directory setup with POSIX ACL support and extended attributes enabled. We will refer to this directory as <em><code>/shared/</code></em></li>
 
-<li><p><a href="/post/separate-dependencies-from-implementation-using-nauci-base-entry-docker-image/">Create a new group named developer</a> and add your host user to that group.</p>
+<li><p><a href="https://bloggerbust.ca/post/separate-dependencies-from-implementation-using-nauci-base-entry-docker-image/">Create a new group named developer</a> and add your host user to that group.</p>
 
 <ul>
 <li><p>You may call this group something other than <em>developer</em>, but then you will need to pass the <code>-d</code> optional flag to the entrypoint in step 7 to override the default group name. See the <a href="https://github.com/BloggerBust/nauci%5Fbase%5Finit/blob/master/README.md#the-nauci-base-image-entry-point-init-script-usage-documentation">nauci_base_init entrypoint usage documentation</a>.</p>
@@ -260,7 +260,7 @@ usermod -aG usb dustfinger</code></pre></div>
 
 <h2 id="build-the-dependency-image">Build the dependency image</h2>
 
-<p>In the previous article of this series I demonstrated <a href="/post/separate-dependencies-from-implementation-using-nauci-base-entry-docker-image/">how to create a basic image that inherits from nauci base entry and encapsulates the Firefox browser</a>. Now it is time to encapsulate all of the dependencies necessary to create a simple Angular Hello World browser extension. Start by creating a project directory named <em>hello_angular_webext</em>.</p>
+<p>In the previous article of this series I demonstrated <a href="https://bloggerbust.ca/post/separate-dependencies-from-implementation-using-nauci-base-entry-docker-image/">how to create a basic image that inherits from nauci base entry and encapsulates the Firefox browser</a>. Now it is time to encapsulate all of the dependencies necessary to create a simple Angular Hello World browser extension. Start by creating a project directory named <em>hello_angular_webext</em>.</p>
 <div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">mkdir -p ~/dev/hello_angular_webext/src/
 touch ~/dev/hello_angular_webext/dockerfile</code></pre></div>
 <h3 id="create-the-dockerfile">Create the Dockerfile</h3>
@@ -326,15 +326,15 @@ node                        latest   462743bd5c7f   4 days ago      674MB
 nauci/nauci_base_entry      latest   82d57770d7cf   4 days ago      215MB</code></pre></div>
 <h2 id="create-a-shareable-file-system-or-directory">Create a shareable file system or directory</h2>
 
-<p>By default the <a href="https://github.com/BloggerBust/nauci%5Fbase%5Finit/blob/master/nauci%5Fbase%5Finit.sh">base entry point init script</a> expects to find the directory <strong><code>/shared/</code></strong> with POSIX ACL support enabled. A different path can be provided using the <strong>-v</strong> option. The <a href="/post/separate-dependencies-from-implementation-using-nauci-base-entry-docker-image/">prerequisite section</a> of the previous article contains sources that provide guidance on how to determine if your system supports POSIX ACL and how to install and configure POSIX ACL if necessary.</p>
+<p>By default the <a href="https://github.com/BloggerBust/nauci%5Fbase%5Finit/blob/master/nauci%5Fbase%5Finit.sh">base entry point init script</a> expects to find the directory <strong><code>/shared/</code></strong> with POSIX ACL support enabled. A different path can be provided using the <strong>-v</strong> option. The <a href="https://bloggerbust.ca/post/separate-dependencies-from-implementation-using-nauci-base-entry-docker-image/">prerequisite section</a> of the previous article contains sources that provide guidance on how to determine if your system supports POSIX ACL and how to install and configure POSIX ACL if necessary.</p>
 
-<p>Moving forward, I am going to refer to the <em>base entry point init script</em> simply as <em>entry point</em>, which is a <a href="https://docs.docker.com/glossary/?term=ENTRYPOINT">term defined in the Docker glossary</a>. While writing this article I decided to provide better support for multi user collaboration. I know that sounds weird, after all what other kind of collaboration is there anyway? If you recall in the <a href="/post/separate-dependencies-from-implementation-using-nauci-base-entry-docker-image/">Preparing for collaboration</a> section of the previous article in this series I drew a distinction between centrally hosted and distributed collaboration. The line I drew dividing these methodologies was too stark since it is perfectly valid for many locally centralized tiny groups to collaborate in a distributed fashion. That is why the <a href="https://github.com/BloggerBust/nauci%5Fbase%5Finit/blob/master/nauci%5Fbase%5Finit.sh">entry point</a> was designed to accept a CVS of user names in the first place. The trouble I ran into is that the tree structure of the <em><code>/home/</code></em> directory separates each user&rsquo;s <em><code>~/dev/</code></em> directory posing a challenge when it comes time to attach volumes to be shared by each host and guest pair. One strategy would be to attach many volumes, one for each pair, but that felt really cumbersome even with only a few users. A much better solution is to create a single shared volume and then create soft links inside each user&rsquo;s directory.</p>
+<p>Moving forward, I am going to refer to the <em>base entry point init script</em> simply as <em>entry point</em>, which is a <a href="https://docs.docker.com/glossary/?term=ENTRYPOINT">term defined in the Docker glossary</a>. While writing this article I decided to provide better support for multi user collaboration. I know that sounds weird, after all what other kind of collaboration is there anyway? If you recall in the <a href="https://bloggerbust.ca/post/separate-dependencies-from-implementation-using-nauci-base-entry-docker-image/">Preparing for collaboration</a> section of the previous article in this series I drew a distinction between centrally hosted and distributed collaboration. The line I drew dividing these methodologies was too stark since it is perfectly valid for many locally centralized tiny groups to collaborate in a distributed fashion. That is why the <a href="https://github.com/BloggerBust/nauci%5Fbase%5Finit/blob/master/nauci%5Fbase%5Finit.sh">entry point</a> was designed to accept a CVS of user names in the first place. The trouble I ran into is that the tree structure of the <em><code>/home/</code></em> directory separates each user&rsquo;s <em><code>~/dev/</code></em> directory posing a challenge when it comes time to attach volumes to be shared by each host and guest pair. One strategy would be to attach many volumes, one for each pair, but that felt really cumbersome even with only a few users. A much better solution is to create a single shared volume and then create soft links inside each user&rsquo;s directory.</p>
 
-<p>Please create a shared directory with POSIX ACL support enabled before proceeding. Don&rsquo;t worry about setting up the default ACL rules yourself. In the previous article, on <a href="/post/separate-dependencies-from-implementation-using-nauci-base-entry-docker-image/">setting up default permissions</a>, I talked about manually setting the setgid mode bit and ACL rules. Since then I realized that with extended attributes enabled the ACL rules will be available inside the Docker container where the entry point is executed. Initially I didn&rsquo;t think that was going to be possible due to container isolation. I have updated the entry point script to pragmatically set the setgid mode bit and ACL rules directly from within the running container :-).</p>
+<p>Please create a shared directory with POSIX ACL support enabled before proceeding. Don&rsquo;t worry about setting up the default ACL rules yourself. In the previous article, on <a href="https://bloggerbust.ca/post/separate-dependencies-from-implementation-using-nauci-base-entry-docker-image/">setting up default permissions</a>, I talked about manually setting the setgid mode bit and ACL rules. Since then I realized that with extended attributes enabled the ACL rules will be available inside the Docker container where the entry point is executed. Initially I didn&rsquo;t think that was going to be possible due to container isolation. I have updated the entry point script to pragmatically set the setgid mode bit and ACL rules directly from within the running container :-).</p>
 
 <h2 id="a-note-to-zfs-users-using-altroot">A note to ZFS users using altroot</h2>
 
-<p>My drives are fully encrypted. I configured my boot loader to call a custom initramfs which deploys busybox, cryptsetup and all of the ZFS related modules. Since busybox claims normal root, zpool cannot be imported into the same. That is why my pool was created with altroot set to <em><code>/mnt/root/</code></em> and each dataset was created with a mountpoint to altroot. When I add a new dataset to a running system I have to account for this. It is also convenient to set the acltype at creation time. Recall <a href="/post/separate-dependencies-from-implementation-using-nauci-base-entry-docker-image/">that if the acltype is not set we will not be able to create ACL rules</a>.</p>
+<p>My drives are fully encrypted. I configured my boot loader to call a custom initramfs which deploys busybox, cryptsetup and all of the ZFS related modules. Since busybox claims normal root, zpool cannot be imported into the same. That is why my pool was created with altroot set to <em><code>/mnt/root/</code></em> and each dataset was created with a mountpoint to altroot. When I add a new dataset to a running system I have to account for this. It is also convenient to set the acltype at creation time. Recall <a href="https://bloggerbust.ca/post/separate-dependencies-from-implementation-using-nauci-base-entry-docker-image/">that if the acltype is not set we will not be able to create ACL rules</a>.</p>
 <div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">/sbin/zfs create -o <span style="color:#40ffff">mountpoint</span>=/shared -o <span style="color:#40ffff">acltype</span>=posixacl tank/root/shared
 mkdir /shared
 mount --rbind /mnt/root/shared /shared
@@ -346,7 +346,7 @@ tank/root/shared  acltype     posixacl       local
 tank/root/shared  xattr       sa             inherited from tank</code></pre></div>
 <h2 id="ensure-usb-device-bus-bind-compatibility">Ensure USB Device Bus Bind Compatibility</h2>
 
-<p>In the <a href="/post/separate-dependencies-from-implementation-using-nauci-base-entry-docker-image/">conclusion of the previous article</a> in this series I mentioned that I would explain why the entry point creates a USB user group. Just as the guest user you created in the Docker container must be bind compatible with the host user in order for the two to share read write access to the source code on the shared volume, so to must they be bind compatible with respect to the USB character device nodes. An alternative approach is to run Docker in privileged mode, but that is not as secure.</p>
+<p>In the <a href="https://bloggerbust.ca/post/separate-dependencies-from-implementation-using-nauci-base-entry-docker-image/">conclusion of the previous article</a> in this series I mentioned that I would explain why the entry point creates a USB user group. Just as the guest user you created in the Docker container must be bind compatible with the host user in order for the two to share read write access to the source code on the shared volume, so to must they be bind compatible with respect to the USB character device nodes. An alternative approach is to run Docker in privileged mode, but that is not as secure.</p>
 
 <p>Let&rsquo;s take a peek at how USB devices are represented in the file system:</p>
 <div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">tree -pugla /dev/bus/usb/</code></pre></div><div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">/dev/bus/usb/
@@ -369,7 +369,7 @@ tank/root/shared  xattr       sa             inherited from tank</code></pre></d
 
 <h3 id="create-the-usb-group-if-needed">Create the USB group if needed</h3>
 
-<p>You may skip this section if your USB character device nodes already have non root group ownership. Otherwise, you must ensure that the usb group exists. The following command will print the GID of the group named usb followed by the name of the group with GID 85. If either of the square brackets in the output enclose an empty string, then that indicates the group or GID is missing. If the group is missing, then you will need to create it. If the group is missing and GID 85 is assigned to another group, then you will need to create the group with a different GID &ndash; see <a href="/post/separate-dependencies-from-implementation-using-nauci-base-entry-docker-image/">Ensure that your chosen group id has not already been assigned</a>.</p>
+<p>You may skip this section if your USB character device nodes already have non root group ownership. Otherwise, you must ensure that the usb group exists. The following command will print the GID of the group named usb followed by the name of the group with GID 85. If either of the square brackets in the output enclose an empty string, then that indicates the group or GID is missing. If the group is missing, then you will need to create it. If the group is missing and GID 85 is assigned to another group, then you will need to create the group with a different GID &ndash; see <a href="https://bloggerbust.ca/post/separate-dependencies-from-implementation-using-nauci-base-entry-docker-image/">Ensure that your chosen group id has not already been assigned</a>.</p>
 <div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">getent group usb | cut -d: -f3 | uniq | xargs <span style="color:#24909d">printf</span> <span style="color:#ed9d13">&#34;The group named usb has GID [%s]\n&#34;</span>
 getent group <span style="color:#3677a9">85</span> | cut -d: -f1 | uniq | xargs <span style="color:#24909d">printf</span> <span style="color:#ed9d13">&#34;GID 85 has group name [%s]\n&#34;</span></code></pre></div><div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">The group named usb has GID [85]
 GID 85 has group name [usb]</code></pre></div>
@@ -886,7 +886,7 @@ Updated, w00t!</code></pre></div>
 <p>Since we passed the <em>&ndash;watch</em> optional parameter to the <em>ng build</em> command the Angular CLI should detect the change automatically and rebuild the app. The app should be transpiled, and copied to the <em><code>src/dist/</code></em> directory. The web-ext run command should then detect the change in the <em><code>src/dist/</code></em> directory and automatically deploy the WebExtension to both desktop Firefox running in the container and mobile Firefox running on the Android device.</p>
 
 <figure>
-    <img src="/post/encapsulate-angular-webextension-dependencies-in-a-docker-image/20181023-webext-launch-angular-webextension-in-desktop-android-firefox.jpg"/> 
+    <img src="https://bloggerbust.ca/post/encapsulate-angular-webextension-dependencies-in-a-docker-image/20181023-webext-launch-angular-webextension-in-desktop-android-firefox.jpg"/> 
 </figure>
 
 
@@ -941,11 +941,11 @@ Updated, w00t!</code></pre></div>
 <div class="tags">
     
       <div class="tag">
-        <a href="/tags/nauci">#nauci</a>
+        <a href="https://bloggerbust.ca/tags/nauci">#nauci</a>
       </div>
     
       <div class="tag">
-        <a href="/tags/docker">#docker</a>
+        <a href="https://bloggerbust.ca/tags/docker">#docker</a>
       </div>
     
 </div>
@@ -963,7 +963,7 @@ Updated, w00t!</code></pre></div>
   Comments
 </h2>
     <form class="comment" method="POST" action="https://staticman.bloggerbust-bot.now.sh/v2/entry/BloggerBust/bloggerbust.ca/master/comments" class="flex-container flex-column">
-  <input type="hidden" name="options[redirect]" value="/post/encapsulate-angular-webextension-dependencies-in-a-docker-image/#comment-submitted">
+  <input type="hidden" name="options[redirect]" value="https://bloggerbust.ca/post/encapsulate-angular-webextension-dependencies-in-a-docker-image/#comment-submitted">
   <input type="hidden" name="options[slug]" value="encapsulate-angular-webextension-dependencies-in-a-docker-image">
   <div class="flex-container flex-row">
     <input name="fields[name]" type="text" placeholder="Your name" class="flex-item">
@@ -976,6 +976,9 @@ Updated, w00t!</code></pre></div>
     <input type="submit" value="Submit" class="flex-item">
   </div>
 </form>
+<div id="comment-submitted">
+  Your comment has been submitted and is now pending moderation
+</div>
 
     
 
@@ -1013,7 +1016,7 @@ Updated, w00t!</code></pre></div>
   
 
   <div class="social-link">
-  <a href="/index.xml" target="_blank">RSS</a>
+  <a href="https://bloggerbust.ca/index.xml" target="_blank">RSS</a>
   </div>
 
 </div>

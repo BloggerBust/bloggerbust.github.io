@@ -2,40 +2,40 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Serverless on Blogger Bust</title>
-    <link>/tags/serverless/</link>
+    <link>https://bloggerbust.ca/tags/serverless/</link>
     <description>Recent content in Serverless on Blogger Bust</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-CA</language>
     <copyright>Copyright (c) 2018, all rights reserved.</copyright>
     <lastBuildDate>Sun, 21 Apr 2019 10:14:27 +0000</lastBuildDate>
     
-	<atom:link href="/tags/serverless/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://bloggerbust.ca/tags/serverless/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Staticman With GitHub and Zeit Now - part 3</title>
-      <link>/post/staticman-with-github-and-zeit-now-part-3/</link>
+      <link>https://bloggerbust.ca/post/staticman-with-github-and-zeit-now-part-3/</link>
       <pubDate>Sun, 21 Apr 2019 10:14:27 +0000</pubDate>
       
-      <guid>/post/staticman-with-github-and-zeit-now-part-3/</guid>
+      <guid>https://bloggerbust.ca/post/staticman-with-github-and-zeit-now-part-3/</guid>
       <description>A quick recap In part 2 of this series we created a Staticman GitHub bot account and walked through all of the steps required to deploy an instance of Staticman to Zeit Now. In this final post of the series we are going to invite our Staticman instance to be a collaborator of our unpublished GitHub blog repository. Then we will prepare our blog to send RESTful requests to our Staticman instance.</description>
     </item>
     
     <item>
       <title>Staticman with GitHub and Zeit Now - part 2</title>
-      <link>/post/staticman-with-github-and-zeit-now-part-2/</link>
+      <link>https://bloggerbust.ca/post/staticman-with-github-and-zeit-now-part-2/</link>
       <pubDate>Fri, 19 Apr 2019 07:25:30 +0000</pubDate>
       
-      <guid>/post/staticman-with-github-and-zeit-now-part-2/</guid>
+      <guid>https://bloggerbust.ca/post/staticman-with-github-and-zeit-now-part-2/</guid>
       <description>A quick recap In part 1 of this series we rationalized our choice to use Staticman as a comment engine for Blogger Bust, and Zeit Now to host Staticman. We also discussed how to create a GitHub bot account and began the process of authorizing the Zeit Now GitHub app, but we ran into some trouble when our account was flagged by the Zeit abuse system. After answering a few of their questions they whitelisted our account, a process that takes 24 hours to propagate through their system.</description>
     </item>
     
     <item>
       <title>Staticman with GitHub and Zeit Now - part 1</title>
-      <link>/post/staticman-with-github-and-zeit-now/</link>
+      <link>https://bloggerbust.ca/post/staticman-with-github-and-zeit-now/</link>
       <pubDate>Thu, 28 Mar 2019 04:36:51 +0000</pubDate>
       
-      <guid>/post/staticman-with-github-and-zeit-now/</guid>
+      <guid>https://bloggerbust.ca/post/staticman-with-github-and-zeit-now/</guid>
       <description>Why Staticman? I would like to add comment support to my Blog. The trouble is that I don&amp;rsquo;t trust comment engines to respect the privacy of my readers. Do I even have any readers? Who can tell! None of my posts have a comment section and I don&amp;rsquo;t collect analytics. Clearly this is a problem worth solving.
 I recently came across the Staticman comment engine which uses pull requests to update static blogs with static user comments.</description>
     </item>

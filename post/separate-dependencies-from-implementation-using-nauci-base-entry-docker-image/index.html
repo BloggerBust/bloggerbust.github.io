@@ -9,11 +9,11 @@
 <meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1">
 <meta name="generator" content="Hugo 0.55.0-DEV" />
 
-<link rel="canonical" href="/post/separate-dependencies-from-implementation-using-nauci-base-entry-docker-image/">
+<link rel="canonical" href="https://bloggerbust.ca/post/separate-dependencies-from-implementation-using-nauci-base-entry-docker-image/">
 <meta property="og:title" content="Separate Dependencies From Implementation Using POSIX ACL Extended Attributes &amp; Docker" />
 <meta property="og:description" content="The motivation I am going to develop a responsive web-extension using angular. The web-extension is for a project that I am starting called nauci. I will talk about nauci more in future posts. In this post I intend to introduce the nauci base entry docker image and how I am using it to encapsulate the nauci project dependencies in a docker sub image, but not the source code. The plan is to bind my local nauci source directory to a docker container built with the nauci dependencies image, thereby separating dependency and tooling concerns from project implementation." />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="/post/separate-dependencies-from-implementation-using-nauci-base-entry-docker-image/" />
+<meta property="og:url" content="https://bloggerbust.ca/post/separate-dependencies-from-implementation-using-nauci-base-entry-docker-image/" />
 <meta property="article:published_time" content="2018-10-11T06:07:13-06:00"/>
 <meta property="article:modified_time" content="2018-11-12T05:17:29-07:00"/>
 
@@ -37,7 +37,7 @@
 <meta itemprop="keywords" content="nauci,docker," />
 
 
-<link rel="stylesheet" href="/css/layout.css" />
+<link rel="stylesheet" href="https://bloggerbust.ca/css/layout.css" />
 <style type="text/css">
 body {
   background-color: #26282A;
@@ -104,7 +104,7 @@ th {
 
 </style>
 
-<link rel="stylesheet" href="/css/site.css">
+<link rel="stylesheet" href="https://bloggerbust.ca/css/site.css">
 
 
 
@@ -126,16 +126,16 @@ th {
 
   <nav>
     <div class="siteTitle">
-      <a href="/">Blogger Bust</a>
+      <a href="https://bloggerbust.ca/">Blogger Bust</a>
     </div> 
 
     
     
-    <a class="nav-item" href="/about/"><div class="nav-item-title">About</div></a>
+    <a class="nav-item" href="https://bloggerbust.ca/about/"><div class="nav-item-title">About</div></a>
     
-    <a class="nav-item" href="/series"><div class="nav-item-title">Series</div></a>
+    <a class="nav-item" href="https://bloggerbust.ca/series"><div class="nav-item-title">Series</div></a>
     
-    <a class="nav-item active" href="/post/"><div class="nav-item-title">Posts</div></a>
+    <a class="nav-item active" href="https://bloggerbust.ca/post/"><div class="nav-item-title">Posts</div></a>
     
 
   </nav>
@@ -227,7 +227,7 @@ drwxr-xr-x 2 dustfinger dustfinger 2 Oct 11 10:41 src</code></pre></div>
 
 <h3 id="look-up-the-range-for-system-allocated-gid">Look up the range for system allocated GID</h3>
 
-<p>As I mentioned in <a href="/post/literate-programming/">Literate Programming</a>, sometimes I make use of regular expressions to filter the output for presentation purposes. In the next source block I am grepping <code>/etc/logins.defs</code> for the GID ranges. I could have just written <code>grep -i gid /etc/login.defs</code>, but I wanted to avoid pulling in comments that contain the word GID. By adding the optional E flag I was able to add the regular expression <code>^[^#].*gid</code> to return lines that contain the word <em>gid</em> and do not begin with the comment symbol <em>#</em>.</p>
+<p>As I mentioned in <a href="https://bloggerbust.ca/post/literate-programming/">Literate Programming</a>, sometimes I make use of regular expressions to filter the output for presentation purposes. In the next source block I am grepping <code>/etc/logins.defs</code> for the GID ranges. I could have just written <code>grep -i gid /etc/login.defs</code>, but I wanted to avoid pulling in comments that contain the word GID. By adding the optional E flag I was able to add the regular expression <code>^[^#].*gid</code> to return lines that contain the word <em>gid</em> and do not begin with the comment symbol <em>#</em>.</p>
 
 <p><a id="code-snippet--grep-gid-ranges"></a></p>
 <div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">grep -iE ^[^#].*gid /etc/login.defs</code></pre></div><div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">SYS_GID_MIN     101
@@ -381,11 +381,11 @@ docker ps -a</code></pre></div><div class="highlight"><pre style="color:#d0d0d0;
 <div class="tags">
     
       <div class="tag">
-        <a href="/tags/nauci">#nauci</a>
+        <a href="https://bloggerbust.ca/tags/nauci">#nauci</a>
       </div>
     
       <div class="tag">
-        <a href="/tags/docker">#docker</a>
+        <a href="https://bloggerbust.ca/tags/docker">#docker</a>
       </div>
     
 </div>
@@ -403,7 +403,7 @@ docker ps -a</code></pre></div><div class="highlight"><pre style="color:#d0d0d0;
   Comments
 </h2>
     <form class="comment" method="POST" action="https://staticman.bloggerbust-bot.now.sh/v2/entry/BloggerBust/bloggerbust.ca/master/comments" class="flex-container flex-column">
-  <input type="hidden" name="options[redirect]" value="/post/separate-dependencies-from-implementation-using-nauci-base-entry-docker-image/#comment-submitted">
+  <input type="hidden" name="options[redirect]" value="https://bloggerbust.ca/post/separate-dependencies-from-implementation-using-nauci-base-entry-docker-image/#comment-submitted">
   <input type="hidden" name="options[slug]" value="separate-dependencies-from-implementation-using-nauci-base-entry-docker-image">
   <div class="flex-container flex-row">
     <input name="fields[name]" type="text" placeholder="Your name" class="flex-item">
@@ -416,6 +416,9 @@ docker ps -a</code></pre></div><div class="highlight"><pre style="color:#d0d0d0;
     <input type="submit" value="Submit" class="flex-item">
   </div>
 </form>
+<div id="comment-submitted">
+  Your comment has been submitted and is now pending moderation
+</div>
 
     
 
@@ -453,7 +456,7 @@ docker ps -a</code></pre></div><div class="highlight"><pre style="color:#d0d0d0;
   
 
   <div class="social-link">
-  <a href="/index.xml" target="_blank">RSS</a>
+  <a href="https://bloggerbust.ca/index.xml" target="_blank">RSS</a>
   </div>
 
 </div>

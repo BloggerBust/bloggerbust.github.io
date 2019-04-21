@@ -2,22 +2,22 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Ox Hugo on Blogger Bust</title>
-    <link>/tags/ox-hugo/</link>
+    <link>https://bloggerbust.ca/tags/ox-hugo/</link>
     <description>Recent content in Ox Hugo on Blogger Bust</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-CA</language>
     <copyright>Copyright (c) 2018, all rights reserved.</copyright>
     <lastBuildDate>Tue, 01 Jan 2019 00:00:00 -0700</lastBuildDate>
     
-	<atom:link href="/tags/ox-hugo/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://bloggerbust.ca/tags/ox-hugo/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>ox-hugo Dependency Image</title>
-      <link>/post/ox-hugo-dependency-image/</link>
+      <link>https://bloggerbust.ca/post/ox-hugo-dependency-image/</link>
       <pubDate>Tue, 01 Jan 2019 00:00:00 -0700</pubDate>
       
-      <guid>/post/ox-hugo-dependency-image/</guid>
+      <guid>https://bloggerbust.ca/post/ox-hugo-dependency-image/</guid>
       <description>Motivation I decided that I would like to contribute to the ox-hugo project from time to time. I do not have pandoc or pandoc-citeproc installed locally nor have I ever used either before. I did consider emerging pandoc, but when I saw the list of dependencies being pulled from portage I immediately cancelled the install.
 For those that are unfamiliar with Gentoo, Portage is Gentoo&amp;rsquo;s package manager and emerge is Portage&amp;rsquo;s command-line interface.</description>
     </item>

@@ -2,22 +2,22 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Notice on Blogger Bust</title>
-    <link>/tags/notice/</link>
+    <link>https://bloggerbust.ca/tags/notice/</link>
     <description>Recent content in Notice on Blogger Bust</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-CA</language>
     <copyright>Copyright (c) 2018, all rights reserved.</copyright>
     <lastBuildDate>Sat, 30 Mar 2019 10:20:23 +0000</lastBuildDate>
     
-	<atom:link href="/tags/notice/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://bloggerbust.ca/tags/notice/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Broken links</title>
-      <link>/post/broken-links/</link>
+      <link>https://bloggerbust.ca/post/broken-links/</link>
       <pubDate>Sat, 30 Mar 2019 10:20:23 +0000</pubDate>
       
-      <guid>/post/broken-links/</guid>
+      <guid>https://bloggerbust.ca/post/broken-links/</guid>
       <description>What is going on? A while back I noticed that all of my cross post anchor links are broken. They no longer link to anchors within the post, but instead link to the post itself. I planned on resolving this quickly, but it turned out to be more involved then I had hopped. In order to resolve the issue I needed to first register as a contributor of GNU emacs which I discussed here.</description>
     </item>
     

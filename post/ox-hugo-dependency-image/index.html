@@ -9,12 +9,12 @@
 <meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1">
 <meta name="generator" content="Hugo 0.55.0-DEV" />
 
-<link rel="canonical" href="/post/ox-hugo-dependency-image/">
+<link rel="canonical" href="https://bloggerbust.ca/post/ox-hugo-dependency-image/">
 <meta property="og:title" content="ox-hugo Dependency Image" />
 <meta property="og:description" content="Motivation I decided that I would like to contribute to the ox-hugo project from time to time. I do not have pandoc or pandoc-citeproc installed locally nor have I ever used either before. I did consider emerging pandoc, but when I saw the list of dependencies being pulled from portage I immediately cancelled the install.
 For those that are unfamiliar with Gentoo, Portage is Gentoo&rsquo;s package manager and emerge is Portage&rsquo;s command-line interface." />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="/post/ox-hugo-dependency-image/" />
+<meta property="og:url" content="https://bloggerbust.ca/post/ox-hugo-dependency-image/" />
 <meta property="article:published_time" content="2019-01-01T00:00:00-07:00"/>
 <meta property="article:modified_time" content="2019-03-16T05:39:49-06:00"/>
 
@@ -39,7 +39,7 @@ For those that are unfamiliar with Gentoo, Portage is Gentoo&rsquo;s package man
 <meta itemprop="keywords" content="docker,ox-hugo," />
 
 
-<link rel="stylesheet" href="/css/layout.css" />
+<link rel="stylesheet" href="https://bloggerbust.ca/css/layout.css" />
 <style type="text/css">
 body {
   background-color: #26282A;
@@ -106,7 +106,7 @@ th {
 
 </style>
 
-<link rel="stylesheet" href="/css/site.css">
+<link rel="stylesheet" href="https://bloggerbust.ca/css/site.css">
 
 
 
@@ -128,16 +128,16 @@ th {
 
   <nav>
     <div class="siteTitle">
-      <a href="/">Blogger Bust</a>
+      <a href="https://bloggerbust.ca/">Blogger Bust</a>
     </div> 
 
     
     
-    <a class="nav-item" href="/about/"><div class="nav-item-title">About</div></a>
+    <a class="nav-item" href="https://bloggerbust.ca/about/"><div class="nav-item-title">About</div></a>
     
-    <a class="nav-item" href="/series"><div class="nav-item-title">Series</div></a>
+    <a class="nav-item" href="https://bloggerbust.ca/series"><div class="nav-item-title">Series</div></a>
     
-    <a class="nav-item active" href="/post/"><div class="nav-item-title">Posts</div></a>
+    <a class="nav-item active" href="https://bloggerbust.ca/post/"><div class="nav-item-title">Posts</div></a>
     
 
   </nav>
@@ -193,11 +193,11 @@ th {
 
 <h3 id="create-a-shared-directory-with-posix-acl-support">Create a shared directory with POSIX ACL support</h3>
 
-<p>Before you begin, you will need a file system with POSIX ACL support and extended attributes enabled as described in - <a href="/post/encapsulate-angular-webextension-dependencies-in-a-docker-image/">Create a shareable file system or directory</a>. Once you have a file system with POSIX ACL support enabled you can simply create a directory for sharing projects between your host and any future dependency containers you create. I named this directory <em><code>/shared/</code></em>, but ultimately you can name it anything you like.</p>
+<p>Before you begin, you will need a file system with POSIX ACL support and extended attributes enabled as described in - <a href="https://bloggerbust.ca/post/encapsulate-angular-webextension-dependencies-in-a-docker-image/">Create a shareable file system or directory</a>. Once you have a file system with POSIX ACL support enabled you can simply create a directory for sharing projects between your host and any future dependency containers you create. I named this directory <em><code>/shared/</code></em>, but ultimately you can name it anything you like.</p>
 
 <h3 id="create-a-developer-group">Create a developer group</h3>
 
-<p>Your host user must be a member of the developer group as described in <a href="/post/separate-dependencies-from-implementation-using-nauci-base-entry-docker-image/">Create a new group named developer</a>.</p>
+<p>Your host user must be a member of the developer group as described in <a href="https://bloggerbust.ca/post/separate-dependencies-from-implementation-using-nauci-base-entry-docker-image/">Create a new group named developer</a>.</p>
 <div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">groupadd -g <span style="color:#3677a9">2000</span> developer
 usermod -aG developer dustfinger</code></pre></div>
 <h3 id="pull-nauci-ox-hugo-deps-image">Pull nauci/ox-hugo_deps image</h3>
@@ -471,7 +471,7 @@ Press Ctrl+C to stop</code></pre></div>
 <p>Now you should be able to browse your blog from localhost:1313 and the request will be mapped to the container through port 1313 with the hugo server listening on bind address <em>172.17.0.2</em>. Any edits that you make using ox-hugo should be noticed by the hugo server running inside of the container and the change should be pushed to the local browser automatically.</p>
 
 <figure>
-    <img src="/post/ox-hugo-dependency-image/20190101-ox-hugo-deps-browse-hugo-server.jpg"/> 
+    <img src="https://bloggerbust.ca/post/ox-hugo-dependency-image/20190101-ox-hugo-deps-browse-hugo-server.jpg"/> 
 </figure>
 
 
@@ -488,11 +488,11 @@ Press Ctrl+C to stop</code></pre></div>
 <div class="tags">
     
       <div class="tag">
-        <a href="/tags/docker">#docker</a>
+        <a href="https://bloggerbust.ca/tags/docker">#docker</a>
       </div>
     
       <div class="tag">
-        <a href="/tags/ox-hugo">#ox-hugo</a>
+        <a href="https://bloggerbust.ca/tags/ox-hugo">#ox-hugo</a>
       </div>
     
 </div>
@@ -510,7 +510,7 @@ Press Ctrl+C to stop</code></pre></div>
   Comments
 </h2>
     <form class="comment" method="POST" action="https://staticman.bloggerbust-bot.now.sh/v2/entry/BloggerBust/bloggerbust.ca/master/comments" class="flex-container flex-column">
-  <input type="hidden" name="options[redirect]" value="/post/ox-hugo-dependency-image/#comment-submitted">
+  <input type="hidden" name="options[redirect]" value="https://bloggerbust.ca/post/ox-hugo-dependency-image/#comment-submitted">
   <input type="hidden" name="options[slug]" value="ox-hugo-dependency-image">
   <div class="flex-container flex-row">
     <input name="fields[name]" type="text" placeholder="Your name" class="flex-item">
@@ -523,6 +523,9 @@ Press Ctrl+C to stop</code></pre></div>
     <input type="submit" value="Submit" class="flex-item">
   </div>
 </form>
+<div id="comment-submitted">
+  Your comment has been submitted and is now pending moderation
+</div>
 
     
 
@@ -560,7 +563,7 @@ Press Ctrl+C to stop</code></pre></div>
   
 
   <div class="social-link">
-  <a href="/index.xml" target="_blank">RSS</a>
+  <a href="https://bloggerbust.ca/index.xml" target="_blank">RSS</a>
   </div>
 
 </div>

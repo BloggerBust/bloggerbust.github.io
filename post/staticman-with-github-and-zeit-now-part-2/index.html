@@ -9,11 +9,11 @@
 <meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1">
 <meta name="generator" content="Hugo 0.55.0-DEV" />
 
-<link rel="canonical" href="/post/staticman-with-github-and-zeit-now-part-2/">
+<link rel="canonical" href="https://bloggerbust.ca/post/staticman-with-github-and-zeit-now-part-2/">
 <meta property="og:title" content="Staticman with GitHub and Zeit Now - part 2" />
 <meta property="og:description" content="A quick recap In part 1 of this series we rationalized our choice to use Staticman as a comment engine for Blogger Bust, and Zeit Now to host Staticman. We also discussed how to create a GitHub bot account and began the process of authorizing the Zeit Now GitHub app, but we ran into some trouble when our account was flagged by the Zeit abuse system. After answering a few of their questions they whitelisted our account, a process that takes 24 hours to propagate through their system." />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="/post/staticman-with-github-and-zeit-now-part-2/" />
+<meta property="og:url" content="https://bloggerbust.ca/post/staticman-with-github-and-zeit-now-part-2/" />
 <meta property="article:published_time" content="2019-04-19T07:25:30&#43;00:00"/>
 <meta property="article:modified_time" content="2019-04-20T07:03:58-06:00"/>
 
@@ -37,7 +37,7 @@
 <meta itemprop="keywords" content="hugo,staticman,serverless,git," />
 
 
-<link rel="stylesheet" href="/css/layout.css" />
+<link rel="stylesheet" href="https://bloggerbust.ca/css/layout.css" />
 <style type="text/css">
 body {
   background-color: #26282A;
@@ -104,7 +104,7 @@ th {
 
 </style>
 
-<link rel="stylesheet" href="/css/site.css">
+<link rel="stylesheet" href="https://bloggerbust.ca/css/site.css">
 
 
 
@@ -126,16 +126,16 @@ th {
 
   <nav>
     <div class="siteTitle">
-      <a href="/">Blogger Bust</a>
+      <a href="https://bloggerbust.ca/">Blogger Bust</a>
     </div> 
 
     
     
-    <a class="nav-item" href="/about/"><div class="nav-item-title">About</div></a>
+    <a class="nav-item" href="https://bloggerbust.ca/about/"><div class="nav-item-title">About</div></a>
     
-    <a class="nav-item" href="/series"><div class="nav-item-title">Series</div></a>
+    <a class="nav-item" href="https://bloggerbust.ca/series"><div class="nav-item-title">Series</div></a>
     
-    <a class="nav-item active" href="/post/"><div class="nav-item-title">Posts</div></a>
+    <a class="nav-item active" href="https://bloggerbust.ca/post/"><div class="nav-item-title">Posts</div></a>
     
 
   </nav>
@@ -170,11 +170,11 @@ th {
 
 <h2 id="a-quick-recap">A quick recap</h2>
 
-<p>In <a href="/post/staticman-with-github-and-zeit-now/">part 1 of this series</a> we rationalized our choice to use Staticman as a comment engine for Blogger Bust, and <a href="https://zeit.co/now">Zeit Now</a> to host <a href="https://staticman.net">Staticman</a>. We also discussed how to <a href="/post/staticman-with-github-and-zeit-now/">create a GitHub bot account</a> and began the process of <a href="/post/staticman-with-github-and-zeit-now/">authorizing the Zeit Now GitHub app</a>, but we ran into some trouble when our account was flagged by the Zeit abuse system. After answering a few of their questions they whitelisted our account, a process that takes 24 hours to propagate through their system. We may now continue our quest to setup Staticman via Zeit Now.</p>
+<p>In <a href="https://bloggerbust.ca/post/staticman-with-github-and-zeit-now/">part 1 of this series</a> we rationalized our choice to use Staticman as a comment engine for Blogger Bust, and <a href="https://zeit.co/now">Zeit Now</a> to host <a href="https://staticman.net">Staticman</a>. We also discussed how to <a href="https://bloggerbust.ca/post/staticman-with-github-and-zeit-now/">create a GitHub bot account</a> and began the process of <a href="https://bloggerbust.ca/post/staticman-with-github-and-zeit-now/">authorizing the Zeit Now GitHub app</a>, but we ran into some trouble when our account was flagged by the Zeit abuse system. After answering a few of their questions they whitelisted our account, a process that takes 24 hours to propagate through their system. We may now continue our quest to setup Staticman via Zeit Now.</p>
 
 <h2 id="re-register-with-zeit-now">Re-register with Zeit Now</h2>
 
-<p>Hopefully enough time has passed for registration to complete successfully. The first step is to sign in to GitHub using your <a href="/post/staticman-with-github-and-zeit-now/">GitHub bot account that we created in part 1</a> of this series. Next, revisit the <a href="https://zeit.co/signup?next=%2Fgithub-setup">Zeit Now GitHub setup page</a> and click <em>CONTINUE WITH GITHUB</em>. For me, the page redirected to itself. I decided to try their <a href="https://zeit.co/login">sign-in page instead</a>. After clicking the <em>CONTINUE WITH GITHUB</em> link I was presented with a view containing the text &ldquo;<em>Are you BloggerBust-bot?:</em>&rdquo;. Since I am, I clicked the <em>CONTINUE AS BloggerBust-bot</em> link and I was finally signed in to their dashboard.</p>
+<p>Hopefully enough time has passed for registration to complete successfully. The first step is to sign in to GitHub using your <a href="https://bloggerbust.ca/post/staticman-with-github-and-zeit-now/">GitHub bot account that we created in part 1</a> of this series. Next, revisit the <a href="https://zeit.co/signup?next=%2Fgithub-setup">Zeit Now GitHub setup page</a> and click <em>CONTINUE WITH GITHUB</em>. For me, the page redirected to itself. I decided to try their <a href="https://zeit.co/login">sign-in page instead</a>. After clicking the <em>CONTINUE WITH GITHUB</em> link I was presented with a view containing the text &ldquo;<em>Are you BloggerBust-bot?:</em>&rdquo;. Since I am, I clicked the <em>CONTINUE AS BloggerBust-bot</em> link and I was finally signed in to their dashboard.</p>
 
 <p>If you ever want to revoke the Zeit Now app from your GitHub bot account you can visit the <a href="https://github.com/settings/apps/authorizations">Authorized GitHub Apps view</a> and click the <em>Revoke</em> link.</p>
 
@@ -258,7 +258,7 @@ openssl pkey -inform PEM -in staticman_key -pubout &gt; staticman_key.pub</code>
 <div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">now secret add staticman-github-token <span style="color:#ed9d13">&#34;6GhMuCvs9AXS3XCxxozUSIYGwuTKTHdUFcHYIm2d&#34;</span></code></pre></div><div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">&gt; Success! Secret staticman-github-token added (trevorwilsonbot) [290ms]</code></pre></div>
 <h2 id="prepare-staticman-for-now">Prepare Staticman for Now</h2>
 
-<p>In part 1 of this series we <a href="/post/staticman-with-github-and-zeit-now/">cloned the staticman repo</a>. However, I found <a href="https://github.com/eduardoboucas/staticman/issues/283">some issues</a> with the Staticman master branch and have since made a few pull requests &ndash; <a href="https://github.com/eduardoboucas/staticman/pull/285">PR #285</a>, <a href="https://github.com/eduardoboucas/staticman/pull/288">PR #288</a>, <a href="https://github.com/eduardoboucas/staticman/pull/289">PR #289</a>. For now, you might want to just clone <a href="https://github.com/BloggerBust-bot/staticman/tree/now%5Fmaster">my working branch</a> until upstream stabilizes. Or <a href="https://github.com/login?return%5Fto=%2FBloggerBust-bot%2Fstaticman">fork it</a> and then switch to your forked copy of my working branch if you wish to take advantage of automatic serverless deployments.</p>
+<p>In part 1 of this series we <a href="https://bloggerbust.ca/post/staticman-with-github-and-zeit-now/">cloned the staticman repo</a>. However, I found <a href="https://github.com/eduardoboucas/staticman/issues/283">some issues</a> with the Staticman master branch and have since made a few pull requests &ndash; <a href="https://github.com/eduardoboucas/staticman/pull/285">PR #285</a>, <a href="https://github.com/eduardoboucas/staticman/pull/288">PR #288</a>, <a href="https://github.com/eduardoboucas/staticman/pull/289">PR #289</a>. For now, you might want to just clone <a href="https://github.com/BloggerBust-bot/staticman/tree/now%5Fmaster">my working branch</a> until upstream stabilizes. Or <a href="https://github.com/login?return%5Fto=%2FBloggerBust-bot%2Fstaticman">fork it</a> and then switch to your forked copy of my working branch if you wish to take advantage of automatic serverless deployments.</p>
 
 <h3 id="configuration-for-now">Configuration for Now</h3>
 
@@ -330,19 +330,19 @@ Dockerfile</code></pre></div>
 <div class="tags">
     
       <div class="tag">
-        <a href="/tags/hugo">#hugo</a>
+        <a href="https://bloggerbust.ca/tags/hugo">#hugo</a>
       </div>
     
       <div class="tag">
-        <a href="/tags/staticman">#staticman</a>
+        <a href="https://bloggerbust.ca/tags/staticman">#staticman</a>
       </div>
     
       <div class="tag">
-        <a href="/tags/serverless">#serverless</a>
+        <a href="https://bloggerbust.ca/tags/serverless">#serverless</a>
       </div>
     
       <div class="tag">
-        <a href="/tags/git">#git</a>
+        <a href="https://bloggerbust.ca/tags/git">#git</a>
       </div>
     
 </div>
@@ -360,7 +360,7 @@ Dockerfile</code></pre></div>
   Comments
 </h2>
     <form class="comment" method="POST" action="https://staticman.bloggerbust-bot.now.sh/v2/entry/BloggerBust/bloggerbust.ca/master/comments" class="flex-container flex-column">
-  <input type="hidden" name="options[redirect]" value="/post/staticman-with-github-and-zeit-now-part-2/#comment-submitted">
+  <input type="hidden" name="options[redirect]" value="https://bloggerbust.ca/post/staticman-with-github-and-zeit-now-part-2/#comment-submitted">
   <input type="hidden" name="options[slug]" value="staticman-with-github-and-zeit-now-part-2">
   <div class="flex-container flex-row">
     <input name="fields[name]" type="text" placeholder="Your name" class="flex-item">
@@ -373,6 +373,9 @@ Dockerfile</code></pre></div>
     <input type="submit" value="Submit" class="flex-item">
   </div>
 </form>
+<div id="comment-submitted">
+  Your comment has been submitted and is now pending moderation
+</div>
 
     
 
@@ -410,7 +413,7 @@ Dockerfile</code></pre></div>
   
 
   <div class="social-link">
-  <a href="/index.xml" target="_blank">RSS</a>
+  <a href="https://bloggerbust.ca/index.xml" target="_blank">RSS</a>
   </div>
 
 </div>

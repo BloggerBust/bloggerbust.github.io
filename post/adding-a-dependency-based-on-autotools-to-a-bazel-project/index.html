@@ -9,11 +9,11 @@
 <meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1">
 <meta name="generator" content="Hugo 0.55.0-DEV" />
 
-<link rel="canonical" href="/post/adding-a-dependency-based-on-autotools-to-a-bazel-project/">
+<link rel="canonical" href="https://bloggerbust.ca/post/adding-a-dependency-based-on-autotools-to-a-bazel-project/">
 <meta property="og:title" content="Adding a Dependency Based on Autotools to a Bazel Project" />
 <meta property="og:description" content="Motivation In my spare time I have been experimenting with the Bazel build runner. I wanted to add Libsodium as a dependency to my Bazel C/C&#43;&#43; project. The Libsodium project is not a Bazel package and therefore Bazel will not know how to treat it as a dependency. If I wish to add Libsodium as a repository based dependency to my project, then It makes sense to write a BUILD file defining how Bazel should build the Libsodium library." />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="/post/adding-a-dependency-based-on-autotools-to-a-bazel-project/" />
+<meta property="og:url" content="https://bloggerbust.ca/post/adding-a-dependency-based-on-autotools-to-a-bazel-project/" />
 <meta property="article:published_time" content="2019-03-24T03:07:24&#43;00:00"/>
 <meta property="article:modified_time" content="2019-03-28T08:12:34-06:00"/>
 
@@ -36,7 +36,7 @@
 <meta itemprop="keywords" content="" />
 
 
-<link rel="stylesheet" href="/css/layout.css" />
+<link rel="stylesheet" href="https://bloggerbust.ca/css/layout.css" />
 <style type="text/css">
 body {
   background-color: #26282A;
@@ -103,7 +103,7 @@ th {
 
 </style>
 
-<link rel="stylesheet" href="/css/site.css">
+<link rel="stylesheet" href="https://bloggerbust.ca/css/site.css">
 
 
 
@@ -125,16 +125,16 @@ th {
 
   <nav>
     <div class="siteTitle">
-      <a href="/">Blogger Bust</a>
+      <a href="https://bloggerbust.ca/">Blogger Bust</a>
     </div> 
 
     
     
-    <a class="nav-item" href="/about/"><div class="nav-item-title">About</div></a>
+    <a class="nav-item" href="https://bloggerbust.ca/about/"><div class="nav-item-title">About</div></a>
     
-    <a class="nav-item" href="/series"><div class="nav-item-title">Series</div></a>
+    <a class="nav-item" href="https://bloggerbust.ca/series"><div class="nav-item-title">Series</div></a>
     
-    <a class="nav-item active" href="/post/"><div class="nav-item-title">Posts</div></a>
+    <a class="nav-item active" href="https://bloggerbust.ca/post/"><div class="nav-item-title">Posts</div></a>
     
 
   </nav>
@@ -298,7 +298,7 @@ visibility = [<span style="color:#ed9d13">&#34;//visibility:public&#34;</span>]
 
 <dl>
 <dt><code>env TMPDIR=~/dev/tmp</code></dt>
-<dd>For security reasons <a href="/post/mount-tmp-as-non-executable/">I mount /tmp as non executable</a>, therefore I must override the default path since Bazel executes the configure script from this location. You probably won&rsquo;t need this part of the command.</dd>
+<dd>For security reasons <a href="https://bloggerbust.ca/post/mount-tmp-as-non-executable/">I mount /tmp as non executable</a>, therefore I must override the default path since Bazel executes the configure script from this location. You probably won&rsquo;t need this part of the command.</dd>
 <dt><code>--experimental_cc_skylark_api_enabled_packages=@rules_foreign_cc//tools/build_defs,tools/build_defs,@foreign_cc_impl</code></dt>
 <dd>Required for Bazel 0.20 to 0.21</dd>
 <dt><code>2&gt;&amp;1</code></dt>
@@ -350,7 +350,7 @@ INFO: Build completed successfully, 1 total action</code></pre></div></dd>
   Comments
 </h2>
     <form class="comment" method="POST" action="https://staticman.bloggerbust-bot.now.sh/v2/entry/BloggerBust/bloggerbust.ca/master/comments" class="flex-container flex-column">
-  <input type="hidden" name="options[redirect]" value="/post/adding-a-dependency-based-on-autotools-to-a-bazel-project/#comment-submitted">
+  <input type="hidden" name="options[redirect]" value="https://bloggerbust.ca/post/adding-a-dependency-based-on-autotools-to-a-bazel-project/#comment-submitted">
   <input type="hidden" name="options[slug]" value="adding-a-dependency-based-on-autotools-to-a-bazel-project">
   <div class="flex-container flex-row">
     <input name="fields[name]" type="text" placeholder="Your name" class="flex-item">
@@ -363,6 +363,9 @@ INFO: Build completed successfully, 1 total action</code></pre></div></dd>
     <input type="submit" value="Submit" class="flex-item">
   </div>
 </form>
+<div id="comment-submitted">
+  Your comment has been submitted and is now pending moderation
+</div>
 
     
 
@@ -400,7 +403,7 @@ INFO: Build completed successfully, 1 total action</code></pre></div></dd>
   
 
   <div class="social-link">
-  <a href="/index.xml" target="_blank">RSS</a>
+  <a href="https://bloggerbust.ca/index.xml" target="_blank">RSS</a>
   </div>
 
 </div>

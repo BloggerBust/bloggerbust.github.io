@@ -2,116 +2,116 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Posts on Blogger Bust</title>
-    <link>/post/</link>
+    <link>https://bloggerbust.ca/post/</link>
     <description>Recent content in Posts on Blogger Bust</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-CA</language>
     <copyright>Copyright (c) 2018, all rights reserved.</copyright>
     <lastBuildDate>Sun, 21 Apr 2019 10:14:27 +0000</lastBuildDate>
     
-	<atom:link href="/post/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://bloggerbust.ca/post/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Staticman With GitHub and Zeit Now - part 3</title>
-      <link>/post/staticman-with-github-and-zeit-now-part-3/</link>
+      <link>https://bloggerbust.ca/post/staticman-with-github-and-zeit-now-part-3/</link>
       <pubDate>Sun, 21 Apr 2019 10:14:27 +0000</pubDate>
       
-      <guid>/post/staticman-with-github-and-zeit-now-part-3/</guid>
+      <guid>https://bloggerbust.ca/post/staticman-with-github-and-zeit-now-part-3/</guid>
       <description>A quick recap In part 2 of this series we created a Staticman GitHub bot account and walked through all of the steps required to deploy an instance of Staticman to Zeit Now. In this final post of the series we are going to invite our Staticman instance to be a collaborator of our unpublished GitHub blog repository. Then we will prepare our blog to send RESTful requests to our Staticman instance.</description>
     </item>
     
     <item>
       <title>Staticman with GitHub and Zeit Now - part 2</title>
-      <link>/post/staticman-with-github-and-zeit-now-part-2/</link>
+      <link>https://bloggerbust.ca/post/staticman-with-github-and-zeit-now-part-2/</link>
       <pubDate>Fri, 19 Apr 2019 07:25:30 +0000</pubDate>
       
-      <guid>/post/staticman-with-github-and-zeit-now-part-2/</guid>
+      <guid>https://bloggerbust.ca/post/staticman-with-github-and-zeit-now-part-2/</guid>
       <description>A quick recap In part 1 of this series we rationalized our choice to use Staticman as a comment engine for Blogger Bust, and Zeit Now to host Staticman. We also discussed how to create a GitHub bot account and began the process of authorizing the Zeit Now GitHub app, but we ran into some trouble when our account was flagged by the Zeit abuse system. After answering a few of their questions they whitelisted our account, a process that takes 24 hours to propagate through their system.</description>
     </item>
     
     <item>
       <title>Broken links</title>
-      <link>/post/broken-links/</link>
+      <link>https://bloggerbust.ca/post/broken-links/</link>
       <pubDate>Sat, 30 Mar 2019 10:20:23 +0000</pubDate>
       
-      <guid>/post/broken-links/</guid>
+      <guid>https://bloggerbust.ca/post/broken-links/</guid>
       <description>What is going on? A while back I noticed that all of my cross post anchor links are broken. They no longer link to anchors within the post, but instead link to the post itself. I planned on resolving this quickly, but it turned out to be more involved then I had hopped. In order to resolve the issue I needed to first register as a contributor of GNU emacs which I discussed here.</description>
     </item>
     
     <item>
       <title>Staticman with GitHub and Zeit Now - part 1</title>
-      <link>/post/staticman-with-github-and-zeit-now/</link>
+      <link>https://bloggerbust.ca/post/staticman-with-github-and-zeit-now/</link>
       <pubDate>Thu, 28 Mar 2019 04:36:51 +0000</pubDate>
       
-      <guid>/post/staticman-with-github-and-zeit-now/</guid>
+      <guid>https://bloggerbust.ca/post/staticman-with-github-and-zeit-now/</guid>
       <description>Why Staticman? I would like to add comment support to my Blog. The trouble is that I don&amp;rsquo;t trust comment engines to respect the privacy of my readers. Do I even have any readers? Who can tell! None of my posts have a comment section and I don&amp;rsquo;t collect analytics. Clearly this is a problem worth solving.
 I recently came across the Staticman comment engine which uses pull requests to update static blogs with static user comments.</description>
     </item>
     
     <item>
       <title>Adding a Dependency Based on Autotools to a Bazel Project</title>
-      <link>/post/adding-a-dependency-based-on-autotools-to-a-bazel-project/</link>
+      <link>https://bloggerbust.ca/post/adding-a-dependency-based-on-autotools-to-a-bazel-project/</link>
       <pubDate>Sun, 24 Mar 2019 03:07:24 +0000</pubDate>
       
-      <guid>/post/adding-a-dependency-based-on-autotools-to-a-bazel-project/</guid>
+      <guid>https://bloggerbust.ca/post/adding-a-dependency-based-on-autotools-to-a-bazel-project/</guid>
       <description>Motivation In my spare time I have been experimenting with the Bazel build runner. I wanted to add Libsodium as a dependency to my Bazel C/C++ project. The Libsodium project is not a Bazel package and therefore Bazel will not know how to treat it as a dependency. If I wish to add Libsodium as a repository based dependency to my project, then It makes sense to write a BUILD file defining how Bazel should build the Libsodium library.</description>
     </item>
     
     <item>
       <title>Mount /tmp as Non Executable</title>
-      <link>/post/mount-tmp-as-non-executable/</link>
+      <link>https://bloggerbust.ca/post/mount-tmp-as-non-executable/</link>
       <pubDate>Wed, 20 Mar 2019 10:27:43 +0000</pubDate>
       
-      <guid>/post/mount-tmp-as-non-executable/</guid>
+      <guid>https://bloggerbust.ca/post/mount-tmp-as-non-executable/</guid>
       <description>Mounting /tmp as non executable improves security and increases awareness For security reasons I mount my /tmp directory as non executable. Since I use the zfs file system, I accomplish this by turning off the exec property:
 /sbin/zfs get exec tank/tmp/rootNAME PROPERTY VALUE SOURCE tank/tmp/root exec off local It is easy to search online how to accomplish the same for other file systems. I highly recommend mounting /tmp as none executable.</description>
     </item>
     
     <item>
       <title>ox-hugo Dependency Image</title>
-      <link>/post/ox-hugo-dependency-image/</link>
+      <link>https://bloggerbust.ca/post/ox-hugo-dependency-image/</link>
       <pubDate>Tue, 01 Jan 2019 00:00:00 -0700</pubDate>
       
-      <guid>/post/ox-hugo-dependency-image/</guid>
+      <guid>https://bloggerbust.ca/post/ox-hugo-dependency-image/</guid>
       <description>Motivation I decided that I would like to contribute to the ox-hugo project from time to time. I do not have pandoc or pandoc-citeproc installed locally nor have I ever used either before. I did consider emerging pandoc, but when I saw the list of dependencies being pulled from portage I immediately cancelled the install.
 For those that are unfamiliar with Gentoo, Portage is Gentoo&amp;rsquo;s package manager and emerge is Portage&amp;rsquo;s command-line interface.</description>
     </item>
     
     <item>
       <title>Licensed Nauci Base Entry With Apache Version 2</title>
-      <link>/post/licensed-nauci-base-entry-with-apache-version-2/</link>
+      <link>https://bloggerbust.ca/post/licensed-nauci-base-entry-with-apache-version-2/</link>
       <pubDate>Fri, 09 Nov 2018 00:00:00 -0700</pubDate>
       
-      <guid>/post/licensed-nauci-base-entry-with-apache-version-2/</guid>
+      <guid>https://bloggerbust.ca/post/licensed-nauci-base-entry-with-apache-version-2/</guid>
       <description>Today I released the nauci base init source under Apache version 2.0.
 Broken Links I noticed that all of my cross post anchor links are broken. They no longer link to anchors within the post, but instead link to the post itself. I will resolve this issue over the weekend.</description>
     </item>
     
     <item>
       <title>Encapsulate Angular WebExtension Dependencies In a Docker Image</title>
-      <link>/post/encapsulate-angular-webextension-dependencies-in-a-docker-image/</link>
+      <link>https://bloggerbust.ca/post/encapsulate-angular-webextension-dependencies-in-a-docker-image/</link>
       <pubDate>Sat, 13 Oct 2018 00:00:00 -0600</pubDate>
       
-      <guid>/post/encapsulate-angular-webextension-dependencies-in-a-docker-image/</guid>
+      <guid>https://bloggerbust.ca/post/encapsulate-angular-webextension-dependencies-in-a-docker-image/</guid>
       <description>A quick recap The purpose of this article is to provide a concrete example detailing precisely how to encapsulate the dependencies of an Angular WebExtension inside of a docker container whilst keeping the source code and optional tooling on the host system, thereby separating the dependencies from the implementation. In order for the two systems to work in tandem, files that are written to from within the container must remain writable outside of the container and vice versa.</description>
     </item>
     
     <item>
       <title>Separate Dependencies From Implementation Using POSIX ACL Extended Attributes &amp; Docker</title>
-      <link>/post/separate-dependencies-from-implementation-using-nauci-base-entry-docker-image/</link>
+      <link>https://bloggerbust.ca/post/separate-dependencies-from-implementation-using-nauci-base-entry-docker-image/</link>
       <pubDate>Thu, 11 Oct 2018 06:07:13 -0600</pubDate>
       
-      <guid>/post/separate-dependencies-from-implementation-using-nauci-base-entry-docker-image/</guid>
+      <guid>https://bloggerbust.ca/post/separate-dependencies-from-implementation-using-nauci-base-entry-docker-image/</guid>
       <description>The motivation I am going to develop a responsive web-extension using angular. The web-extension is for a project that I am starting called nauci. I will talk about nauci more in future posts. In this post I intend to introduce the nauci base entry docker image and how I am using it to encapsulate the nauci project dependencies in a docker sub image, but not the source code. The plan is to bind my local nauci source directory to a docker container built with the nauci dependencies image, thereby separating dependency and tooling concerns from project implementation.</description>
     </item>
     
     <item>
       <title>Literate Programming</title>
-      <link>/post/literate-programming/</link>
+      <link>https://bloggerbust.ca/post/literate-programming/</link>
       <pubDate>Sat, 01 Sep 2018 12:43:27 -0600</pubDate>
       
-      <guid>/post/literate-programming/</guid>
+      <guid>https://bloggerbust.ca/post/literate-programming/</guid>
       <description>A quick note about my use of Literate Programming My blog is generated using a static site generator called Hugo. Hugo naively supports both Markdown and Org-Mode format, so naturally I have chosen to compose my blog posts in emacs Org-Mode. Org-mode is similar to Markdown in the sense that it uses a simple plain text markup syntax for formatting documents. However, Org-Mode has far more features than Markdown and has fantastic literate programming support via Org-Babel.</description>
     </item>
     

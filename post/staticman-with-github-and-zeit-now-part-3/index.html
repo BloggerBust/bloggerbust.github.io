@@ -15,7 +15,7 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://bloggerbust.ca/post/staticman-with-github-and-zeit-now-part-3/" />
 <meta property="article:published_time" content="2019-04-21T10:14:27&#43;00:00"/>
-<meta property="article:modified_time" content="2019-04-21T07:58:34-06:00"/>
+<meta property="article:modified_time" content="2019-07-03T06:46:19-06:00"/>
 
 
 <meta name="twitter:card" content="summary"/>
@@ -29,8 +29,8 @@
 
 
 <meta itemprop="datePublished" content="2019-04-21T10:14:27&#43;00:00" />
-<meta itemprop="dateModified" content="2019-04-21T07:58:34-06:00" />
-<meta itemprop="wordCount" content="2239">
+<meta itemprop="dateModified" content="2019-07-03T06:46:19-06:00" />
+<meta itemprop="wordCount" content="2241">
 
 
 
@@ -376,7 +376,7 @@ th {
 {{ range $comments }}
   {{ if eq .Name $entryId }}
     {{ $.Scratch.Add &#34;hasComments&#34; 1 }}
-    {{ range $index, $comments := (index $.Site.Data.comments $entryId ) }}
+    {{ range $index, $comments := sort (index $.Site.Data.comments $entryId ) &#34;date&#34; &#34;asc&#34;}}
 &lt;<span style="color:#6ab825;font-weight:bold">blockquote</span> <span style="color:#bbb">class</span>=<span style="color:#ed9d13">&#34;comment&#34;</span>&gt;
   &lt;<span style="color:#6ab825;font-weight:bold">p</span>&gt;{{ .message | markdownify }}&lt;/<span style="color:#6ab825;font-weight:bold">p</span>&gt;
   &lt;<span style="color:#6ab825;font-weight:bold">cite</span> <span style="color:#bbb">class</span>=<span style="color:#ed9d13">&#34;flex-container flex-row flex-end&#34;</span>&gt;

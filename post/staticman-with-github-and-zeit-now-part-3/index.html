@@ -514,6 +514,53 @@ th {
   </cite>
 </blockquote>
     
+<blockquote class="comment">
+  <p><p>Hi Ricardo,</p>
+
+<blockquote>
+<p>Unfortunately, I have not been able to post comments since I am getting a 500 error without any details on the response or in the logs.</p>
+</blockquote>
+
+<p>I am sorry to hear that. The first thing to do is confirm that you are looking in the correct places for the logs. Try signing in to zeit now from the terminal. Make sure you are using your bot account.</p>
+
+<p>$ now whoami
+&gt; bloggerbust-bot</p>
+
+<p>If you are not using your bot account then logout and log back in using your bot account.</p>
+
+<p>$ now logout
+ ✔ Logged out!&hellip;</p>
+
+<p>$ now login
+&gt; We sent an email to trevor.wilson+bot@bloggerbust.ca. Please follow the steps provided
+  inside it and make sure the security code matches Sparkling Chameleon.
+✔ Email confirmed
+&gt; Ready! Authentication token and personal details saved in &ldquo;~/.now&rdquo;</p>
+
+<p>After that, confirm your alias:</p>
+
+<p>$ now ls
+&gt; 4 total deployments found under bloggerbust-bot [303ms]
+&gt; To list more deployments for an app run <code>now ls [app]</code></p>
+
+<p>project      url                           inst #    type    state    age
+  staticman    staticman-lq210tvnu.now.sh         -    -       READY    133d</p>
+
+<p>Now that you know your alias, fetch the logs and store them locally for easier inspection.</p>
+
+<p>$ now logs staticman-lq210tvnu.now.sh -a -d &ndash;since=2019-08-28 &gt; staticman-lq210tvnu.debug.log
+$ less staticman-lq210tvnu.debug.log</p>
+
+<p>Do you see any errors in the log?</p>
+</p>
+  <cite class="flex-container flex-row flex-end">
+    <img class="flex-item avatar" src="https://www.gravatar.com/avatar/79ad80bd825ee2d3d91b885caa22bf1f?s=50&d=retro">
+    <div class="flex-container flex-column flex-item flex-center">
+      <strong>Trevor Wilson</strong><br>30/08/2019
+    </div>
+  </cite>
+</blockquote>
+    
   
 
 

@@ -495,6 +495,80 @@ th {
     
     
 <blockquote class="comment">
+  <p><p>That is great news Ricardo! You are right that Staticman could use improved error logging. When I merge upstream and get things working I will add better error logging unless someone beats me to it.</p>
+
+<blockquote>
+<p>cat staticman_key | xargs -0 sh -c ‘now secret add – staticman-rsa-private-key “$0”’</p>
+</blockquote>
+
+<p>Thanks for the tip, that simplifies things a bit.</p>
+
+<blockquote>
+<p>Thank you very much for your time and for pointing me in the right direction. BTW, that Zeit product looks pretty good! Thanks for sharing the info!</p>
+</blockquote>
+
+<p>Your welcome. I am glad that you enjoyed this introduction to Zeit. I feel that they have done a good job simplifying the user experience of app deployment making it an easy platform to work with.</p>
+
+<p>Cheers!</p>
+
+<p>Trevor</p>
+</p>
+  <cite class="flex-container flex-row flex-end">
+    <img class="flex-item avatar" src="https://www.gravatar.com/avatar/79ad80bd825ee2d3d91b885caa22bf1f?s=50&d=retro">
+    <div class="flex-container flex-column flex-item flex-center">
+      <strong>Trevor Wilson</strong><br>31/08/2019
+    </div>
+  </cite>
+</blockquote>
+    
+<blockquote class="comment">
+  <p><p>Hi Trevor:</p>
+
+<p>Yay!! I am finally basking in the glory of victoriously adding static comments to my blogs!</p>
+
+<p>It took me a while to track it down (lots of console.logs, since the app logs where not very helpful), but in the end it was, of course, my mistake. I forgot to re-encrypt my reCaptcha secret with the new service, so the decrypt was failing (silently).</p>
+
+<p>Also, I decided not to strip the \r and \n characters from the private key sent to &ldquo;now secret&rdquo; (in one of my trial/error runs). Instead, I am doing the following:</p>
+
+<p>cat staticman_key | xargs -0 sh -c &lsquo;now secret add &ndash; staticman-rsa-private-key &ldquo;$0&rdquo;&rsquo;</p>
+
+<p>And it works fine.</p>
+
+<p>Thank you very much for your time and for pointing me in the right direction. BTW, that Zeit product looks pretty good! Thanks for sharing the info!</p>
+
+<p>Best regards,</p>
+
+<p>Ricardo</p>
+</p>
+  <cite class="flex-container flex-row flex-end">
+    <img class="flex-item avatar" src="https://www.gravatar.com/avatar/84a9685a83496b95a8f48f0baf96e9b7?s=50&d=retro">
+    <div class="flex-container flex-column flex-item flex-center">
+      <strong>Ricardo</strong><br>30/08/2019
+    </div>
+  </cite>
+</blockquote>
+    
+<blockquote class="comment">
+  <p><p>Hi, thanks for taking the time to answer.</p>
+
+<p>Actually I only see two deprecation messages for each try:</p>
+
+<p>WARN    { Deprecation: [@octokit/rest] new Octokit({headers}) is deprecated. Use {userAgent, previews} instead.
+WARN    { Deprecation: [@octokit/rest] octokit.authenticate() is deprecated. Use &ldquo;auth&rdquo; constructor option instead.</p>
+
+<p>Other than that, not even the 500 status is showing in the log.</p>
+
+<p>Ricardo</p>
+</p>
+  <cite class="flex-container flex-row flex-end">
+    <img class="flex-item avatar" src="https://www.gravatar.com/avatar/84a9685a83496b95a8f48f0baf96e9b7?s=50&d=retro">
+    <div class="flex-container flex-column flex-item flex-center">
+      <strong>Ricardo Morin</strong><br>30/08/2019
+    </div>
+  </cite>
+</blockquote>
+    
+<blockquote class="comment">
   <p><p>Hi Ricardo,</p>
 
 <blockquote>

@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en-CA">
+
+<head>
+<meta charset="utf-8" />
+<meta name="author" content="Trevor Wilson" />
+<meta name="description" content="a place for me to bust out a blog on programming, infosec, emacs and things that interest me." />
+<meta name="keywords" content="[programming coding infosec cybersecurity webextensions blog blogger bust docker linux emacs free software]" />
+<meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1">
+<meta name="generator" content="Hugo 0.55.0-DEV" />
+
+<link rel="canonical" href="https://bloggerbust.ca/post/text-messages-are-being-censored-in-canada/">
+<meta property="og:title" content="Text Messages Are Being Censored in Canada" />
+<meta property="og:description" content="What is this about? Yesterday, I discovered that if I send a text containing the words: secure communication, it will never arrive at the recipients text messaging client. Something is censoring text messages in Canada.
+What devices and carrier services are affected? I do not have much data on this. I only discovered this at the very end of the day yesterday. Here is what I have been able to manually verify so far:" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://bloggerbust.ca/post/text-messages-are-being-censored-in-canada/" />
+<meta property="article:published_time" content="2019-11-21T10:18:04&#43;00:00"/>
+<meta property="article:modified_time" content="2019-11-21T04:53:36-07:00"/>
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Text Messages Are Being Censored in Canada"/>
+<meta name="twitter:description" content="What is this about? Yesterday, I discovered that if I send a text containing the words: secure communication, it will never arrive at the recipients text messaging client. Something is censoring text messages in Canada.
+What devices and carrier services are affected? I do not have much data on this. I only discovered this at the very end of the day yesterday. Here is what I have been able to manually verify so far:"/>
+
+
+
+<meta itemprop="name" content="Text Messages Are Being Censored in Canada">
+<meta itemprop="description" content="What is this about? Yesterday, I discovered that if I send a text containing the words: secure communication, it will never arrive at the recipients text messaging client. Something is censoring text messages in Canada.
+What devices and carrier services are affected? I do not have much data on this. I only discovered this at the very end of the day yesterday. Here is what I have been able to manually verify so far:">
+
+
+<meta itemprop="datePublished" content="2019-11-21T10:18:04&#43;00:00" />
+<meta itemprop="dateModified" content="2019-11-21T04:53:36-07:00" />
+<meta itemprop="wordCount" content="400">
+
+
+
+<meta itemprop="keywords" content="" />
+
+
+<link rel="stylesheet" href="https://bloggerbust.ca/css/layout.css" />
+<style type="text/css">
+body {
+  background-color: #26282A;
+  color: #dbdbdb;
+}
+
+a { color: #dbdbdb; }
+
+pre {
+  background: #1D1F21;
+  border: 1px solid #dbdbdb;
+  border-radius: 5px;
+}
+
+code {
+  background: #1D1F21;
+}
+
+blockquote {
+  background: #1D1F21;
+  border-left: 3px solid #dbdbdb;
+}
+
+table {
+  margin: 1em auto;
+  border-collapse: collapse;
+}
+
+table, th, td {
+  border: 1px solid #dbdbdb;
+}
+
+th {
+  background: #dbdbdb;
+  color: #26282A;
+}
+
+.siteTitle a { color: #99cc66; }
+
+.post .content h1{ color: #99cc66; }
+.post .content h2{ color: #99cc66; }
+.post .content h3{ color: #99cc66; }
+.post .content h4{ color: #99cc66; }
+.post .content h5{ color: #99cc66; }
+.post .content h6{ color: #99cc66; }
+.post .content a:hover { color: #99cc66; }
+.social-link:hover { color: #99cc66; }
+.nav-item-title:hover { color: #99cc66; }
+.tag a:hover { color: #99cc66; }
+.copyright { color: #404040 }
+.poweredby { color: #404040 }
+.poweredby a { color: #404040; }
+.post-preview .title a{ color: #99cc66; }
+.content-item a:hover{
+  text-decoration: underline;
+  color: #99cc66;
+}
+.post-list .title { color: #99cc66; }
+.rmore { color: #99cc66; }
+.terms .term a:hover {
+  text-decoration: underline;
+  color: #99cc66;
+}
+
+</style>
+
+<link rel="stylesheet" href="https://bloggerbust.ca/css/site.css">
+
+
+
+<title>
+
+
+     Text Messages Are Being Censored in Canada 
+
+</title>
+
+</head>
+
+
+<body>
+<div class="main">
+<header>
+
+<div class="header-bar">
+
+  <nav>
+    <div class="siteTitle">
+      <a href="https://bloggerbust.ca/">Blogger Bust</a>
+    </div> 
+
+    
+    
+    <a class="nav-item" href="https://bloggerbust.ca/about/"><div class="nav-item-title">About</div></a>
+    
+    <a class="nav-item" href="https://bloggerbust.ca/series"><div class="nav-item-title">Series</div></a>
+    
+    <a class="nav-item active" href="https://bloggerbust.ca/post/"><div class="nav-item-title">Posts</div></a>
+    
+
+  </nav>
+</div>
+
+  
+<div class="social-links-header">
+
+  
+  <a href="mailto:trevor.wilson@bloggerbust.ca"><div class="social-link">email</div></a>
+  
+
+  
+  <a href="https://github.com/bloggerbust" target="_blank"><div class="social-link">gh</div></a>
+  
+
+  
+
+  
+
+  
+
+</div>
+
+
+</header>
+
+
+<article class="post">
+    <h1 class="title"> Text Messages Are Being Censored in Canada </h1>
+    <div class="content"> 
+
+<h2 id="what-is-this-about">What is this about?</h2>
+
+<p>Yesterday, I discovered that if I send a text containing the words: <em>secure communication</em>, it will never arrive at the recipients text messaging client. Something is censoring text messages in Canada.</p>
+
+<h2 id="what-devices-and-carrier-services-are-affected">What devices and carrier services are affected?</h2>
+
+<p>I do not have much data on this. I only discovered this at the very end of the day yesterday. Here is what I have been able to manually verify so far:</p>
+
+<table>
+<thead>
+<tr>
+<th>Sender Make</th>
+<th>Receiver Make</th>
+<th>Sender Carrier</th>
+<th>Receiver Carrier</th>
+<th>censored</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>Android</td>
+<td>Android</td>
+<td>Koodo</td>
+<td>Koodo</td>
+<td>yes</td>
+</tr>
+
+<tr>
+<td>Android</td>
+<td>iphone</td>
+<td>Koodo</td>
+<td>Bell</td>
+<td>yes</td>
+</tr>
+
+<tr>
+<td>iphone</td>
+<td>Android</td>
+<td>Bell</td>
+<td>Koodo</td>
+<td>yes</td>
+</tr>
+
+<tr>
+<td>iphone</td>
+<td>iphone</td>
+<td>Bell</td>
+<td>Bell</td>
+<td>yes</td>
+</tr>
+</tbody>
+</table>
+
+<h2 id="exactly-what-is-censored">Exactly what is censored?</h2>
+
+<p>In order for the text to be censored it must contain the exact words, <em>secure communication</em>, anywhere within the message. It is also important that the words, <em>secure communication</em>, are separated by no more than a single space and are lowercase. The censorship prevents the entire message from being delivered. I have only tested this using SMS and MMS protocols and found that MMS is not affected by this particular censorship. Here are some examples:</p>
+
+<table>
+<thead>
+<tr>
+<th>Message</th>
+<th>Censored?</th>
+<th>Comment</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>secure communication</td>
+<td>True</td>
+<td></td>
+</tr>
+
+<tr>
+<td>secure  communication</td>
+<td>False</td>
+<td>two spaces seperating keywords</td>
+</tr>
+
+<tr>
+<td>secure communication.</td>
+<td>True</td>
+<td>trailing period</td>
+</tr>
+
+<tr>
+<td>Secure communication</td>
+<td>False</td>
+<td></td>
+</tr>
+
+<tr>
+<td>secure Communication</td>
+<td>False</td>
+<td></td>
+</tr>
+
+<tr>
+<td>SECURE COMMUNICATION</td>
+<td>False</td>
+<td></td>
+</tr>
+
+<tr>
+<td>Any Leading Text secure communication</td>
+<td>True</td>
+<td></td>
+</tr>
+
+<tr>
+<td>secure communication any trailing text</td>
+<td>True</td>
+<td></td>
+</tr>
+
+<tr>
+<td>Appended leading textsecure communication</td>
+<td>True</td>
+<td></td>
+</tr>
+
+<tr>
+<td>secure communicationappended trailing text</td>
+<td>True</td>
+<td></td>
+</tr>
+
+<tr>
+<td>securecommunication</td>
+<td>False</td>
+<td></td>
+</tr>
+
+<tr>
+<td>leadingsecure communicationtrailing</td>
+<td>True</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+
+<p>My testing methedology was manual and far from comprehensive. Someone needs to automate a test that sends random combinations of words from various devices and carrier services to get a better picture of the nature of the censorship.</p>
+
+<h2 id="this-poses-some-questions">This poses some questions</h2>
+
+<p>At this point all I have been able to determine is that the words, <em>secure communication</em>, are being censored by something when sent using the SMS protocol. I do not know if the censorship is taking place on the devices themselves, the local short message service centre, or something else. I am now wondering:</p>
+
+<ol>
+<li>Who is behind the censorship?</li>
+<li>Do they have a publicly accessible disclaimer stating exactly what they are censoring and why?</li>
+<li>Is this censorship legal in Canada?</li>
+</ol>
+
+<p>Censorship in Canada affects all Canadian citizens as well as all citizens of other countries that correspond with Canadian citizens. If you are concerned by this act against our civil liberties, then consider <a href="https://lop.parl.ca/sites/Parlinfo/default/en%5FCA">writing your MLA</a> and <a href="https://ccla.org/contact">the Canadian Civil Liberties Association</a>.</p>
+ </div>
+    <footer class="post-footer">
+
+  <div class="post-footer-data">
+    
+<div class="tags">
+    
+</div>
+
+    <div class="date"> Nov 21, 2019 </div>
+  </div>
+
+</footer>
+
+
+
+  
+<hr>
+<h2 id="Comments">
+  Comments
+</h2>
+    <form class="comment" method="POST" action="https://staticman.bloggerbust-bot.now.sh/v2/entry/BloggerBust/bloggerbust.ca/master/comments" class="flex-container flex-column">
+  <input type="hidden" name="options[redirect]" value="https://bloggerbust.ca/post/text-messages-are-being-censored-in-canada/#comment-submitted">
+  <input type="hidden" name="options[slug]" value="text-messages-are-being-censored-in-canada">
+  <div class="flex-container flex-row">
+    <input name="fields[name]" type="text" placeholder="Your name" class="flex-item">
+    <input name="fields[email]" type="email" placeholder="Your email address" class="flex-item">
+  </div>
+  <div class="flex-container flex-row">
+    <textarea name="fields[message]" placeholder="Your message. Feel free to use Markdown." rows="10" class="flex-item"></textarea>
+  </div>
+  <div class="flex-container flex-row">
+    <input type="submit" value="Submit" class="flex-item">
+  </div>
+</form>
+<div id="comment-submitted">
+  Your comment has been submitted and is now pending moderation
+</div>
+
+    
+
+
+
+
+  
+
+  
+
+  
+
+
+
+<p>Be the first to comment on this article.</p>
+
+
+  
+
+
+</article>
+
+  <footer>
+
+  <div class="social-links-footer">
+
+  
+  <a href="mailto:trevor.wilson@bloggerbust.ca"><div class="social-link">Email</div></a>
+  
+
+  
+  <a href="https://github.com/bloggerbust" target="_blank"><div class="social-link">GitHub</div></a>
+  
+
+  
+
+  
+
+  
+
+  <div class="social-link">
+  <a href="https://bloggerbust.ca/index.xml" target="_blank">RSS</a>
+  </div>
+
+</div>
+
+
+  <div class="copyright"> Copyright (c) 2018, all rights reserved. </div>
+
+  <div class="poweredby">
+    Powered by <a href="https://gohugo.io/">Hugo</a>.
+  </div>
+
+  </footer>
+
+</div> 
+
+</body>
+</html>
+

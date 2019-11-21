@@ -7,10 +7,20 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-CA</language>
     <copyright>Copyright (c) 2018, all rights reserved.</copyright>
-    <lastBuildDate>Sun, 21 Apr 2019 10:14:27 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 21 Nov 2019 10:18:04 +0000</lastBuildDate>
     
 	<atom:link href="https://bloggerbust.ca/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Text Messages Are Being Censored in Canada</title>
+      <link>https://bloggerbust.ca/post/text-messages-are-being-censored-in-canada/</link>
+      <pubDate>Thu, 21 Nov 2019 10:18:04 +0000</pubDate>
+      
+      <guid>https://bloggerbust.ca/post/text-messages-are-being-censored-in-canada/</guid>
+      <description>What is this about? Yesterday, I discovered that if I send a text containing the words: secure communication, it will never arrive at the recipients text messaging client. Something is censoring text messages in Canada.
+What devices and carrier services are affected? I do not have much data on this. I only discovered this at the very end of the day yesterday. Here is what I have been able to manually verify so far:</description>
+    </item>
     
     <item>
       <title>Staticman With GitHub and Zeit Now - part 3</title>

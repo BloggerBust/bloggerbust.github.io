@@ -11,28 +11,25 @@
 
 <link rel="canonical" href="https://bloggerbust.ca/post/text-messages-are-being-censored-in-canada/">
 <meta property="og:title" content="Text Messages Are Being Censored in Canada" />
-<meta property="og:description" content="UPDATE: This might not be an act of censorship. There might be another explanation. I started to look at the source code and RFCs this morning to better understand. I am very short on time at the moment and I probably will continue to be short on time until after Christmas unfortunately. If you would like to help, please contact me.
-What is this about? Yesterday, I discovered that if I send a text containing the words: secure communication, it will never arrive at the recipients text messaging client." />
+<meta property="og:description" content="UPDATES  Note taken on [2019-11-22 Fri 08:30] This might not be an act of censorship. There might be another explanation. I started to look at the source code and RFCs this morning to better understand. I am very short on time at the moment and I probably will continue to be short on time until after Christmas unfortunately. If you would like to help, please contact me. Note taken on [2020-02-13 Thu 05:03]  Added link to new discussion on Hacker News Moved submissions to its own heading." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://bloggerbust.ca/post/text-messages-are-being-censored-in-canada/" />
 <meta property="article:published_time" content="2019-11-21T10:18:04&#43;00:00"/>
-<meta property="article:modified_time" content="2019-11-22T08:40:30-07:00"/>
+<meta property="article:modified_time" content="2020-02-13T07:37:35-07:00"/>
 
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Text Messages Are Being Censored in Canada"/>
-<meta name="twitter:description" content="UPDATE: This might not be an act of censorship. There might be another explanation. I started to look at the source code and RFCs this morning to better understand. I am very short on time at the moment and I probably will continue to be short on time until after Christmas unfortunately. If you would like to help, please contact me.
-What is this about? Yesterday, I discovered that if I send a text containing the words: secure communication, it will never arrive at the recipients text messaging client."/>
+<meta name="twitter:description" content="UPDATES  Note taken on [2019-11-22 Fri 08:30] This might not be an act of censorship. There might be another explanation. I started to look at the source code and RFCs this morning to better understand. I am very short on time at the moment and I probably will continue to be short on time until after Christmas unfortunately. If you would like to help, please contact me. Note taken on [2020-02-13 Thu 05:03]  Added link to new discussion on Hacker News Moved submissions to its own heading."/>
 
 
 
 <meta itemprop="name" content="Text Messages Are Being Censored in Canada">
-<meta itemprop="description" content="UPDATE: This might not be an act of censorship. There might be another explanation. I started to look at the source code and RFCs this morning to better understand. I am very short on time at the moment and I probably will continue to be short on time until after Christmas unfortunately. If you would like to help, please contact me.
-What is this about? Yesterday, I discovered that if I send a text containing the words: secure communication, it will never arrive at the recipients text messaging client.">
+<meta itemprop="description" content="UPDATES  Note taken on [2019-11-22 Fri 08:30] This might not be an act of censorship. There might be another explanation. I started to look at the source code and RFCs this morning to better understand. I am very short on time at the moment and I probably will continue to be short on time until after Christmas unfortunately. If you would like to help, please contact me. Note taken on [2020-02-13 Thu 05:03]  Added link to new discussion on Hacker News Moved submissions to its own heading.">
 
 
 <meta itemprop="datePublished" content="2019-11-21T10:18:04&#43;00:00" />
-<meta itemprop="dateModified" content="2019-11-22T08:40:30-07:00" />
-<meta itemprop="wordCount" content="610">
+<meta itemprop="dateModified" content="2020-02-13T07:37:35-07:00" />
+<meta itemprop="wordCount" content="755">
 
 
 
@@ -170,7 +167,20 @@ th {
     <h1 class="title"> Text Messages Are Being Censored in Canada </h1>
     <div class="content"> 
 
-<p><strong>UPDATE:</strong> This might not be an act of censorship. There might be another explanation. I started to look at the source code and RFCs this morning to better understand. I am very short on time at the moment and I probably will continue to be short on time until after Christmas unfortunately. If you would like to help, please contact me.</p>
+<h2 id="updates">UPDATES</h2>
+
+<ul>
+<li><strong>Note taken on <span class="timestamp-wrapper"><span class="timestamp">[2019-11-22 Fri 08:30]</span></span></strong> <br />
+This might not be an act of censorship. There might be another explanation. I started to look at the source code and RFCs this morning to better understand. I am very short on time at the moment and I probably will continue to be short on time until after Christmas unfortunately. If you would like to help, please contact me.</li>
+<li><strong>Note taken on <span class="timestamp-wrapper"><span class="timestamp">[2020-02-13 Thu 05:03]</span></span></strong> <br />
+
+<ul>
+<li>Added link to <a href="#discussed-on-hacker-news">new discussion on Hacker News</a></li>
+<li>Moved submissions to its own heading.</li>
+<li>Removed sender/receiver column to make more room for the other columns</li>
+<li>I am not updating <a href="#what-devices-and-carrier-services-are-affected">What devices and carrier services are affected?</a>, see <a href="#submissions">Submissions</a> for updates</li>
+</ul></li>
+</ul>
 
 <h2 id="what-is-this-about">What is this about?</h2>
 
@@ -331,12 +341,15 @@ th {
 
 <h2 id="discussed-on-hacker-news">Discussed on Hacker News</h2>
 
-<p>I <a href="https://news.ycombinator.com/item?id=21593276#21593444">linked this article on Hacker News</a> and a couple of commenters&rsquo; have independently reproduced the issue. I copied some details in the table below. The first 3 are my own tests.</p>
+<p>I <a href="https://news.ycombinator.com/item?id=21593276#21593444">posted this article on Hacker News</a> and started <a href="https://news.ycombinator.com/item?id=22311224">this discussion in a thread</a>.</p>
+
+<h2 id="submissions">Submissions</h2>
+
+<p>I copied some details in the table below. The first 3 are my own tests. Records are paired by sender then receiver. If the test was bidirectional then I will add <em>vice versa</em> in the comment field. Blank fields were not provided by the submitter. If the message was received then <em>!Affected</em> will be added to the comment field.</p>
 
 <table>
 <thead>
 <tr>
-<th></th>
 <th>Make</th>
 <th>OS</th>
 <th>Protocol</th>
@@ -349,7 +362,6 @@ th {
 
 <tbody>
 <tr>
-<td>Sender</td>
 <td>Nexus 6P</td>
 <td>Android 8.1.0</td>
 <td>SMS</td>
@@ -360,7 +372,6 @@ th {
 </tr>
 
 <tr>
-<td>Recipient</td>
 <td>Nexus 6P</td>
 <td>Android 8.1.0</td>
 <td>SMS</td>
@@ -378,11 +389,9 @@ th {
 <td></td>
 <td></td>
 <td></td>
-<td></td>
 </tr>
 
 <tr>
-<td>Sender</td>
 <td>Nexus 6P</td>
 <td>Android 8.1.0</td>
 <td>SMS</td>
@@ -393,9 +402,8 @@ th {
 </tr>
 
 <tr>
-<td>Recipient</td>
 <td>iPhone</td>
-<td>ios</td>
+<td>iOS</td>
 <td>SMS</td>
 <td>Bell</td>
 <td>Alberta, Canada</td>
@@ -411,11 +419,9 @@ th {
 <td></td>
 <td></td>
 <td></td>
-<td></td>
 </tr>
 
 <tr>
-<td>Sender</td>
 <td>iPhone</td>
 <td>Android 8.1.0</td>
 <td>SMS</td>
@@ -426,9 +432,8 @@ th {
 </tr>
 
 <tr>
-<td>Recipient</td>
 <td>iPhone</td>
-<td>ios</td>
+<td>iOS</td>
 <td>SMS</td>
 <td>Bell</td>
 <td>Alberta, Canada</td>
@@ -444,11 +449,9 @@ th {
 <td></td>
 <td></td>
 <td></td>
-<td></td>
 </tr>
 
 <tr>
-<td>Sender</td>
 <td>iPhone XR</td>
 <td>iOS 13.2.3</td>
 <td>SMS</td>
@@ -459,7 +462,6 @@ th {
 </tr>
 
 <tr>
-<td>Recipient</td>
 <td>LG G7</td>
 <td>Android</td>
 <td>SMS</td>
@@ -477,11 +479,9 @@ th {
 <td></td>
 <td></td>
 <td></td>
-<td></td>
 </tr>
 
 <tr>
-<td></td>
 <td></td>
 <td></td>
 <td>SMS</td>
@@ -494,9 +494,138 @@ th {
 <tr>
 <td></td>
 <td></td>
-<td></td>
 <td>SMS &amp; VOIP</td>
 <td><a href="https://www.voip.ms">voip.ms</a></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+
+<tr>
+<td>Samsung S10</td>
+<td>Android</td>
+<td>SMS</td>
+<td>Virgin Mobile</td>
+<td>Quebec, Canada</td>
+<td></td>
+<td>!Affected</td>
+</tr>
+
+<tr>
+<td>Smsung A8</td>
+<td>Android</td>
+<td>SMS</td>
+<td>Vidéotron</td>
+<td>Quebec, Canada</td>
+<td></td>
+<td></td>
+</tr>
+
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+
+<tr>
+<td>iPhone 7</td>
+<td></td>
+<td>SMS</td>
+<td>Bell</td>
+<td>Ontario, Canada</td>
+<td>&ldquo;secure communication&rdquo;</td>
+<td></td>
+</tr>
+
+<tr>
+<td>Pixel 3</td>
+<td>Android</td>
+<td>SMS</td>
+<td>Koodo</td>
+<td>Ontario, Canada</td>
+<td>&ldquo;secure communication&rdquo;</td>
+<td></td>
+</tr>
+
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+
+<tr>
+<td>iPhone</td>
+<td>iOS</td>
+<td>SMS</td>
+<td>Public Mobile</td>
+<td></td>
+<td>&ldquo;secure communication&rdquo;</td>
+<td>vice versa</td>
+</tr>
+
+<tr>
+<td>iPhone</td>
+<td>iOS</td>
+<td>SMS</td>
+<td>Rogers</td>
+<td></td>
+<td>&ldquo;secure communication&rdquo;</td>
+<td></td>
+</tr>
+
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+
+<tr>
+<td></td>
+<td></td>
+<td>SMS</td>
+<td>Freedom Mobile</td>
+<td>Ontario, Canada</td>
+<td></td>
+<td>!Affected</td>
+</tr>
+
+<tr>
+<td></td>
+<td></td>
+<td>SMS</td>
+<td>Freedom Mobile</td>
+<td>Ontario, Canada</td>
+<td></td>
+<td></td>
+</tr>
+
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
 <td></td>
 <td></td>
 <td></td>

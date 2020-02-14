@@ -15,7 +15,7 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://bloggerbust.ca/post/text-messages-are-being-censored-in-canada/" />
 <meta property="article:published_time" content="2019-11-21T10:18:04&#43;00:00"/>
-<meta property="article:modified_time" content="2020-02-13T07:37:35-07:00"/>
+<meta property="article:modified_time" content="2020-02-14T04:42:51-07:00"/>
 
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Text Messages Are Being Censored in Canada"/>
@@ -28,8 +28,8 @@
 
 
 <meta itemprop="datePublished" content="2019-11-21T10:18:04&#43;00:00" />
-<meta itemprop="dateModified" content="2020-02-13T07:37:35-07:00" />
-<meta itemprop="wordCount" content="755">
+<meta itemprop="dateModified" content="2020-02-14T04:42:51-07:00" />
+<meta itemprop="wordCount" content="870">
 
 
 
@@ -179,6 +179,12 @@ This might not be an act of censorship. There might be another explanation. I st
 <li>Moved submissions to its own heading.</li>
 <li>Removed sender/receiver column to make more room for the other columns</li>
 <li>I am not updating <a href="#what-devices-and-carrier-services-are-affected">What devices and carrier services are affected?</a>, see <a href="#submissions">Submissions</a> for updates</li>
+</ul></li>
+<li><strong>Note taken on <span class="timestamp-wrapper"><span class="timestamp">[2020-02-14 Fri 04:39]</span></span></strong> <br />
+
+<ul>
+<li>Updated submissions with new twilio (us) to iPhone (us)</li>
+<li>cleaned up the comment field</li>
 </ul></li>
 </ul>
 
@@ -345,7 +351,9 @@ This might not be an act of censorship. There might be another explanation. I st
 
 <h2 id="submissions">Submissions</h2>
 
-<p>I copied some details in the table below. The first 3 are my own tests. Records are paired by sender then receiver. If the test was bidirectional then I will add <em>vice versa</em> in the comment field. Blank fields were not provided by the submitter. If the message was received then <em>!Affected</em> will be added to the comment field.</p>
+<p>I copied some details in the table below. The first 3 are my own tests. Records are paired by sender then receiver. If the test was bidirectional, then I will add <em>vice versa</em> in the second row comment field. Blank fields were not provided by the submitter. If a message containing <em>secure communication</em> was received, then <em>!Affected</em> will be added to the first comment field, otherwise it will contain <em>Affected</em>. Messages have double quotes around them so that multiple messages can be distinguished from one another. If a message actually contains quotes then it will be escaped using a backslash.</p>
+
+<p>There are important fields that I am massing here. Such as whether or not data and WiFi are turned on which is important in the case of iPhone. I might move this table to its own page and re-organize it.</p>
 
 <table>
 <thead>
@@ -368,7 +376,7 @@ This might not be an act of censorship. There might be another explanation. I st
 <td>Koodo</td>
 <td>Alberta, Canada</td>
 <td><a href="#exactly-what-is-censored">see above</a></td>
-<td>my test</td>
+<td>Affected</td>
 </tr>
 
 <tr>
@@ -398,7 +406,7 @@ This might not be an act of censorship. There might be another explanation. I st
 <td>Koodo</td>
 <td>Alberta, Canada</td>
 <td><a href="#exactly-what-is-censored">see above</a></td>
-<td>my test</td>
+<td>Affected</td>
 </tr>
 
 <tr>
@@ -428,7 +436,7 @@ This might not be an act of censorship. There might be another explanation. I st
 <td>Koodo</td>
 <td>Alberta, Canada</td>
 <td><a href="#exactly-what-is-censored">see above</a></td>
-<td>my test</td>
+<td>Affected</td>
 </tr>
 
 <tr>
@@ -458,7 +466,7 @@ This might not be an act of censorship. There might be another explanation. I st
 <td>Fizz</td>
 <td>Québec, Canada</td>
 <td>&ldquo;test&rdquo;, &ldquo;secure communication&rdquo; &ldquo;test&rdquo;</td>
-<td></td>
+<td>Affected</td>
 </tr>
 
 <tr>
@@ -488,7 +496,7 @@ This might not be an act of censorship. There might be another explanation. I st
 <td>Telus</td>
 <td>Alberta, Canada</td>
 <td>&ldquo;secure communication&rdquo;, &ldquo;secure communication does not work&rdquo;</td>
-<td>vice versa</td>
+<td>Affected, vice versa</td>
 </tr>
 
 <tr>
@@ -548,7 +556,7 @@ This might not be an act of censorship. There might be another explanation. I st
 <td>Bell</td>
 <td>Ontario, Canada</td>
 <td>&ldquo;secure communication&rdquo;</td>
-<td></td>
+<td>Affected</td>
 </tr>
 
 <tr>
@@ -557,7 +565,7 @@ This might not be an act of censorship. There might be another explanation. I st
 <td>SMS</td>
 <td>Koodo</td>
 <td>Ontario, Canada</td>
-<td>&ldquo;secure communication&rdquo;</td>
+<td></td>
 <td></td>
 </tr>
 
@@ -578,7 +586,7 @@ This might not be an act of censorship. There might be another explanation. I st
 <td>Public Mobile</td>
 <td></td>
 <td>&ldquo;secure communication&rdquo;</td>
-<td>vice versa</td>
+<td>Affected</td>
 </tr>
 
 <tr>
@@ -587,8 +595,8 @@ This might not be an act of censorship. There might be another explanation. I st
 <td>SMS</td>
 <td>Rogers</td>
 <td></td>
-<td>&ldquo;secure communication&rdquo;</td>
 <td></td>
+<td>vice versa</td>
 </tr>
 
 <tr>
@@ -618,6 +626,26 @@ This might not be an act of censorship. There might be another explanation. I st
 <td>Freedom Mobile</td>
 <td>Ontario, Canada</td>
 <td></td>
+<td></td>
+</tr>
+
+<tr>
+<td>twilio API</td>
+<td></td>
+<td>SMS</td>
+<td>twilio</td>
+<td>US</td>
+<td>&ldquo;secure communication&rdquo;</td>
+<td>!Affected</td>
+</tr>
+
+<tr>
+<td>iPhone SE</td>
+<td>iOS</td>
+<td>SMS</td>
+<td>verizon MVNO</td>
+<td>US</td>
+<td>&ldquo;secure communication&rdquo;</td>
 <td></td>
 </tr>
 

@@ -1,0 +1,861 @@
+<!DOCTYPE html>
+<html lang="en-CA">
+
+<head>
+<meta charset="utf-8" />
+<meta name="author" content="Trevor Wilson" />
+<meta name="description" content="a place for me to bust out a blog on programming, infosec, emacs and things that interest me." />
+<meta name="keywords" content="[programming coding infosec cybersecurity webextensions blog blogger bust docker linux emacs free software]" />
+<meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1">
+<meta name="generator" content="Hugo 0.55.0-DEV" />
+
+<link rel="canonical" href="https://bloggerbust.ca/post/how-to-connect-to-the-pinephone-via-serial-console/">
+<meta property="og:title" content="How to connect to the PinePhone via Serial Console" />
+<meta property="og:description" content="My PinePhone Arrived My PinePhone (BraveHeart edition) arrived a few weeks ago, but I have not had time play with it. Over the weekend I had an epic snowball fight with my wife and children while we were on a nature walk. My Nexus 6p had been neglectfully left in my back pocket and during the escapade it succumbed to fatal injuries. It is time to breath life into my new PinePhone, but first I wanted to have a look around." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://bloggerbust.ca/post/how-to-connect-to-the-pinephone-via-serial-console/" />
+<meta property="article:published_time" content="2020-03-07T05:08:47&#43;00:00"/>
+<meta property="article:modified_time" content="2020-03-25T08:00:15-06:00"/>
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="How to connect to the PinePhone via Serial Console"/>
+<meta name="twitter:description" content="My PinePhone Arrived My PinePhone (BraveHeart edition) arrived a few weeks ago, but I have not had time play with it. Over the weekend I had an epic snowball fight with my wife and children while we were on a nature walk. My Nexus 6p had been neglectfully left in my back pocket and during the escapade it succumbed to fatal injuries. It is time to breath life into my new PinePhone, but first I wanted to have a look around."/>
+
+
+
+<meta itemprop="name" content="How to connect to the PinePhone via Serial Console">
+<meta itemprop="description" content="My PinePhone Arrived My PinePhone (BraveHeart edition) arrived a few weeks ago, but I have not had time play with it. Over the weekend I had an epic snowball fight with my wife and children while we were on a nature walk. My Nexus 6p had been neglectfully left in my back pocket and during the escapade it succumbed to fatal injuries. It is time to breath life into my new PinePhone, but first I wanted to have a look around.">
+
+
+<meta itemprop="datePublished" content="2020-03-07T05:08:47&#43;00:00" />
+<meta itemprop="dateModified" content="2020-03-25T08:00:15-06:00" />
+<meta itemprop="wordCount" content="3933">
+
+
+
+<meta itemprop="keywords" content="" />
+
+
+<link rel="stylesheet" href="https://bloggerbust.ca/css/layout.css" />
+<style type="text/css">
+body {
+  background-color: #26282A;
+  color: #dbdbdb;
+}
+
+a { color: #dbdbdb; }
+
+pre {
+  background: #1D1F21;
+  border: 1px solid #dbdbdb;
+  border-radius: 5px;
+}
+
+code {
+  background: #1D1F21;
+}
+
+blockquote {
+  background: #1D1F21;
+  border-left: 3px solid #dbdbdb;
+}
+
+table {
+  margin: 1em auto;
+  border-collapse: collapse;
+}
+
+table, th, td {
+  border: 1px solid #dbdbdb;
+}
+
+th {
+  background: #dbdbdb;
+  color: #26282A;
+}
+
+.siteTitle a { color: #99cc66; }
+
+.post .content h1{ color: #99cc66; }
+.post .content h2{ color: #99cc66; }
+.post .content h3{ color: #99cc66; }
+.post .content h4{ color: #99cc66; }
+.post .content h5{ color: #99cc66; }
+.post .content h6{ color: #99cc66; }
+.post .content a:hover { color: #99cc66; }
+.social-link:hover { color: #99cc66; }
+.nav-item-title:hover { color: #99cc66; }
+.tag a:hover { color: #99cc66; }
+.copyright { color: #404040 }
+.poweredby { color: #404040 }
+.poweredby a { color: #404040; }
+.post-preview .title a{ color: #99cc66; }
+.content-item a:hover{
+  text-decoration: underline;
+  color: #99cc66;
+}
+.post-list .title { color: #99cc66; }
+.rmore { color: #99cc66; }
+.terms .term a:hover {
+  text-decoration: underline;
+  color: #99cc66;
+}
+
+</style>
+
+<link rel="stylesheet" href="https://bloggerbust.ca/css/site.css">
+
+
+
+<title>
+
+
+     How to connect to the PinePhone via Serial Console 
+
+</title>
+
+</head>
+
+
+<body>
+<div class="main">
+<header>
+
+<div class="header-bar">
+
+  <nav>
+    <div class="siteTitle">
+      <a href="https://bloggerbust.ca/">Blogger Bust</a>
+    </div> 
+
+    
+    
+    <a class="nav-item" href="https://bloggerbust.ca/about/"><div class="nav-item-title">About</div></a>
+    
+    <a class="nav-item" href="https://bloggerbust.ca/series"><div class="nav-item-title">Series</div></a>
+    
+    <a class="nav-item active" href="https://bloggerbust.ca/post/"><div class="nav-item-title">Posts</div></a>
+    
+
+  </nav>
+</div>
+
+  
+<div class="social-links-header">
+
+  
+  <a href="mailto:trevor.wilson@bloggerbust.ca"><div class="social-link">email</div></a>
+  
+
+  
+  <a href="https://github.com/bloggerbust" target="_blank"><div class="social-link">gh</div></a>
+  
+
+  
+
+  
+
+  
+
+</div>
+
+
+</header>
+
+
+<article class="post">
+    <h1 class="title"> How to connect to the PinePhone via Serial Console </h1>
+    <div class="content"> 
+
+<h2 id="my-pinephone-arrived">My PinePhone Arrived</h2>
+
+<p>My <a href="https://wiki.pine64.org/index.php/PinePhone">PinePhone</a> (BraveHeart edition) arrived a few weeks ago, but I have not had time play with it. Over the weekend I had an epic snowball fight with my wife and children while we were on a nature walk. My <a href="https://en.wikipedia.org/wiki/Nexus%5F6P">Nexus 6p</a> had been neglectfully left in my back pocket and during the escapade it succumbed to fatal injuries. It is time to breath life into my new PinePhone, but first I wanted to have a look around. I am going to connect to the PinePhone using the UART serial console that is integrated into the audio jack of the PinePhone. My client of choice is of course the venerable <a href="https://www.gnu.org/software/emacs/manual/html%5Fnode/emacs/Serial-Terminal.html">Emacs serial-term</a>.</p>
+
+<h2 id="what-is-a-serial-console-and-uart">What is a serial console and UART</h2>
+
+<p>For our purposes, a console is a program connected to a serial port on the host computer providing a textual interface to a Linux shell. Of course, this is an over simplification, if you are not familiar with serial communication and would like to learn about it in depth, then I think you will be interested in reading through this <a href="http://www.tldp.org/HOWTO/Text-Terminal-HOWTO.html">Text Terminal HOWTO</a> and <a href="http://www.tldp.org/HOWTO/Serial-HOWTO.html">Serial HOWTO</a>.</p>
+
+<p>The UART (Universal Asynchronous Receiver Transmitter) receives bits sequentially, reconstructs them into bytes, then stores those bytes in a buffer where they can be read by a computer. Conversely, a transmitting UART converts parallel data from bytes to bits and then transmits those bits in serial to a receiving UART. In that respect, UART is bidirectional, allowing the host computer to both send and receive messages over a serial connection. The Serial HOWTO mentioned earlier contains this short <a href="http://www.tldp.org/HOWTO/Serial-HOWTO-18.html">introduction to UARTs</a> as well as a list of <a href="http://www.tldp.org/HOWTO/Serial-HOWTO-14.html">serial communication programs and utilities</a>.</p>
+
+<h2 id="connect-to-the-pinephone-over-uart">Connect to the PinePhone over UART</h2>
+
+<p>The PinePhone has <a href="https://wiki.pine64.org/index.php/PinePhone#Serial%5Fconsole">a serial port integrated with the headphone audio jack socket</a>. I purchased a <a href="https://www.amazon.ca/Cordable-Serial-Adapter-Converter-TTL-232R-3V3-AJ/dp/B07JD7YZP4/">3.3V TTL-232R Serial UART cable that adapts USB to a 3.5mm audio jack</a> from Amazon, but you can also purchase one <a href="https://store.pine64.org/?product=pinebook-serial-console">from the Pine Store</a>. Any USB to 3.3V TTL converter that uses RS-232 for serial communication transmission and adapts to a 3.5mm audio jack will do. To put PinePhone&rsquo;s audio jack socket into UART mode, place the 6th contact on the dipswitch into the off position. Next, insert the serial connector&rsquo;s jack plug into the phone&rsquo;s jack socket and plug the USB end of the connector into your dev box.</p>
+
+<p>To confirm that your computer has detected the UART console simply run the <a href="https://linux.die.net/man/1/usb-devices">usb-devices</a> command and filter the output for the text <em>&ldquo;UART&rdquo;</em>.</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">usb-devices | grep -C4 -i uart</code></pre></div><div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">T:  Bus=01 Lev=01 Prnt=01 Port=01 Cnt=02 Dev#= 57 Spd=12  MxCh= 0
+D:  Ver= 2.00 Cls=00(&gt;ifc ) Sub=00 Prot=00 MxPS= 8 #Cfgs=  1
+P:  Vendor=0403 ProdID=6001 Rev=06.00
+S:  Manufacturer=FTDI
+S:  Product=FT232R USB UART
+S:  SerialNumber=&lt;REDACTED&gt;
+C:  #Ifs= 1 Cfg#= 1 Atr=a0 MxPwr=90mA
+I:  If#=0x0 Alt= 0 #EPs= 2 Cls=ff(vend.) Sub=ff Prot=ff Driver=ftdi_sio</code></pre></div>
+<p>The first line tells us the bus number, port and device number, which is useful, but what we would actually like is the TTY device name. Looking further down the list we can see that the manufacturer is <code>FTDI</code>. We can now filter the <code>dmesg</code> output by the manufacturer name to get the name of the device.</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">dmesg | grep -i FTDI</code></pre></div><div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">[1458143.861386] usb 1-2: Manufacturer: FTDI
+[1458143.864821] ftdi_sio 1-2:1.0: FTDI USB Serial Device converter detected
+[1458143.865597] usb 1-2: FTDI USB Serial Device converter now attached to ttyUSB0</code></pre></div>
+<p>Now that we know that the name of the device is <code>ttyUSB0</code>, we can look up the group membership required to attach to it.</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">ls -lah /dev/ttyUSB0</code></pre></div><div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">crw-rw---- 1 root uucp 188, 0 Mar 24 06:16 /dev/ttyUSB0</code></pre></div>
+<p>The output from <code>ls</code> tells us that we need to be in the <code>uucp</code> group. We will use the <code>groups</code> command to find out if my user is already of member of <code>uucp</code>.</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">groups dustfinger</code></pre></div><div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">wheel audio video usb users dustfinger plugdev libvirt docker developer</code></pre></div>
+<p>Since my user is not a member of the <code>uucp</code> group, I will add the group membership using <code>gpasswd</code>.</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">sudo gpasswd -a dustfinger uucp</code></pre></div><div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">Adding user dustfinger to group uucp</code></pre></div>
+<p>Now that we have the right group membership, we can establish a serial connection.</p>
+
+<h2 id="connect-with-emacs-serial-mode">Connect with Emacs serial-mode</h2>
+
+<p>If you are an Emacs user, like me, then the easiest way to connect to a device over UART is to use the built in Emacs serial-term. The documentation for Emacs serial-term can be found by typing <code>C-h i d m emacs &lt;RET&gt; m Serial Terminal &lt;RET&gt;</code>. If you are using any other serial terminal program, then you will need to pass it the same parameters as shown below, but exactly how the parameters are passed and what the defaults of those parameters are, will likely be different. Please take a moment and read the man page of your chosen serial terminal program so that you understand how to pass it the required parameters.</p>
+
+<p>If you would like to watch the output while your PinePhone boots up, then turn the PinePhone off before making the serial connection. To invoke <em>Serial Terminal</em> in Emacs, type: <code>M-x serial-term &lt;RET&gt;</code>. Emacs Serial Terminal will prompt for the following parameters:</p>
+
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Value to enter</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>Port</td>
+<td>/dev/ttyUSB0</td>
+</tr>
+
+<tr>
+<td>Speed</td>
+<td>115200</td>
+</tr>
+</tbody>
+</table>
+
+<p>The speed is in bits per second and is called the <em>baud rate</em>. The connection will fail to establish if you do not enter the correct baud rate.</p>
+
+<p>Other terminal programs may require that you explicitly enter the <em>parity</em>, <em>data bits</em> and <em>stopbit time</em> parameters. As it turns out, the Emacs defaults for these these parameters are compatible with the PinePhone&rsquo;s UART, so they do not need to be set explicitly:</p>
+
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Value to enter</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>Parity</td>
+<td>n</td>
+</tr>
+
+<tr>
+<td>data bits</td>
+<td>8</td>
+</tr>
+
+<tr>
+<td>stopbit time</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+
+<p>Once the required parameters have been passed to Emacs Serial Terminal, Emacs should open a new buffer that is named after the device. In my case the buffer is named <code>/dev/ttyUSB0/</code>. If your PinePhone is powered off, then turn it on and you will see output similar to the following as it boots:</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">U-Boot SPL 2020.01 (Jan 09 2020 - 12:17:54 +0000)
+DRAM: 2048 MiB
+Trying to boot from MMC2
+NOTICE:  BL31: v2.1(release):v3.10.0_rc3-151-ga4b61dc7d9
+NOTICE:  BL31: Built : 16:21:59, Jun 12 2019
+NOTICE:  BL31: Detected Allwinner A64/H64/R18 SoC (1689)
+NOTICE:  BL31: Found U-Boot DTB at 0x408e1a8, model: Pine64 LTS
+NOTICE:  BL31: PMIC: Detected AXP803 on RSB.
+
+
+U-Boot 2020.01 (Jan 09 2020 - 12:17:54 +0000) Allwinner Technology
+
+CPU:   Allwinner A64 (SUN50I)
+Model: Pine64 LTS
+DRAM:  2 GiB
+MMC:   mmc@1c0f000: 0, mmc@1c11000: 1
+Loading Environment from FAT... Unable to use mmc 1:1... In:    serial
+Out:   serial
+Err:   serial
+Net:   phy interface7
+Could not get PHY for ethernet@1c30000: addr 1
+No ethernet found.
+
+starting USB...
+Bus usb@1c1a000: USB EHCI 1.00
+Bus usb@1c1a400: USB OHCI 1.0
+Bus usb@1c1b000: USB EHCI 1.00
+Bus usb@1c1b400: USB OHCI 1.0
+scanning bus usb@1c1a000 for devices... 1 USB Device(s) found
+scanning bus usb@1c1a400 for devices... 1 USB Device(s) found
+scanning bus usb@1c1b000 for devices... 1 USB Device(s) found
+scanning bus usb@1c1b400 for devices... 1 USB Device(s) found
+       scanning usb for storage devices... 0 Storage Device(s) found
+Hit any key to stop autoboot:  0
+switch to partitions #0, OK
+mmc1(part 0) is current device
+Scanning mmc 1:1...
+Found U-Boot script /boot.scr
+919 bytes read in 2 ms (448.2 KiB/s)
+## Executing script at 4fc00000
+gpio: pin 114 (gpio 114) value is 1
+Booting from eMMC
+arch=arm
+baudrate=115200
+board=sunxi
+board_name=sunxi
+boot_a_script=load ${devtype} ${devnum}:${distro_bootpart} ${scriptaddr} ${prefix}${script}; source ${scriptaddr}
+boot_efi_binary=if fdt addr ${fdt_addr_r}; then bootefi bootmgr ${fdt_addr_r};else bootefi bootmgr ${fdtcontroladdr};fi;load ${devtype} ${devnum}:${distro_bootpart} ${kernel_
+addr_r} efi/boot/bootaa64.efi; if fdt addr ${fdt_addr_r}; then bootefi ${kernel_addr_r} ${fdt_addr_r};else bootefi ${kernel_addr_r} ${fdtcontroladdr};fi
+boot_extlinux=sysboot ${devtype} ${devnum}:${distro_bootpart} any ${scriptaddr} ${prefix}${boot_syslinux_conf}
+boot_net_usb_start=usb start
+boot_prefixes=/ /boot/
+boot_script_dhcp=boot.scr.uimg
+boot_scripts=boot.scr.uimg boot.scr
+boot_syslinux_conf=extlinux/extlinux.conf
+boot_targets=fel mmc_auto usb0 pxe dhcp
+bootargs=init=/init.sh rw console=tty0 console=ttyS0,115200 no_console_suspend earlycon=uart,mmio32,0x01c28000 panic=10 consoleblank=0 loglevel=1 cma=256M PMOS_NO_OUTPUT_REDI
+RECT pmos_boot=/dev/mmcblk2p1 pmos_root=/dev/mmcblk2p2
+bootcmd=run distro_bootcmd
+bootcmd_dhcp=run boot_net_usb_start; if dhcp ${scriptaddr} ${boot_script_dhcp}; then source ${scriptaddr}; fi;setenv efi_fdtfile ${fdtfile}; setenv efi_old_vci ${bootp_vci};s
+etenv efi_old_arch ${bootp_arch};setenv bootp_vci PXEClient:Arch:00011:UNDI:003000;setenv bootp_arch 0xb;if dhcp ${kernel_addr_r}; then tftpboot ${fdt_addr_r} dtb/${efi_fdtfi
+le};if fdt addr ${fdt_addr_r}; then bootefi ${kernel_addr_r} ${fdt_addr_r}; else bootefi ${kernel_addr_r} ${fdtcontroladdr};fi;fi;setenv bootp_vci ${efi_old_vci};setenv bootp
+_arch ${efi_old_arch};setenv efi_fdtfile;setenv efi_old_arch;setenv efi_old_vci;
+bootcmd_fel=if test -n ${fel_booted} &amp;&amp; test -n ${fel_scriptaddr}; then echo &#39;(FEL boot)&#39;; source ${fel_scriptaddr}; fi
+bootcmd_mmc0=devnum=0; run mmc_boot
+bootcmd_mmc1=devnum=1; run mmc_boot
+bootcmd_mmc_auto=if test ${mmc_bootdev} -eq 1; then run bootcmd_mmc1; run bootcmd_mmc0; elif test ${mmc_bootdev} -eq 0; then run bootcmd_mmc0; run bootcmd_mmc1; fi
+bootcmd_pxe=run boot_net_usb_start; dhcp; if pxe get; then pxe boot; fi
+bootcmd_usb0=devnum=0; run usb_boot
+bootdelay=2
+bootdev=2
+bootfstype=ext4
+bootm_size=0xa000000
+console=ttyS0,115200
+cpu=armv8
+devplist=1
+dfu_alt_info_ram=kernel ram 0x40080000 0x1000000;fdt ram 0x4FA00000 0x100000;ramdisk ram 0x4FE00000 0x4000000
+distro_bootcmd=for target in ${boot_targets}; do run bootcmd_${target}; done
+efi_dtb_prefixes=/ /dtb/ /dtb/current/
+ethaddr=02:ba:3a:fe:45:68
+fdt_addr_r=0x4FA00000
+fdtcontroladdr=b9f31258
+fdtfile=allwinner/sun50i-a64-pine64-lts.dtb
+fileaddr=4fc00000
+filesize=397
+kernel_addr_r=0x40080000
+load_efi_dtb=load ${devtype} ${devnum}:${distro_bootpart} ${fdt_addr_r} ${prefix}${efi_fdtfile}
+mmc_boot=if mmc dev ${devnum}; then devtype=mmc; run scan_dev_for_boot_part; fi
+mmc_bootdev=1
+partitions=name=loader1,start=8k,size=32k,uuid=${uuid_gpt_loader1};name=loader2,size=984k,uuid=${uuid_gpt_loader2};name=esp,size=128M,bootable,uuid=${uuid_gpt_esp};name=syste
+m,size=-,uuid=${uuid_gpt_system};
+preboot=usb start
+pxefile_addr_r=0x4FD00000
+ramdisk_addr_r=0x4FE00000
+scan_dev_for_boot=echo Scanning ${devtype} ${devnum}:${distro_bootpart}...; for prefix in ${boot_prefixes}; do run scan_dev_for_extlinux; run scan_dev_for_scripts; done;run s
+can_dev_for_efi;
+scan_dev_for_boot_part=part list ${devtype} ${devnum} -bootable devplist; env exists devplist || setenv devplist 1; for distro_bootpart in ${devplist}; do if fstype ${devtype
+} ${devnum}:${distro_bootpart} bootfstype; then run scan_dev_for_boot; fi; done; setenv devplist
+scan_dev_for_efi=setenv efi_fdtfile ${fdtfile}; for prefix in ${efi_dtb_prefixes}; do if test -e ${devtype} ${devnum}:${distro_bootpart} ${prefix}${efi_fdtfile}; then run loa
+d_efi_dtb; fi;done;if test -e ${devtype} ${devnum}:${distro_bootpart} efi/boot/bootaa64.efi; then echo Found EFI removable media binary efi/boot/bootaa64.efi; run boot_efi_bi
+nary; echo EFI LOAD FAILED: continuing...; fi; setenv efi_fdtfile
+scan_dev_for_extlinux=if test -e ${devtype} ${devnum}:${distro_bootpart} ${prefix}${boot_syslinux_conf}; then echo Found ${prefix}${boot_syslinux_conf}; run boot_extlinux; ec
+ho SCRIPT FAILED: continuing...; fi
+scan_dev_for_scripts=for script in ${boot_scripts}; do if test -e ${devtype} ${devnum}:${distro_bootpart} ${prefix}${script}; then echo Found U-Boot script ${prefix}${script}
+; run boot_a_script; echo SCRIPT FAILED: continuing...; fi; done
+scriptaddr=0x4FC00000
+serial#=&lt;REDACTED&gt;
+soc=sunxi
+stderr=serial,vidconsole
+stdin=serial,usbkbd
+stdout=serial,vidconsole
+usb_boot=usb start; if usb dev ${devnum}; then devtype=usb; run scan_dev_for_boot_part; fi
+uuid_gpt_esp=c12a7328-f81f-11d2-ba4b-00a0c93ec93b
+uuid_gpt_system=b921b045-1df0-41c3-af44-4c6f280d3fae
+
+Environment size: 4745/131068 bytes
+Loading DTB
+29575 bytes read in 3 ms (9.4 MiB/s)
+Loading Initramfs
+4580494 bytes read in 202 ms (21.6 MiB/s)
+Loading Kernel
+15091720 bytes read in 658 ms (21.9 MiB/s)
+gpio: pin 115 (gpio 115) value is 1
+Resizing FDT
+Booting kernel
+gpio: pin 116 (gpio 116) value is 1
+## Loading init Ramdisk from Legacy Image at 4fe00000 ...
+   Image Name:   uInitrd
+   Image Type:   AArch64 Linux RAMDisk Image (uncompressed)
+   Data Size:    4580430 Bytes = 4.4 MiB
+   Load Address: 00000000
+   Entry Point:  00000000
+   Verifying Checksum ... OK
+## Flattened Device Tree blob at 4fa00000
+   Booting using the fdt blob at 0x4fa00000
+EHCI failed to shut down host controller.
+   Loading Ramdisk to 49ba1000, end 49fff44e ... OK
+   Loading Device Tree to 0000000049b96000, end 0000000049ba0fff ... OK
+
+Starting kernel ...
+
+[    0.000000] Booting Linux on physical CPU 0x0000000000 [0x410fd034]
+[    0.000000] Linux version 5.4.0 (pmos@build) (gcc version 9.2.0 (Alpine 9.2.0)) #2-postmarketos-allwinner SMP Sat Dec 7 14:14:33 UTC 2019
+[    0.000000] Machine model: PinePhone
+[    0.000000] earlycon: uart0 at MMIO32 0x0000000001c28000 (options &#39;&#39;)
+[    0.000000] printk: bootconsole [uart0] enabled
+### postmarketOS initramfs ###
+Configuring kernel firmware image search path
+modprobe: module sun6i_mipi_dsi not found in modules.dep
+modprobe: module sun4i_drm not found in modules.dep
+modprobe: module pwm_sun4i not found in modules.dep
+modprobe: module sun8i_mixer not found in modules.dep
+modprobe: module ext4 not found in modules.dep
+modprobe: module usb_f_rndis not found in modules.dep
+NOTE: Waiting 10 seconds for the framebuffer /dev/fb0.
+If your device does not have a framebuffer, disable this with:
+no_framebuffer=true in &lt;https://postmarketos.org/deviceinfo&gt;
+Setting framebuffer mode to: U:720x1440p-0
+Setup usb network
+  /sys/class/android_usb does not exist, skipping android_usb
+  Setting up an USB gadget through configfs
+Starting udhcpd
+  Using interface usb0
+  Start the dhcpcd daemon (forks into background)
+Mount boot partition (/dev/mmcblk2p1)
+Extract /boot/initramfs-postmarketos-allwinner-extra
+31639 blocks
+Check/repair root filesystem (/dev/mmcblk2p2)
+e2fsck 1.45.5 (07-Jan-2020)
+pmOS_root: recovering journal
+Setting free blocks count to 37000 (was 36998)
+pmOS_root: clean, 23951/100080 files, 227704/264704 blocks
+Resize root filesystem (/dev/mmcblk2p2)
+resize2fs 1.45.5 (07-Jan-2020)
+The filesystem is already 264704 (4k) blocks long.  Nothing to do!
+
+Mount root partition (/dev/mmcblk2p2)
+umount: can&#39;t unmount /dev: Invalid argument
+
+   OpenRC 0.42.1.034fce6328 is starting up Linux 5.4.0 (aarch64)
+
+/lib/rc/sh/init.sh: line 15: can&#39;t create /dev/null: Read-only file system
+ * md5sum is missing, which suggests /usr is not mounted
+ * If you have separate /usr, it must be mounted by initramfs
+ * If not, you should check coreutils is installed correctly
+ * Mounting /proc ... [ ok ]
+ * Mounting /run ... * /run/openrc: creating directory
+ * /run/lock: creating directory
+ * /run/lock: correcting owner
+/lib/rc/sh/init.sh: line 101: can&#39;t create /dev/null: Read-only file system
+/lib/rc/sh/gendepends.sh: line 28: can&#39;t create /dev/null: Read-only file system
+ * Caching service dependencies ... [ ok ]
+ * Clock skew detected with `(null)&#39;
+ * Adjusting mtime of `/run/openrc/deptree&#39; to Fri Jan 10 19:03:07 2020
+
+ * WARNING: clock skew detected!
+ * Mounting devtmpfs on /dev ... [ ok ]
+ * Mounting /dev/mqueue ... [ ok ]
+ * Mounting /dev/pts ... [ ok ]
+ * Mounting /dev/shm ... [ ok ]
+ * Mount subpartitions of /dev/mmcblk2
+device-mapper: reload ioctl on mmcblk2p1  failed: Resource busy
+create/reload failed on mmcblk2p1
+device-mapper: reload ioctl on mmcblk2p2  failed: Resource busy
+create/reload failed on mmcblk2p2
+ * Mounting /sys ... [ ok ]
+ * Mounting security filesystem ... [ ok ]
+ * Mounting debug filesystem ... [ ok ]
+ * Mounting config filesystem ... [ ok ]
+ * Mounting persistent storage (pstore) filesystem ... [ ok ]
+ * Starting udev ... [ ok ]
+ * Generating a rule to create a /dev/root symlink ... [ ok ]
+ * Populating /dev with existing devices through uevents ... [ ok ]
+ * WARNING: clock skew detected!
+ * Loading modules ... [ ok ]
+ * Setting system clock using the hardware clock [UTC] ... [ ok ]
+ * Setting the local clock based on last shutdown time ... [ ok ]
+ * Checking local filesystems  ...pmOS_root: clean, 23951/100080 files, 227704/264704 blocks
+pmOS_boot was not cleanly unmounted, check forced.
+pmOS_boot: 18/16704 files (22.2% non-contiguous), 48645/66560 blocks
+ * Filesystems repaired
+ [ !! ]
+ * Remounting root filesystem read/write ... [ ok ]
+ * Remounting filesystems ... [ ok ]
+ * Mounting local filesystems ... [ ok ]
+ * Configuring kernel parameters ...sysctl: error: &#39;net.ipv4.tcp_syncookies&#39; is an unknown key
+ [ ok ]
+ * Creating user login records ... [ ok ]
+ * Wiping /tmp directory ... [ ok ]
+ * Setting hostname ... [ ok ]
+ * Starting busybox syslog ... [ ok ]
+ * WARNING: clock skew detected!
+ * Starting System Message Bus ... [ ok ]
+ * Starting RNG Daemon ... [ ok ]
+ * Starting WPA Supplicant ... [ ok ]
+ * Starting networkmanager ... [ ok ]
+ * Starting chronyd ... [ ok ]
+ * Enabling EG25 WWAN module ... * /run/lightdm: creating directory
+ * /run/lightdm: correcting owner
+ * Starting Display Manager ... [ ok ]
+ * Starting oFono ... [ ok ]
+ * Starting sshd ... [ ok ]
+ * Activating swap file ...Configured swap file size is 0, skipping creation.
+ [ ok ]
+ * Starting local ... [ ok ]
+
+Welcome to postmarketOS
+Kernel 5.4.0 on an aarch64 (/dev/ttyS0)
+pine64-pinephone login: demo</code></pre></div>
+<p>If your PinePhone was already turned on when you established the serial connection you might be presented with a blank screen. In that case, if you hit the <code>&lt;RET&gt;</code> key, that should cause the welcome message and login prompt to be rendered to the screen.</p>
+
+<h2 id="have-a-look-around">Have a look around</h2>
+
+<p>To sign in to the postMarketOS <a href="https://gitlab.com/MartijnBraam/hwtest/-/tree/master/hwtest">hwtest (factory test)</a> use the following default credentials</p>
+
+<table>
+<thead>
+<tr>
+<th>user</th>
+<th>password</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>demo</td>
+<td>demo</td>
+</tr>
+</tbody>
+</table>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">Welcome to postmarketOS
+Kernel 5.4.0 on an aarch64 (/dev/ttyS0)
+pine64-pinephone login: demo
+Password:
+Welcome to postmarketOS!
+
+This distribution is based on Alpine Linux.
+Read both our wikis to find a large amount of how-to guides and
+general information about administrating and development.
+See &lt;https://wiki.postmarketos.org&gt; and &lt;https://wiki.alpinelinux.org&gt;.
+
+You may change this message by editing /etc/motd.
+
+pine64-pinephone:~$</code></pre></div>
+<p>First, let&rsquo;s look at what is in the demo user&rsquo;s home directory.</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">pine64-pinephone:~$ ls -lah</code></pre></div><div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">total 48K
+drwxr-xr-x    4 demo     root        4.0K Aug 23 10:49 .
+drwxr-xr-x    3 root     root        4.0K Jan 10  2020 ..
+-rw-------    1 demo     demo        1.7K Aug 23 11:14 .ash_history
+drwxr-xr-x    3 demo     demo        4.0K Aug 23 10:49 .cache
+drwx------    2 demo     demo        4.0K Jan 10  2020 .ssh
+-rwxr-xr-x    1 demo     root          90 Mar  7 22:57 .xsession
+-rw-------    1 demo     demo        8.8K Aug 23 10:49 .xsession-errors
+-rw-------    1 demo     demo       10.6K Aug 23  2019 .xsession-errors.old
+pine64-pinephone:~$</code></pre></div>
+<p>Notice that there is a <code>.ssh/</code> directory that must have been created during setup at the factory.</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">pine64-pinephone:~$ ls -lah .ssh</code></pre></div><div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">pine64-pinephone:~$ ls -lah .ssh
+total 12K
+drwx------    2 demo     demo        4.0K Jan 10  2020 .
+drwxr-xr-x    4 demo     root        4.0K Aug 23 10:49 ..
+-rw-r--r--    1 demo     demo         397 Jan 10  2020 authorized_keys
+pine64-pinephone:~$</code></pre></div>
+<p>We can see that the directory contains a file named <em>authorized_keys</em> which we will revisit momentarily. I wonder what services are currently running:</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">pine64-pinephone:~$ rc-status</code></pre></div><div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">Runlevel: default
+ dbus
+ [  started 00:45:35 (0) ]
+ lightdm
+ [  started 00:45:32 (0) ]
+ haveged
+ [  started 00:45:35 (0) ]
+ wpa_supplicant
+ [  started 00:45:35 (0) ]
+ networkmanager
+ [  started 00:45:35 (0) ]
+ chronyd
+ [  started  ]
+ eg25
+ [  started  ]
+ ofono
+ [  started  ]
+ sshd
+ [  started  ]
+ swapfile
+ [  started  ]
+ udev-postmount
+ [  started  ]
+ local
+ [  started  ]
+Dynamic Runlevel: hotplugged
+Dynamic Runlevel: needed/wanted
+ sysfs
+ [  started  ]
+ fsck
+ [  started  ]
+ root
+ [  started  ]
+ localmount
+ [  started  ]
+Dynamic Runlevel: manual
+pine64-pinephone:~$</code></pre></div>
+<p>Even in light of the fact that we are only running the factory test suite, I cannot tell you how much I appreciate to see so few services running on a mobile phone. There is nothing unusual about the services that I see running. <a href="https://en.wikipedia.org/wiki/OFono"><em>OFono</em></a> is a linux daemon for mobile telephony application support. <a href="https://linux.die.net/man/8/haveged"><em>Haveged</em></a> is for entropy gathering and random number generation. The eg25 daemon is for the <a href="https://wiki.pine64.org/index.php/PinePhone#EG25%5F-%5FModem">PinePhone EG25 modem</a>.</p>
+
+<p>I can see that wpa_supplicant service is running along with the NetworkManager service, those will be for testing WiFi. The SSH daemon is also running, but I don&rsquo;t imagine that is necessary for the factory tests, so I will <a href="#remove-ssh-key">remove the SSH key</a> and <a href="#shutdown-sshd">shut down sshd</a>. After that, the next time I boot my phone into the <em>factory test</em> program I will rest at ease knowing that the SSH daemon is not running, and the default user account home directory does not contain a publicly known SSH key.</p>
+
+<p>Since wpa_supplicant is running we should see if there are any configured WiFi access points. I checked <code>/etc/wpa_supplicant.conf</code> and found that it was empty. I will also check to see if there were any connections known to the NetworkManager by using the <code>nmcli</code>.</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">pine64-pinephone:~$ nmcli connection show</code></pre></div>
+<p>That produced no results, which is expected. We can also get a list of devices from <code>nmcli</code> by using the <code>device</code> sub-command.</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">nmcli device show</code></pre></div><div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">GENERAL.DEVICE:                         wlan0
+GENERAL.TYPE:                           wifi
+GENERAL.DEVICE:                         wlan0
+GENERAL.TYPE:                           wifi
+GENERAL.HWADDR:                         02:BA:3A:FE:45:68
+GENERAL.MTU:                            1500
+GENERAL.STATE:                          30 (disconnected)
+GENERAL.CONNECTION:                     --
+GENERAL.CON-PATH:                       --
+
+GENERAL.DEVICE:                         p2p-dev-wlan0
+GENERAL.TYPE:                           wifi-p2p
+GENERAL.HWADDR:                         (unknown)
+GENERAL.MTU:                            0
+GENERAL.STATE:                          30 (disconnected)
+GENERAL.CONNECTION:                     --
+GENERAL.CON-PATH:                       --
+
+GENERAL.DEVICE:                         quectelqmi_0
+GENERAL.TYPE:                           gsm
+GENERAL.HWADDR:                         (unknown)
+GENERAL.MTU:                            0
+GENERAL.STATE:                          20 (unavailable)
+GENERAL.CONNECTION:                     --
+GENERAL.CON-PATH:                       --
+
+GENERAL.DEVICE:                         usb0
+GENERAL.TYPE:                           ethernet
+GENERAL.HWADDR:                         BA:00:FB:E9:5C:9C
+GENERAL.MTU:                            1500
+GENERAL.STATE:                          10 (unmanaged)
+GENERAL.CONNECTION:                     --
+GENERAL.CON-PATH:                       --
+WIRED-PROPERTIES.CARRIER:               off
+IP4.ADDRESS[1]:                         172.16.42.1/16
+IP4.GATEWAY:                            --
+IP4.ROUTE[1]:                           dst = 172.16.0.0/16, nh = 0.0.0.0, mt = 0
+IP6.GATEWAY:                            --
+
+GENERAL.DEVICE:                         lo
+GENERAL.TYPE:                           loopback
+GENERAL.HWADDR:                         00:00:00:00:00:00
+GENERAL.MTU:                            65536
+GENERAL.STATE:                          10 (unmanaged)
+GENERAL.CONNECTION:                     --
+GENERAL.CON-PATH:                       --
+IP4.ADDRESS[1]:                         127.0.0.1/8
+IP4.GATEWAY:                            --
+IP6.ADDRESS[1]:                         ::1/128
+IP6.GATEWAY:                            --</code></pre></div>
+<p>In my opinion, it is good practice to take a peek in the boot partition of a new device before booting it up.</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">pine64-pinephone:~$ ls -lah /boot</code></pre></div><div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">total 44M
+drwxr-xr-x    3 root     root        1.0K Jan 10  2020 .
+drwxr-xr-x   21 root     root        4.0K Jan 10  2020 ..
+-rw-r--r--    1 root     root         919 Jan  3  2020 boot.scr
+-rw-r--r--    1 root     root        4.4M Jan 10  2020 initramfs-postmarketos-allwinner
+-rw-r--r--    1 root     root        6.4M Jan 10  2020 initramfs-postmarketos-allwinner-extra
+drwx------    2 root     root       12.0K Jan 10  2020 lost+found
+-rw-r--r--    1 root     root       28.9K Jan 10  2020 sun50i-a64-pinephone.dtb
+-rw-r--r--    1 root     root       14.4M Jan 10  2020 uImage-postmarketos-allwinner
+-rw-r--r--    1 root     root        4.4M Jan 10  2020 uInitrd-postmarketos-allwinner
+-rw-r--r--    1 root     root       14.4M Dec  7  2019 vmlinuz-postmarketos-allwinner
+pine64-pinephone:~$</code></pre></div>
+<p>I am not very knowledgeable about <em>u-boot</em> yet, but I took a look at the u-boot <code>boot.scr</code> and it seems straight forward.</p>
+
+<p>The last thing I wanted to see was a list of all user accounts.</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">pine64-pinephone:~$ cut -d: -f1 /etc/passwd</code></pre></div><div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">root
+bin
+daemon
+adm
+lp
+sync
+shutdown
+halt
+mail
+news
+uucp
+operator
+man
+postmaster
+cron
+ftp
+sshd
+at
+squid
+xfs
+games
+cyrus
+vpopmail
+ntp
+smmsp
+guest
+nobody
+demo
+chrony
+messagebus
+polkitd
+pulse
+lightdm</code></pre></div>
+<p>I wonder if the <em>guest</em> user is needed for automatically loading into <em>factory test</em>? I might look into that another day. If you are going to leave the factory test program loaded for any length of time, then you should <a href="#change-demo-user-password">change the password for the demo user</a>. Finally, if you install a newer release of <em>factory test</em>, then you will need to re-apply each of the changes that you have made.</p>
+
+<h2 id="ending-the-serial-terminal-session">Ending the Serial Terminal session</h2>
+
+<p>When you have finished your fun poking around in the factory install of postmarketOS, power-off your device, kill the <code>/dev/ttyUSB0/</code> buffer and unplug the serial console cable.</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-nil" data-lang="nil">pine64-pinephone:~$ sudo poweroff</code></pre></div><div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">pine64-pinephone:~$  * WARNING: clock skew detected!
+ * Stopping local ... [ ok ]
+ * Deactivating swap file ... [ ok ]
+ * Stopping oFono ... [ ok ]
+ * Stopping Display Manager ... [ ok ]
+ * Disabling EG25 WWAN module ... * Stopping chronyd ... [ ok ]
+ * Stopping networkmanager ... [ ok ]
+ * Stopping RNG Daemon ... [ ok ]
+ * Stopping System Message Bus ... [ ok ]
+ * Stopping busybox syslog ... [ ok ]
+ * Unmounting loop devices
+ * Unmounting filesystems
+ *   Unmounting /run/user/10000 ... [ ok ]
+ *   Unmounting /boot ... [ ok ]
+ * Saving the shutdown time ... [ ok ]
+ * Setting hardware clock using the system clock [UTC] ... [ ok ]
+ * Stopping udev ... [ ok ]
+ * Terminating remaining processes ... [ ok ]
+ * Killing remaining processes ... [ ok ]
+ * Clock skew detected!
+ * Saving dependency cache ... [ ok ]
+ [ ok ]
+ * Remounting remaining filesystems read-only ... *   Remounting / read only ... [ ok ]
+ [ ok ]
+The system is going down NOW!
+Sent SIGTERM to all processes
+Sent SIGKILL to all processes
+Requesting system poweroff
+[ 1036.519665] reboot: Power down</code></pre></div>
+<h2 id="conclusion">Conclusion</h2>
+
+<p>I am excited about trying the <a href="https://wiki.pine64.org/index.php/PinePhone#Operating%5FSystems">PinePhone compatible operating systems</a>. It will be interesting, since I am going to need to find an operating system that is sufficient for every day use since my Nexus 6p is finally dead. I guess am one step closer now in de-googling my life.</p>
+
+<p>You are done. The rest of the content below is linked from above.</p>
+
+<h2 id="remove-ssh-key">Remove SSH key</h2>
+
+<p>I am not comfortable with someone else&rsquo;s SSH key left on my device, even if it is a factory test program that I will likely be removing soon. What if the device connected to a nearby insecure WiFi while running the factory tests? It might be possible for a nefarious person or program to use the known SSH key to gain control of my phone. To be safe, I am going to remove the directory and the SSH key contained within. If I really want to connect to my phone via SSH while the <em>factory test</em> program is running, I can create myself a new private key and start <code>sshd</code>.</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-nil" data-lang="nil">pine64-pinephone:~$ rm -rf .ssh</code></pre></div>
+<h2 id="shutdown-sshd">Shutdown sshd</h2>
+
+<p>As long as I have the factory test installed, I do not want the SSH daemon running as it poses an unnecessary risk. If, at some point in the future, I want to run <code>sshd</code> on my phone, I can do so with my own user and authorized SSH key.</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">pine64-pinephone:~$ sudo rc-service sshd stop</code></pre></div><div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">* Stopping sshd ...
+ [ ok ]
+pine64-pinephone:~$</code></pre></div><div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">pine64-pinephone:~$ sudo rc-update delete sshd</code></pre></div><div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">* service sshd removed from runlevel default</code></pre></div>
+<h2 id="change-demo-user-password">Change demo user password</h2>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">pine64-pinephone:~$ passwd demo</code></pre></div><div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">Changing password for demo.
+Current password:
+New password:
+Retype new password:
+passwd: password updated successfully</code></pre></div> </div>
+    <footer class="post-footer">
+
+  <div class="post-footer-data">
+    
+<div class="tags">
+    
+</div>
+
+    <div class="date"> Mar 7, 2020 </div>
+  </div>
+
+</footer>
+
+
+
+  
+<hr>
+<h2 id="Comments">
+  Comments
+</h2>
+    <form class="comment" method="POST" action="https://staticman.bloggerbust-bot.now.sh/v2/entry/BloggerBust/bloggerbust.ca/master/comments" class="flex-container flex-column">
+  <input type="hidden" name="options[redirect]" value="https://bloggerbust.ca/post/how-to-connect-to-the-pinephone-via-serial-console/#comment-submitted">
+  <input type="hidden" name="options[slug]" value="how-to-connect-to-the-pinephone-via-serial-console">
+  <div class="flex-container flex-row">
+    <input name="fields[name]" type="text" placeholder="Your name" class="flex-item">
+    <input name="fields[email]" type="email" placeholder="Your email address" class="flex-item">
+  </div>
+  <div class="flex-container flex-row">
+    <textarea name="fields[message]" placeholder="Your message. Feel free to use Markdown." rows="10" class="flex-item"></textarea>
+  </div>
+  <div class="flex-container flex-row">
+    <input type="submit" value="Submit" class="flex-item">
+  </div>
+</form>
+<div id="comment-submitted">
+  Your comment has been submitted and is now pending moderation
+</div>
+
+    
+
+
+
+
+  
+
+  
+
+  
+
+
+
+<p>Be the first to comment on this article.</p>
+
+
+  
+
+
+</article>
+
+  <footer>
+
+  <div class="social-links-footer">
+
+  
+  <a href="mailto:trevor.wilson@bloggerbust.ca"><div class="social-link">Email</div></a>
+  
+
+  
+  <a href="https://github.com/bloggerbust" target="_blank"><div class="social-link">GitHub</div></a>
+  
+
+  
+
+  
+
+  
+
+  <div class="social-link">
+  <a href="https://bloggerbust.ca/index.xml" target="_blank">RSS</a>
+  </div>
+
+</div>
+
+
+  <div class="copyright"> Copyright (c) 2018, all rights reserved. </div>
+
+  <div class="poweredby">
+    Powered by <a href="https://gohugo.io/">Hugo</a>.
+  </div>
+
+  </footer>
+
+</div> 
+
+</body>
+</html>
+

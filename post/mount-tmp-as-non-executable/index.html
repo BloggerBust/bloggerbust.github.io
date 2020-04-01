@@ -16,7 +16,7 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://bloggerbust.ca/post/mount-tmp-as-non-executable/" />
 <meta property="article:published_time" content="2019-03-20T10:27:43&#43;00:00"/>
-<meta property="article:modified_time" content="2019-03-25T06:03:29-06:00"/>
+<meta property="article:modified_time" content="2020-04-01T06:34:50-06:00"/>
 
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Mount /tmp as Non Executable"/>
@@ -31,8 +31,8 @@
 
 
 <meta itemprop="datePublished" content="2019-03-20T10:27:43&#43;00:00" />
-<meta itemprop="dateModified" content="2019-03-25T06:03:29-06:00" />
-<meta itemprop="wordCount" content="229">
+<meta itemprop="dateModified" content="2020-04-01T06:34:50-06:00" />
+<meta itemprop="wordCount" content="245">
 
 
 
@@ -175,7 +175,7 @@ th {
 <p>For security reasons I mount my <em><code>/tmp</code></em> directory as non executable. Since I use the zfs file system, I accomplish this by turning off the exec property:</p>
 <div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">/sbin/zfs get <span style="color:#24909d">exec</span> tank/tmp/root</code></pre></div><div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">NAME           PROPERTY  VALUE  SOURCE
 tank/tmp/root  exec      off    local</code></pre></div>
-<p>It is easy to search online how to accomplish the same for other file systems. I highly recommend mounting <code>/tmp</code> as none executable. If any process tries to execute an executable file it will immediately fail no matter what the effective user or group is. As you can imagine, this causes problems from time to time. For example, in emacs I have set <em>temporary-file-directory</em> to <code>~/.emacs.d.tmp</code> since it is <code>/tmp/</code> by default. I discovered this when I was not able to use tramp to execute org-babel exported code with sudo. There have been countless other hiccups that I have run into, which is why I have created this short blog post. Now when I encounter execution failure in <code>/tmp</code> I can link to this post whenever I have to do something strange to get around the issue.</p>
+<p>It is easy to search online how to accomplish the same for other file systems. I highly recommend mounting <code>/tmp</code> as none executable. The affect of doing so is simply that if an executable file is invoked from within <code>/tmp</code> or any of its subdirectories, a permission denied error will be raised no matter what the effective user or group is. As you can imagine, this causes problems from time to time. For example, in emacs I have set <em>temporary-file-directory</em> to <code>~/.emacs.d.tmp</code> since it is <code>/tmp/</code> by default. I discovered this when I was not able to use tramp to execute org-babel exported code with <code>sudo</code>. There have been countless other hiccups that I have run into, which is why I have created this short blog post. Now when I encounter execution failure in <code>/tmp</code> I can link to this post whenever I have to do something strange to get around the issue.</p>
 
 <p>Another benefit is that when a process fails due to not being able to execute in <em><code>/tmp</code></em> I learn about what that process was trying to execute in and why. In this way it increases my awareness of my local ecosystem. It is enlightening.</p>
  </div>
@@ -221,6 +221,8 @@ tank/tmp/root  exec      off    local</code></pre></div>
 
 
 
+
+  
 
   
 

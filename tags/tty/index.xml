@@ -7,10 +7,19 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-CA</language>
     <copyright>Copyright (c) 2018, all rights reserved.</copyright>
-    <lastBuildDate>Sat, 07 Mar 2020 05:08:47 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 10 May 2020 12:17:08 +0000</lastBuildDate>
     
 	<atom:link href="https://bloggerbust.ca/tags/tty/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>How To Configure Minicom To Connect Over USB Serial UART</title>
+      <link>https://bloggerbust.ca/post/how-to-configure-minicom-to-connect-over-usb-serial-uart/</link>
+      <pubDate>Sun, 10 May 2020 12:17:08 +0000</pubDate>
+      
+      <guid>https://bloggerbust.ca/post/how-to-configure-minicom-to-connect-over-usb-serial-uart/</guid>
+      <description>Introduction I recently wrote about my first experience connecting to the pinephone via serial console. This post documents how to configure Minicom for establishing an interactive terminal session with a device connected to your computer via a serial port. The configuration will be saved to file so that it can be reused to connect to the same device again in the future, which is convenient. My version of minicom at the time of writing is minicom version 2.</description>
+    </item>
     
     <item>
       <title>My First Experience Connecting to the PinePhone via Serial Console</title>

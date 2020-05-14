@@ -23,5 +23,14 @@ This is where I am going to keep supplemental material that might be useful to r
 Key-binding notation I follow the emacs key-binding nation when representing keybindings in text. You might be use to seeing CTRL-A to represent holding down the control key followed by the letter a, but in my writings you will see C-a to represent the same.</description>
     </item>
     
+    <item>
+      <title>How To Configure Minicom To Connect Over USB Serial UART</title>
+      <link>https://bloggerbust.ca/post/how-to-configure-minicom-to-connect-over-usb-serial-uart/</link>
+      <pubDate>Sun, 10 May 2020 12:17:08 +0000</pubDate>
+      
+      <guid>https://bloggerbust.ca/post/how-to-configure-minicom-to-connect-over-usb-serial-uart/</guid>
+      <description>Introduction I recently wrote about my first experience connecting to the pinephone via serial console. This post documents how to configure Minicom for establishing an interactive terminal session with a device connected to your computer via a serial port. The configuration will be saved to file so that it can be reused to connect to the same device again in the future, which is convenient. My version of minicom at the time of writing is minicom version 2.</description>
+    </item>
+    
   </channel>
 </rss>

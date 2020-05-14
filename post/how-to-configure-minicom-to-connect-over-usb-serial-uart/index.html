@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en-CA">
+
+<head>
+<meta charset="utf-8" />
+<meta name="author" content="Trevor Wilson" />
+<meta name="description" content="a place for me to bust out a blog on programming, infosec, emacs and things that interest me." />
+<meta name="keywords" content="[programming coding infosec cybersecurity webextensions blog blogger bust docker linux emacs free software]" />
+<meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1">
+<meta name="generator" content="Hugo 0.55.0-DEV" />
+
+<link rel="canonical" href="https://bloggerbust.ca/post/how-to-configure-minicom-to-connect-over-usb-serial-uart/">
+<meta property="og:title" content="How To Configure Minicom To Connect Over USB Serial UART" />
+<meta property="og:description" content="Introduction I recently wrote about my first experience connecting to the pinephone via serial console. This post documents how to configure Minicom for establishing an interactive terminal session with a device connected to your computer via a serial port. The configuration will be saved to file so that it can be reused to connect to the same device again in the future, which is convenient. My version of minicom at the time of writing is minicom version 2." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://bloggerbust.ca/post/how-to-configure-minicom-to-connect-over-usb-serial-uart/" />
+<meta property="article:published_time" content="2020-05-10T12:17:08&#43;00:00"/>
+<meta property="article:modified_time" content="2020-05-14T08:56:12-06:00"/>
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="How To Configure Minicom To Connect Over USB Serial UART"/>
+<meta name="twitter:description" content="Introduction I recently wrote about my first experience connecting to the pinephone via serial console. This post documents how to configure Minicom for establishing an interactive terminal session with a device connected to your computer via a serial port. The configuration will be saved to file so that it can be reused to connect to the same device again in the future, which is convenient. My version of minicom at the time of writing is minicom version 2."/>
+
+
+
+<meta itemprop="name" content="How To Configure Minicom To Connect Over USB Serial UART">
+<meta itemprop="description" content="Introduction I recently wrote about my first experience connecting to the pinephone via serial console. This post documents how to configure Minicom for establishing an interactive terminal session with a device connected to your computer via a serial port. The configuration will be saved to file so that it can be reused to connect to the same device again in the future, which is convenient. My version of minicom at the time of writing is minicom version 2.">
+
+
+<meta itemprop="datePublished" content="2020-05-10T12:17:08&#43;00:00" />
+<meta itemprop="dateModified" content="2020-05-14T08:56:12-06:00" />
+<meta itemprop="wordCount" content="1847">
+
+
+
+<meta itemprop="keywords" content="tty,uart," />
+
+
+<link rel="stylesheet" href="https://bloggerbust.ca/css/layout.css" />
+<style type="text/css">
+body {
+  background-color: #26282A;
+  color: #dbdbdb;
+}
+
+a { color: #dbdbdb; }
+
+pre {
+  background: #1D1F21;
+  border: 1px solid #dbdbdb;
+  border-radius: 5px;
+}
+
+code {
+  background: #1D1F21;
+}
+
+blockquote {
+  background: #1D1F21;
+  border-left: 3px solid #dbdbdb;
+}
+
+table {
+  margin: 1em auto;
+  border-collapse: collapse;
+}
+
+table, th, td {
+  border: 1px solid #dbdbdb;
+}
+
+th {
+  background: #dbdbdb;
+  color: #26282A;
+}
+
+.siteTitle a { color: #99cc66; }
+
+.post .content h1{ color: #99cc66; }
+.post .content h2{ color: #99cc66; }
+.post .content h3{ color: #99cc66; }
+.post .content h4{ color: #99cc66; }
+.post .content h5{ color: #99cc66; }
+.post .content h6{ color: #99cc66; }
+.post .content a:hover { color: #99cc66; }
+.social-link:hover { color: #99cc66; }
+.nav-item-title:hover { color: #99cc66; }
+.tag a:hover { color: #99cc66; }
+.copyright { color: #404040 }
+.poweredby { color: #404040 }
+.poweredby a { color: #404040; }
+.post-preview .title a{ color: #99cc66; }
+.content-item a:hover{
+  text-decoration: underline;
+  color: #99cc66;
+}
+.post-list .title { color: #99cc66; }
+.rmore { color: #99cc66; }
+.terms .term a:hover {
+  text-decoration: underline;
+  color: #99cc66;
+}
+
+</style>
+
+<link rel="stylesheet" href="https://bloggerbust.ca/css/site.css">
+
+
+
+<title>
+
+
+     How To Configure Minicom To Connect Over USB Serial UART 
+
+</title>
+
+</head>
+
+
+<body>
+<div class="main">
+<header>
+
+<div class="header-bar">
+
+  <nav>
+    <div class="siteTitle">
+      <a href="https://bloggerbust.ca/">Blogger Bust</a>
+    </div> 
+
+    
+    
+    <a class="nav-item" href="https://bloggerbust.ca/about/"><div class="nav-item-title">About</div></a>
+    
+    <a class="nav-item" href="https://bloggerbust.ca/series"><div class="nav-item-title">Series</div></a>
+    
+    <a class="nav-item" href="https://bloggerbust.ca/page/"><div class="nav-item-title">Pages</div></a>
+    
+    <a class="nav-item active" href="https://bloggerbust.ca/post/"><div class="nav-item-title">Posts</div></a>
+    
+
+  </nav>
+</div>
+
+  
+<div class="social-links-header">
+
+  
+  <a href="mailto:trevor.wilson@bloggerbust.ca"><div class="social-link">email</div></a>
+  
+
+  
+  <a href="https://github.com/bloggerbust" target="_blank"><div class="social-link">gh</div></a>
+  
+
+  
+
+  
+
+  
+
+</div>
+
+
+</header>
+
+
+<article class="post">
+    <h1 class="title"> How To Configure Minicom To Connect Over USB Serial UART </h1>
+    <div class="content"> 
+
+<h2 id="introduction">Introduction</h2>
+
+<p>I recently wrote about <a href="https://bloggerbust.ca/post/my-first-experience-connecting-to-the-phinephone-via-serial-console/">my first experience connecting to the pinephone via serial console</a>. This post documents how to configure <a href="https://salsa.debian.org/minicom-team/minicom">Minicom</a> for establishing an interactive terminal session with a device connected to your computer via a serial port. The configuration will be saved to file so that it can be reused to connect to the same device again in the future, which is convenient. My version of minicom at the time of writing is <code>minicom version 2.7 (compiled Jan  8 2018)</code>.</p>
+
+<h2 id="conventions">Conventions</h2>
+
+<p>If you are unfamiliar with my key binding notation please refer to my appendix on <a href="https://bloggerbust.ca/page/appendix/#key-binding-notation">Key-binding notation</a>.</p>
+
+<h2 id="determine-the-device-name">Determine the device name</h2>
+
+<p>I assume that you have <a href="https://www.ftdichip.com/Products/Cables/USBTTLSerial.htm">a USB TTL to RS-232 serial cable</a> and a device with a Serial <em>UART</em> (<code>Universally Asynchronous Receiver/Transmitter</code>). Connect your device to your computer via the serial cable. To confirm that your computer has detected the UART connection simply run the <a href="https://linux.die.net/man/1/usb-devices">usb-devices</a> command and filter the output for the text <em>&ldquo;UART&rdquo;</em>.</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">usb-devices | grep -C4 -i uart</code></pre></div><div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">T:  Bus=01 Lev=01 Prnt=01 Port=01 Cnt=02 Dev#= 57 Spd=12  MxCh= 0
+D:  Ver= 2.00 Cls=00(&gt;ifc ) Sub=00 Prot=00 MxPS= 8 #Cfgs=  1
+P:  Vendor=0403 ProdID=6001 Rev=06.00
+S:  Manufacturer=FTDI
+S:  Product=FT232R USB UART
+S:  SerialNumber=&lt;REDACTED&gt;
+C:  #Ifs= 1 Cfg#= 1 Atr=a0 MxPwr=90mA
+I:  If#=0x0 Alt= 0 #EPs= 2 Cls=ff(vend.) Sub=ff Prot=ff Driver=ftdi_sio</code></pre></div>
+<p>The first line tells us the bus number, port and device number. Looking further down the list we can see that the manufacturer is <code>FTDI</code>. We can now filter the <code>dmesg</code> output by the serial cable&rsquo;s manufacturer name to get the name of the <code>TTY</code> device that it is attached to.</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">dmesg | grep -i FTDI</code></pre></div><div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">[1458143.861386] usb 1-2: Manufacturer: FTDI
+[1458143.864821] ftdi_sio 1-2:1.0: FTDI USB Serial Device converter detected
+[1458143.865597] usb 1-2: FTDI USB Serial Device converter now attached to ttyUSB0</code></pre></div>
+<p>In my case the <code>TTY</code> device name was <code>ttyUSB0</code>; however, if your cable is not a USB converter, then it might be named <code>ttyS0</code> instead. If your system architecture is ARM, you might see a name like this <code>ttyAMA0</code> and if it is a Samsung, then the device might be named <code>ttySAC0</code>. There are more <a href="http://www.tldp.org/HOWTO/Serial-HOWTO-10.html#ss10.1">serial port names</a> than I mention here. Also, the index number at the end of the name is determined by the devices <em>minor number</em> and may not be 0. The device name for a serial connection is properly referred to as a <a href="http://www.tldp.org/HOWTO/Serial-HOWTO-4.html#ss4.1">serial port</a>. The rest of this blog post will simply use <code>ttyUSB0</code> as the name of the serial port, but you must use the correctly named serial port assigned to your connected device if you are following along.</p>
+
+<h2 id="device-group-ownership">Device group ownership</h2>
+
+<p>Our user account requires <code>rw</code> permissions to initiate a connection with the device. This is achieved by adding the correct group membership to our user account. We can look up the required group membership using the <code>ls</code> command.</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">ls -lah /dev/ttyUSB0</code></pre></div><div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">crw-rw---- 1 root uucp 188, 0 Mar 24 06:16 /dev/ttyUSB0</code></pre></div>
+<p>The output from <code>ls</code> shows us that the <code>uucp</code> group has rw permissions to the device. Another common group that is used for the group ownership of serial devices is the <code>dialout</code> group. If your system uses the <code>dialout</code> group rather than <code>uucp</code>, then in your mind simply substitute <code>dialout</code> in place of <code>uucp</code> for the rest of this post. It makes semantic sense for the dialout group to be used if the device is a modem or a fax.</p>
+
+<p>We can use the <code>groups</code> command to find out if our user is already a member of <code>uucp</code>.</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">groups <span style="color:#40ffff">$USER</span></code></pre></div><div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">wheel audio video usb users dustfinger plugdev libvirt docker developer</code></pre></div>
+<p>Since my user is not a member of the <code>uucp</code> group, I will add the group membership using <code>gpasswd</code>.</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">sudo gpasswd -a <span style="color:#40ffff">$USER</span> uucp</code></pre></div><div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">Adding user dustfinger to group uucp</code></pre></div>
+<p>On a side note, UUCP stands for <a href="https://en.wikipedia.org/wiki/UUCP">Unix to Unix Copy</a>. Now that we have the right group membership, we can establish a serial connection.</p>
+
+<h2 id="minicom-configuration-quirks">Minicom configuration quirks</h2>
+
+<p>By default, <code>minicom</code> reads and writes configuration files to a path that is set at compile time. To find out where that is on your system, simply run the following command.</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">minicom -h | grep -iE <span style="color:#ed9d13">&#39;(directory | compiled)&#39;</span></code></pre></div><div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">The configuration directory for the access file and the configurations
+is compiled to /etc/minicom.</code></pre></div>
+<p>Minicom has some quirks when it comes to saving and loading configuration files.</p>
+
+<ol>
+<li>If you pass the optional flag <code>-s</code> which starts minicom directly in the configuration menu, then Minicom&rsquo;s behaviour is to save the configuration to the compiled in directory only, regardless of whether or not you are running as root. If, on the other hand, you navigate to the configuration menu after having started minicom without the <code>-s</code> flag, then minicom will save the configuration files to your home directory.</li>
+<li>Custom configuration names will be saved as <code>.minirc.&lt;custom_name&gt;</code>.</li>
+<li>If you provide a path to the configuration, all instances of the path separator will be replaced by an underscore and the resulting string will be used as the <code>&lt;custom_name&gt;</code>. i.e <code>$HOME/.myminirc</code> would become <code>/home/dustfinger/.minirc._home_dustfinger_.myminirc</code>.</li>
+<li>When loading a saved configuration into minicom, pass only the <code>&lt;custom_name&gt;</code> part of the configuration file. Minicom will resolve the full path name to the configuration file on its own.</li>
+</ol>
+
+<p>Note: The minicom repository <a href="https://salsa.debian.org/minicom-team/minicom/-/blob/fe9ff103fc0c8494044372389ca058cee640454d/TODO">has a TODO</a> item to move <code>.minirc*</code> to <code>.config/minicom/</code>, which would be a nice change since I don&rsquo;t like polluting my top level dot files with a bunch of related configurations.</p>
+
+<p>With all that in mind, let&rsquo;s configure minicom for our non-root user account.</p>
+
+<h2 id="configure-minicom-for-use-over-uart-serial-term">Configure minicom for use over UART serial term</h2>
+
+<p>My preference is to name custom minicom configuration files using the convention <code>&lt;SERIAL_PORT&gt;.&lt;DEVICE&gt;</code> which would be saved to my home directory as <code>$HOME/.minirc.&lt;SERIAL_PORT&gt;.&lt;DEVICE&gt;</code>.</p>
+
+<p>Start minicom by passing it an appropriate custom configuration name. Since the named configuration does not yet exist, minicom will simply load its default settings.</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">minicom ttyUSB0.pinephone</code></pre></div>
+<figure>
+    <img src="https://bloggerbust.ca/post/how-to-configure-minicom-to-connect-over-usb-serial-uart/minicom-welcome-screen.png"/> 
+</figure>
+
+
+<p>Type <code>C-A o</code> to navigate to the configuration menu.</p>
+
+<figure>
+    <img src="https://bloggerbust.ca/post/how-to-configure-minicom-to-connect-over-usb-serial-uart/minicom-configuration-screen-heighlight-serial-port-setup.png"/> 
+</figure>
+
+
+<p>Use the down arrow to select <em>Serial Port Setup</em> and hit <code>&lt;RET&gt;</code>.</p>
+
+<figure>
+    <img src="https://bloggerbust.ca/post/how-to-configure-minicom-to-connect-over-usb-serial-uart/minicom-configuration-serial-port-setup-screen.png"/> 
+</figure>
+
+
+<p>If you do not know what <code>8N1</code> means, then please read my brief write up on <a href="https://bloggerbust.ca/page/appendix/#serial-communication">serial communication</a> before proceeding.</p>
+
+<ol>
+<li>Type <code>A</code> to edit the Serial Device and change the port to the correct value, which is <code>/dev/ttyUSB0/</code> in my case.</li>
+
+<li><p>Type <code>E</code> to enter the <strong><em><a href="https://bloggerbust.ca/page/appendix/">line speed</a></em></strong> required by your device.
+<img src="https://bloggerbust.ca/post/how-to-configure-minicom-to-connect-over-usb-serial-uart/minicom-configuration-serial-port-comm-parameters.png" alt="" /></p>
+
+<p>Setting the line speed should be self explanatory. The UI is divided into columns. The first three columns represent each of the <a href="https://bloggerbust.ca/page/appendix/#comm-parameters">comm parameters</a> encoded in the line speed. The fifth column provides key bindings to set the two most common Parity, Data and Stopbit combinations. The most common baud rates (speeds) have quick keys <code>C</code> &ndash;&gt; 9600, <code>D</code> &ndash;&gt; 38400, <code>E</code> &ndash;&gt; 115200. Since the line speed of my PinePhone is <code>1152008n1</code> I can keep the default value. However, if I needed to set it, the fastest way would be to type <code>E Q &lt;RET&gt;</code>.</p></li>
+
+<li><p>Type <code>F</code> to disable Hardware Flow Control.</p></li>
+</ol>
+
+<p>If you choose to enable flow control, then it must be configured on both sides of the connection for it to work. If your hardware does not support flow control, then you can enable software flow control instead. You can use <code>stty ixon</code> to enable flow control on the current <code>TTY</code> and <code>stty -ixon</code> to disable it. I won&rsquo;t be setting flow control up in this post. Here is my final serial configuration, your comm parameters might differ.</p>
+
+<figure>
+    <img src="https://bloggerbust.ca/post/how-to-configure-minicom-to-connect-over-usb-serial-uart/minicom-configuration-serial-port-fully-configured.png"/> 
+</figure>
+
+
+<p>Hit <code>&lt;RET&gt;</code> to return to the configuration menu. Use the down arrows to select <em>Modem and dialing</em> and hit <code>&lt;RET&gt;</code> to navigate to the <em>Modem and dialing parameter setup</em> screen. Blank out fields <code>A</code> through <code>I</code> and <code>K</code> by pressing each key binding and using the backspace button to clear the field. Press the <code>&lt;RET&gt;</code> key to commit each field edit. The menu should now look like this:</p>
+
+<figure>
+    <img src="https://bloggerbust.ca/post/how-to-configure-minicom-to-connect-over-usb-serial-uart/minicom-configuration-modem-and-dialing-parameter-setup.png"/> 
+</figure>
+
+
+<p>Hit <code>&lt;RET&gt;</code> to return to the configuration menu. Use the down arrow to select <em>Save setup as ttyUSB0.pinephone</em> and hit <code>&lt;RET&gt;</code>. Finally, arrow down until <em>Exit</em> is highlighted and press <code>&lt;RET&gt;</code>. You should now be back at the <em>Welcome</em> screen. Type <code>A x</code> to quit.</p>
+
+<h2 id="the-resulting-configuration-file">The resulting configuration file</h2>
+
+<p>Now take a look at the resulting configuration file:</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">cat ~/.minirc.ttyUSB0.pinephone</code></pre></div><div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text"># Machine-generated file - use setup menu in minicom to change parameters.
+pu port             /dev/ttyUSB0
+pu minit
+pu mreset
+pu mdialpre
+pu mdialsuf
+pu mdialpre2
+pu mdialsuf2
+pu mdialpre3
+pu mdialsuf3
+pu mconnect
+pu mhangup
+pu rtscts           No</code></pre></div>
+<p>The names of each setting in your custom configuration file should match mine with the exception of the port name. If you edited any other lines, even if you did not change the value, the edited setting will also be written to the configuration file. For example, if you edited the line speed, then you will also see settings for baudrate, bits, parity and stopbits.</p>
+
+<h2 id="connect-to-your-device">Connect to your device</h2>
+
+<p>To connect to your device you can simply pass minicom the custom configuration name.</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">minicom ttyUSB0.pinephone</code></pre></div>
+<figure>
+    <img src="https://bloggerbust.ca/post/how-to-configure-minicom-to-connect-over-usb-serial-uart/minicom-configuration-welcome-screen-with-custom-settings-loaded.png"/> 
+</figure>
+
+
+<p>The <em>Welcome</em> screen will appear, but this time it will show your customized <em>OPTIONS</em> and <em>Port</em>. Turn on your device.</p>
+
+<figure>
+    <img src="https://bloggerbust.ca/post/how-to-configure-minicom-to-connect-over-usb-serial-uart/minicom-connected-to-device-at-login-prompt.png"/> 
+</figure>
+
+
+<p>You will see a lot of output being written to the screen as your device loads. In the end, you should see a login prompt. Since minicom is a terminal emulator, you can click on the screen and enter your login credentials as if you were connected to the device with a keyboard and monitor.</p>
+
+<p>If your device was already booted when you started <code>minicom</code> you won&rsquo;t see any login prompt. That is because the receiver missed the transmitters bits when the device booted during the time that the connection was not established. In that case, simply type your username and hit <code>&lt;RET&gt;</code>, then you will be prompted for the password as normal.</p>
+
+<h2 id="minicom-might-not-be-the-best-tool-for-the-job">Minicom might not be the best tool for the job</h2>
+
+<p>After configuring <code>minicom</code> and successfully connecting to my PinePhone over serial UART, I found that Minicom&rsquo;s escape interpretation garbles the UI of <code>ncurses</code> applications. Take a look at how <code>nmtui</code> renders:</p>
+
+<figure>
+    <img src="https://bloggerbust.ca/post/how-to-configure-minicom-to-connect-over-usb-serial-uart/nmtui-over-serial-uart-rendered-incorrectly.png"/> 
+</figure>
+
+
+<p>That is because <code>/dev/ttyUSB0</code> is being initialized in cooked mode and therefore some translation is being done by the <em>line discipline</em> before it is received by the <code>TTY</code> and ultimately <code>minicom</code>. In order to run ncurses applications correctly we need the <code>TTY</code> to be initialized in raw mode. That can be achieved using the <code>stty raw -F /dev/ttyUSB0</code>. However, when raw mode is configured in this way, <code>minicom</code> still appears to perform its own bytestream translation. I also tried setting the <code>-l</code> optional flag to enable literal translation, which translates IBM line characters to ASCII. Perhaps there is something that I have missied here. Please feel free to comment if you have suggestions.</p>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>I hope that you learned something that interests you about serial communication. Please comment and ask questions. If you notice a mistake, let me know and I will correct it.</p>
+
+<p>Here is some <a href="https://bloggerbust.ca/page/appendix/#additional-reading">additional reading</a> on the subject of serial communication. Also, here is a list of other <a href="http://www.tldp.org/HOWTO/Serial-HOWTO-14.html">serial communication programs and utilities</a> that you might find useful.</p>
+
+<p>In my next post, I will cover how to connect to a serial <code>TTY</code> initialized in raw mode and pass the untranslated byte stream to a terminal emulator that can render ncurses applications correctly.</p>
+ </div>
+    <footer class="post-footer">
+
+  <div class="post-footer-data">
+    
+<div class="tags">
+    
+      <div class="tag">
+        <a href="https://bloggerbust.ca/tags/tty">#tty</a>
+      </div>
+    
+      <div class="tag">
+        <a href="https://bloggerbust.ca/tags/uart">#uart</a>
+      </div>
+    
+</div>
+
+    <div class="date"> May 10, 2020 </div>
+  </div>
+
+</footer>
+
+
+
+  
+<hr>
+<h2 id="Comments">
+  Comments
+</h2>
+    <form class="comment" method="POST" action="https://staticman.bloggerbust-bot.now.sh/v2/entry/BloggerBust/bloggerbust.ca/master/comments" class="flex-container flex-column">
+  <input type="hidden" name="options[redirect]" value="https://bloggerbust.ca/post/how-to-configure-minicom-to-connect-over-usb-serial-uart/#comment-submitted">
+  <input type="hidden" name="options[slug]" value="how-to-configure-minicom-to-connect-over-usb-serial-uart">
+  <div class="flex-container flex-row">
+    <input name="fields[name]" type="text" placeholder="Your name" class="flex-item">
+    <input name="fields[email]" type="email" placeholder="Your email address" class="flex-item">
+  </div>
+  <div class="flex-container flex-row">
+    <textarea name="fields[message]" placeholder="Your message. Feel free to use Markdown." rows="10" class="flex-item"></textarea>
+  </div>
+  <div class="flex-container flex-row">
+    <input type="submit" value="Submit" class="flex-item">
+  </div>
+</form>
+<div id="comment-submitted">
+  Your comment has been submitted and is now pending moderation
+</div>
+
+    
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+
+
+<p>Be the first to comment on this article.</p>
+
+
+  
+
+
+</article>
+
+  <footer>
+
+  <div class="social-links-footer">
+
+  
+  <a href="mailto:trevor.wilson@bloggerbust.ca"><div class="social-link">Email</div></a>
+  
+
+  
+  <a href="https://github.com/bloggerbust" target="_blank"><div class="social-link">GitHub</div></a>
+  
+
+  
+
+  
+
+  
+
+  <div class="social-link">
+  <a href="https://bloggerbust.ca/index.xml" target="_blank">RSS</a>
+  </div>
+
+</div>
+
+
+  <div class="copyright"> Copyright (c) 2018, all rights reserved. </div>
+
+  <div class="poweredby">
+    Powered by <a href="https://gohugo.io/">Hugo</a>.
+  </div>
+
+  </footer>
+
+</div> 
+
+</body>
+</html>
+

@@ -7,10 +7,21 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-CA</language>
     <copyright>Copyright (c) 2018, all rights reserved.</copyright>
-    <lastBuildDate>Sat, 07 Mar 2020 05:08:47 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 10 May 2020 12:54:23 +0000</lastBuildDate>
     
 	<atom:link href="https://bloggerbust.ca/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Appendix</title>
+      <link>https://bloggerbust.ca/page/appendix/</link>
+      <pubDate>Sun, 10 May 2020 12:54:23 +0000</pubDate>
+      
+      <guid>https://bloggerbust.ca/page/appendix/</guid>
+      <description>Table of Contents  Key-binding notation  Examples  Serial Communication  Comm Parameters Line Speed Additional Reading    
+This is where I am going to keep supplemental material that might be useful to reference from multiple pages.
+Key-binding notation I follow the emacs key-binding nation when representing keybindings in text. You might be use to seeing CTRL-A to represent holding down the control key followed by the letter a, but in my writings you will see C-a to represent the same.</description>
+    </item>
     
     <item>
       <title>My First Experience Connecting to the PinePhone via Serial Console</title>

@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en-CA">
+
+<head>
+<meta charset="utf-8" />
+<meta name="author" content="Trevor Wilson" />
+<meta name="description" content="a place for me to bust out a blog on programming, infosec, emacs and things that interest me." />
+<meta name="keywords" content="[programming coding infosec cybersecurity webextensions blog blogger bust docker linux emacs free software]" />
+<meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1">
+<meta name="generator" content="Hugo 0.55.0-DEV" />
+
+<link rel="canonical" href="https://bloggerbust.ca/page/appendix/">
+<meta property="og:title" content="Appendix" />
+<meta property="og:description" content="Table of Contents  Key-binding notation  Examples  Serial Communication  Comm Parameters Line Speed Additional Reading    
+This is where I am going to keep supplemental material that might be useful to reference from multiple pages.
+Key-binding notation I follow the emacs key-binding nation when representing keybindings in text. You might be use to seeing CTRL-A to represent holding down the control key followed by the letter a, but in my writings you will see C-a to represent the same." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://bloggerbust.ca/page/appendix/" />
+<meta property="article:published_time" content="2020-05-10T12:54:23&#43;00:00"/>
+<meta property="article:modified_time" content="2020-05-14T08:19:52-06:00"/>
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Appendix"/>
+<meta name="twitter:description" content="Table of Contents  Key-binding notation  Examples  Serial Communication  Comm Parameters Line Speed Additional Reading    
+This is where I am going to keep supplemental material that might be useful to reference from multiple pages.
+Key-binding notation I follow the emacs key-binding nation when representing keybindings in text. You might be use to seeing CTRL-A to represent holding down the control key followed by the letter a, but in my writings you will see C-a to represent the same."/>
+
+
+
+<meta itemprop="name" content="Appendix">
+<meta itemprop="description" content="Table of Contents  Key-binding notation  Examples  Serial Communication  Comm Parameters Line Speed Additional Reading    
+This is where I am going to keep supplemental material that might be useful to reference from multiple pages.
+Key-binding notation I follow the emacs key-binding nation when representing keybindings in text. You might be use to seeing CTRL-A to represent holding down the control key followed by the letter a, but in my writings you will see C-a to represent the same.">
+
+
+<meta itemprop="datePublished" content="2020-05-10T12:54:23&#43;00:00" />
+<meta itemprop="dateModified" content="2020-05-14T08:19:52-06:00" />
+<meta itemprop="wordCount" content="998">
+
+
+
+<meta itemprop="keywords" content="emacs,key_bindings,serial,uart," />
+
+
+<link rel="stylesheet" href="https://bloggerbust.ca/css/layout.css" />
+<style type="text/css">
+body {
+  background-color: #26282A;
+  color: #dbdbdb;
+}
+
+a { color: #dbdbdb; }
+
+pre {
+  background: #1D1F21;
+  border: 1px solid #dbdbdb;
+  border-radius: 5px;
+}
+
+code {
+  background: #1D1F21;
+}
+
+blockquote {
+  background: #1D1F21;
+  border-left: 3px solid #dbdbdb;
+}
+
+table {
+  margin: 1em auto;
+  border-collapse: collapse;
+}
+
+table, th, td {
+  border: 1px solid #dbdbdb;
+}
+
+th {
+  background: #dbdbdb;
+  color: #26282A;
+}
+
+.siteTitle a { color: #99cc66; }
+
+.post .content h1{ color: #99cc66; }
+.post .content h2{ color: #99cc66; }
+.post .content h3{ color: #99cc66; }
+.post .content h4{ color: #99cc66; }
+.post .content h5{ color: #99cc66; }
+.post .content h6{ color: #99cc66; }
+.post .content a:hover { color: #99cc66; }
+.social-link:hover { color: #99cc66; }
+.nav-item-title:hover { color: #99cc66; }
+.tag a:hover { color: #99cc66; }
+.copyright { color: #404040 }
+.poweredby { color: #404040 }
+.poweredby a { color: #404040; }
+.post-preview .title a{ color: #99cc66; }
+.content-item a:hover{
+  text-decoration: underline;
+  color: #99cc66;
+}
+.post-list .title { color: #99cc66; }
+.rmore { color: #99cc66; }
+.terms .term a:hover {
+  text-decoration: underline;
+  color: #99cc66;
+}
+
+</style>
+
+<link rel="stylesheet" href="https://bloggerbust.ca/css/site.css">
+
+
+
+<title>
+
+
+     Appendix 
+
+</title>
+
+</head>
+
+
+<body>
+<div class="main">
+<header>
+
+<div class="header-bar">
+
+  <nav>
+    <div class="siteTitle">
+      <a href="https://bloggerbust.ca/">Blogger Bust</a>
+    </div> 
+
+    
+    
+    <a class="nav-item" href="https://bloggerbust.ca/about/"><div class="nav-item-title">About</div></a>
+    
+    <a class="nav-item" href="https://bloggerbust.ca/series"><div class="nav-item-title">Series</div></a>
+    
+    <a class="nav-item active" href="https://bloggerbust.ca/page/"><div class="nav-item-title">Pages</div></a>
+    
+    <a class="nav-item" href="https://bloggerbust.ca/post/"><div class="nav-item-title">Posts</div></a>
+    
+
+  </nav>
+</div>
+
+  
+<div class="social-links-header">
+
+  
+  <a href="mailto:trevor.wilson@bloggerbust.ca"><div class="social-link">email</div></a>
+  
+
+  
+  <a href="https://github.com/bloggerbust" target="_blank"><div class="social-link">gh</div></a>
+  
+
+  
+
+  
+
+  
+
+</div>
+
+
+</header>
+
+
+<article class="post">
+    <h1 class="title"> Appendix </h1>
+    <div class="content"> 
+
+<div class="ox-hugo-toc toc">
+<div></div>
+
+<div class="heading">Table of Contents</div>
+
+<ul>
+<li><a href="#key-binding-notation">Key-binding notation</a>
+
+<ul>
+<li><a href="#examples">Examples</a></li>
+</ul></li>
+<li><a href="#serial-communication">Serial Communication</a>
+
+<ul>
+<li><a href="#comm-parameters">Comm Parameters</a></li>
+<li><a href="#line-speed">Line Speed</a></li>
+<li><a href="#additional-reading">Additional Reading</a></li>
+</ul></li>
+</ul>
+
+<p></div>
+<!--endtoc--></p>
+
+<p>This is where I am going to keep supplemental material that might be useful to reference from multiple pages.</p>
+
+<h2 id="key-binding-notation">Key-binding notation</h2>
+
+<p>I follow the <a href="https://www.gnu.org/software/emacs/manual/html%5Fnode/efaq/Basic-keys.html#Basic-keys">emacs key-binding nation</a> when representing keybindings in text. You might be use to seeing <code>CTRL-A</code> to represent holding down the control key followed by the letter <code>a</code>, but in my writings you will see <code>C-a</code> to represent the same. In that context, the <code>&lt;CTRL&gt;</code> key is being used as a prefix to a key-binding. The other key-binding prefix is the <code>&lt;Meta&gt;</code> key. In short, I use:</p>
+
+<dl>
+<dt><code>C-&lt;key&gt;</code></dt>
+<dd>Hold the <code>&lt;Control&gt;</code> key followed by <code>&lt;key&gt;</code></dd>
+<dt><code>M-&lt;key&gt;</code></dt>
+<dd>Hold the <code>&lt;Meta&gt;</code> key followed by <code>&lt;key&gt;</code></dd>
+<dt><code>&lt;key&gt; [&lt;key&gt; ...]</code></dt>
+<dd>a sequence of key presses</dd>
+</dl>
+
+<p>Most computers today do not have an actual <code>&lt;Meta&gt;</code> key. Instead, the <code>&lt;Meta&gt;</code> key is mapped to either <code>&lt;ESC&gt;</code> or <code>&lt;ALT&gt;</code>. For named keys other than prefix keys, such as <code>&lt;TAB&gt;</code> or <code>&lt;F1&gt;</code> I will simply write the name in angle brackets.</p>
+
+<h3 id="examples">Examples</h3>
+
+<dl>
+<dt><code>C-c h</code></dt>
+<dd>Open the meta-help buffer</dd>
+<dt><code>C-c h i</code></dt>
+<dd>Open the info documentation buffer</dd>
+<dt><code>M-x</code></dt>
+<dd>execute emacs command</dd>
+<dt><code>&lt;RET&gt;</code></dt>
+<dd>The ENTER or RETURN key.</dd>
+<dt><code>&lt;ESC&gt;</code></dt>
+<dd>The ESC (escape) key</dd>
+<dt><code>&lt;ALT&gt;</code></dt>
+<dd>The ALT key</dd>
+<dt><code>&lt;DEL&gt;</code></dt>
+<dd>The DELETE key</dd>
+<dt><code>&lt;Backspace&gt;</code></dt>
+<dd>The BACKSPACE key</dd>
+</dl>
+
+<h2 id="serial-communication">Serial Communication</h2>
+
+<h3 id="comm-parameters">Comm Parameters</h3>
+
+<p>A serial connection will fail to be established if the correct <a href="#line-speed">line speed</a> is not provided to the client program that is initiating the connection. Some client programs can be configured to try and guess the line speed. That is useful for hacking a device that you are unfamiliar with, but it is generally not recommended. The established connection might not be stable and the reason will become more clear when you read about the <a href="#stopbit-time">stopbit time</a>. To find out if your client has this capability consult its corresponding <em>man page</em> or <em>info</em> documentation.</p>
+
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Example Value</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>Port</td>
+<td>/dev/ttyUSB0</td>
+</tr>
+
+<tr>
+<td>baud rate</td>
+<td>115200</td>
+</tr>
+
+<tr>
+<td>bit rate</td>
+<td>8</td>
+</tr>
+
+<tr>
+<td>Parity</td>
+<td>n</td>
+</tr>
+
+<tr>
+<td>stopbit time</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+
+<h4 id="port">Port</h4>
+
+<p>The <strong><em>port</em></strong> is the special file name providing an interface to the character <code>I/O</code> device.</p>
+
+<h4 id="baud-rate">Baud rate</h4>
+
+<p>The <strong><em>baud rate</em></strong>, often referred to as <em>speed</em> or <em>flow rate</em>, represents the number of signal units transmitted per second.</p>
+
+<h4 id="bit-rate">Bit rate</h4>
+
+<p>The <strong><em>bit rate</em></strong>, often referred to as <em>data bits</em>, represents the number of bits transmitted per unit. A typical bit rate is 7 or 8 since 8-bits can represent the entire ASCII character set.</p>
+
+<h4 id="parity">Parity</h4>
+
+<p>The <strong><em>parity</em></strong> bit may be set to odd (<code>o</code>), even (<code>e</code>), mark (<code>m</code>), space (<code>s</code>) or none (<code>n</code>). The mark and space parity bits are used in special circumstances where the parity bit position is <em>sticky</em>. A <em>stick bit</em> is a bit that never changes value. When a sticky bit is in the position normally reserved for the parity bit, but not used for parity, then that bit is called a <em>sticky parity bit</em>. If the sticky parity bit is 1, then it is more accurately the <em>mark parity bit</em> (<code>m</code>), otherwise it is the <em>space parity bit</em> (<code>s</code>). Some terminals do not allow 9 data bits, in such cases the <em>parity</em> must be none (<code>n</code>) when using 8-bit character sets.</p>
+
+<h4 id="stopbit-time">Stopbit Time</h4>
+
+<p>Serial communication is asynchronously in that there is no external clock synchronizing communication between the transmitter and the receiver. It is as if the receiver is reading bits looking through a sliding window that moves one bit position every time the receiver&rsquo;s clock ticks. Similarly, the sender has its own clock that it uses to change signal state once every tick. The important point is that the sender and receiver are not aware of each others clocks.</p>
+
+<p>For this protocol to reliably work a mechanism is needed to ensure that the bits meant for one byte do not bleed into the bits meant for another byte. Moreover, when representing a byte, not all devices order bits in the same direction. The bit order of a byte is referred to as its endianness. The expected endianness must be included within the transmission to ensure that the receiver does not invert the intended byte. Finally, the transmission protocol does not include a bit delimiter of any kind. A sequence of 1s is represented by an uninterrupted negative voltage (-12 V) signal. Similarly, a sequence of 0s is represented by an uninterrupted positive voltage (+12 V) signal. It is the tick count of the transmission during sampling that determines how many 1s or how many 0s are interpreted by the signal. This is all achieved by adding just two extra bits called the <strong><em>start bit</em></strong> and the <strong><em>stop bit</em></strong> to the unit prior to transmission.</p>
+
+<p>Naturally, the start bit always marks the beginning of transmission and encodes the Endianness of the subsequent bits. As the receiver&rsquo;s clock ticks the signal is sampled multiple times thereby calculating the number of bits received for each change in voltage. Finally, when the end bit is received, transmission of the byte is terminated. The start and stop bits are said to frame the byte and without which synchronization would not be possible.</p>
+
+<p>You might be wondering why the stopbit shows up in the list of parameters, but not the start bit. <a href="https://en.wikipedia.org/wiki/Asynchronous%5Fserial%5Fcommunication#Origin">The reason appears to be a matter of backwards compatibility</a>. Early electromechanical teletypewriters required 2 stop bits to allow mechanical impression without buffering while interfacing with their mechanical predecessors. That is because the fully mechanical teleprinters used a stop period of 1.5 bit times, hence the reason the parameter is referred to as <strong><em>stopbit time</em></strong>.</p>
+
+<h3 id="line-speed">Line Speed</h3>
+
+<p><em><strong>Line speed</strong></em> typically has the form <code>&lt;baud rate&gt;&lt;bit rate&gt;&lt;parity&gt;&lt;stopbit time&gt;</code> or something recognizably close to that. Given the example <a href="#comm-parameters">Comm Parameters</a>, the line speed can be represented in this form by: <code>1152008n1</code>. A serial connection will fail to be establish if you do not provide the correct line speed.</p>
+
+<h3 id="additional-reading">Additional Reading</h3>
+
+<ul>
+<li><a href="http://www.linusakesson.net/programming/tty/">The TTY Demystified</a></li>
+<li><a href="https://www.tldp.org/HOWTO/Serial-HOWTO.html">Serial HOWTO</a>
+
+<ul>
+<li><a href="https://www.tldp.org/HOWTO/Serial-HOWTO-18.html">18. What are UARTs? How Do They Affect Performance?</a></li>
+<li><a href="https://www.tldp.org/HOWTO/Serial-HOWTO-20.html">20. Voltage Waveshapes</a>
+
+<ul>
+<li><a href="https://www.tldp.org/HOWTO/Serial-HOWTO-20.html#ss20.3">Parity Explained</a></li>
+<li><a href="https://www.tldp.org/HOWTO/Serial-HOWTO-20.html#ss20.4">Forming a Byte (Framing)</a></li>
+<li><a href="https://www.tldp.org/HOWTO/Serial-HOWTO-20.html#ss20.5">How &ldquo;Asynchronous&rdquo; is Synchronized</a></li>
+</ul></li>
+</ul></li>
+<li><a href="https://en.wikipedia.org/wiki/Asynchronous%5Fserial%5Fcommunication">Asynchronous Serial Communication</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Parity%5Fbit">Parity bit</a></li>
+</ul>
+ </div>
+    <footer class="post-footer">
+
+  <div class="post-footer-data">
+    
+<div class="tags">
+    
+      <div class="tag">
+        <a href="https://bloggerbust.ca/tags/emacs">#emacs</a>
+      </div>
+    
+      <div class="tag">
+        <a href="https://bloggerbust.ca/tags/key_bindings">#key_bindings</a>
+      </div>
+    
+      <div class="tag">
+        <a href="https://bloggerbust.ca/tags/serial">#serial</a>
+      </div>
+    
+      <div class="tag">
+        <a href="https://bloggerbust.ca/tags/uart">#uart</a>
+      </div>
+    
+</div>
+
+    <div class="date"> May 10, 2020 </div>
+  </div>
+
+</footer>
+
+
+
+</article>
+
+  <footer>
+
+  <div class="social-links-footer">
+
+  
+  <a href="mailto:trevor.wilson@bloggerbust.ca"><div class="social-link">Email</div></a>
+  
+
+  
+  <a href="https://github.com/bloggerbust" target="_blank"><div class="social-link">GitHub</div></a>
+  
+
+  
+
+  
+
+  
+
+  <div class="social-link">
+  <a href="https://bloggerbust.ca/index.xml" target="_blank">RSS</a>
+  </div>
+
+</div>
+
+
+  <div class="copyright"> Copyright (c) 2018, all rights reserved. </div>
+
+  <div class="poweredby">
+    Powered by <a href="https://gohugo.io/">Hugo</a>.
+  </div>
+
+  </footer>
+
+</div> 
+
+</body>
+</html>
+

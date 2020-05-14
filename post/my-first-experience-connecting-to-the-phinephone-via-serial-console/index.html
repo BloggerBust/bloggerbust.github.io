@@ -15,7 +15,7 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://bloggerbust.ca/post/my-first-experience-connecting-to-the-phinephone-via-serial-console/" />
 <meta property="article:published_time" content="2020-03-07T05:08:47&#43;00:00"/>
-<meta property="article:modified_time" content="2020-03-25T08:26:57-06:00"/>
+<meta property="article:modified_time" content="2020-05-14T08:29:10-06:00"/>
 
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="My First Experience Connecting to the PinePhone via Serial Console"/>
@@ -28,12 +28,12 @@
 
 
 <meta itemprop="datePublished" content="2020-03-07T05:08:47&#43;00:00" />
-<meta itemprop="dateModified" content="2020-03-25T08:26:57-06:00" />
+<meta itemprop="dateModified" content="2020-05-14T08:29:10-06:00" />
 <meta itemprop="wordCount" content="3933">
 
 
 
-<meta itemprop="keywords" content="" />
+<meta itemprop="keywords" content="pinephone,emacs,tty," />
 
 
 <link rel="stylesheet" href="https://bloggerbust.ca/css/layout.css" />
@@ -134,6 +134,8 @@ th {
     
     <a class="nav-item" href="https://bloggerbust.ca/series"><div class="nav-item-title">Series</div></a>
     
+    <a class="nav-item" href="https://bloggerbust.ca/page/"><div class="nav-item-title">Pages</div></a>
+    
     <a class="nav-item active" href="https://bloggerbust.ca/post/"><div class="nav-item-title">Posts</div></a>
     
 
@@ -197,9 +199,9 @@ I:  If#=0x0 Alt= 0 #EPs= 2 Cls=ff(vend.) Sub=ff Prot=ff Driver=ftdi_sio</code></
 <p>Now that we know that the name of the device is <code>ttyUSB0</code>, we can look up the group membership required to attach to it.</p>
 <div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">ls -lah /dev/ttyUSB0</code></pre></div><div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">crw-rw---- 1 root uucp 188, 0 Mar 24 06:16 /dev/ttyUSB0</code></pre></div>
 <p>The output from <code>ls</code> tells us that we need to be in the <code>uucp</code> group. We will use the <code>groups</code> command to find out if my user is already of member of <code>uucp</code>.</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">groups dustfinger</code></pre></div><div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">wheel audio video usb users dustfinger plugdev libvirt docker developer</code></pre></div>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">groups <span style="color:#40ffff">$USER</span></code></pre></div><div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">wheel audio video usb users dustfinger plugdev libvirt docker developer</code></pre></div>
 <p>Since my user is not a member of the <code>uucp</code> group, I will add the group membership using <code>gpasswd</code>.</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">sudo gpasswd -a dustfinger uucp</code></pre></div><div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">Adding user dustfinger to group uucp</code></pre></div>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">sudo gpasswd -a <span style="color:#40ffff">$USER</span> uucp</code></pre></div><div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">Adding user dustfinger to group uucp</code></pre></div>
 <p>Now that we have the right group membership, we can establish a serial connection.</p>
 
 <h2 id="connect-with-emacs-serial-mode">Connect with Emacs serial-mode</h2>
@@ -767,6 +769,18 @@ passwd: password updated successfully</code></pre></div> </div>
   <div class="post-footer-data">
     
 <div class="tags">
+    
+      <div class="tag">
+        <a href="https://bloggerbust.ca/tags/pinephone">#pinephone</a>
+      </div>
+    
+      <div class="tag">
+        <a href="https://bloggerbust.ca/tags/emacs">#emacs</a>
+      </div>
+    
+      <div class="tag">
+        <a href="https://bloggerbust.ca/tags/tty">#tty</a>
+      </div>
     
 </div>
 

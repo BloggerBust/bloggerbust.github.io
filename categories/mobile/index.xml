@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Mobile on Blogger Bust</title>
+    <link>https://bloggerbust.ca/categories/mobile/</link>
+    <description>Recent content in Mobile on Blogger Bust</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-CA</language>
+    <copyright>Copyright (c) 2018, all rights reserved.</copyright>
+    <lastBuildDate>Sat, 07 Mar 2020 05:08:47 +0000</lastBuildDate>
+    
+	<atom:link href="https://bloggerbust.ca/categories/mobile/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>My First Experience Connecting to the PinePhone via Serial Console</title>
+      <link>https://bloggerbust.ca/post/my-first-experience-connecting-to-the-phinephone-via-serial-console/</link>
+      <pubDate>Sat, 07 Mar 2020 05:08:47 +0000</pubDate>
+      
+      <guid>https://bloggerbust.ca/post/my-first-experience-connecting-to-the-phinephone-via-serial-console/</guid>
+      <description>My PinePhone Arrived My PinePhone (BraveHeart edition) arrived a few weeks ago, but I have not had time play with it. Over the weekend I had an epic snowball fight with my wife and children while we were on a nature walk. My Nexus 6p had been neglectfully left in my back pocket and during the escapade it succumbed to fatal injuries. It is time to breath life into my new PinePhone, but first I wanted to have a look around.</description>
+    </item>
+    
+  </channel>
+</rss>

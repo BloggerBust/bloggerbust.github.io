@@ -3,8 +3,13 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://bloggerbust.ca/page/appendix/</loc>
+    <lastmod>2020-05-14T08:19:52-06:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://bloggerbust.ca/post/my-first-experience-connecting-to-the-phinephone-via-serial-console/</loc>
-    <lastmod>2020-03-25T08:26:57-06:00</lastmod>
+    <lastmod>2020-05-14T08:29:10-06:00</lastmod>
   </url>
   
   <url>
@@ -74,7 +79,7 @@
   
   <url>
     <loc>https://bloggerbust.ca/</loc>
-    <lastmod>2020-03-25T08:26:57-06:00</lastmod>
+    <lastmod>2020-05-14T08:19:52-06:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -98,7 +103,7 @@
   
   <url>
     <loc>https://bloggerbust.ca/tags/emacs/</loc>
-    <lastmod>2019-03-30T07:46:12-06:00</lastmod>
+    <lastmod>2020-05-14T08:19:52-06:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -115,8 +120,20 @@
   </url>
   
   <url>
+    <loc>https://bloggerbust.ca/tags/key_bindings/</loc>
+    <lastmod>2020-05-14T08:19:52-06:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>https://bloggerbust.ca/tags/literate-programming/</loc>
     <lastmod>2019-03-30T07:46:12-06:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://bloggerbust.ca/categories/mobile/</loc>
+    <lastmod>2020-05-14T08:29:10-06:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -145,14 +162,32 @@
   </url>
   
   <url>
+    <loc>https://bloggerbust.ca/page/</loc>
+    <lastmod>2020-05-14T08:19:52-06:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://bloggerbust.ca/tags/pinephone/</loc>
+    <lastmod>2020-05-14T08:29:10-06:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>https://bloggerbust.ca/post/</loc>
-    <lastmod>2020-03-25T08:26:57-06:00</lastmod>
+    <lastmod>2020-05-14T08:29:10-06:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://bloggerbust.ca/categories/programming/</loc>
     <lastmod>2020-03-25T08:04:14-06:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://bloggerbust.ca/tags/serial/</loc>
+    <lastmod>2020-05-14T08:19:52-06:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -180,8 +215,26 @@
   </url>
   
   <url>
+    <loc>https://bloggerbust.ca/categories/supplemental/</loc>
+    <lastmod>2020-05-14T08:19:52-06:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>https://bloggerbust.ca/tags/</loc>
     <lastmod>2020-03-25T08:04:14-06:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://bloggerbust.ca/tags/tty/</loc>
+    <lastmod>2020-05-14T08:29:10-06:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://bloggerbust.ca/tags/uart/</loc>
+    <lastmod>2020-05-14T08:19:52-06:00</lastmod>
     <priority>0</priority>
   </url>
   

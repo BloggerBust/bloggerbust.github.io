@@ -24,7 +24,7 @@
     <item>
       <title>Emacs</title>
       <link>https://bloggerbust.ca/tags/emacs/</link>
-      <pubDate>Sat, 01 Sep 2018 12:43:27 -0600</pubDate>
+      <pubDate>Sun, 10 May 2020 12:54:23 +0000</pubDate>
       
       <guid>https://bloggerbust.ca/tags/emacs/</guid>
       <description></description>
@@ -45,6 +45,15 @@
       <pubDate>Sun, 21 Apr 2019 10:14:27 +0000</pubDate>
       
       <guid>https://bloggerbust.ca/tags/hugo/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Key_bindings</title>
+      <link>https://bloggerbust.ca/tags/key_bindings/</link>
+      <pubDate>Sun, 10 May 2020 12:54:23 +0000</pubDate>
+      
+      <guid>https://bloggerbust.ca/tags/key_bindings/</guid>
       <description></description>
     </item>
     
@@ -94,6 +103,24 @@
     </item>
     
     <item>
+      <title>Pinephone</title>
+      <link>https://bloggerbust.ca/tags/pinephone/</link>
+      <pubDate>Sat, 07 Mar 2020 05:08:47 +0000</pubDate>
+      
+      <guid>https://bloggerbust.ca/tags/pinephone/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Serial</title>
+      <link>https://bloggerbust.ca/tags/serial/</link>
+      <pubDate>Sun, 10 May 2020 12:54:23 +0000</pubDate>
+      
+      <guid>https://bloggerbust.ca/tags/serial/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>Serverless</title>
       <link>https://bloggerbust.ca/tags/serverless/</link>
       <pubDate>Sun, 21 Apr 2019 10:14:27 +0000</pubDate>
@@ -108,6 +135,24 @@
       <pubDate>Sun, 21 Apr 2019 10:14:27 +0000</pubDate>
       
       <guid>https://bloggerbust.ca/tags/staticman/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Tty</title>
+      <link>https://bloggerbust.ca/tags/tty/</link>
+      <pubDate>Sat, 07 Mar 2020 05:08:47 +0000</pubDate>
+      
+      <guid>https://bloggerbust.ca/tags/tty/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Uart</title>
+      <link>https://bloggerbust.ca/tags/uart/</link>
+      <pubDate>Sun, 10 May 2020 12:54:23 +0000</pubDate>
+      
+      <guid>https://bloggerbust.ca/tags/uart/</guid>
       <description></description>
     </item>
     

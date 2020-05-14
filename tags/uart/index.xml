@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Uart on Blogger Bust</title>
+    <link>https://bloggerbust.ca/tags/uart/</link>
+    <description>Recent content in Uart on Blogger Bust</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-CA</language>
+    <copyright>Copyright (c) 2018, all rights reserved.</copyright>
+    <lastBuildDate>Sun, 10 May 2020 12:54:23 +0000</lastBuildDate>
+    
+	<atom:link href="https://bloggerbust.ca/tags/uart/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Appendix</title>
+      <link>https://bloggerbust.ca/page/appendix/</link>
+      <pubDate>Sun, 10 May 2020 12:54:23 +0000</pubDate>
+      
+      <guid>https://bloggerbust.ca/page/appendix/</guid>
+      <description>Table of Contents  Key-binding notation  Examples  Serial Communication  Comm Parameters Line Speed Additional Reading    
+This is where I am going to keep supplemental material that might be useful to reference from multiple pages.
+Key-binding notation I follow the emacs key-binding nation when representing keybindings in text. You might be use to seeing CTRL-A to represent holding down the control key followed by the letter a, but in my writings you will see C-a to represent the same.</description>
+    </item>
+    
+  </channel>
+</rss>

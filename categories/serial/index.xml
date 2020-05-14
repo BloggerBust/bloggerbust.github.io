@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Serial on Blogger Bust</title>
+    <link>https://bloggerbust.ca/categories/serial/</link>
+    <description>Recent content in Serial on Blogger Bust</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-CA</language>
+    <copyright>Copyright (c) 2018, all rights reserved.</copyright>
+    <lastBuildDate>Tue, 12 May 2020 12:10:42 +0000</lastBuildDate>
+    
+	<atom:link href="https://bloggerbust.ca/categories/serial/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Run Ncurses Over Raw Serial Port</title>
+      <link>https://bloggerbust.ca/post/run-ncurses-over-raw-serial-port-connection/</link>
+      <pubDate>Tue, 12 May 2020 12:10:42 +0000</pubDate>
+      
+      <guid>https://bloggerbust.ca/post/run-ncurses-over-raw-serial-port-connection/</guid>
+      <description>Introduction I previously wrote how to configure miniicom to connect to a device over serial UART. In that post I mentioned that Minicom might not be the best tool for the job. Consider that minicom is adding a lot of unecessary complexity. If you think about it, we are taking a command line utility intended for communicating with modems, stripping all that functionality away so that we are left with nothing more than a terminal emulator that knows how to connect to a foreign tty.</description>
+    </item>
+    
+  </channel>
+</rss>

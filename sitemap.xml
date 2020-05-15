@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://bloggerbust.ca/post/let-socket-cat-be-thy-glue-over-serial/</loc>
+    <lastmod>2020-05-14T18:41:13-06:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://bloggerbust.ca/page/appendix/</loc>
     <lastmod>2020-05-14T08:19:52-06:00</lastmod>
   </url>
@@ -84,7 +89,7 @@
   
   <url>
     <loc>https://bloggerbust.ca/</loc>
-    <lastmod>2020-05-14T08:19:52-06:00</lastmod>
+    <lastmod>2020-05-14T18:41:13-06:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -180,7 +185,7 @@
   
   <url>
     <loc>https://bloggerbust.ca/post/</loc>
-    <lastmod>2020-05-14T08:56:12-06:00</lastmod>
+    <lastmod>2020-05-14T18:41:13-06:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -191,14 +196,14 @@
   </url>
   
   <url>
-    <loc>https://bloggerbust.ca/categories/serial/</loc>
-    <lastmod>2020-05-14T08:56:12-06:00</lastmod>
+    <loc>https://bloggerbust.ca/tags/serial/</loc>
+    <lastmod>2020-05-14T08:19:52-06:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://bloggerbust.ca/tags/serial/</loc>
-    <lastmod>2020-05-14T08:19:52-06:00</lastmod>
+    <loc>https://bloggerbust.ca/categories/serial/</loc>
+    <lastmod>2020-05-14T18:41:13-06:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -239,13 +244,13 @@
   
   <url>
     <loc>https://bloggerbust.ca/tags/tty/</loc>
-    <lastmod>2020-05-14T08:56:12-06:00</lastmod>
+    <lastmod>2020-05-14T18:41:13-06:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://bloggerbust.ca/tags/uart/</loc>
-    <lastmod>2020-05-14T08:19:52-06:00</lastmod>
+    <lastmod>2020-05-14T18:41:13-06:00</lastmod>
     <priority>0</priority>
   </url>
   

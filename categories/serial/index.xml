@@ -7,10 +7,19 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-CA</language>
     <copyright>Copyright (c) 2018, all rights reserved.</copyright>
-    <lastBuildDate>Sun, 10 May 2020 12:17:08 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 14 May 2020 12:10:42 +0000</lastBuildDate>
     
 	<atom:link href="https://bloggerbust.ca/categories/serial/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Let SOcket CAT Be Thy Glue Over Serial</title>
+      <link>https://bloggerbust.ca/post/let-socket-cat-be-thy-glue-over-serial/</link>
+      <pubDate>Thu, 14 May 2020 12:10:42 +0000</pubDate>
+      
+      <guid>https://bloggerbust.ca/post/let-socket-cat-be-thy-glue-over-serial/</guid>
+      <description>Introduction I previously wrote how to configure minicom to connect to a device over serial UART. In that post I mentioned that minicom might not be the best tool for the job. Consider that minicom is adding a lot of unnecessary complexity. If you think about it, we are taking a command line utility intended for communicating with modems, stripping all that functionality away so that we are left with nothing more than a terminal emulator that knows how to connect to a foreign TTY.</description>
+    </item>
     
     <item>
       <title>How To Configure Minicom To Connect Over USB Serial UART</title>

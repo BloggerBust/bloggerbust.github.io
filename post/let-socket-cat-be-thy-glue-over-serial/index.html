@@ -15,7 +15,7 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://bloggerbust.ca/post/let-socket-cat-be-thy-glue-over-serial/" />
 <meta property="article:published_time" content="2020-05-14T12:10:42&#43;00:00"/>
-<meta property="article:modified_time" content="2020-05-21T08:41:18-06:00"/>
+<meta property="article:modified_time" content="2020-05-21T09:02:45-06:00"/>
 
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Let SOcket CAT Be Thy Glue Over Serial"/>
@@ -28,7 +28,7 @@
 
 
 <meta itemprop="datePublished" content="2020-05-14T12:10:42&#43;00:00" />
-<meta itemprop="dateModified" content="2020-05-21T08:41:18-06:00" />
+<meta itemprop="dateModified" content="2020-05-21T09:02:45-06:00" />
 <meta itemprop="wordCount" content="1674">
 
 
@@ -248,7 +248,7 @@ th {
 ls
 Pictures       dialer.log     dialer.log.bk
 pine64-pinephone:~$ dustfinger@galactica ~ $</code></pre></div>
-<p>First, let&rsquo;s look at the contents of <a href="https://bloggerbust.ca/shared/dustfinger/dev/org-publish/bloggerbust.ca/static/post/let-socket-cat-be-thy-glue-over-serial/socat.log">socat.log</a>:</p>
+<p>First, let&rsquo;s look at the contents of <a href="https://bloggerbust.ca/post/let-socket-cat-be-thy-glue-over-serial/socat.log">socat.log</a>:</p>
 
 <p>The file descriptor information is written before the transfer phase begins, so it will always be at the head of the file.</p>
 <div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">FD  type	device	inode	mode	links	uid	gid	rdev	size	blksize	blocks	atime				mtime				ctime				cloexec	flags	sigown	sigio
@@ -268,7 +268,7 @@ s&gt; 2020/05/21 06:16:59.501568  length=1 from=2 to=2
 .[1;34mPictures.[m       .[0;0mdialer.log.[m     .[0;0mdialer.log.bk.[m\r
 pine64-pinephone:~$ .[6n&gt; 2020/05/21 06:16:59.529196  length=8 from=3 to=10
 .[57;21R</code></pre></div>
-<p>There was quite a bit of information logged to <a href="https://bloggerbust.ca/shared/dustfinger/dev/org-publish/bloggerbust.ca/static/post/let-socket-cat-be-thy-glue-over-serial/socat_debug.log">socat_debug.log</a>. I will only show six lines of output below:</p>
+<p>There was quite a bit of information logged to <a href="https://bloggerbust.ca/post/let-socket-cat-be-thy-glue-over-serial/socat%5Fdebug.log">socat_debug.log</a>. I will only show six lines of output below:</p>
 <div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">2020/05/21 06:16:59 galactica socat[3366] D data loop: sock1-&gt;eof=0, sock2-&gt;eof=0, closing=0, wasaction=1, total_to={0.000000}
 2020/05/21 06:16:59 galactica socat[3366] D select(7, &amp;0x41, &amp;0x0, &amp;0x0, NULL/0.000000)
 2020/05/21 06:17:15 galactica socat[3366] N socat_signal(): handling signal 2

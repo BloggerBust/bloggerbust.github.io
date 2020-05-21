@@ -15,7 +15,7 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://bloggerbust.ca/post/let-socket-cat-be-thy-glue-over-serial/" />
 <meta property="article:published_time" content="2020-05-14T12:10:42&#43;00:00"/>
-<meta property="article:modified_time" content="2020-05-16T10:17:19-06:00"/>
+<meta property="article:modified_time" content="2020-05-21T08:41:18-06:00"/>
 
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Let SOcket CAT Be Thy Glue Over Serial"/>
@@ -28,8 +28,8 @@
 
 
 <meta itemprop="datePublished" content="2020-05-14T12:10:42&#43;00:00" />
-<meta itemprop="dateModified" content="2020-05-16T10:17:19-06:00" />
-<meta itemprop="wordCount" content="930">
+<meta itemprop="dateModified" content="2020-05-21T08:41:18-06:00" />
+<meta itemprop="wordCount" content="1674">
 
 
 
@@ -216,6 +216,68 @@ th {
 
 
 <p>My PinePhone is running postmarketOS with <code>ash</code> as the login shell. I configured the serial port of the PinePhone to use <code>linux</code> <em>terminfo</em> so that I can run colour displays.</p>
+
+<h2 id="logging">Logging</h2>
+
+<p>In the comments section, N mentioned that <a href="https://www.gnu.org/software/screen/manual/screen.html#Logging">Screen is capable of logging</a>. <a href="https://www.gnu.org/software/screen/manual/screen.html#Overview">Screen is a multiplexer</a> that can be used to connect to login sessions over serial. I wanted to find out what options there are for logging when using SOcket CAT. In <a href="https://linux.die.net/man/1/socat">socat(1)</a> there is an <em>OPTIONS</em> section that describes command line options for modifying the behaviour of <code>socat</code>. After reading that section, I was able to log diagnostic information to <code>~/dev/log/socat_debug.log</code> and transfer data to <code>~/dev/log/socat.log</code>. Let&rsquo;s take a look at the command for doing this:</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">socat -v -D -d -d -d -d -lh -lf ~/dev/log/socat_debug.log -,rawer,escape=0x0f /dev/ttyUSB0,b115200,rawer <span style="color:#3677a9">2</span>&gt;~/dev/log/socat.log</code></pre></div>
+<p>Options that affect transfer data logging:</p>
+
+<dl>
+<dt><code>-v</code></dt>
+<dd>writes transfer data to <code>stderr</code> using <code>&gt;</code> and <code>&lt;</code> prefixes to indicate direction</dd>
+<dt><code>-D</code></dt>
+<dd>Log file descriptor information</dd>
+<dt><code>2&gt;~/dev/log/socat.log</code></dt>
+<dd>Redirect <code>stderr</code> to <code>/dev/log/socat.log</code></dd>
+</dl>
+
+<p>Options that affect diagnostic logging</p>
+
+<dl>
+<dt><code>-d</code></dt>
+<dd>Increase the level of diagnostic logging. When absent, only errors are logged.</dd>
+<dt><code>-lh</code></dt>
+<dd>Add hostname to diagnostic messages.</dd>
+<dt><code>-lf ~/dev/log/socat_debug.log</code></dt>
+<dd>Write diagnostic messages to named log file</dd>
+</dl>
+
+<p>To demonstrate, I connected to my PinePhone using the above SOcket CAT command. A login session was already running, so there was no need for me to sign in. I ran <code>ls</code> as soon as the connection was established and then exited the session by sending a <code>SIGINT</code> to the <code>socat</code> process.</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">dustfinger@galactica ~ $ socat -v -d -d -d -d -lf ~/dev/log/socat_debug.log -,rawer,escape=0x0f /dev/ttyUSB0,b115200,rawer 2&gt;~/dev/log/socat.log
+ls
+Pictures       dialer.log     dialer.log.bk
+pine64-pinephone:~$ dustfinger@galactica ~ $</code></pre></div>
+<p>First, let&rsquo;s look at the contents of <a href="https://bloggerbust.ca/shared/dustfinger/dev/org-publish/bloggerbust.ca/static/post/let-socket-cat-be-thy-glue-over-serial/socat.log">socat.log</a>:</p>
+
+<p>The file descriptor information is written before the transfer phase begins, so it will always be at the head of the file.</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">FD  type	device	inode	mode	links	uid	gid	rdev	size	blksize	blocks	atime				mtime				ctime				cloexec	flags	sigown	sigio
+ 0: chrdev	0,44	7	020620	1	1000	5	136,4	0	1024	0	Thu May 21 06:16:49 2020	Thu May 21 06:16:49 2020	Sat May 16 07:35:11 2020	0	x008002	0	0	/dev/pts/4 	IFLAGS=00000000 OFLAGS=00000000 CFLAGS=000000b0 LFLAGS=00000000 cc[0]=^C cc[1]=^\ cc[2]=^H cc[3]=^U cc[4]=^D cc[5]=^@ cc[6]=^A cc[7]=^@ cc[8]=^Q cc[9]=^S cc[10]=^Z cc[11]=^@ cc[12]=^R cc[13]=^O cc[14]=^W cc[15]=^V cc[16]=^@ cc[17]=^@ cc[18]=^@ cc[19]=^@ cc[20]=^@ cc[21]=^@ cc[22]=^@ cc[23]=^@ cc[24]=^@ cc[25]=^@ cc[26]=^@ cc[27]=^@ cc[28]=^@ cc[29]=^@ cc[30]=^@ cc[31]=^@poll: OUT,
+ 1: chrdev	0,44	7	020620	1	1000	5	136,4	0	1024	0	Thu May 21 06:16:49 2020	Thu May 21 06:16:49 2020	Sat May 16 07:35:11 2020	0	x008002	0	0	/dev/pts/4 	IFLAGS=00000000 OFLAGS=00000000 CFLAGS=000000b0 LFLAGS=00000000 cc[0]=^C cc[1]=^\ cc[2]=^H cc[3]=^U cc[4]=^D cc[5]=^@ cc[6]=^A cc[7]=^@ cc[8]=^Q cc[9]=^S cc[10]=^Z cc[11]=^@ cc[12]=^R cc[13]=^O cc[14]=^W cc[15]=^V cc[16]=^@ cc[17]=^@ cc[18]=^@ cc[19]=^@ cc[20]=^@ cc[21]=^@ cc[22]=^@ cc[23]=^@ cc[24]=^@ cc[25]=^@ cc[26]=^@ cc[27]=^@ cc[28]=^@ cc[29]=^@ cc[30]=^@ cc[31]=^@poll: OUT,
+ 6: chrdev	0,6	4477029	020660	1	0	14	188,0	0	4096	0	Thu May 21 06:13:44 2020	Thu May 21 06:13:44 2020	Thu May 21 04:38:53 2020	1	x008402	0	0	/dev/ttyUSB0 	IFLAGS=00000000 OFLAGS=00000000 CFLAGS=00000030 LFLAGS=00000000 cc[0]=^C cc[1]=^\ cc[2]=x7F cc[3]=^U cc[4]=^D cc[5]=^@ cc[6]=^A cc[7]=^@ cc[8]=^Q cc[9]=^S cc[10]=^Z cc[11]=^@ cc[12]=^R cc[13]=^O cc[14]=^W cc[15]=^V cc[16]=^@ cc[17]=^@ cc[18]=^@ cc[19]=^@ cc[20]=^@ cc[21]=^@ cc[22]=^@ cc[23]=^@ cc[24]=^@ cc[25]=^@ cc[26]=^@ cc[27]=^@ cc[28]=^@ cc[29]=^@ cc[30]=^@ cc[31]=^@poll: OUT,</code></pre></div>
+<p>Each key stroke was logged as they were both sent and received.</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">&gt; 2020/05/21 06:16:57.085563  length=1 from=0 to=0
+l&lt; 2020/05/21 06:16:57.087128  length=1 from=0 to=0
+l&gt; 2020/05/21 06:16:57.421553  length=1 from=1 to=1
+s&lt; 2020/05/21 06:16:57.422932  length=1 from=1 to=1
+s&gt; 2020/05/21 06:16:59.501568  length=1 from=2 to=2
+\r&lt; 2020/05/21 06:16:59.503115  length=2 from=2 to=3
+\r</code></pre></div>
+<p>The output from <code>ls</code> was transferred back to the client side.</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">&lt; 2020/05/21 06:16:59.527226  length=97 from=4 to=100
+.[1;34mPictures.[m       .[0;0mdialer.log.[m     .[0;0mdialer.log.bk.[m\r
+pine64-pinephone:~$ .[6n&gt; 2020/05/21 06:16:59.529196  length=8 from=3 to=10
+.[57;21R</code></pre></div>
+<p>There was quite a bit of information logged to <a href="https://bloggerbust.ca/shared/dustfinger/dev/org-publish/bloggerbust.ca/static/post/let-socket-cat-be-thy-glue-over-serial/socat_debug.log">socat_debug.log</a>. I will only show six lines of output below:</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">2020/05/21 06:16:59 galactica socat[3366] D data loop: sock1-&gt;eof=0, sock2-&gt;eof=0, closing=0, wasaction=1, total_to={0.000000}
+2020/05/21 06:16:59 galactica socat[3366] D select(7, &amp;0x41, &amp;0x0, &amp;0x0, NULL/0.000000)
+2020/05/21 06:17:15 galactica socat[3366] N socat_signal(): handling signal 2
+2020/05/21 06:17:15 galactica socat[3366] N exiting on signal 2
+2020/05/21 06:17:15 galactica socat[3366] N socat_signal(): finishing signal 2
+2020/05/21 06:17:15 galactica socat[3366] N exit(130)</code></pre></div>
+<p>I ended the session by sending a <code>SIGINT</code> to the <code>socat</code> process. You can see in the diagnostic logging when <code>socat</code> receives the signal and then handles it by <a href="https://www.tldp.org/LDP/abs/html/exitcodes.html">exiting with code 130</a>.</p>
+
+<p>I am not sure how the logging capabilities I have demonstrated here compare to what Screen is capable of. I use to use Screen years ago, but since I have embraced <code>Emacs</code> as both my editor and windows manager I have very little need for a multiplexer. A serial line sniffer <a href="https://linux.die.net/man/1/slsnif">such as slsnif</a> can also be used to log information from a serial connection.</p>
 
 <h2 id="conclusion">Conclusion</h2>
 

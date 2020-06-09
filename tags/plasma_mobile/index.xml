@@ -13,12 +13,12 @@
     
     
     <item>
-      <title>Install And Configure PostmarketOS With Plasma Mobile</title>
-      <link>https://bloggerbust.ca/post/install_and_configure_postmarketos_with_plasma_mobile/</link>
+      <title>Install And Configure PostmarketOS With Plasma Mobile On The PinePhone</title>
+      <link>https://bloggerbust.ca/post/install_and_configure_postmarketos_with_plasma_mobile_on_the_pinephone/</link>
       <pubDate>Sun, 07 Jun 2020 08:04:14 +0000</pubDate>
       
-      <guid>https://bloggerbust.ca/post/install_and_configure_postmarketos_with_plasma_mobile/</guid>
-      <description>Introduction In this post I will install PostmarketOS + Plasma Mobile. At the time of this writing many Plasma Mobile features are either not fully integrated or not working at all. I will be focusing on the configuring postmarketOS so that by the end of this post you should be able to make phone calls and both send and receive SMS. I will also delve into extra detail on subjects that I find interesting or that I think might be helpful for you to know when trouble shooting issues.</description>
+      <guid>https://bloggerbust.ca/post/install_and_configure_postmarketos_with_plasma_mobile_on_the_pinephone/</guid>
+      <description>Table of Contents  Introduction What not to post online Setting up the build environment  Ensure ~/.local/bin exists Install or clone pmbootstrap Clone pmaports  Initialize the pmbootstrap configuration for the pinephone Identify the block special file name Deploy to the SD card A bit about LUKS  Determine if a partition is LUKS encrypted Determine the format of a LUKS encrypted partition A quick look at a LUKS header Test mounting our LUKS Encrypted Partition  NCurses Over Serial Boot into postmarketOS Resize the screen Set the timezone, date &amp;amp; time What&amp;rsquo;s in the default runlevel?</description>
     </item>
     
   </channel>

@@ -4,7 +4,7 @@
   
   <url>
     <loc>https://bloggerbust.ca/post/install_and_configure_postmarketos_with_plasma_mobile_on_the_pinephone/</loc>
-    <lastmod>2020-06-17T06:01:19-06:00</lastmod>
+    <lastmod>2020-06-17T13:14:05-06:00</lastmod>
   </url>
   
   <url>
@@ -94,7 +94,7 @@
   
   <url>
     <loc>https://bloggerbust.ca/</loc>
-    <lastmod>2020-06-17T06:01:19-06:00</lastmod>
+    <lastmod>2020-06-17T13:14:05-06:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -148,7 +148,7 @@
   
   <url>
     <loc>https://bloggerbust.ca/categories/mobile/</loc>
-    <lastmod>2020-06-17T06:01:19-06:00</lastmod>
+    <lastmod>2020-06-17T13:14:05-06:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -184,25 +184,25 @@
   
   <url>
     <loc>https://bloggerbust.ca/tags/pinephone/</loc>
-    <lastmod>2020-06-17T06:01:19-06:00</lastmod>
+    <lastmod>2020-06-17T13:14:05-06:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://bloggerbust.ca/tags/plasma_mobile/</loc>
-    <lastmod>2020-06-17T06:01:19-06:00</lastmod>
+    <lastmod>2020-06-17T13:14:05-06:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://bloggerbust.ca/tags/postmarketos/</loc>
-    <lastmod>2020-06-17T06:01:19-06:00</lastmod>
+    <lastmod>2020-06-17T13:14:05-06:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://bloggerbust.ca/post/</loc>
-    <lastmod>2020-06-17T06:01:19-06:00</lastmod>
+    <lastmod>2020-06-17T13:14:05-06:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -213,14 +213,14 @@
   </url>
   
   <url>
-    <loc>https://bloggerbust.ca/tags/serial/</loc>
-    <lastmod>2020-05-14T08:19:52-06:00</lastmod>
+    <loc>https://bloggerbust.ca/categories/serial/</loc>
+    <lastmod>2020-05-21T09:02:45-06:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://bloggerbust.ca/categories/serial/</loc>
-    <lastmod>2020-05-21T09:02:45-06:00</lastmod>
+    <loc>https://bloggerbust.ca/tags/serial/</loc>
+    <lastmod>2020-05-14T08:19:52-06:00</lastmod>
     <priority>0</priority>
   </url>
   

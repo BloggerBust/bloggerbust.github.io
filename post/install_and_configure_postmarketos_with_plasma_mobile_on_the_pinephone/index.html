@@ -15,7 +15,7 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://bloggerbust.ca/post/install_and_configure_postmarketos_with_plasma_mobile_on_the_pinephone/" />
 <meta property="article:published_time" content="2020-06-07T08:04:14&#43;00:00"/>
-<meta property="article:modified_time" content="2020-06-09T11:04:18-06:00"/>
+<meta property="article:modified_time" content="2020-06-16T17:52:21-06:00"/>
 
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Install And Configure PostmarketOS With Plasma Mobile On The PinePhone"/>
@@ -28,8 +28,8 @@
 
 
 <meta itemprop="datePublished" content="2020-06-07T08:04:14&#43;00:00" />
-<meta itemprop="dateModified" content="2020-06-09T11:04:18-06:00" />
-<meta itemprop="wordCount" content="17073">
+<meta itemprop="dateModified" content="2020-06-16T17:52:21-06:00" />
+<meta itemprop="wordCount" content="19307">
 
 
 
@@ -206,9 +206,10 @@ th {
 <li><a href="#update-apk-index">Update APK Index</a></li>
 <li><a href="#configure-logging">Configure Logging</a></li>
 <li><a href="#upgrade-to-latest-repository">Upgrade to latest repository</a></li>
-<li><a href="#set-a-theme">Set a theme</a></li>
-<li><a href="#audio-configuration">Audio configuration</a></li>
 <li><a href="#configure-x-forwarding">Configure x-forwarding</a></li>
+<li><a href="#set-a-theme">Set a theme</a></li>
+<li><a href="#how-to-take-a-screen-shot">How to take a screen shot</a></li>
+<li><a href="#audio-configuration">Audio configuration</a></li>
 <li><a href="#dbus-basics">DBus Basics</a>
 
 <ul>
@@ -239,6 +240,8 @@ th {
 <li><a href="#determine-what-technology-standards-your-operator-supports">Determine what technology standards your operator supports</a></li>
 <li><a href="#shutdown-ofono-service">Shutdown Ofono service</a></li>
 <li><a href="#configure-apn-settings--mvno">Configure APN settings (MVNO)</a></li>
+<li><a href="#ensure-a-context-is-active">Ensure a context is Active</a></li>
+<li><a href="#static-ip-allocation">Static IP allocation</a></li>
 </ul></li>
 <li><a href="#send-and-receive-sms">Send and receive SMS</a></li>
 <li><a href="#make-phone-calls">Make phone calls</a></li>
@@ -262,9 +265,9 @@ th {
 
 <dl>
 <dt>IMSI</dt>
-<dd>It is imperative that you never reveal your phone&rsquo;s <a href="https://en.wikipedia.org/wiki/International%5Fmobile%5Fsubscriber%5Fidentity">International Mobile Subscriber Identity</a> to anyone.</dd>
-<dt>Private Cryptographic Keys
-:</dt>
+<dd>It is imperative that you never reveal your SIM card&rsquo;s <a href="https://en.wikipedia.org/wiki/International%5Fmobile%5Fsubscriber%5Fidentity">International Mobile Subscriber Identity</a> to anyone.</dd>
+<dt>Private Cryptographic Keys</dt>
+<dd>Never reveal private keys of any kind. I have seen people accidentally send their private SSH keys to paste sites such as <a href="https://termbin.com">https://termbin.com</a>. In the case of SSH, public keys have the file extension <code>pub</code> and the private ones have the same name without any file extension.</dd>
 </dl>
 
 <p>It is a very good idea to not share the following information with anyone that you do not fully trust:</p>
@@ -446,7 +449,7 @@ file /etc/localtime</code></pre></div><div class="highlight"><pre style="color:#
 /etc/localtime: timezone data, version 2, 5 gmt time flags, 5 std time flags, no leap seconds, 150 transition times, 5 abbreviation chars</code></pre></div>
 <p>As you can see, Gentoo keeps the timezone in <code>/etc/timezone</code> and <code>/etc/localtime</code> is the actual timezone file rather than a symlink. If your timezone is not detected, then like me, you will have to set the timezone manually later.</p>
 
-<p>Step <em>18</em>: You can customize the hostname of your phone if you wish, or hit <code>&lt;RET&gt;</code> to accept the default. I am going to call my phone <em>Second Chance</em> from Pter F. Hamilton&rsquo;s <a href="https://en.wikipedia.org/wiki/Commonwealth%5FSaga#Pandora's%5FStar">Pandora&rsquo;s Star</a>.</p>
+<p>Step <em>18</em>: You can customize the hostname of your phone if you wish, or hit <code>&lt;RET&gt;</code> to accept the default. I am going to call my phone <em>Second Chance</em> from the sci-fi Novel <a href="https://en.wikipedia.org/wiki/Commonwealth%5FSaga#Pandora's%5FStar">Pandora&rsquo;s Star</a> by Peter F. Hamilton.</p>
 <div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">[11:31:07] Device hostname (short form, e.g. &#39;foo&#39;) [pine64-pinephone]: second-chance</code></pre></div>
 <p>Step <em>19</em>: You will now be asked if you wish to copy your SSH keys from your host machine to your PinePhone. If you choose <em>y</em> here, then all files matching the pattern <code>~/.ssh/id_*.pub/</code> will be copied to <code>$HOME/.ssh/</code>. Perhaps you have public keys that you do not want copied to your phone. My preference is to manually copy specific SSH keys to my PinePhone if, and when I have a need to. I just kept the default by hitting <code>&lt;RET&gt;</code>.</p>
 <div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">[11:50:22] Would you like to copy your SSH public keys to the device? (y/n) [n]:</code></pre></div>
@@ -517,7 +520,7 @@ work = /home/dustfinger/.local/var/pmbootstrap</code></pre></div>
 
 <p><strong>CAUTION:</strong> It is <strong>crucial</strong> that you pick the <strong><a href="#identify-the-block-special-file-name">correct device name</a></strong>, because all existing data on the device will be removed. If you are unsure, simply remove the SD card and see if the device you think is your SD card still has one or more numbered block special file names, e.g <code>ls /dev/sdb1/</code>. If the numbered device names are <strong>only present while your card is inserted</strong>, then you can be confident that you have the correct device name.</p>
 
-<p>Now that we know the correct device name, we can install postmarketOS + Plasma Mobile onto the SD card. I am going to tell pmbootstrap to encrypt my disk by passing the optional flag <code>--fde</code> which stands for <em>full disk encryption</em>, although it actually only encrypts the root partition leaving the boot partition encrypted.</p>
+<p>Now that we know the correct device name, we can install postmarketOS + Plasma Mobile onto the SD card. I am going to tell pmbootstrap to encrypt my disk by passing the optional flag <code>--fde</code> which stands for <em>full disk encryption</em>, although it actually only encrypts the root partition leaving the boot partition unencrypted.</p>
 
 <p>Despite the fact that the <em>L</em> in <em>LUKS</em> (Linux Unified Key Setup) stands for Linux, LUKS is a platform-independent on-disk encryption open standard. LUKS was a proof of concept for <em><a href="https://clemens.endorphin.org/TKS1-draft.pdf">TKS1</a></em> (Template Key Setup 1), but by <a href="https://gitlab.com/cryptsetup/cryptsetup/wikis/LUKS-standard/on-disk-format.pdf">LUKS version 1.0</a> the specification switched to the <em><a href="https://clemens.endorphin.org/nmihde/nmihde-A4-ds.pdf">TKS2</a></em> variant, making it easier to implement a transparent hard disk encryption subsystem. The <a href="https://gitlab.com/cryptsetup/LUKS2-docs/blob/master/luks2%5Fdoc%5Fwip.pdf">LUKS 2.0 specification</a> is a work in progress, but as of <a href="https://gitlab.com/cryptsetup/cryptsetup/-/blob/master/docs/v2.1.0-ReleaseNotes">cryptsetup 2.1, LUKS2 has become the default format type</a>.</p>
 
@@ -619,7 +622,7 @@ drwxr-xr-x  3 root       root          3 May 24 13:55 packages
 <div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">sudo cryptsetup isLuks -v /dev/sdb1</code></pre></div><div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">Command failed with code -1 (wrong or missing parameters).</code></pre></div><div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">sudo cryptsetup isLuks -v /dev/sdb2</code></pre></div><div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">Command successful.</code></pre></div>
 <h3 id="determine-the-format-of-a-luks-encrypted-partition">Determine the format of a LUKS encrypted partition</h3>
 
-<p>The <code>isLuks</code> subcommand can also determine the format used in a LUKS encrypted partition simply by passing a type to the <code>--type</code> optional parameter. Valid types: plain, luks (default), luks1, luks2, loopaes or tcrypt.</p>
+<p>The <code>isLuks</code> subcommand can also determine the format used in a LUKS encrypted partition via the <code>--type</code> optional parameter. The valid types are: plain, luks (default), luks1, luks2, loopaes or tcrypt.</p>
 <div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">sudo cryptsetup isLuks -v --type luks /dev/sdb2</code></pre></div><div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">Command successful.</code></pre></div><div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">sudo cryptsetup isLuks -v --type luks1 /dev/sdb2</code></pre></div><div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">Command failed with code -1 (wrong or missing parameters).</code></pre></div><div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">sudo cryptsetup isLuks -v --type luks2 /dev/sdb2</code></pre></div><div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">Command successful.</code></pre></div>
 <h3 id="a-quick-look-at-a-luks-header">A quick look at a LUKS header</h3>
 
@@ -630,7 +633,7 @@ drwxr-xr-x  3 root       root          3 May 24 13:55 packages
 <li>If the header is not backed up and becomes damaged, then the data on the disk is not recoverable unless you happen to still have the disk mounted.</li>
 </ol>
 
-<p>It is best not to post your header publicly because it provides an attacker with one piece of the puzzle to decrypt an encrypted volume even if the header has been stripped from the volume. Of course, they would still need a passphrase for one of the key slots. The <code>luksDump</code> subcommand can be used to send the header to standard output. This is what a LUKS2 header looks like:</p>
+<p>It is best not to post your header publicly because it provides an attacker with one piece of the puzzle to decrypt an encrypted volume even if the header has been stripped from the volume. Of course, an attacker would still need a passphrase for one of the key slots. The <code>luksDump</code> subcommand can be used to send the header to standard output. This is what a LUKS2 header looks like:</p>
 <div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">sudo cryptsetup luksDump /dev/sdb2</code></pre></div><div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">sudo cryptsetup luksDump /dev/sdb2
 LUKS header information
 Version:        2
@@ -697,7 +700,7 @@ Event number:      0
 Major, minor:      253, 2
 Number of targets: 1
 UUID: CRYPT-LUKS2-01c8d337e5504121ba3eaba823ee5c38-pinephone</code></pre></div>
-<p>Now we can mount <code>/dev/mapper/pinephone</code> somewhere. I will just use <code>/mnt/usb</code> again because I am lazy ;-)</p>
+<p>After the device has been decrypted, we still need to mount <code>/dev/mapper/pinephone</code> somewhere if we wish to interact with it using standard commands. I will just use <code>/mnt/usb</code> again because I am lazy ;-)</p>
 <div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">sudo mount /dev/mapper/pinephone /mnt/usb
 ls -lah /mnt/usb</code></pre></div><div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">total 93K
 drwxr-xr-x 21 root root 4.0K May 24 14:15 .
@@ -721,9 +724,9 @@ drwxr-xr-x  2 root root 4.0K May 24 14:11 sys
 drwxrwxrwt  2 root root 4.0K May 24 14:13 tmp
 drwxr-xr-x 10 root root 4.0K May 24 14:11 usr
 drwxr-xr-x 13 root root 4.0K May 24 14:11 var</code></pre></div>
-<p>Now is a good time to copy anything over from your computer that you would like on your phone. For example, if you chose not to allow <code>pmbootstrap</code> to copy your SSH keys when we <a href="#initialize-the-pmbootstrap-configuration-for-the-pinephone">initialized the pmbootstrap configuration for the pinephone</a>, now is your second chance. It is particularly valuable to copy the SSH keys over if you do not have a serial UART cable that adapts USB to a 3.5mm audio jack. Otherwise, you can wait until we ge to the section on <a href="#configure-x-forwarding">configuring x-forwarding</a>.</p>
+<p>Now is a good time to copy anything over from your computer that you would like on your phone. For example, if you chose not to allow <code>pmbootstrap</code> to copy your SSH keys when we <a href="#initialize-the-pmbootstrap-configuration-for-the-pinephone">initialized the pmbootstrap configuration for the pinephone</a>, now is your second chance. It is particularly valuable to copy the SSH keys over if you do not have a serial UART cable that adapts USB to a 3.5mm audio jack. Otherwise, you can wait until we get to the section on <a href="#configure-x-forwarding">configuring x-forwarding</a>.</p>
 
-<p>Once you are finished, unmount the device and close the luks volume.</p>
+<p>Once you are finished, unmount the device and close the LUKS volume.</p>
 <div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">sudo umount /mnt/usb
 sudo cryptsetup luksClose pinephone</code></pre></div>
 <h2 id="ncurses-over-serial">NCurses Over Serial</h2>
@@ -873,7 +876,7 @@ Extract /boot/initramfs-postmarketos-allwinner-extra
 
 <p>At this point, the <em>initramfs</em> is waiting for the passphrase required to unlock the encrypted root filesystem. The PinePhone screen should now be displaying an input field to enter the passphrase as well as a full virtual keyboard. Remember that you have two passwords; one is for opening the LUKS encrypted partition and the other is a simple numeric pin that is actually your postmarketOS user account password.</p>
 
-<p>Enter your password for disk decryption. The initrd will then open the LUKS encrypted file system and continue with the boot process. You will see output similar to the following in your serial console screen.</p>
+<p>Enter your password for disk decryption. The initramfs will then open the LUKS encrypted file system and continue with the boot process. You will see output similar to the following in your serial console screen.</p>
 <div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">Check/repair root filesystem (/dev/mapper/root)
 e2fsck 1.45.6 (20-Mar-2020)
 pmOS_root: clean, 51568/3899392 files, 664293/15567360 blocks
@@ -979,19 +982,19 @@ See &lt;https://wiki.postmarketos.org&gt; and &lt;https://wiki.alpinelinux.org&g
 You may change this message by editing /etc/motd.
 
 second-chance:~$</code></pre></div>
-<p>Once signed in, you will probably be interested in knowing that the PostmarketOS default shell is ash (<a href="https://www.in-ulm.de/~mascheck/various/ash/">Almquist Shell</a>).</p>
+<p>Once signed in, you will probably be interested in knowing that the PostmarketOS default shell is ash (<a href="https://www.in-ulm.de/~mascheck/various/ash/">Almquist Shell</a>). If you are familiar with bash, you should feel right at home with ash since it is essentially a light weight fork.</p>
 
 <h2 id="resize-the-screen">Resize the screen</h2>
 
 <p>The device side has no way of knowing the size of the terminal display. Use the <code>stty</code> command (see <a href="https://linux.die.net/man/1/stty">stty(1)</a>) to print the number of rows and columns that the phone&rsquo;s kernel thinks that your terminal has.</p>
 <div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">second-chance:~$ stty size</code></pre></div><div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">52 80</code></pre></div>
-<p>To set a specific number of rows and columns you can use <code>stty rows 56 columns 192</code>. If you are not sure the true number of rows and columns that your terminal has you can simply run the <code>resize</code> (see <a href="https://linux.die.net/man/1/resize">resize(1)</a>) command.</p>
+<p>To set a specific number of rows and columns you can use <code>stty rows 56 columns 192</code>. If you are not sure the true number of rows and columns that your terminal has, you can simply run the <code>resize</code> (see <a href="https://linux.die.net/man/1/resize">resize(1)</a>) command.</p>
 <div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">second-chance:~$ resize</code></pre></div><div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">COLUMNS=191;LINES=56;export COLUMNS LINES;</code></pre></div>
 <p>I have found that I need to run <code>resize</code> each time I connect over serial. Be sure to set the size again if the terminals dimensions change at any point. This could be automated, but I won&rsquo;t be covering automation of screen resizing in this post.</p>
 
 <h2 id="set-the-timezone-date-and-time">Set the timezone, date &amp; time</h2>
 
-<p>For some reason pmbootstrap did not detect my host&rsquo;s timezone, that means I will need to set it manually. Unfortunately I was not able to do this with the PlasmaMobile UI. The date controls seem to not be integrated yet. Thankfully, setting the timezone, date and time is straight forward to do via command line.</p>
+<p>For some reason pmbootstrap did not detect the timezone of the host machine, that means I will need to set it manually. Unfortunately, I was not able to do this with the Plasma Mobile UI. The date controls seem to not be integrated yet. Thankfully, setting the timezone, date and time is straight forward to do via command line.</p>
 
 <p>We can use the date command to find out what the current timezone, date and time are set to.</p>
 <div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">second-chance:~$ date</code></pre></div><div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">Sat Apr 11 18:19:04 GMT 2020</code></pre></div>
@@ -1088,15 +1091,15 @@ Administrator. It usually boils down to these three things:
 -rw-r--r--    1 root     root        3.7K May 24  2020 /etc/terminfo/x/xterm-256color
 -rw-r--r--    1 root     root        1.5K May 24  2020 /etc/terminfo/x/xterm-color
 -rw-r--r--    1 root     root        2.2K May 24  2020 /etc/terminfo/x/xterm-xfree86</code></pre></div>
-<p>You need to choose a Terminfo that is compatible with the terminal emulator that you will be using when connecting to the PinePhone over serial. Since I am running <code>xterm</code>, one of the names under <code>/etc/terminfo/x/</code> would be appropriate, but what if one day I need to login using <code>tmux</code>? That is why <code>vt100</code> was chosen, it is compatible with a larg variety of terminal emulators. A more modern safe choice would be <code>/etc/terminfo/l/linux</code> which is another common default for <code>getty</code> over serial. I recommend testing a few of them out to help you make the best decision. To do that, you can change the current <code>$TERM</code> on the command line using <code>env</code>. To put our <code>terminfo</code> of choice to the test, we can use the <code>nmtui</code> command. First run <code>nmtui</code> without modifying the Terminfo so that you have a basis, then try out a few reasonable options.</p>
+<p>It is important that you set a Terminfo that is compatible with the terminal emulator that you will be using when connecting to the PinePhone over serial. Since I am running <code>xterm</code>, one of the names under <code>/etc/terminfo/x/</code> would be appropriate, but what if one day I need to login using <code>tmux</code>? That is why <code>vt100</code> was chosen, it is compatible with a large variety of terminal emulators. A more modern, and reasonably safe, alternative is <code>/etc/terminfo/l/linux</code> and is another common default for <code>getty</code> over serial. I recommend testing a few of them out to help you make the best decision. To do that, you can set the <code>TERM</code> environment variable for the lifetime of a single command using <code>env</code>. To put our <code>terminfo</code> of choice to the test, we can use the <code>nmtui</code> command. First run <code>nmtui</code> without modifying the Terminfo so that you have a basis by which to compare, then try out a few reasonable options.</p>
 <div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">env <span style="color:#40ffff">TERM</span>=linux nmtui</code></pre></div>
 <p>Choosing an incompatible Terminfo when running <code>nmtui</code> may result in problems ranging from unexpected behaviour, to a completely garbled and totally unusable ncurses UI. If you run into problems, remember that you can send a <code>SIGINT</code> to <code>nmtui</code> that will cause it to exit and return control to the command line prompt. Exactly how you send the <code>SIGINT</code> will depend on how you established your serial connection in the first place. Assuming that you followed along and ran the same <code>socat</code> command that I did, then you can send a SIGINT by pressing <code>ESC ESC</code>.</p>
 
 <p>Some of the issues that you might run into may be subtle. For example, linux, xterm, xterm-color and xterm-xfree86 Terminfo generally all worked well during my testing, but the first screen of <code>nmtui</code> was always drawn twice. I even notice some artifacts while the screen is being rendered when using <code>xterm-color</code>. However; xterm-256color renders the screen only once and seems much faster to navigate. The fastest Terminfo by far is vt100, but it lacks color which is nice for screen shots ;-)</p>
 
-<p>Once you have made your decision, use vi to edit <code>/etc/inittab</code> and replace <code>vt100</code> in the <code>getty</code> which opens <code>/dev/ttyS0</code>.</p>
+<p>Once you have made your decision, use <code>vi</code> to edit <code>/etc/inittab</code> and locate the <code>getty</code> command which opens <code>/dev/ttyS0</code>.</p>
 <div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">sudo vi /etc/inittab</code></pre></div>
-<p>Or, if you are feeling confident, you can simply use <code>sed</code> (see <a href="https://man7.org/linux/man-pages/man1/sed.1.html">sed(1)</a>). A backup will be saved to <code>/etc/inittab.bk</code>.</p>
+<p>Replace <code>vt100</code> in that command with your chosen Terminfo. Or, if you are feeling confident, you can simply use <code>sed</code> (see <a href="https://man7.org/linux/man-pages/man1/sed.1.html">sed(1)</a>). A backup will be saved to <code>/etc/inittab.bk</code>.</p>
 <div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">second-chance:~$ sed -ibk <span style="color:#ed9d13">&#39;s/ttyS0 115200 vt100/ttyS0 115200 xterm-256color/&#39;</span> /etc/inittab</code></pre></div>
 <p>On your next reboot the Terminfo for the login session will be as you set it. I would rather not reboot now though, so let&rsquo;s change our Terminfo for the current session by exporting a new value for the <code>TERM</code> environment variable.</p>
 <div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh"><span style="color:#24909d">export</span> <span style="color:#40ffff">TERM</span>=xterm-256color</code></pre></div>
@@ -1147,8 +1150,12 @@ BSSID: f2:33:7c:80:ba:d1</code></pre></div>
 
 <p>Look at the display on your phone. If the screen has locked, you will need to enter your pin in order to unlock it. The display should be showing a dialog prompting you to set a password for the KDE wallet. I entered a strong password and pressed the OK button. Do not choose the same password that you used for encrypting the root file system. It should also go without saying that you should not use the same password as your user&rsquo;s PIN.</p>
 
-<p>Now draw your attention back to your serial console session.
-<img src="https://bloggerbust.ca/post/install_and_configure_postmarketos_with_plasma_mobile_on_the_pinephone/nmtui-edit-menu-showing-configured-connection.png" alt="" /></p>
+<p>Now draw your attention back to your serial console session.</p>
+
+<figure>
+    <img src="https://bloggerbust.ca/post/install_and_configure_postmarketos_with_plasma_mobile_on_the_pinephone/nmtui-edit-menu-showing-configured-connection.png"/> 
+</figure>
+
 
 <p>The UI should be back at the screen for selecting a network connection. The network selection box is no longer empty, it contains a single Wi-Fi connection with the profile name <em>Hidden SSID</em>. Hit the <code>&lt;TAB&gt;</code> key until <code>&lt;Quit&gt;</code> is highlighted, then press <code>&lt;RET&gt;</code> to exit <code>nmtui</code>.</p>
 
@@ -1159,7 +1166,7 @@ BSSID: f2:33:7c:80:ba:d1</code></pre></div>
 
 <p>The configuration is saved to <code>/etc/NetworkManager/system-connection/</code>.</p>
 
-<p>In the console use the nmcli to see the connection</p>
+<p>From the console, use the <code>nmcli</code> to see the connection.</p>
 <div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">second-chance:~$ nmcli connection show
 NAME         UUID                                  TYPE  DEVICE
 Hidden SSID  b6e9fa71-9828-4912-9d8c-456be04e2a11  wifi  --</code></pre></div>
@@ -1187,6 +1194,8 @@ Hidden SSID  b6e9fa71-9828-4912-9d8c-456be04e2a11  wifi  --</code></pre></div>
 --- bloggerbust.ca ping statistics ---
 3 packets transmitted, 3 packets received, 0% packet loss
 round-trip min/avg/max = 27.031/27.541/28.191 ms</code></pre></div>
+<p>You should now be able to enable and disable Wi-Fi using the <em>Quick Settings Tray</em>.</p>
+
 <h2 id="ntp-time-syncing">NTP time syncing</h2>
 
 <p>Before continuing, please check the <a href="http://support.ntp.org/bin/view/Main/SecurityNotice#Recent%5FVulnerabilities">ntp security notice</a> page for news about recent vulnerabilities and mitigation&rsquo;s. NTP is already configured.</p>
@@ -1201,7 +1210,7 @@ driftfile /var/lib/chrony/chrony.drift
 rtcsync
 cmdport 0
 makestep 1 -1</code></pre></div>
-<p>So if there is nothing to do, then why did I include a section on NTP at all? Well, as you have been made aware, NTP has known vulnerabilities. These vulnerabilities can be mitigated, but I felt it was important to raise awareness about the issue. You might want to <a href="https://tor.stackexchange.com/questions/3754/what-is-the-recommended-way-for-handling-ntp#3755">handle NTP differently over Tor</a>. Consider the possibility of somehow using time skew corrections to deanonymize unsuspecting travellers on <a href="https://www.torproject.org/">the Tor network</a>. Perhaps through some sort of fuzzy fingerprinting technique. That is all just me speculating of course, this is a subject matter I have much to learn about. At any rate, it is never a waste of time to learn more about how your system is configured, especially when that system is societies primary form of communication.</p>
+<p>So if there is nothing to do, then why did I include a section on NTP at all? Well, as you have been made aware, NTP has known vulnerabilities. These vulnerabilities can be mitigated, but I felt it was important to raise awareness about the issue. Now that you are aware that there are issues, perhaps you will want to <a href="https://tor.stackexchange.com/questions/3754/what-is-the-recommended-way-for-handling-ntp#3755">handle NTP differently over Tor</a>. Consider the possibility of somehow using time skew corrections to deanonymize unsuspecting travellers on <a href="https://www.torproject.org/">the Tor network</a>; perhaps through some sort of fuzzy fingerprinting technique. That is all speculation of course, this is a subject matter that I have much to learn about. At any rate, it is never a waste of time to learn more about how your system is configured, especially when that system is societies primary form of communication.</p>
 
 <p>See also <a href="https://tails.boum.org/contribute/design/Time%5Fsyncing/">Tails Time syncing</a>.</p>
 
@@ -1224,7 +1233,9 @@ v20200319-2697-g856e44244b [http://dl-cdn.alpinelinux.org/alpine/edge/testing]
 OK: 16469 distinct packages available</code></pre></div>
 <h2 id="configure-logging">Configure Logging</h2>
 
-<p>Alpine Linux default logger is <a href="https://wiki.alpinelinux.org/wiki/Syslog#busybox%5Fsyslog">busybox syslog</a>. You can find the log configuration in your PinePhone at <code>/etc/conf.d/syslog</code>. Run <code>syslogd --help</code> for configuration options. Busybox syslog is simple to configure, but I prefer a logging facility that is more customizable. My preferred logging facility is <code>syslog-ng</code> because it is also easy to configure, but it offers the ability to direct logging to appropriately named files, which keeps your logs organized and makes it easier to find what you are looking for. Perhaps the same is possible with <code>syslogd</code>, but it wasn&rsquo;t immediately clear to me how to do that.</p>
+<p>Alpine Linux default logger is <a href="https://wiki.alpinelinux.org/wiki/Syslog#busybox%5Fsyslog">busybox syslog</a>. You can find the log configuration at <code>/etc/conf.d/syslog</code>. Run <code>syslogd --help</code> for configuration options. Busybox syslog is simple to configure, but I prefer a logging facility that is more customizable. <a href="https://www.syslog-ng.com/products/open-source-log-management/">Syslog-ng</a> is also easy to configure, and it offers the ability to direct logging to appropriately named files which will keep your logs organized and make it easier to find what you are looking for. Perhaps the same is possible with <code>syslogd</code>, but it wasn&rsquo;t immediately clear to me how to do that.</p>
+
+<p>To install <code>syslog-ng</code> run:</p>
 <div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">second-chance:~$ sudo apk add syslog-ng</code></pre></div><div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">(1/3) Installing ivykis (0.42.4-r0)
 (2/3) Installing syslog-ng (3.27.1-r0)
 Executing syslog-ng-3.27.1-r0.post-install
@@ -1279,14 +1290,165 @@ Executing gtk-update-icon-cache-2.24.32-r1.trigger
 OK: 1352 MiB in 591 packages</code></pre></div>
 <p>However; <code>apk upgrade</code> will not update U-Boot. I might cover updating U-Boot in a future post.</p>
 
+<h2 id="configure-x-forwarding">Configure x-forwarding</h2>
+
+<p>Before we begin, I should mention that <a href="https://unix.stackexchange.com/questions/236482/is-there-a-downside-to-enabling-x11-forwarding-in-ssh">X-forwarding poses a security risk to the client side</a>. That said, there might be times when you would like to use a GUI app on your mobile phone, but the GUI wasn&rsquo;t designed for touch screens. For example, perhaps you would like to explore a dbus interface using <a href="https://github.com/GNOME/d-feet">dFeet</a>. Unfortunately dFeet does not have a CLI and is not mobile friendly. In such cases, I will start <code>sshd</code> on the PinePhone and use x-forwarding to my development box. Once I am finished, I always shut down <code>sshd</code>. No sense in leaving it running since I have <code>serial</code>.</p>
+
+<p>First, let&rsquo;s configure the server side (PinePhone) by editing <code>/etc/ssh/sshd_config</code> (see <a href="http://man7.org/linux/man-pages/man5/sshd%5Fconfig.5.html">sshd_config(5)</a>).</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">sudo vi /etc/ssh/sshd_config</code></pre></div>
+<p>Page down to the bottom of the file and add the following conditional block which will override the system wide <code>X11Forwarding</code> and <code>X11UseLocalhost</code> settings for your user.</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">Match User dustfinger
+  X11Forwarding yes
+  X11UseLocalhost yes</code></pre></div>
+<p>Start the SSH daemon.</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">second-chance:~$ sudo rc-service sshd start</code></pre></div><div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">* Starting sshd ...                       [ ok ]</code></pre></div>
+<p>If it is was already started, then you will have to restart it for the changes to take effect. Back on the client side, generate a new RSA key.</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">mkdir -p ~/.ssh
+ssh-keygen -f ~/.ssh/id_second-chance_rsa</code></pre></div><div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">Generating public/private rsa key pair.
+Enter passphrase (empty for no passphrase):
+Enter same passphrase again:
+Your identification has been saved in /home/dustfinger/.ssh/id_second-chance_rsa.
+Your public key has been saved in /home/dustfinger/.ssh/id_second-chance_rsa.pub.
+The key fingerprint is:
+SHA256:3KcVsaPW0FxMatRMkX+/JKN21OPItaxi5P1wZBRliGo dustfinger@galactica
+The key&#39;s randomart image is:
++---[RSA 3072]----+
+|            oB==+|
+|           +.=*..|
+|          ..O  o |
+|       . .E= o. o|
+|        S.+ + .oo|
+|         . = +o=.|
+|          + =.O.+|
+|           * =o= |
+|          o o.o. |
++----[SHA256]-----+</code></pre></div>
+<p>Edit <code>$HOME/.ssh/config</code> (see <a href="http://man7.org/linux/man-pages/man5/ssh%5Fconfig.5.html">ssh_config(5)</a>) creating a new file if it does not already exist. Add the following host specific configuration. Replace <code>second-chance</code> with the host name or IP address of your PinePhone.</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">host second-chance
+     Hostname second-chance
+     ForwardAgent yes
+     ForwardX11 yes
+     # ForwardX11Trusted yes
+     IdentityFile ~/.ssh/id_second-chance_rsa
+     User dustfinger</code></pre></div>
+<p>I commented out <code>ForwardX11Trusted yes</code> on purpose. Only set <code>ForwardX11Trusted yes</code> if you fully trust the server, i.e. your PinePhone. You may choose to leave that option commented out and instead pass <code>-Y</code> optional flag only when you require x-forwarding and untrusted X11 forwarding fails. For the purposes of this post I have uncommented that option for my own convenience.</p>
+
+<p>Copy ssh id to remote authorized keys (see <a href="https://linux.die.net/man/1/ssh-copy-id">ssh-copy-id(1)</a>).</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">ssh-copy-id -i ~/.ssh/id_second-chance_rsa dustfinger@second-chance</code></pre></div><div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">/usr/bin/ssh-copy-id: INFO: Source of key(s) to be installed: &#34;/home/dustfinger/.ssh/id_second-chance_rsa.pub&#34;
+/usr/bin/ssh-copy-id: INFO: attempting to log in with the new key(s), to filter out any that are already installed
+/usr/bin/ssh-copy-id: INFO: 1 key(s) remain to be installed -- if you are prompted now it is to install the new keys
+dustfinger@second-chance&#39;s password:
+
+Number of key(s) added: 1
+
+Now try logging into the machine, with:   &#34;ssh &#39;dustfinger@second-chance&#39;&#34;
+and check to make sure that only the key(s) you wanted were added.</code></pre></div>
+<p>As long as you don&rsquo;t see any warnings, such as <em>Warning: untrusted X11 forwarding setup failed: xauth key data not generated</em>, your <em>SSH</em> requests should have access to the display. You can test this by running seeing if the <code>$DISPLAY</code> variable is set.</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">ssh dustfinger@second-chance <span style="color:#ed9d13">&#39;echo $DISPLAY&#39;</span></code></pre></div><div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">localhost:10.0</code></pre></div>
 <h2 id="set-a-theme">Set a theme</h2>
 
-<p>Early in my career I spent many long days staring at CRT monitors. Over time, the flickering as the screen refreshed began to affect my vision. Eventually the whole world seemed to flicker. After that experience I have been using dark themes whenever possible to reduce the amount of light that my eyes are subjected to on a daily basis. I now prefer dark themes simply for their aesthetic. To enable a dark theme on Plasma Mobile:</p>
+<p>Early in my career, I spent many long days staring at CRT monitors. CRT monitors flicker each time the screen refreshes. Over time, the constant flickering began to affect my vision. Eventually, the whole world seemed to flicker. I found that dark themed applications reduced the effect that the flickering was having on my eyes. After that experience, I have been using dark themes whenever possible to reduce the amount of light that my eyes are subjected to on a daily basis. Modern flat screen monitors do not have a noticeable flicker. I now prefer dark themes for their aesthetic and light reducing affect. To enable a dark theme on Plasma Mobile:</p>
 
 <ol>
-<li>Navigate to <em>Settings</em> and select <em>Appearance</em></li>
-<li>select <em>Breeze Dark</em>, or whatever suits you</li>
+<li><p>Navigate to <em>Settings</em> and select <em>Appearance</em></p>
+
+<figure>
+    <img src="https://bloggerbust.ca/post/install_and_configure_postmarketos_with_plasma_mobile_on_the_pinephone/plasma-settings-appearance-selected.png"/> 
+</figure>
+</li>
+
+<li><p>select <em>Breeze Dark</em>, or whatever suits you</p>
+
+<figure>
+    <img src="https://bloggerbust.ca/post/install_and_configure_postmarketos_with_plasma_mobile_on_the_pinephone/plasma-settings-appearance-breeze-dark.png"/> 
+</figure>
+</li>
 </ol>
+
+<p>I quite like Oxygen as well:</p>
+
+<figure>
+    <img src="https://bloggerbust.ca/post/install_and_configure_postmarketos_with_plasma_mobile_on_the_pinephone/plasma-settings-appearance-oxygen.png"/> 
+</figure>
+
+
+<h2 id="how-to-take-a-screen-shot">How to take a screen shot</h2>
+
+<p>You might be wondering how I was able to take those screen shots when <a href="#set-a-theme">setting a theme</a>. The <em>quick settings tray</em> contains a screen shot action item. To invoke it, swipe downwards from the top of the display and touch the icon labelled <em>Screenshot</em>.</p>
+
+<figure>
+    <img src="https://bloggerbust.ca/post/install_and_configure_postmarketos_with_plasma_mobile_on_the_pinephone/plasma-mobile-quick-settings-tray.png"/> 
+</figure>
+
+
+<p>Unfortunately, the screen shot action item only captures a portion of the display. This will be fixed in a future update, but in the meantime I wanted another solution. I wanted to be able to take screen shots from a serial or SSH connection. The postmarketOS Plasma Mobile wiki page has a section on <a href="https://wiki.postmarketos.org/wiki/Plasma%5FMobile#Taking%5Fscreenshots">taking screenshots</a> using <code>qdbus</code>. That sounded perfect to me. Their example uses the <code>org.kde.KWin</code> DBus service, but unfortunately <code>qdbus</code> couldn&rsquo;t find it on the session bus. In fact, I didn&rsquo;t have access to a session bus at all.</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">second-chance:~$ qdbus org.kde.KWin</code></pre></div><div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">Could not connect to D-Bus server: org.freedesktop.DBus.Error.NotSupported: Unable to autolaunch a dbus-daemon without a $DISPLAY for X11</code></pre></div>
+<p>Looking above the <em>Taking screenshots</em> heading, I noticed a section on <a href="https://wiki.postmarketos.org/wiki/Plasma%5FMobile#Running%5FApps%5Ffrom%5FSSH%5Fsession">running apps from an SSH session</a> where they recommend exporting all of the environment variables available to the <code>plasmashell</code> process. After researching this a bit further, I discovered that having <a href="https://docs.plasma-mobile.org/RunningApps.html">an environment setup similar to plasmashell is necessary for running many applications</a>. So I decided to try it out.</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">second-chance:~$ <span style="color:#24909d">export</span> <span style="color:#6ab825;font-weight:bold">$(</span>cat /proc/<span style="color:#ed9d13">`</span>pidof plasmashell<span style="color:#ed9d13">`</span>/environ | tr <span style="color:#ed9d13">&#39;\0&#39;</span> <span style="color:#ed9d13">&#39;\n&#39;</span><span style="color:#6ab825;font-weight:bold">)</span></code></pre></div>
+<p>Unfortunately, the first time I tried to take a screen shot using <code>org.kde.kwin.Screenshot.screenshotArea</code> the request timed out waiting for a response.</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">second-chance:~<span style="color:#40ffff">$qdbus</span> org.kde.KWin /Screenshot org.kde.kwin.Screenshot.screenshotArea <span style="color:#3677a9">0</span> <span style="color:#3677a9">0</span> <span style="color:#3677a9">1440</span> <span style="color:#3677a9">720</span></code></pre></div><div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">Error: org.freedesktop.DBus.Error.NoReply
+Did not receive a reply. Possible causes include: the remote application did not send a reply, the message bus security policy blocked the reply, the reply timeout expired, or the network connection was broken</code></pre></div>
+<p>Subsequent attempts at taking a screenshot would result in an error complaining that one was already being taken.</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">second-chance:~<span style="color:#40ffff">$qdbus</span> org.kde.KWin /Screenshot org.kde.kwin.Screenshot.screenshotArea <span style="color:#3677a9">0</span> <span style="color:#3677a9">0</span> <span style="color:#3677a9">1440</span> <span style="color:#3677a9">720</span></code></pre></div><div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">Error: org.kde.kwin.Screenshot.Error.AlreadyTaking
+A screenshot is already been taken</code></pre></div>
+<p>I am sure that there is a way to recover gracefully from that state, but I simply rebooted. How then was I able to take screen shots you ask? By exporting only the <code>DBUS_SESSION_BUS_ADDRESS</code> from the <code>plasmashell</code> environment, I gained access to that session bus.</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">second-chance:~$ <span style="color:#24909d">export</span> <span style="color:#6ab825;font-weight:bold">$(</span>cat /proc/<span style="color:#ed9d13">`</span>pidof plasmashell<span style="color:#ed9d13">`</span>/environ | tr <span style="color:#ed9d13">&#39;\0&#39;</span> <span style="color:#ed9d13">&#39;\n&#39;</span> | grep -i dbus_session_bus_address<span style="color:#6ab825;font-weight:bold">)</span>
+second-chance:~$ qdbus</code></pre></div><div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">:1.1
+ org.freedesktop.ScreenSaver
+ org.kde.KWin
+ org.kde.kglobalaccel
+ org.kde.screensaver
+:1.10
+ org.kde.GtkConfig
+ org.kde.StatusNotifierWatcher
+ org.kde.kappmenu
+ org.kde.kcookiejar5
+ org.kde.kded5
+ org.kde.kscreen.osdService
+ org.kde.plasmanetworkmanagement
+:1.11
+ org.kde.ksmserver
+:1.12
+ org.kde.baloo
+:1.13
+:1.14
+:1.15
+ org.freedesktop.Notifications
+ org.kde.JobViewServer
+ org.kde.StatusNotifierHost-2905
+ org.kde.kuiserver
+ org.kde.plasmashell
+:1.16
+ org.kde.calindac
+:1.17
+ org.kde.polkit-kde-authentication-agent-1
+:1.18
+ local.org_kde_powerdevil
+ org.freedesktop.PowerManagement
+ org.freedesktop.PowerManagement.Inhibit
+ org.kde.Solid.PowerManagement
+ org.kde.Solid.PowerManagement.PolicyAgent
+:1.19
+ org.kde.ActivityManager
+:1.20
+ org.PulseAudio1
+ org.pulseaudio.Server
+:1.3
+:1.31
+:1.35
+:1.36
+:1.6
+:1.8
+ org.kde.klauncher5
+org.freedesktop.DBus</code></pre></div>
+<p>Then I simply called the <code>org.kde.kwin.Screenshot.interactive</code> method, as opposed to <code>org.kde.kwin.Screenshot.screenshotArea</code>, which prompted me to select the window that I would like to take a screen shot of.</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">second-chance:~$ qdbus org.kde.KWin /Screenshot org.kde.kwin.Screenshot.interactive</code></pre></div>
+<figure>
+    <img src="https://bloggerbust.ca/post/install_and_configure_postmarketos_with_plasma_mobile_on_the_pinephone/plasma-mobile-desktop-without-header-and-footer.png"/> 
+</figure>
+
+
+<p>In this example I simply touched the desktop. Since the desktop window is separate from both the header and footer, the resulting image does not include features such as mobile signal strength and the current time. If you figure out how to take a full screen capture please comment and let us know the details. I have also tried <code>org.kde.kwin.Screenshot.screenshotFullscreen</code>, but at the time of this writing that only captured a portion of the display.</p>
 
 <h2 id="audio-configuration">Audio configuration</h2>
 
@@ -1393,61 +1555,6 @@ Time per period = 11.079789</code></pre></div>
 
 <p>Finally, add the alsa daemon to the default runlevel so that it starts automatically the next time we boot the phone.</p>
 <div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">second-chance:~$ sudo rc-update add alsa default</code></pre></div><div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">* service alsa added to runlevel default</code></pre></div>
-<h2 id="configure-x-forwarding">Configure x-forwarding</h2>
-
-<p>Before we begin, I should mention that <a href="https://unix.stackexchange.com/questions/236482/is-there-a-downside-to-enabling-x11-forwarding-in-ssh">X-forwarding poses a security risk to the client side</a>. That said, there might be times when you would like to use a GUI app on your mobile phone, but the GUI wasn&rsquo;t designed for touch screens. For example, perhaps you would like to explore a dbus interface using <a href="https://github.com/GNOME/d-feet">dFeet</a>. Unfortunately dFeet does not have a CLI and is not mobile friendly. In such cases, I will start <code>sshd</code> on the PinePhone and use x-forwarding to my development box. Once I am finished, I always shut down <code>sshd</code>. No sense in leaving it running since I have <code>serial</code>.</p>
-
-<p>First, let&rsquo;s configure the server side (PinePhone) by editing <code>/etc/ssh/sshd_config</code> (see <a href="http://man7.org/linux/man-pages/man5/sshd%5Fconfig.5.html">sshd_config(5)</a>).</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">sudo vi /etc/ssh/sshd_config</code></pre></div>
-<p>Page down to the bottom of the file and add the following conditional block which will override the system wide <code>X11Forwarding</code> and <code>X11UseLocalhost</code> settings for your user.</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">Match User dustfinger
-  X11Forwarding yes
-  X11UseLocalhost yes</code></pre></div>
-<p>Start the SSH daemon.</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">second-chance:~$ sudo rc-service sshd start</code></pre></div><div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">* Starting sshd ...                       [ ok ]</code></pre></div>
-<p>If it is was already started, then you will have to restart it for the changes to take effect. Back on the client side, generate a new RSA key.</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">mkdir -p ~/.ssh
-ssh-keygen -f ~/.ssh/id_second-chance_rsa</code></pre></div><div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">Generating public/private rsa key pair.
-Enter passphrase (empty for no passphrase):
-Enter same passphrase again:
-Your identification has been saved in /home/dustfinger/.ssh/id_second-chance_rsa.
-Your public key has been saved in /home/dustfinger/.ssh/id_second-chance_rsa.pub.
-The key fingerprint is:
-SHA256:3KcVsaPW0FxMatRMkX+/JKN21OPItaxi5P1wZBRliGo dustfinger@galactica
-The key&#39;s randomart image is:
-+---[RSA 3072]----+
-|            oB==+|
-|           +.=*..|
-|          ..O  o |
-|       . .E= o. o|
-|        S.+ + .oo|
-|         . = +o=.|
-|          + =.O.+|
-|           * =o= |
-|          o o.o. |
-+----[SHA256]-----+</code></pre></div>
-<p>Edit <code>$HOME/.ssh/config</code> (see <a href="http://man7.org/linux/man-pages/man5/ssh%5Fconfig.5.html">ssh_config(5)</a>) creating a new file if it does not already exist. Add the following host specific configuration. Replace <code>second-chance</code> with the host name or IP address of your PinePhone.</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">host second-chance
-     Hostname second-chance
-     ForwardAgent yes
-     ForwardX11 yes
-     # ForwardX11Trusted yes
-     IdentityFile ~/.ssh/id_second-chance_rsa
-     User dustfinger</code></pre></div>
-<p>I commented out <code>ForwardX11Trusted yes</code> on purpose. Only set <code>ForwardX11Trusted yes</code> if you fully trust the server, i.e. your PinePhone. You may choose to leave that option commented out and instead pass <code>-Y</code> optional flag only when you require x-forwarding and untrusted X11 forwarding fails. For the purposes of this post I have uncommented that option for my own convenience.</p>
-
-<p>Copy ssh id to remote authorized keys (see <a href="https://linux.die.net/man/1/ssh-copy-id">ssh-copy-id(1)</a>).</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">ssh-copy-id -i ~/.ssh/id_second-chance_rsa dustfinger@second-chance</code></pre></div><div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">/usr/bin/ssh-copy-id: INFO: Source of key(s) to be installed: &#34;/home/dustfinger/.ssh/id_second-chance_rsa.pub&#34;
-/usr/bin/ssh-copy-id: INFO: attempting to log in with the new key(s), to filter out any that are already installed
-/usr/bin/ssh-copy-id: INFO: 1 key(s) remain to be installed -- if you are prompted now it is to install the new keys
-dustfinger@second-chance&#39;s password:
-
-Number of key(s) added: 1
-
-Now try logging into the machine, with:   &#34;ssh &#39;dustfinger@second-chance&#39;&#34;
-and check to make sure that only the key(s) you wanted were added.</code></pre></div>
-<p>As long as you don&rsquo;t see any warnings, such as <em>Warning: untrusted X11 forwarding setup failed: xauth key data not generated</em>, your <em>SSH</em> requests should have access to the display. You can test this by running seeing if the <code>$DISPLAY</code> variable is set.</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">ssh dustfinger@second-chance <span style="color:#ed9d13">&#39;echo $DISPLAY&#39;</span></code></pre></div><div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">localhost:10.0</code></pre></div>
 <h2 id="dbus-basics">DBus Basics</h2>
 
 <p><em>DBus</em> is a service for <em>Inter-Process Communication</em> (IPC). When a service registers itself with DBus, it publishes an interface to facilitate interoperabillity with other processes. The oFono daemon is one such service. We will be using DBus to get information about our modem and configuration from the oFono daemon. Many frameworks wrap the low <a href="https://gitlab.freedesktop.org/dbus/dbus/-/blob/master/doc/busconfig.dtd">level libdbus XML bindings</a> providing <a href="https://www.freedesktop.org/wiki/Software/DBusBindings/">higher level bindings</a> for their own API. High-level Interface bindings use appropriate programming language constructs, meaning that bindings for Java based services would normally expose a Java interface and Python based services would normally expose a Python interface etc.</p>
@@ -1530,7 +1637,7 @@ method void org.ofono.ConnectionContext.SetProperty(QString property, QDBusVaria
 
 <p>You might already think that you have <code>qdbusviewer</code> installed because the command is in the <code>$PATH</code>.</p>
 <div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">second-chance:~$ which qdbusviewer</code></pre></div><div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">/usr/bin/qdbusviewer</code></pre></div>
-<p>However, if you execute the command, it becomes clear that it is missing implementation binaries.</p>
+<p>However, if you execute the command, it will become clear that it is missing at least one implementation binary.</p>
 <div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">second-chance:~$ qdbusviewer</code></pre></div><div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">qdbusviewer: could not exec &#39;/usr/lib/qt5/bin/qdbusviewer&#39;: No such file or directory</code></pre></div>
 <p>You can install <code>qdbusviewer</code> by running the following command.</p>
 <div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">second-chance:~$ sudo apk add qt5-qdbusviewer</code></pre></div><div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">[sudo] password for dustfinger:
@@ -1567,7 +1674,7 @@ cmd:qdbusviewer-qt5
 qt5-qdbusviewer-5.14.2-r0 license:
 (LGPL-2.0-or-later OR GPL-3.0-only OR GPL-2.0-or-later) AND Qt-GPL-exception-1.0 AND GFDL-1.3-or-later</code></pre></div>
 <p>Once you have x-forwarding configured, you will be able to render the Qt D-Bus instance that is running on your phone on your computer&rsquo;s monitor:</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">dustfinger@galactica ~/ $ ssh dustfinger@second-chance qdbusviewer</code></pre></div>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">dustfinger@galactica ~/ $ ssh second-chance qdbusviewer</code></pre></div>
 <figure>
     <img src="https://bloggerbust.ca/post/install_and_configure_postmarketos_with_plasma_mobile_on_the_pinephone/qtdbusviewer-with-ofono-radio-settings-get-properties-selected-x-forwarding.png"/> 
 </figure>
@@ -1575,11 +1682,11 @@ qt5-qdbusviewer-5.14.2-r0 license:
 
 <p>The tool is dead simple. Use the tab to switch between <em>Session</em> and <em>System Bus</em>. Services which are registered with DBus are listed by name in the left pane. Selecting a service will cause Qt D-Bus Viewer to display a list of root level interfaces or object paths depending on what the service exposes. Root level interfaces are actually defined in the object path <code>/</code>, but the UI omits that object path for convenience. Expanding an object path will reveal its interface in a tree-view. To execute a method, simply double click it.</p>
 
-<p>Take a moment and play around with it and don&rsquo;t forget to visit the <a href="https://doc.qt.io/qt-5/qtdbus-index.html">Qt D-Bus documentation</a> and keep the <a href="https://doc.qt.io/qt-5/qdbustypesystem.html">Qt D-Bus type system</a> handy for reference.</p>
+<p>Take a moment to play around with it. Don&rsquo;t forget to visit the <a href="https://doc.qt.io/qt-5/qtdbus-index.html">Qt D-Bus documentation</a> and keep the <a href="https://doc.qt.io/qt-5/qdbustypesystem.html">Qt D-Bus type system</a> handy for reference.</p>
 
 <h3 id="gnome-d-feet-d-bus-debugger">GNOME D-Feet D-Bus Debugger</h3>
 
-<p>D-Feet is less mobile friendly than Qt DBus Viewer. Although you can scroll by touch-dragging a window pane, the UI frequently stops responding after selecting a bus name. Since, in my case at least, it is not practicable from the touch interface, I recommend that you <a href="#configure-x-forwarding">configure x-forwarding</a> and interact with d-feet from your computer.</p>
+<p>D-Feet is buggy when operated from the PinePhone touch display. Although you can scroll by touch-dragging a window pane, the UI frequently stops responding after selecting a bus name. Since, in my case at least, it is not practicable from the touch interface, I recommend that you <a href="#configure-x-forwarding">configure x-forwarding</a> and interact with d-feet from your computer.</p>
 
 <p>To illustrate my experience I took a screen capture after I managed to call <code>getProperties</code> from the <code>Sim Manager</code>:
 <img src="https://bloggerbust.ca/post/install_and_configure_postmarketos_with_plasma_mobile_on_the_pinephone/d-feet-with-ofono-quectelqmi-sim-manager-interface-get-properties-method-selected-mobile.png" alt="" /></p>
@@ -1587,7 +1694,7 @@ qt5-qdbusviewer-5.14.2-r0 license:
 <p>I then selected another bus name which caused the UI to stop responding at the moment that both bus names were highlighted.
 <img src="https://bloggerbust.ca/post/install_and_configure_postmarketos_with_plasma_mobile_on_the_pinephone/d-feet-with-ofono-quectelqmi-sim-manager-service-and-freedesktop-login-service-selected-ui-unresponsive-mobile.png" alt="" /></p>
 
-<p>I discovered that swiping down to reveal the <em>Quick Settings Tray</em> often, but not always, causes D-Feet UI to become responsive again. So if you are experimenting with D-Feet from the touch screen of your phone and the UI locks up, you could try swiping down to get it to respond. Failing that, there is always <code>SIGINT</code>, i.e. <code>kill -2 `pidof d-feet`</code>.</p>
+<p>I discovered that swiping down to reveal the <em>quick settings tray</em> often, but not always, causes D-Feet UI to become responsive again. So if you are experimenting with D-Feet from the touch screen of your phone and the UI locks up, you could try swiping down to get it to respond. Failing that, there is always <code>SIGINT</code>, i.e. <code>kill -2 `pidof d-feet`</code>.</p>
 
 <p>To install dFeet run the following command:</p>
 <div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">second-chance:~$ sudo apk add d-feet</code></pre></div><div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">fetch http://postmarketos1.brixit.nl/postmarketos/master/aarch64/APKINDEX.tar.gz
@@ -1607,7 +1714,7 @@ OK: 1356 MiB in 594 packages</code></pre></div>
 <div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">second-chance:~$ sudo rc-service sshd start</code></pre></div><div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">* Starting sshd ...
 [ ok ]</code></pre></div>
 <p>From your home computer launch <code>d-feet</code>:</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">dustfinger@galactica ~/ $ ssh -Y dustfinger@second-chance d-feet</code></pre></div>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">dustfinger@galactica ~/ $ ssh second-chance d-feet</code></pre></div>
 <p>Just like <a href="#qt-dbus-viewer">Qt DBus Viewer</a>, D-Feet is dead simple to use. Services which are registered with DBus are listed by name in the left pane. Selecting a service will cause D-Feet to display that service&rsquo;s <em>address</em>, <em>name</em>, <em>unique name</em> and <em>object path</em> in the right pane. Expanding an object path will reveal its interface in a tree-view. To execute a method, simply double click it.</p>
 
 <figure>
@@ -1654,11 +1761,11 @@ crw-rw----    1 root     dialout   188,   3 May 16 05:08 /dev/ttyUSB3</code></pr
 <p>In my case, <em>dustfinger</em> is not a member of the <em>dialout</em> group. I will add <em>dustfinger</em> to the <em>dialout</em> group using <code>gpasswd</code>.</p>
 <div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">second-chance:~$ sudo gpasswd -a <span style="color:#40ffff">$USER</span> dialout</code></pre></div><div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">[sudo] password for dustfinger:
 Adding user dustfinger to group dialout</code></pre></div>
-<p>You might be wondering how we know which of the four serial ports to connect to. Thankfully postmarketOS created descriptive symlinks to each of these ports. We can use the find command to locate those symlinks:</p>
+<p>You might be wondering how we know which of the four serial ports to connect to. Thankfully postmarketOS created descriptive symlinks to each of these ports. We can use the <code>find</code> command to locate those symlinks:</p>
 <div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">second-chance:~$ find /dev -maxdepth <span style="color:#3677a9">1</span> -type l -exec ls -la <span style="color:#ed9d13">&#39;{}&#39;</span> <span style="color:#ed9d13">\;</span> | grep ttyUSB</code></pre></div><div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">lrwxrwxrwx    1 root     root             7 Jun  4 05:09 /dev/EG25.MODEM -&gt; ttyUSB3
 lrwxrwxrwx    1 root     root             7 Jun  4 05:09 /dev/EG25.AT -&gt; ttyUSB2
 lrwxrwxrwx    1 root     root             7 Jun  4 05:09 /dev/EG25.NMEA -&gt; ttyUSB1</code></pre></div>
-<p>It should be obvious that when establishing an interactive session with the modem using a tool like <code>minicom</code> the correct port is the one with the alis <code>EG25.MODEM</code>. In fact, we can simply use the alias if we prefer.</p>
+<p>It should be obvious that when establishing an interactive session with the modem using a tool like <code>minicom</code> the correct port is the one with the alias <code>EG25.MODEM</code>. In fact, we can simply use the alias if we prefer.</p>
 
 <h3 id="enable-ofono-debug-logging">Enable oFono debug logging</h3>
 
@@ -1710,8 +1817,6 @@ ENABLE_AT_DEBUGGING=true</code></pre></div>
 
 <p>Please refer to the <a href="https://wiki.pine64.org/images/2/2e/Quectel%5FEC25EC21%5FAT%5FCommands%5FManual%5FV1.2.pdf">Quectel EC25 AT commands manual</a> when following along. There is an appendix on page 192 with many useful tables, such as terms &amp; abbreviations and error codes.</p>
 
-<p>To get a value from an AT command, end the command with a question mark.</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">AT+QDAI?</code></pre></div>
 <p>There are three categories of AT commands supported by the Quectel EC25.</p>
 
 <ol>
@@ -1767,7 +1872,7 @@ ENABLE_AT_DEBUGGING=true</code></pre></div>
 OK</code></pre></div>
 <h3 id="configure-the-modem-for-audio">Configure the modem for audio</h3>
 
-<p>This step is no longer necessary to perform manually. PostmarketOS now has a service named <code>pinephone_setup-modem-audio</code> that calls <code>/usr/bin/pinephone_setup-modem-audio</code> which runs the <code>AT+QDAI</code> AT command for you. If you need to change your audio routing for some reason, then you will need to update that script or it will just reset the configuration on next reboot. You are welcome to read on for learning purposes, or <a href="#check-audio-mode">skip to the next section</a>.</p>
+<p>It is no longer necessary to perform this step manually. PostmarketOS now has a service named <code>pinephone_setup-modem-audio</code> that calls <code>/usr/bin/pinephone_setup-modem-audio</code> which runs the <code>AT+QDAI</code> AT command for you. If you need to change your audio routing for some reason, then you will need to update that script or it will just reset the configuration on next reboot. You are welcome to read on for learning purposes, or <a href="#check-audio-mode">skip to the next section</a>.</p>
 
 <p>It is time to <a href="https://xnux.eu/devices/feature/modem-pp.html#toc-setting-up-the-modem-for-voice-calling">configure the modem for audio</a> by running the Quectel Digital Audio Interface (QDAI) configuration write command defined on page 193 of the <em><a href="https://wiki.pine64.org/images/2/2e/Quectel%5FEC25EC21%5FAT%5FCommands%5FManual%5FV1.2.pdf">AT commands manual</a></em>.</p>
 <div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">AT+QDAI=<span style="color:#3677a9">1</span>,0,0,2,0,1,1,1</code></pre></div>
@@ -1787,7 +1892,7 @@ OK</code></pre></div>
   1 - 16kHz sample
   1 - 1 slot
   1 - map to first slot (the only slot)</code></pre></div>
-<p>See page 194 of the AT commands manual for a full explanation the parameters and their values.</p>
+<p>See page 194 of the AT commands manual for a full explanation of the parameters and their values.</p>
 
 <h3 id="check-audio-mode">Check Audio Mode</h3>
 
@@ -1819,7 +1924,7 @@ OK</code></pre></div>
 </tbody>
 </table>
 
-<p>It is unlikely for this mode to be sent incorrect, but if you find that you are not hearing any sound after <a href="#configure-the-modem-for-audio">configuring the modem for audio</a>, then it is easy enough to call the <code>AT+QAUDMOD</code> read command for confirmation.</p>
+<p>It is unlikely for this mode to be set incorrect, but if you find that you are not hearing any sound after <a href="#configure-the-modem-for-audio">configuring the modem for audio</a>, then it is easy enough to call the <code>AT+QAUDMOD</code> read command for confirmation.</p>
 
 <figure>
     <img src="https://bloggerbust.ca/post/install_and_configure_postmarketos_with_plasma_mobile_on_the_pinephone/minicom-check-modem-audio-mode.png"/> 
@@ -1905,7 +2010,7 @@ OK</code></pre></div>
 <p>Unfortunately the manual does not clearly specify what <em>minimal functionality</em> means. Here are two known symptoms that might indicate that the modem is not in <em>full functionality</em> mode.</p>
 
 <ol>
-<li>Checking operator registration and mode with <code>AT+COPS?</code> returns a 0 meaning that the operator mode and registration is <code>UNKNOWN</code></li>
+<li><code>AT+COPS?</code> returns a 0, meaning that the operator mode and registration are <code>UNKNOWN</code></li>
 <li>Checking <em>PIN</em> status with <code>AT+CPIN?</code> returns <code>+CME ERROR: 13</code></li>
 </ol>
 
@@ -2009,7 +2114,7 @@ OK</code></pre></div>
 <li>Here is a DuckDuckGo search for <a href="https://duckduckgo.com/?q=complete+list+of+APN+settings"><em>complete list of APN settings</em></a></li>
 </ol>
 
-<p>My carrier is Koodo and I was able to find the <a href="https://www.koodomobile.com/en/help/setting-data-your-non-koodo-phone">APN settings at koodomobile.com</a>. Hopefully you were able to find your APN settings before moving on.</p>
+<p>My carrier is Koodo and I was able to find the <a href="https://www.koodomobile.com/en/help/setting-data-your-non-koodo-phone">APN settings at koodomobile.com</a>. Hopefully you are able to find your APN settings without difficulty.</p>
 
 <h3 id="determine-your-operator-service-name">Determine your operator service name</h3>
 
@@ -2055,15 +2160,17 @@ Did not receive a reply. Possible causes include: the remote application did not
       }</code></pre></div>
 <h3 id="shutdown-ofono-service">Shutdown Ofono service</h3>
 
-<p>Since we are going to be manually configuring the APN settings, we must shutdown the <code>ofonod</code> daemon, otherwise our changes will not persist.</p>
+<p>Since we are going to be manually configuring the APN settings, we must shutdown the oFono daemon, otherwise our changes will not persist.</p>
 <div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">second-chance:~$ sudo rc-service ofono stop</code></pre></div><div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">[sudo] password for dustfinger:
  * Stopping oFono ...                                                     [ ok ]
  * Disabling EG25 WWAN module ...</code></pre></div>
 <p>For those that are curious: Quectel teamed up with Qualcomm a couple of years ago <a href="https://www.quectel.com/infocenter/news/323.htm">to accelerate the production of <em>Cellular Vehicle-to-Everthing (C-V2X) technology</em></a>. Now, in 2020, we have <a href="https://projects.osmocom.org/projects/quectel-modems/wiki/QMI">Qualcomm Linux Modems by Quectel that use the Qualcomm MSM Interface (QMI)</a>. So, if you know that you have a modem that uses QMI, then you can exploit this knowledge to verify which network interface is exposed by the modem.</p>
 <div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">second-chance:~$ sudo find -L /sys/class/net/ -maxdepth <span style="color:#3677a9">2</span> -type d -name <span style="color:#ed9d13">&#39;qmi&#39;</span></code></pre></div><div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">/sys/class/net/wwan0/qmi</code></pre></div>
+<p>The resulting path has the following form: <code>/sys/class/net/&lt;network interface&gt;/qmi</code>.</p>
+
 <h3 id="configure-apn-settings--mvno">Configure APN settings (MVNO)</h3>
 
-<p>I am going to be configuring my modem for <code>LTE/GPRS</code> coverage. The <code>ofono</code> framework keeps settings in files called stores which are kept in <code>/var/lib/ofono/&lt;IMSI&gt;/{gprs,lte,netreg,radiosetting,sms,voicecall}</code>. These settings files are essentially <em>INI</em> files, so you will be setting key value pairs. You can find out what each key value pair is for by reading the appropriate <a href="https://git.kernel.org/pub/scm/network/ofono/ofono.git/tree/doc">doc files in the repository</a>.</p>
+<p>I am going to configure my modem for <code>LTE/GPRS</code> coverage. The oFono framework keeps settings in files called stores which are kept in <code>/var/lib/ofono/&lt;IMSI&gt;/{gprs,lte,netreg,radiosetting,sms,voicecall}</code>. These settings files are essentially <em>INI</em> files, so you will be setting key value pairs. You can find out what each key value pair is for by reading the appropriate <a href="https://git.kernel.org/pub/scm/network/ofono/ofono.git/tree/doc">doc files in the repository</a>.</p>
 
 <dl>
 <dt><a href="https://git.kernel.org/pub/scm/network/ofono/ofono.git/tree/doc/connman-api.txt">connman-api.txt</a></dt>
@@ -2072,9 +2179,7 @@ Did not receive a reply. Possible causes include: the remote application did not
 <dd>contains properties relevant to lte</dd>
 </dl>
 
-<p>Those documentation files are really about the <code>ofonod</code> so they are also valuable reference when making calls over <code>DBus</code>. We only care about the <em>Properties</em> section.</p>
-
-<p>Here is what my <code>gprs</code> file contained before editing.</p>
+<p>Those documentation files are really about the oFono daemon so they are also valuable reference when making calls over <code>DBus</code>. For our purpose, we only care about the <em>Properties</em> section. Here is what my <code>gprs</code> file contained before editing.</p>
 <div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">second-chance:~$ sudo cat /var/lib/ofono/<span style="color:#6ab825;font-weight:bold">$(</span><span style="color:#24909d">echo</span> <span style="color:#ed9d13">&#34;AT+CIMI&#34;</span> | atinout - /dev/EG25.AT - | grep -iE <span style="color:#ed9d13">&#39;[0-9]&#39;</span><span style="color:#6ab825;font-weight:bold">)</span>/gprs</code></pre></div><div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">[sudo] password for dustfinger:
 [Settings]
 Powered=true
@@ -2088,16 +2193,18 @@ Password=
 AuthenticationMethod=chap
 Type=internet
 Protocol=ip</code></pre></div>
-<p>First, we will edit the <em>lte</em> settings. This is very straight forward, it just defines <em>APN</em> which it will used on the next automatic activation. If you set the DefaultAccessPointName to empty string, then it will clear the default APN from the modem&rsquo;s memory.</p>
+<p>First, we will edit the <em>lte</em> settings. The configurable properties for <em>lte</em> are straight forward. The most interesting property is the <code>DefaultAccessPointName</code> which defines the <em>APN</em> that will be selected for the next automatic activation. If you set the <code>DefaultAccessPointName</code> to empty string, then it will clear the default APN from the modem&rsquo;s memory.</p>
 <div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">second-chance:~$ sudo vi /var/lib/ofono/<span style="color:#6ab825;font-weight:bold">$(</span><span style="color:#24909d">echo</span> <span style="color:#ed9d13">&#34;AT+CIMI&#34;</span> | atinout - /dev/EG25.AT - | grep -iE <span style="color:#ed9d13">&#39;[0-9]&#39;</span><span style="color:#6ab825;font-weight:bold">)</span>/lte</code></pre></div><div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">[Settings]
 DefaultAccessPointName=sp.koodo.com
 Protocol=dual
 AuthenticationMethod=None
 Username=
 Password=</code></pre></div>
-<p>Configuring the <code>gprs</code> is more involved. Keep in mind that <em>Koodo</em> is a <em>Mobile Virtual Network Operator</em> (MVNO), so between the two carrier services I was actually able to figure out a couple of different configurations that all worked fine. The only apparent difference was the DNS settings after connecting to the network.</p>
+<p>There will not be a one-to-one relationship between the APN settings that you find online for your carrier and what you need to configure for oFono, but it should be fairly straight forward to translate. For example, since the <a href="https://www.koodomobile.com/en/help/setting-data-your-non-koodo-phone">Koodo APN settings page</a> shows <em>Blank</em> for <code>Username</code> and <code>Password</code> it made sense to set <code>AuthenticationMethod</code> to <code>None</code> and leave both <code>Username</code> and <code>Password</code> values empty. How did I know to set <code>AuthenticationMethod</code> to <code>None</code> rather than leaving it blank like I did with <code>Username</code> and <code>Password</code>? Look at the properties section in the <a href="https://git.kernel.org/pub/scm/network/ofono/ofono.git/tree/doc/lte-api.txt">lte-api.txt</a> and locate the documentation for the <code>AuthenticationMethod</code> property, there you will find a list of valid values. Similarly, the Koodo APN page shows the field <code>IP Type</code> set to <code>IPv4v6</code>, so I set the <code>Protocol</code> property to <code>dual</code>; again, referring to <a href="https://git.kernel.org/pub/scm/network/ofono/ofono.git/tree/doc/lte-api.txt">lte-api.txt</a>.</p>
 
-<p>I created a single context from the <a href="https://www.koodomobile.com/en/help/setting-data-your-non-koodo-phone">APN settings at koodomobile.com</a>.</p>
+<p>Configuring the <code>gprs</code> is more involved. Keep in mind that <em>Koodo</em> is a <em>Mobile Virtual Network Operator</em> (MVNO), that means another operator provides the network infrastructure which Koodo makes use of. Between the two operators I was actually able to figure out a couple of different configurations that all worked fine. The only apparent difference was the DNS settings after connecting to the network.</p>
+
+<p>Using the <a href="https://www.koodomobile.com/en/help/setting-data-your-non-koodo-phone">APN settings at koodomobile.com</a> as a guide, I translated each field into an appropriate property understood by <code>ofonod</code> by looking them up in the <em>Connection Context hierarchy - Properties</em> section of <a href="https://git.kernel.org/pub/scm/network/ofono/ofono.git/tree/doc/connman-api.txt">connman-api.txt</a>. I then updated the <code>gprs</code> section named <em>context1</em> as shown below.</p>
 <div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">second-chance:~$ sudo vi /var/lib/ofono/<span style="color:#6ab825;font-weight:bold">$(</span><span style="color:#24909d">echo</span> <span style="color:#ed9d13">&#34;AT+CIMI&#34;</span> | atinout - /dev/EG25.AT - | grep -iE <span style="color:#ed9d13">&#39;[0-9]&#39;</span><span style="color:#6ab825;font-weight:bold">)</span>/gprs</code></pre></div><div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">[Settings]
 Powered=true
 RoamingAllowed=false
@@ -2112,16 +2219,14 @@ Type=mms
 Protocol=dual
 MessageCenter=http://aliasredirect.net/proxy/koodo/mmsc
 MessageProxy=74.49.0.18:80</code></pre></div>
-<p>I should mention that if you enter an invalid configuration, the system might revert your settings in <code>/var/lib/ofono/&lt;IMSI&gt;/{gprs,lte}</code> back to their defaults as soon as the ofono service has been started. In that case, you will need to shutdown the ofono service, edit the configuration and bring the service back online until the configuration is accepted.</p>
-
-<p>With that said, it is time to start the ofono service.</p>
+<p>I should mention that if you enter an invalid configuration, the system might revert your settings in <code>/var/lib/ofono/&lt;IMSI&gt;/{gprs,lte}</code> back to their defaults as soon as the oFono service has been started. In that case, you will need to shutdown the oFono service, edit the configuration and bring the service back online until the configuration is accepted. With that said, it is time to start the oFono service.</p>
 <div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-nil" data-lang="nil">second-chance:~$ sudo rc-service ofono start</code></pre></div><div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">* AT debugging is enabled by config
 * command_args_foreground = -d -n
 * Starting oFono ...                                                     [ ok ]</code></pre></div>
-<p>and checked DBus to see if the context was picked up by the modem.</p>
+<p>and check DBus to see if the context was picked up by the modem.</p>
 <div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">second-chance:~$ sudo qdbus --system org.ofono | grep -i context</code></pre></div><div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">/quectelqmi_0/context1
 /quectelqmi_0/context2</code></pre></div>
-<p>You might be surprised to see that the modem has two contexts in memory considering that I only configured a single context. Let&rsquo;s shutdown the ofono service and take another look at the gprs configuration.</p>
+<p>You might be surprised to see that the modem has two contexts in memory considering that I only configured a single context. Let&rsquo;s shutdown the oFono service and take another look at the <code>gprs</code> configuration.</p>
 <div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">second-chance:~$ sudo rc-service ofono stop &amp;&amp; sudo vi /var/lib/ofono/<span style="color:#6ab825;font-weight:bold">$(</span><span style="color:#24909d">echo</span> <span style="color:#ed9d13">&#34;AT+CIMI&#34;</span> | atinout - /dev/EG25.AT - | grep -iE <span style="color:#ed9d13">&#39;[0-9]&#39;</span><span style="color:#6ab825;font-weight:bold">)</span>/gprs</code></pre></div><div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">[Settings]
 Powered=true
 RoamingAllowed=false
@@ -2144,7 +2249,7 @@ Password=
 AuthenticationMethod=chap
 Type=internet
 Protocol=ip</code></pre></div>
-<p>A new context was generated, but without an APN. After quite a bit of experimenting I decided to try making a second context, but with the APN set to the name of the context that was generated.</p>
+<p>It turns out that <em>context2</em> has no value set for <code>AccessPointName</code>, but it does have an interesting <code>Name</code> property. After quite a bit of experimenting I decided to try assigning the <code>AccessPointName</code> property the same value as the <code>Name</code> property. I then assigned a meaningful name to the <code>Name</code> property and set the other fields exactly the same as <em>context1</em>.</p>
 <div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">[context2]
 Name=Telus
 AccessPointName=attach.telus.com
@@ -2154,24 +2259,152 @@ AuthenticationMethod=none
 Type=mms
 MessageCenter=http://aliasredirect.net/proxy/koodo/mmsc
 MessageProxy=74.49.0.18:80</code></pre></div>
-<p>I then used <code>ofonoctl</code> to connect <code>wann0</code> and append DNS.</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">second-chance:~$ sudo ofonoctl wan --connect --append-dns</code></pre></div><div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">Interface    Protocol    APN               Method    Address         Gateway      DNS
+<p>Telus is the name of the <em>Mobile Network Operator</em> (MNO) that <em>Koodo</em> uses for its network infrastructure.</p>
+
+<p>With that change in place, let&rsquo;s start the oFono daemon and double checked that both contexts are recognized by oFono.</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">second-chance:~$ sudo rc-service ofono start <span style="color:#3677a9">1</span>&gt; /dev/null &amp;&amp; sudo qdbus --system org.ofono | grep -i context</code></pre></div><div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">/quectelqmi_0/context1
+/quectelqmi_0/context2</code></pre></div>
+<p>Both contexts were recognized, but it never hurts to double check the settings after a significant change.</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">second-chance:~$ qdbus --system org.ofono /quectelqmi_0/context1 org.ofono.ConnectionContext.GetProperties &amp;&amp; qdbus --system org.ofono /quectelqmi_0/context2 org.ofono.ConnectionContext.GetProperties</code></pre></div><div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">AccessPointName: sp.koodo.com
+Active: false
+AuthenticationMethod: none
+IPv6.Settings: MessageCenter: http://aliasredirect.net/proxy/koodo/mmsc
+MessageProxy: 74.49.0.18:80
+Name: Koodo
+Password:
+Protocol: ip
+Settings: Type: mms
+Username:
+AccessPointName: attach.telus.com
+Active: false
+AuthenticationMethod: none
+IPv6.Settings: MessageCenter: http://aliasredirect.net/proxy/koodo/mmsc
+MessageProxy: 74.49.0.18:80
+Name: Telus
+Password:
+Protocol: ip
+Settings: Type: mms
+Username:</code></pre></div>
+<p>If the settings were rejected by oFono, then they will be reverted. In that case, you will need to stop the oFono daemon and try tweaking your configuration settings before moving on. You might have noticed that neither context is active. I will be talking about what to do if your context does not become active in the next section.</p>
+
+<h3 id="ensure-a-context-is-active">Ensure a context is Active</h3>
+
+<p>A context should be activated automatically. To see if <code>context1</code> is activate, filter the results of <code>org.ofono.ConnectionContext.GetProperties</code> using grep.</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">second-chance:~$ qdbus --system org.ofono /quectelqmi_0/context1 org.ofono.ConnectionContext.GetProperties | grep Active</code></pre></div><div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">Active: false</code></pre></div>
+<p>Context activation might take several seconds after the oFono daemon has started, so if you check for an active context immediately after oFono starts you might not find one. In that case, wait a few seconds and try again.</p>
+
+<p>If you have ever called <code>ofonoctl wan</code> only to find an empty record set, that is because it was unable to find <em>IPv4</em> or <em>IPv6</em> settings which is a symptom of not having an active context.</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">sudo ofonoctl wan</code></pre></div><div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">Interface    Protocol    APN               Method    Address         Gateway      DNS
+-----------  ----------  ----------------  --------  --------------  -----------  ----------------------------</code></pre></div>
+<p>The reason why the context was not able to activate is because the connection manager is not attached.</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">second-chance:~$ qdbus --system org.ofono /quectelqmi_0 org.ofono.ConnectionManager.GetProperties | grep Attached</code></pre></div><div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">Attached: false</code></pre></div>
+<p>The obvious question to ask now is, how do we get the connection manager to return <code>true</code> for the <code>Attached</code> property? The easiest thing to do is restart the <code>eg25</code> service.</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">second-chance:~$ sudo rc-service eg25 restart &amp;&amp; sudo rc-service ofono restart</code></pre></div><div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">* Disabling EG25 WWAN module ...
+* Enabling EG25 WWAN module ...
+* Stopping oFono ...                                         [ ok ]
+* AT debugging is enabled by config
+* command_args_foreground = -d -n
+* Starting oFono ...                                         [ ok ]</code></pre></div>
+<p>&hellip; and like magic, everything is happy once again</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">second-chance:~$ qdbus --system org.ofono /quectelqmi_0 org.ofono.ConnectionManager.GetProperties | grep Attached &amp;&amp; qdbus --system org.ofono /quectelqmi_0/context1 org.ofono.ConnectionContext.GetProperties | grep Active &amp;&amp; ofonoctl wan</code></pre></div><div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">Attached: true
+Active: true
+Interface    Protocol    APN               Method    Address         Gateway      DNS
 -----------  ----------  ----------------  --------  --------------  -----------  ----------------------------
 wwan0        ipv4        sp.koodo.com      static    &lt;REDACTED&gt;      &lt;REDACTED&gt;   &lt;REDACTED&gt;, &lt;REDACTED&gt;</code></pre></div>
-<p>Since LTE is activated automatically, sometimes the second context will be chosen and I will see this output from <code>ofonoctl</code>.</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">Interface    Protocol    APN               Method    Address         Gateway      DNS
------------  ----------  ----------------  --------  --------------  -----------  ----------------------------
-wwan0        ipv4        attach.telus.com  static    &lt;REDACTED&gt;      &lt;REDACTED&gt;   &lt;REDACTED&gt;, &lt;REDACTED&gt;</code></pre></div>
-<p>Now we should be able to ping a domain over the internet.</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">second-chance:~$ ping bloggerbust.ca -c <span style="color:#3677a9">3</span></code></pre></div><div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">PING bloggerbust.ca (185.199.111.153): 56 data bytes
+<p>You are probably wondering how we got into this state in the first place. Unfortunately, I am not sure. I have seen it happen quite a few times now though. If you know the reason, please comment.</p>
+
+<h3 id="static-ip-allocation">Static IP allocation</h3>
+
+<p>There are two prerequisite that must be met before adding a route</p>
+
+<ol>
+<li>you must <a href="#ensure-a-context-is-active">ensure that a context is active</a></li>
+<li>the method of configuring the host must be <em>static</em></li>
+</ol>
+
+<p>To determine if IP allocation is static, simply ask the connection manager.</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">second-chance:~$ qdbus --system org.ofono /quectelqmi_0/context1 org.ofono.ConnectionContext.GetProperties | grep -E <span style="color:#ed9d13">&#39;^Method&#39;</span></code></pre></div><div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">Method: static</code></pre></div>
+<p>If the <code>Method</code> is <code>dhcp</code>, then you will need to use <a href="http://pkgs.postmarketos.org/package/master/postmarketos/armv7/dhcpcd">a dhcp client</a>, such as <a href="https://wiki.alpinelinux.org/wiki/Udhcpc">udhcpc</a> (already installed), for dynamic IP allocation. I won&rsquo;t be covering <code>dhcp</code> in this post since that is not my use case.</p>
+
+<p>At this point we have established that manual IP allocation is necessary. Now, we must obtain our assigned <em>IP Address</em> and <em>Gateway</em> from the connection context. I think it will be a bit easier to take a look at all of the connection properties at once, rather than filtering fields using grep.</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">second-chance:~$ qdbus --system org.ofono /quectelqmi_0/context1 org.ofono.ConnectionContext.GetProperties</code></pre></div><div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">AccessPointName: sp.koodo.com
+Active: true
+AuthenticationMethod: none
+IPv6.Settings: MessageCenter: http://aliasredirect.net/proxy/koodo/mmsc
+MessageProxy: 74.49.0.18:80
+Name: Koodo
+Password:
+Protocol: ip
+Settings: Address: &lt;REDACTED&gt;
+DomainNameServers: &lt;REDACTED&gt;
+&lt;REDACTED&gt;
+Gateway: &lt;REDACTED&gt;
+Interface: wwan0
+Method: static
+Netmask: 255.255.255.0
+Type: mms
+Username:</code></pre></div>
+<p>The first thing I want to mention is that <code>qdbus</code> doesn&rsquo;t format this output perfectly. Whenever a property is a dictionary, <code>qdbus</code> prints the next property on the same line. For example, <code>Message Center</code> and <code>Address</code> should both be on their own lines. I will reformat the output for clarity.</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">AccessPointName: sp.koodo.com
+Active: true
+AuthenticationMethod: none
+IPv6.Settings:
+MessageCenter: http://aliasredirect.net/proxy/koodo/mmsc
+MessageProxy: 74.49.0.18:80
+Name: Koodo
+Password:
+Protocol: ip
+Settings:
+  Address: &lt;REDACTED-ADDRESS&gt;
+  DomainNameServers: &lt;REDACTED-DNS-1&gt;
+  &lt;REDACTED-DNS-2&gt;
+  Gateway: &lt;REDACTED-GATEWAY&gt;
+  Interface: wwan0
+  Method: static
+  Netmask: 255.255.255.0
+Type: mms
+Username:</code></pre></div>
+<p>The second thing to notice is that the <code>Protocol</code> property is set to <code>ip</code>. That means that the carrier service has assigned me an IPv4 address. All of the IPv4 settings are found in the <code>Settings</code> property. If the protocol had been <code>ipv6</code> instead, then the <code>IPv6.Settings</code> property would have been populated.</p>
+
+<p>Let&rsquo;s make sure we are in a consistent starting state by purging all allocated addresses from the interface</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">second-chance:~$ sudo ip addr flush dev wwan0</code></pre></div>
+<p>The routing table should not show any routes for interface <code>wwan0</code>, but you will see routes for <code>wlan0</code> if you have <em>Wi-Fi</em> up.</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">ip route show</code></pre></div><div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">172.16.0.0/16 dev usb0 scope link  src 172.16.42.1</code></pre></div>
+<p>Before we can add an IP address, we need to calculate the prefix length based on the netmask. Thankfully, the <code>ipcalc</code> command can do the math for us.</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">second-chance:~$ ipcalc -p &lt;REDACTED-ADDRESS&gt; <span style="color:#3677a9">255</span>.255.255.0</code></pre></div><div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">PREFIX=24</code></pre></div>
+<p>Now that we know the prefix length, we can add the address to our interface using <a href="https://en.wikipedia.org/wiki/Classless%5FInter-Domain%5FRouting#CIDR%5Fnotation">Classless Inter-Domain Routing</a> (CIDR) notation.</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">second-chance:~$ sudo ip addr add &lt;REDACTED-ADDRESS&gt;/24 dev wwan0</code></pre></div>
+<p>Let&rsquo;s see if that had any effect on our routing table.</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">second-chance:~$ ip route show</code></pre></div><div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">&lt;REDACTED-SUBNET&gt;/24 dev wwan0 scope link  src &lt;REDACTED-ADDRESS&gt;
+172.16.0.0/16 dev usb0 scope link  src 172.16.42.1</code></pre></div>
+<p>Before our network interface can be used to access the internet, we must first add an route to the gateway defined in our active context for the <code>wwan0</code> interface. Let&rsquo;s add a default route (for all addresses) via the gateway <code>&lt;REDACTED-GATEWAY&gt;</code> now.</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">second-chance:~$ sudo ip route add default via &lt;REDACTED-GATEWAY&gt; dev wwan0</code></pre></div>
+<p>Another look at our routing table will show the newly added route.</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">second-chance:~$ ip route show</code></pre></div><div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">default via &lt;REDACTED-GATEWAY&gt; dev wwan0
+&lt;REDACTED-SUBNET&gt;/24 dev wwan0 scope link  src &lt;REDACTED-ADDRESS&gt;
+172.16.0.0/16 dev usb0 scope link  src 172.16.42.1</code></pre></div>
+<p>The connection context tells us which DNS addressess our carrier service would like us to use when resolving domain names. If you are wondering whether or not you should trust your carrier service&rsquo;s DNS or a third party, such as <a href="https://servers.opennic.org/">OpenNic</a>, <a href="https://www.opendns.com/">OpenDNS</a> , <a href="https://www.dnscrypt.org/">DNSCrypt</a> etc., then I recommend reading <a href="https://www.grepular.com/DNSCrypt%5FReduces%5FPrivacy">DNSCrypt Reduces Privacy</a>. I am not suggesting that defending ones privacy is hopeless, but it is a topic deserving of its own series of blog posts. For the purposes of this article, I will be adding my carrier service&rsquo;s DNS to resolv.conf.</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh"><span style="color:#24909d">echo</span> <span style="color:#ed9d13">&#34;nameserver &lt;REDACTED-DNS-1&gt;&#34;</span> | sudo tee -a /etc/resolv.conf
+<span style="color:#24909d">echo</span> <span style="color:#ed9d13">&#34;nameserver &lt;REDACTED-DNS-2&gt;&#34;</span> | sudo tee -a /etc/resolv.conf</code></pre></div>
+<p>Now we should be able to ping a domain on the Internet:</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">ping bloggerbust.ca</code></pre></div><div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">PING bloggerbust.ca (185.199.111.153): 56 data bytes
 64 bytes from 185.199.111.153: seq=0 ttl=42 time=27.402 ms
 64 bytes from 185.199.111.153: seq=1 ttl=42 time=28.191 ms
-64 bytes from 185.199.111.153: seq=2 ttl=42 time=27.031 ms</code></pre></div>
-<p>If your carrier service is an MVNO it might be essential to define a context for both APNS, especially if you are moving around. I seem to require the Telus context to be defined to make phone calls. More testing is required to know for certain.</p>
+64 bytes from 185.199.111.153: seq=2 ttl=42 time=27.031 ms
+
+--- bloggerbust.ca ping statistics ---
+3 packets transmitted, 3 packets received, 0% packet loss
+round-trip min/avg/max = 27.031/27.541/28.191 ms</code></pre></div>
+<p>You have probably heard of <a href="https://git.sr.ht/~martijnbraam/ofonoctl/">ofonoctl</a> by Martin Braam. When you run ofonoctl wan, it locates your active context and tabulates the IP Address, Gateway and DNS just as we did above. When you add the <code>--connect</code> optional parameter, <code>ofonoctl</code> flushes your <code>wwan0</code> interface and adds the IP Address and DNS that it found in the active context. When you add the <code>--append-dns</code> optional parameter, then it will append the DNS to your <code>/etc/resolv.conf</code> for you. So why the heck did I just make you do it all manually? Now you know how it works. Now you will have an idea what might be wrong the next time you run:</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">ofonoctl wan --connect --append-dns</code></pre></div><div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">Interface    Protocol    APN               Method    Address         Gateway      DNS
+-----------  ----------  ----------------  --------  --------------  -----------  ----------------------------</code></pre></div>
+<p>&hellip; and an empty record-set is displayed.</p>
+
+<p>There is still an issue that you will be dealing with. Every time you bring up or down the <code>Wi-Fi</code> connection, Network Manager will completely override <code>/etc/resolv.conf</code>. I will be posting back later how to deal with this issue. For now, just be aware that is happening and know that you will have to re-append the DNS each time. You might want to write yourself a script to do that for you for the time being.</p>
 
 <h2 id="send-and-receive-sms">Send and receive SMS</h2>
 
-<p>Plasma Mobile has an SMS app named <em>Spacebar</em>, but at the time of writing I was not able to get <em>Spacebar</em> working. Instead, we are going to test both sending and receiving SMS from the command line. To receive SMS we will run a <code>dbus-monitor</code> process in the background that copy all messages on the <code>org.ofono.MessageManager</code> interface and print it to <code>STDOUT</code>.</p>
+<p>Plasma Mobile has an SMS app named <em>Spacebar</em>, but at the time of writing I was not able to get <em>Spacebar</em> working. Instead, we are going to test both sending and receiving SMS from the command line. To receive SMS we will run a <code>dbus-monitor</code> process in the background that will read all messages on the <code>org.ofono.MessageManager</code> interface and print it to <code>STDOUT</code>.</p>
 <div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">second-chance:~$ sudo env <span style="color:#40ffff">DISPLAY</span>=:0.0 dbus-monitor --system <span style="color:#ed9d13">&#34;type=&#39;signal&#39;,interface=&#39;org.ofono.MessageManager&#39;,member=&#39;IncomingMessage&#39;&#34;</span>&amp;</code></pre></div><div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">signal time=1589836625.655331 sender=org.freedesktop.DBus -&gt; destination=:1.151 serial=2 path=/org/freedesktop/DBus; interface=org.freedesktop.DBus; member=NameAcquired
    string &#34;:1.151&#34;
 signal time=1589836625.655487 sender=org.freedesktop.DBus -&gt; destination=:1.151 serial=4 path=/org/freedesktop/DBus; interface=org.freedesktop.DBus; member=NameLost
@@ -2195,6 +2428,8 @@ signal time=1589836625.655487 sender=org.freedesktop.DBus -&gt; destination=:1.1
 <h2 id="make-phone-calls">Make phone calls</h2>
 
 <p>Plasma Mobile has a phone app that works fine for both sending and receiving phone calls. I do not hear any sound when dialing, but I do hear the phone ringing while I wait for someone to answer. When someone does answer, they can hear me clearly, but I have been told that I sound a bit &ldquo;tinny&rdquo;. If the receiving phone is within a couple of meters of the PinePhone, then the audio of the PinePhone becomes noisy with interference.</p>
+
+<p>NOTE: A recent update has resulted in my inability to hear others speaking and for others to hear me speaking during phone calls. I will make an update once I have it figured out.</p>
 
 <h2 id="conclusion">Conclusion</h2>
 

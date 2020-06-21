@@ -15,7 +15,7 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://bloggerbust.ca/post/install_and_configure_postmarketos_with_plasma_mobile_on_the_pinephone/" />
 <meta property="article:published_time" content="2020-06-07T08:04:14&#43;00:00"/>
-<meta property="article:modified_time" content="2020-06-18T17:08:14-06:00"/>
+<meta property="article:modified_time" content="2020-06-21T08:34:51-06:00"/>
 
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Install And Configure PostmarketOS With Plasma Mobile On The PinePhone"/>
@@ -28,8 +28,8 @@
 
 
 <meta itemprop="datePublished" content="2020-06-07T08:04:14&#43;00:00" />
-<meta itemprop="dateModified" content="2020-06-18T17:08:14-06:00" />
-<meta itemprop="wordCount" content="19307">
+<meta itemprop="dateModified" content="2020-06-21T08:34:51-06:00" />
+<meta itemprop="wordCount" content="19708">
 
 
 
@@ -261,7 +261,7 @@ th {
 
 <p>It is common for people to innocently reveal information that they shouldn&rsquo;t when seeking help online. After all, the very fact that they are asking for help indicates that they lack some level of knowledge, which is fine, we all need to begin our journey of learning somehow and asking questions is a great starting point. Sometimes people reveal information that can cause them serious trouble.</p>
 
-<p><strong>Always</strong> redact the following details from command line output, screen shots, configuration files, and written text that you share with others when seeking help or for any other reason. In the words of Gandalf the Grey - Keep it secret, keep it safe!</p>
+<p><strong>Always</strong> redact the following details from command line output, configuration files, logs, screen shots, and written text that you share with others when seeking help or for any other reason. <strong>Never post a log or config file without sanitizing it!!</strong> In the words of Gandalf the Grey - Keep it secret, keep it safe!</p>
 
 <dl>
 <dt>IMSI</dt>
@@ -2324,7 +2324,7 @@ wwan0        ipv4        sp.koodo.com      static    &lt;REDACTED&gt;      &lt;R
 
 <p>To determine if IP allocation is static, simply ask the connection manager.</p>
 <div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">second-chance:~$ qdbus --system org.ofono /quectelqmi_0/context1 org.ofono.ConnectionContext.GetProperties | grep -E <span style="color:#ed9d13">&#39;^Method&#39;</span></code></pre></div><div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">Method: static</code></pre></div>
-<p>If the <code>Method</code> is <code>dhcp</code>, then you will need to use <a href="http://pkgs.postmarketos.org/package/master/postmarketos/armv7/dhcpcd">a dhcp client</a>, such as <a href="https://wiki.alpinelinux.org/wiki/Udhcpc">udhcpc</a> (already installed), for dynamic IP allocation. I won&rsquo;t be covering <code>dhcp</code> in this post since that is not my use case.</p>
+<p>If the <code>Method</code> is <code>dhcp</code>, then you will need to use <a href="http://pkgs.postmarketos.org/package/master/postmarketos/armv7/dhcpcd">a dhcp client</a>, such as <a href="https://wiki.alpinelinux.org/wiki/Udhcpc">udhcpc</a> (already installed), for dynamic IP allocation. Technically, you can still add the route while following along, even if the method is dynamic, but realize that your IP could expire during use. I won&rsquo;t be covering <code>dhcp</code> in this post since that is not my use case, but in a future post I hope to show how to configure <em>Network Manager</em> with <em>oFono</em> which will handle dynamic IP allocation for you.</p>
 
 <p>At this point we have established that manual IP allocation is necessary. Now, we must obtain our assigned <em>IP Address</em> and <em>Gateway</em> from the connection context. I think it will be a bit easier to take a look at all of the connection properties at once, rather than filtering fields using grep.</p>
 <div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">second-chance:~$ qdbus --system org.ofono /quectelqmi_0/context1 org.ofono.ConnectionContext.GetProperties</code></pre></div><div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">AccessPointName: sp.koodo.com
@@ -2366,18 +2366,18 @@ Type: mms
 Username:</code></pre></div>
 <p>The second thing to notice is that the <code>Protocol</code> property is set to <code>ip</code>. That means that the carrier service has assigned me an IPv4 address. All of the IPv4 settings are found in the <code>Settings</code> property. If the protocol had been <code>ipv6</code> instead, then the <code>IPv6.Settings</code> property would have been populated.</p>
 
-<p>Let&rsquo;s make sure we are in a consistent starting state by purging all allocated addresses from the interface</p>
+<p>Let&rsquo;s make sure we are in a consistent starting state by purging all allocated addresses from the interface using the <code>flush</code> sub command. Please be aware that the <code>flush</code> sub command will ruthlessly remove all routes linked to the device&rsquo;s interface. As you become comfortable with manipulating routes you will find that you can modify or remove an invalid route. So you can see that flushing is usually not necessary, but it will ensure we are in an consistent state moving forward.</p>
 <div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">second-chance:~$ sudo ip addr flush dev wwan0</code></pre></div>
 <p>The routing table should not show any routes for interface <code>wwan0</code>, but you will see routes for <code>wlan0</code> if you have <em>Wi-Fi</em> up.</p>
 <div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">ip route show</code></pre></div><div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">172.16.0.0/16 dev usb0 scope link  src 172.16.42.1</code></pre></div>
-<p>Before we can add an IP address, we need to calculate the prefix length based on the netmask. Thankfully, the <code>ipcalc</code> command can do the math for us.</p>
+<p>As you can see, there exists a link scope route for <code>usb0</code>. Notice that the IP address is followed by a forward slash and then a decimal number. The decimal number actually represents the prefix length which is the count of leading one bits in the routing mask, traditionally called the network mask. We can use, the <code>ipcalc</code> command to calculate the prefix length of any IP address given a routing mask.</p>
 <div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">second-chance:~$ ipcalc -p &lt;REDACTED-ADDRESS&gt; <span style="color:#3677a9">255</span>.255.255.0</code></pre></div><div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">PREFIX=24</code></pre></div>
-<p>Now that we know the prefix length, we can add the address to our interface using <a href="https://en.wikipedia.org/wiki/Classless%5FInter-Domain%5FRouting#CIDR%5Fnotation">Classless Inter-Domain Routing</a> (CIDR) notation.</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">second-chance:~$ sudo ip addr add &lt;REDACTED-ADDRESS&gt;/24 dev wwan0</code></pre></div>
+<p>The arrangement of <code>IP/PREFIX</code> is known as <a href="https://en.wikipedia.org/wiki/Classless%5FInter-Domain%5FRouting#CIDR%5Fnotation">Classless Inter-Domain Routing</a> (CIDR) notation and is equivalent to the more traditional representation of <code>IP/Netmask</code>. We can use the <code>ip</code> (see <a href="https://man7.org/linux/man-pages/man8/ip.8.html">ip(8)</a>) command to add the address provided by oFono to our interface using either CIDR or traditional notation (thank you sicelo). However; we can avoid unnecessarily calculating the prefix length by sticking with tradition using the netmask already provided to us by oFono.</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">second-chance:~$ sudo ip addr add &lt;REDACTED-ADDRESS&gt;/255.255.255.0 dev wwan0</code></pre></div>
 <p>Let&rsquo;s see if that had any effect on our routing table.</p>
 <div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">second-chance:~$ ip route show</code></pre></div><div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">&lt;REDACTED-SUBNET&gt;/24 dev wwan0 scope link  src &lt;REDACTED-ADDRESS&gt;
 172.16.0.0/16 dev usb0 scope link  src 172.16.42.1</code></pre></div>
-<p>Before our network interface can be used to access the internet, we must first add an route to the gateway defined in our active context for the <code>wwan0</code> interface. Let&rsquo;s add a default route (for all addresses) via the gateway <code>&lt;REDACTED-GATEWAY&gt;</code> now.</p>
+<p>Our newly added link scope route for <code>wwan0</code> represented in CIDR notation is now in the routing table. Before our network interface can be used to access the internet, we must first add an route to the gateway defined in our active context for the <code>wwan0</code> interface. Let&rsquo;s add a default route (for all addresses) via the gateway <code>&lt;REDACTED-GATEWAY&gt;</code> now.</p>
 <div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">second-chance:~$ sudo ip route add default via &lt;REDACTED-GATEWAY&gt; dev wwan0</code></pre></div>
 <p>Another look at our routing table will show the newly added route.</p>
 <div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">second-chance:~$ ip route show</code></pre></div><div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">default via &lt;REDACTED-GATEWAY&gt; dev wwan0
@@ -2395,14 +2395,16 @@ Username:</code></pre></div>
 --- bloggerbust.ca ping statistics ---
 3 packets transmitted, 3 packets received, 0% packet loss
 round-trip min/avg/max = 27.031/27.541/28.191 ms</code></pre></div>
-<p>You have probably heard of <a href="https://git.sr.ht/~martijnbraam/ofonoctl/">ofonoctl</a> by Martin Braam. When you run ofonoctl wan, it locates your active context and tabulates the IP Address, Gateway and DNS just as we did above. When you add the <code>--connect</code> optional parameter, <code>ofonoctl</code> flushes your <code>wwan0</code> interface and adds the IP Address and DNS that it found in the active context. When you add the <code>--append-dns</code> optional parameter, then it will append the DNS to your <code>/etc/resolv.conf</code> for you. So why the heck did I just make you do it all manually? Now you know how it works. Now you will have an idea what might be wrong the next time you run:</p>
+<p>You have probably heard of <a href="https://git.sr.ht/~martijnbraam/ofonoctl/">ofonoctl</a> by Martin Braam. When you run <code>ofonoctl wan</code>, it locates your active context and tabulates the IP Address, Gateway and DNS just as we did above. When you add the <code>--connect</code> optional parameter, <code>ofonoctl</code> flushes your <code>wwan0</code> interface (only if the allocation method is static) and adds the IP Address and DNS that it found in the active context. When you add the <code>--append-dns</code> optional parameter, then it will append the DNS to your <code>/etc/resolv.conf</code> for you. So why the heck did I just make you do it all manually? Now you know how it works. Now you will have an idea what might be wrong the next time you run:</p>
 <div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">ofonoctl wan --connect --append-dns</code></pre></div><div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">Interface    Protocol    APN               Method    Address         Gateway      DNS
 -----------  ----------  ----------------  --------  --------------  -----------  ----------------------------</code></pre></div>
 <p>&hellip; and an empty record-set is displayed.</p>
 
-<p>There is still an issue that you will be dealing with. Every time you bring up or down the <code>Wi-Fi</code> connection, Network Manager will completely override <code>/etc/resolv.conf</code>. I will be posting back later how to deal with this issue. For now, just be aware that is happening and know that you will have to re-append the DNS each time. You might want to write yourself a script to do that for you for the time being.</p>
+<p>There is still an issue that you will be dealing with. Every time you bring up or down the <code>Wi-Fi</code> connection, Network Manager will completely override <code>/etc/resolv.conf</code>. In a future post I will write about how to deal with this issue. For now, just be aware that this is happening and know that you will have to re-append the DNS each time. You might want to write yourself a script to do that for you.</p>
 
 <h2 id="send-and-receive-sms">Send and receive SMS</h2>
+
+<p><strong>UPDATE:</strong> <em>Spacebar</em> is now working. Message history is not persistentn yet. Phone numbers in <em>Spacebar</em> are not yet resolved to contact names added to the <em>Phone Book</em> app. I have found that the first time I start space bar it often crashes and I have to start it again.</p>
 
 <p>Plasma Mobile has an SMS app named <em>Spacebar</em>, but at the time of writing I was not able to get <em>Spacebar</em> working. Instead, we are going to test both sending and receiving SMS from the command line. To receive SMS we will run a <code>dbus-monitor</code> process in the background that will read all messages on the <code>org.ofono.MessageManager</code> interface and print it to <code>STDOUT</code>.</p>
 <div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">second-chance:~$ sudo env <span style="color:#40ffff">DISPLAY</span>=:0.0 dbus-monitor --system <span style="color:#ed9d13">&#34;type=&#39;signal&#39;,interface=&#39;org.ofono.MessageManager&#39;,member=&#39;IncomingMessage&#39;&#34;</span>&amp;</code></pre></div><div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">signal time=1589836625.655331 sender=org.freedesktop.DBus -&gt; destination=:1.151 serial=2 path=/org/freedesktop/DBus; interface=org.freedesktop.DBus; member=NameAcquired
@@ -2429,11 +2431,13 @@ signal time=1589836625.655487 sender=org.freedesktop.DBus -&gt; destination=:1.1
 
 <p>Plasma Mobile has a phone app that works fine for both sending and receiving phone calls. I do not hear any sound when dialing, but I do hear the phone ringing while I wait for someone to answer. When someone does answer, they can hear me clearly, but I have been told that I sound a bit &ldquo;tinny&rdquo;. If the receiving phone is within a couple of meters of the PinePhone, then the audio of the PinePhone becomes noisy with interference.</p>
 
-<p>NOTE: A recent update has resulted in my inability to hear others speaking and for others to hear me speaking during phone calls. I will make an update once I have it figured out.</p>
+<p><strong>UPDATE:</strong> for a while I was unable to hear or be heard during phone calls. An update this weekend fixed whatever was wrong. I can now both make and receive phone calls. I have found that sometimes I need to restart the <code>eg25</code> and <code>ofono</code> services once before phone calls work properly: <code>sudo rc-service eg25 restart &amp;&amp; sudo rc-service ofono restart</code>, then wait about 10 seconds or so before making a phone call. There are new updates nearly every day, so your experience might be different.</p>
 
 <h2 id="conclusion">Conclusion</h2>
 
-<p>At this point you should be able to send and receive SMS and make phone calls. This was a long post and there was a lot that I didn&rsquo;t cover. The PostmarketOS PinePhone wiki has instructions for <a href="https://wiki.postmarketos.org/wiki/PINE64%5FPinePhone%5F(pine64-pinephone)#Components">setting up and experimenting with components</a> not covered here. Enjoy!</p>
+<p>At this point you should be able to send and receive SMS and make phone calls. This was a long post and there was a lot that I didn&rsquo;t cover. I have updated this post several times and I am now ready to move on. You can watch for new related posts under the <a href="https://bloggerbust.ca/categories/mobile/">mobile category</a>, or use the tags: <a href="https://bloggerbust.ca/tags/pinephone/">Pine Phone</a>, <a href="https://bloggerbust.ca/tags/postmarketos/">PostmarketOS</a>, <a href="https://bloggerbust.ca/tags/plasma%5Fmobile">Plasma Mobile</a>/. The PostmarketOS PinePhone wiki has instructions for <a href="https://wiki.postmarketos.org/wiki/PINE64%5FPinePhone%5F(pine64-pinephone)#Components">setting up and experimenting with components</a> not covered here. Enjoy!</p>
+
+<p>In my next post, I am going to write about my first attempt at configuring Network Manager with oFono as the modem manager.</p>
  </div>
     <footer class="post-footer">
 

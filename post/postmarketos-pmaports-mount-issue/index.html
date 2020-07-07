@@ -11,28 +11,28 @@
 
 <link rel="canonical" href="https://bloggerbust.ca/post/postmarketos-pmaports-mount-issue/">
 <meta property="og:title" content="postmarketOS pmaports Mount Issue" />
-<meta property="og:description" content="Table of Contents  What is the issue? How to tell if your system is impacted What is the impact? What to do about it? After thoughts   
+<meta property="og:description" content="Table of Contents  What is the issue? How to tell if your system is impacted What is the impact? What to do about it? Verify mountpoints After thoughts   
 What is the issue? There are a number of known issues (#258, #661, #664) related to the mounting of the root and boot partitions by fstab when they should be mounted from the initramfs. There is a merge request (https://gitlab." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://bloggerbust.ca/post/postmarketos-pmaports-mount-issue/" />
 <meta property="article:published_time" content="2020-07-07T09:04:03&#43;00:00"/>
-<meta property="article:modified_time" content="2020-07-07T10:07:23-06:00"/>
+<meta property="article:modified_time" content="2020-07-07T13:03:52-06:00"/>
 
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="postmarketOS pmaports Mount Issue"/>
-<meta name="twitter:description" content="Table of Contents  What is the issue? How to tell if your system is impacted What is the impact? What to do about it? After thoughts   
+<meta name="twitter:description" content="Table of Contents  What is the issue? How to tell if your system is impacted What is the impact? What to do about it? Verify mountpoints After thoughts   
 What is the issue? There are a number of known issues (#258, #661, #664) related to the mounting of the root and boot partitions by fstab when they should be mounted from the initramfs. There is a merge request (https://gitlab."/>
 
 
 
 <meta itemprop="name" content="postmarketOS pmaports Mount Issue">
-<meta itemprop="description" content="Table of Contents  What is the issue? How to tell if your system is impacted What is the impact? What to do about it? After thoughts   
+<meta itemprop="description" content="Table of Contents  What is the issue? How to tell if your system is impacted What is the impact? What to do about it? Verify mountpoints After thoughts   
 What is the issue? There are a number of known issues (#258, #661, #664) related to the mounting of the root and boot partitions by fstab when they should be mounted from the initramfs. There is a merge request (https://gitlab.">
 
 
 <meta itemprop="datePublished" content="2020-07-07T09:04:03&#43;00:00" />
-<meta itemprop="dateModified" content="2020-07-07T10:07:23-06:00" />
-<meta itemprop="wordCount" content="871">
+<meta itemprop="dateModified" content="2020-07-07T13:03:52-06:00" />
+<meta itemprop="wordCount" content="1059">
 
 
 
@@ -182,6 +182,7 @@ th {
 <li><a href="#how-to-tell-if-your-system-is-impacted">How to tell if your system is impacted</a></li>
 <li><a href="#what-is-the-impact">What is the impact?</a></li>
 <li><a href="#what-to-do-about-it">What to do about it?</a></li>
+<li><a href="#verify-mountpoints">Verify mountpoints</a></li>
 <li><a href="#after-thoughts">After thoughts</a></li>
 </ul>
 
@@ -256,6 +257,28 @@ drwx------    2 root     root       12.0K May 31 12:40 lost+found
 -rw-r--r--    1 root     root       15.7M Jul  7 08:29 uImage-postmarketos-allwinner
 -rw-r--r--    1 root     root        1.4M Jul  7 08:29 uInitrd-postmarketos-allwinner
 -rw-r--r--    1 root     root       15.7M Jul  5 11:56 vmlinuz-postmarketos-allwinner</code></pre></div>
+<h2 id="verify-mountpoints">Verify mountpoints</h2>
+
+<p>To validate both <code>/</code> and <code>/boot</code> mountpoints we can use the mountpoint(1)]] command once again.</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">second-chance:~$ mountpoint / &amp;&amp; mountpoint /boot</code></pre></div><div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">/ is a mountpoint
+/boot is a mountpoint</code></pre></div>
+<p>Another way to verify that mountpoints exist for boot and root is to use the <a href="https://linux.die.net/man/8/lsblk">lsblk(8)</a> command to list the block devices with a <code>MOUNTPOINT</code> column.</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">second-chance:~$ lsblk</code></pre></div><div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">NAME         MAJ:MIN RM  SIZE RO TYPE  MOUNTPOINT
+mmcblk0      179:0    0 59.5G  0 disk
+├─mmcblk0p1  179:1    0   79M  0 part  /boot
+└─mmcblk0p2  179:2    0 59.4G  0 part
+  └─root     254:0    0 59.4G  0 crypt /
+mmcblk2      179:32   0 14.7G  0 disk
+├─mmcblk2p1  179:33   0   65M  0 part
+├─mmcblk2p2  179:34   0    1G  0 part
+├─mmcblk2p1  254:1    0   65M  0 part
+└─mmcblk2p2  254:2    0    1G  0 part
+mmcblk2boot0 179:64   0    4M  1 disk
+mmcblk2boot1 179:96   0    4M  1 disk</code></pre></div>
+<p>Note, in my case postmarketOS is deployed to an SD card and my root file system is encrypted. Your output might very depending on your configuration.</p>
+
+<p>There are other ways to validate mountpoints of course, but either of the above methods should provide you with sufficient confidence that boot and root are mounted correctly.</p>
+
 <h2 id="after-thoughts">After thoughts</h2>
 
 <p>Until this issue is fixed, you will want to double check that <code>/boot</code> is mounted before running <code>apk upgrade -a</code>. otherwise, the updated initramfs will be deployed to a directory named <code>/boot</code> once again, rather than to the boot partition where it belongs.</p>

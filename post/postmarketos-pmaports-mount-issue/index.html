@@ -12,30 +12,27 @@
 <link rel="canonical" href="https://bloggerbust.ca/post/postmarketos-pmaports-mount-issue/">
 <meta property="og:title" content="postmarketOS pmaports Mount Issue" />
 <meta property="og:description" content="Table of Contents  What is the issue? How to tell if your system is impacted What is the impact? What to do about it? After thoughts   
-What is the issue? There is a known issue that root and boot partitions are being mounted by fstab when they should be mounted from the initramfs.
-How to tell if your system is impacted At the moment the fix is not merged, so we are all impacted." />
+What is the issue? There are a number of known issues (#258, #661, #664) related to the mounting of the root and boot partitions by fstab when they should be mounted from the initramfs. There is a merge request (https://gitlab." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://bloggerbust.ca/post/postmarketos-pmaports-mount-issue/" />
 <meta property="article:published_time" content="2020-07-07T09:04:03&#43;00:00"/>
-<meta property="article:modified_time" content="2020-07-07T09:20:05-06:00"/>
+<meta property="article:modified_time" content="2020-07-07T10:07:23-06:00"/>
 
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="postmarketOS pmaports Mount Issue"/>
 <meta name="twitter:description" content="Table of Contents  What is the issue? How to tell if your system is impacted What is the impact? What to do about it? After thoughts   
-What is the issue? There is a known issue that root and boot partitions are being mounted by fstab when they should be mounted from the initramfs.
-How to tell if your system is impacted At the moment the fix is not merged, so we are all impacted."/>
+What is the issue? There are a number of known issues (#258, #661, #664) related to the mounting of the root and boot partitions by fstab when they should be mounted from the initramfs. There is a merge request (https://gitlab."/>
 
 
 
 <meta itemprop="name" content="postmarketOS pmaports Mount Issue">
 <meta itemprop="description" content="Table of Contents  What is the issue? How to tell if your system is impacted What is the impact? What to do about it? After thoughts   
-What is the issue? There is a known issue that root and boot partitions are being mounted by fstab when they should be mounted from the initramfs.
-How to tell if your system is impacted At the moment the fix is not merged, so we are all impacted.">
+What is the issue? There are a number of known issues (#258, #661, #664) related to the mounting of the root and boot partitions by fstab when they should be mounted from the initramfs. There is a merge request (https://gitlab.">
 
 
 <meta itemprop="datePublished" content="2020-07-07T09:04:03&#43;00:00" />
-<meta itemprop="dateModified" content="2020-07-07T09:20:05-06:00" />
-<meta itemprop="wordCount" content="854">
+<meta itemprop="dateModified" content="2020-07-07T10:07:23-06:00" />
+<meta itemprop="wordCount" content="871">
 
 
 
@@ -193,7 +190,7 @@ th {
 
 <h2 id="what-is-the-issue">What is the issue?</h2>
 
-<p>There is <a href="https://gitlab.com/postmarketOS/pmaports/-/merge%5Frequests/1398">a known issue</a> that root and boot partitions are being mounted by fstab when they should be mounted from the initramfs.</p>
+<p>There are a number of known issues (<a href="https://gitlab.com/postmarketOS/pmaports/-/issues/258">#258</a>, <a href="https://gitlab.com/postmarketOS/pmaports/-/issues/661">#661</a>, <a href="https://gitlab.com/postmarketOS/pmaports/-/issues/664">#664</a>) related to the mounting of the root and boot partitions by fstab when they should be mounted from the initramfs. There is a merge request (<code>https://gitlab.com/postmarketOS/pmaports/-/merge_requests/1398</code>) to address these issues.</p>
 
 <h2 id="how-to-tell-if-your-system-is-impacted">How to tell if your system is impacted</h2>
 

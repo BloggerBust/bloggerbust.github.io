@@ -3,8 +3,13 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://bloggerbust.ca/post/postmarketos-pmaports-mount-issue/</loc>
+    <lastmod>2020-07-07T09:20:05-06:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://bloggerbust.ca/post/install_and_configure_postmarketos_with_plasma_mobile_on_the_pinephone/</loc>
-    <lastmod>2020-06-21T08:34:51-06:00</lastmod>
+    <lastmod>2020-07-02T08:55:03-06:00</lastmod>
   </url>
   
   <url>
@@ -94,7 +99,7 @@
   
   <url>
     <loc>https://bloggerbust.ca/</loc>
-    <lastmod>2020-06-21T08:34:51-06:00</lastmod>
+    <lastmod>2020-07-07T09:20:05-06:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -135,6 +140,12 @@
   </url>
   
   <url>
+    <loc>https://bloggerbust.ca/tags/issue/</loc>
+    <lastmod>2020-07-07T09:20:05-06:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>https://bloggerbust.ca/tags/key_bindings/</loc>
     <lastmod>2020-05-14T08:19:52-06:00</lastmod>
     <priority>0</priority>
@@ -148,7 +159,7 @@
   
   <url>
     <loc>https://bloggerbust.ca/categories/mobile/</loc>
-    <lastmod>2020-06-21T08:34:51-06:00</lastmod>
+    <lastmod>2020-07-07T09:20:05-06:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -184,25 +195,25 @@
   
   <url>
     <loc>https://bloggerbust.ca/tags/pinephone/</loc>
-    <lastmod>2020-06-21T08:34:51-06:00</lastmod>
+    <lastmod>2020-07-07T09:20:05-06:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://bloggerbust.ca/tags/plasma_mobile/</loc>
-    <lastmod>2020-06-21T08:34:51-06:00</lastmod>
+    <lastmod>2020-07-02T08:55:03-06:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://bloggerbust.ca/tags/postmarketos/</loc>
-    <lastmod>2020-06-21T08:34:51-06:00</lastmod>
+    <lastmod>2020-07-07T09:20:05-06:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://bloggerbust.ca/post/</loc>
-    <lastmod>2020-06-21T08:34:51-06:00</lastmod>
+    <lastmod>2020-07-07T09:20:05-06:00</lastmod>
     <priority>0</priority>
   </url>
   

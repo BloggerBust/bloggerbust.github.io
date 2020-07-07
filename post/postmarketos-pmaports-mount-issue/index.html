@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en-CA">
+
+<head>
+<meta charset="utf-8" />
+<meta name="author" content="Trevor Wilson" />
+<meta name="description" content="a place for me to bust out a blog on programming, infosec, emacs and things that interest me." />
+<meta name="keywords" content="[programming coding infosec cybersecurity webextensions blog blogger bust docker linux emacs free software]" />
+<meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1">
+<meta name="generator" content="Hugo 0.55.0-DEV" />
+
+<link rel="canonical" href="https://bloggerbust.ca/post/postmarketos-pmaports-mount-issue/">
+<meta property="og:title" content="postmarketOS pmaports Mount Issue" />
+<meta property="og:description" content="Table of Contents  What is the issue? How to tell if your system is impacted What is the impact? What to do about it? After thoughts   
+What is the issue? There is a known issue that root and boot partitions are being mounted by fstab when they should be mounted from the initramfs.
+How to tell if your system is impacted At the moment the fix is not merged, so we are all impacted." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://bloggerbust.ca/post/postmarketos-pmaports-mount-issue/" />
+<meta property="article:published_time" content="2020-07-07T09:04:03&#43;00:00"/>
+<meta property="article:modified_time" content="2020-07-07T09:20:05-06:00"/>
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="postmarketOS pmaports Mount Issue"/>
+<meta name="twitter:description" content="Table of Contents  What is the issue? How to tell if your system is impacted What is the impact? What to do about it? After thoughts   
+What is the issue? There is a known issue that root and boot partitions are being mounted by fstab when they should be mounted from the initramfs.
+How to tell if your system is impacted At the moment the fix is not merged, so we are all impacted."/>
+
+
+
+<meta itemprop="name" content="postmarketOS pmaports Mount Issue">
+<meta itemprop="description" content="Table of Contents  What is the issue? How to tell if your system is impacted What is the impact? What to do about it? After thoughts   
+What is the issue? There is a known issue that root and boot partitions are being mounted by fstab when they should be mounted from the initramfs.
+How to tell if your system is impacted At the moment the fix is not merged, so we are all impacted.">
+
+
+<meta itemprop="datePublished" content="2020-07-07T09:04:03&#43;00:00" />
+<meta itemprop="dateModified" content="2020-07-07T09:20:05-06:00" />
+<meta itemprop="wordCount" content="854">
+
+
+
+<meta itemprop="keywords" content="pinephone,postmarketOS,issue," />
+
+
+<link rel="stylesheet" href="https://bloggerbust.ca/css/layout.css" />
+<style type="text/css">
+body {
+  background-color: #26282A;
+  color: #dbdbdb;
+}
+
+a { color: #dbdbdb; }
+
+pre {
+  background: #1D1F21;
+  border: 1px solid #dbdbdb;
+  border-radius: 5px;
+}
+
+code {
+  background: #1D1F21;
+}
+
+blockquote {
+  background: #1D1F21;
+  border-left: 3px solid #dbdbdb;
+}
+
+table {
+  margin: 1em auto;
+  border-collapse: collapse;
+}
+
+table, th, td {
+  border: 1px solid #dbdbdb;
+}
+
+th {
+  background: #dbdbdb;
+  color: #26282A;
+}
+
+.siteTitle a { color: #99cc66; }
+
+.post .content h1{ color: #99cc66; }
+.post .content h2{ color: #99cc66; }
+.post .content h3{ color: #99cc66; }
+.post .content h4{ color: #99cc66; }
+.post .content h5{ color: #99cc66; }
+.post .content h6{ color: #99cc66; }
+.post .content a:hover { color: #99cc66; }
+.social-link:hover { color: #99cc66; }
+.nav-item-title:hover { color: #99cc66; }
+.tag a:hover { color: #99cc66; }
+.copyright { color: #404040 }
+.poweredby { color: #404040 }
+.poweredby a { color: #404040; }
+.post-preview .title a{ color: #99cc66; }
+.content-item a:hover{
+  text-decoration: underline;
+  color: #99cc66;
+}
+.post-list .title { color: #99cc66; }
+.rmore { color: #99cc66; }
+.terms .term a:hover {
+  text-decoration: underline;
+  color: #99cc66;
+}
+
+</style>
+
+<link rel="stylesheet" href="https://bloggerbust.ca/css/site.css">
+
+
+
+<title>
+
+
+     postmarketOS pmaports Mount Issue 
+
+</title>
+
+</head>
+
+
+<body>
+<div class="main">
+<header>
+
+<div class="header-bar">
+
+  <nav>
+    <div class="siteTitle">
+      <a href="https://bloggerbust.ca/">Blogger Bust</a>
+    </div> 
+
+    
+    
+    <a class="nav-item" href="https://bloggerbust.ca/about/"><div class="nav-item-title">About</div></a>
+    
+    <a class="nav-item" href="https://bloggerbust.ca/series"><div class="nav-item-title">Series</div></a>
+    
+    <a class="nav-item" href="https://bloggerbust.ca/page/"><div class="nav-item-title">Pages</div></a>
+    
+    <a class="nav-item active" href="https://bloggerbust.ca/post/"><div class="nav-item-title">Posts</div></a>
+    
+
+  </nav>
+</div>
+
+  
+<div class="social-links-header">
+
+  
+  <a href="mailto:trevor.wilson@bloggerbust.ca"><div class="social-link">email</div></a>
+  
+
+  
+  <a href="https://github.com/bloggerbust" target="_blank"><div class="social-link">gh</div></a>
+  
+
+  
+
+  
+
+  
+
+</div>
+
+
+</header>
+
+
+<article class="post">
+    <h1 class="title"> postmarketOS pmaports Mount Issue </h1>
+    <div class="content"> 
+
+<div class="ox-hugo-toc toc">
+<div></div>
+
+<div class="heading">Table of Contents</div>
+
+<ul>
+<li><a href="#what-is-the-issue">What is the issue?</a></li>
+<li><a href="#how-to-tell-if-your-system-is-impacted">How to tell if your system is impacted</a></li>
+<li><a href="#what-is-the-impact">What is the impact?</a></li>
+<li><a href="#what-to-do-about-it">What to do about it?</a></li>
+<li><a href="#after-thoughts">After thoughts</a></li>
+</ul>
+
+<p></div>
+<!--endtoc--></p>
+
+<h2 id="what-is-the-issue">What is the issue?</h2>
+
+<p>There is <a href="https://gitlab.com/postmarketOS/pmaports/-/merge%5Frequests/1398">a known issue</a> that root and boot partitions are being mounted by fstab when they should be mounted from the initramfs.</p>
+
+<h2 id="how-to-tell-if-your-system-is-impacted">How to tell if your system is impacted</h2>
+
+<p>At the moment the fix is not merged, so we are all impacted. However, to verify you can open up <code>/etc/fstab</code> and see if it lists the root and boot mount points:</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text"># &lt;file system&gt; &lt;mount point&gt;   &lt;type&gt;  &lt;options&gt;               &lt;dump&gt;  &lt;pass&gt;
+LABEL=&#34;pmOS_root&#34;       /       ext4    relatime,data=ordered   0       1
+LABEL=&#34;pmOS_boot&#34;       /boot   auto    defaults                0       2</code></pre></div>
+<p>When the fix has been merged <code>/etc/fstab</code> will have a comment stating that it is not being used to mount boot or root. Having said that, even if the fix has been merged, if the impacted packages have not been upgraded you might still have old artifacts in the boot partition.</p>
+
+<h2 id="what-is-the-impact">What is the impact?</h2>
+
+<p>Sometimes when you boot your device the boot partition will not be mounted. Other times it will be mounted. To test if boot was mounted properly you can simply use the <a href="https://man7.org/linux/man-pages/man1/mountpoint.1.html">mountpoint(1)</a> command.</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">second-chance:~$ mountpoint /boot
+/boot is not a mountpoint</code></pre></div>
+<p>You can see that the contents of what should be in boot were actually written to the root file system in a directory named boot.</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">second-chance:~$ ls /boot</code></pre></div><div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">initramfs-postmarketos-allwinner        sun50i-a64-pinephone-1.1.dtb            uInitrd-postmarketos-allwinner
+initramfs-postmarketos-allwinner-extra  uImage-postmarketos-allwinner           vmlinuz-postmarketos-allwinner</code></pre></div>
+<p>There were probably written there during an upgrade, that means that the real <code>/boot</code> partition might not have the latest version of those files.</p>
+
+<h2 id="what-to-do-about-it">What to do about it?</h2>
+
+<p>You may wish to backup the contents of the <code>/boot</code> directory before proceeding. I decided to not assume that the contents of the <code>/boot</code> directory are the latest version of those files. I have upgraded several times with this issue and perhaps only some of those times the boot partition was not mounted. I decided to remove the contents of the directory (not the partition) <code>/boot</code> and then mount the boot partition manually. After that we will reinstall the packages responsible for these files.</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">second-chance:~$ sudo rm /boot/*
+second-chance:~$ sudo mount /dev/mmcblk0p1 /boot
+second-chance:~$ ls -lah /boot</code></pre></div><div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">total 41M
+drwxr-xr-x    3 root     root        1.0K Jul  6 07:44 .
+drwxr-xr-x   21 root     root        4.0K May 31 12:40 ..
+-rw-r--r--    1 root     root         949 Jun 17 03:19 boot.scr
+-rw-r--r--    1 root     root        1.4M Jul  6 07:44 initramfs-postmarketos-allwinner
+-rw-r--r--    1 root     root        6.6M Jul  6 07:44 initramfs-postmarketos-allwinner-extra
+drwx------    2 root     root       12.0K May 31 12:40 lost+found
+-rwxr-xr-x    1 root     root       34.9K Jul  6 07:44 sun50i-a64-pinephone-1.1.dtb
+-rw-r--r--    1 root     root       15.7M Jul  6 07:44 uImage-postmarketos-allwinner
+-rw-r--r--    1 root     root        1.4M Jul  6 07:44 uInitrd-postmarketos-allwinner
+-rw-r--r--    1 root     root       15.7M Jul  5 11:56 vmlinuz-postmarketos-allwinner</code></pre></div>
+<p>The <code>apk info --who-owns</code> command can be used to identify some of the packages which are responsible for deploying payloads to the boot partition.</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">second-chance:~$ find /boot -type f -exec apk info --who-owns <span style="color:#ed9d13">&#39;{}&#39;</span> <span style="color:#ed9d13">\;</span></code></pre></div><div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">find: /boot/lost+found: Permission denied
+ERROR: /boot/sun50i-a64-pinephone-1.1.dtb: Could not find owner package
+/boot/boot.scr is owned by device-pine64-pinephone-0.3-r2
+/boot/vmlinuz-postmarketos-allwinner is owned by linux-postmarketos-allwinner-5.7.0_git20200704-r0
+ERROR: /boot/uInitrd-postmarketos-allwinner: Could not find owner package
+ERROR: /boot/initramfs-postmarketos-allwinner-extra: Could not find owner package
+ERROR: /boot/uImage-postmarketos-allwinner: Could not find owner package
+ERROR: /boot/initramfs-postmarketos-allwinner: Could not find owner package</code></pre></div>
+<p>From the output we can see that we will need to run a fix on at least <code>device-pine64-pinephone</code> and <code>linux-postmarketos-allwinner</code>. The GitLab issue mentions <code>postmarketos-mkinitfs</code> and after asking on IRC what packages were responsible for payloads to the boot partition, it was suggested that <code>postmarketos-mkinitfs</code> is also important.</p>
+
+<p>Now, let&rsquo;s run the <code>apk fix</code> command for all three of the identified packages and their dependencies. When typing the command, be careful not to make a typo in any of the package names because nvalid package names will be silently ignored. For that reason, I will run a simulation first so that I may visually verify that all three packages will be reinstalled.</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">second-chance:~$ apk fix -sr  device-pine64-pinephone linux-postmarketos-allwinner postmarketos-mkinitfs</code></pre></div><div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">(1/3) Reinstalling postmarketos-mkinitfs (0.12.2-r0)
+(2/3) Reinstalling linux-postmarketos-allwinner (5.7.0_git20200704-r0)
+(3/3) Reinstalling device-pine64-pinephone (0.3-r2)
+OK: 1413 MiB in 616 packages</code></pre></div>
+<p>After that, drop the simulation flag <code>-s</code>, add the dependency flag <code>-d</code> and run the command again:</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">second-chance:~$ sudo apk fix -rd  device-pine64-pinephone linux-postmarketos-allwinner postmarketos-mkinitfs</code></pre></div>
+<p>I omitted the output because the list is quite long.</p>
+
+<p>Now, when I list the contents of <code>/boot</code> you can see that many of the payloads were updated:</p>
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">second-chance:~$ ls -lh /boot</code></pre></div><div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">total 41M
+-rw-r--r--    1 root     root         949 Jun 17 03:19 boot.scr
+-rw-r--r--    1 root     root        1.4M Jul  7 08:29 initramfs-postmarketos-allwinner
+-rw-r--r--    1 root     root        6.6M Jul  7 08:29 initramfs-postmarketos-allwinner-extra
+drwx------    2 root     root       12.0K May 31 12:40 lost+found
+-rwxr-xr-x    1 root     root       34.9K Jul  7 08:29 sun50i-a64-pinephone-1.1.dtb
+-rw-r--r--    1 root     root       15.7M Jul  7 08:29 uImage-postmarketos-allwinner
+-rw-r--r--    1 root     root        1.4M Jul  7 08:29 uInitrd-postmarketos-allwinner
+-rw-r--r--    1 root     root       15.7M Jul  5 11:56 vmlinuz-postmarketos-allwinner</code></pre></div>
+<h2 id="after-thoughts">After thoughts</h2>
+
+<p>Until this issue is fixed, you will want to double check that <code>/boot</code> is mounted before running <code>apk upgrade -a</code>. otherwise, the updated initramfs will be deployed to a directory named <code>/boot</code> once again, rather than to the boot partition where it belongs.</p>
+ </div>
+    <footer class="post-footer">
+
+  <div class="post-footer-data">
+    
+<div class="tags">
+    
+      <div class="tag">
+        <a href="https://bloggerbust.ca/tags/pinephone">#pinephone</a>
+      </div>
+    
+      <div class="tag">
+        <a href="https://bloggerbust.ca/tags/postmarketos">#postmarketOS</a>
+      </div>
+    
+      <div class="tag">
+        <a href="https://bloggerbust.ca/tags/issue">#issue</a>
+      </div>
+    
+</div>
+
+    <div class="date"> Jul 7, 2020 </div>
+  </div>
+
+</footer>
+
+
+
+  
+<hr>
+<h2 id="Comments">
+  Comments
+</h2>
+    <form class="comment" method="POST" action="https://staticman.bloggerbust-bot.now.sh/v2/entry/BloggerBust/bloggerbust.ca/master/comments" class="flex-container flex-column">
+  <input type="hidden" name="options[redirect]" value="https://bloggerbust.ca/post/postmarketos-pmaports-mount-issue/#comment-submitted">
+  <input type="hidden" name="options[slug]" value="postmarketos-pmaports-mount-issue">
+  <div class="flex-container flex-row">
+    <input name="fields[name]" type="text" placeholder="Your name" class="flex-item">
+    <input name="fields[email]" type="email" placeholder="Your email address" class="flex-item">
+  </div>
+  <div class="flex-container flex-row">
+    <textarea name="fields[message]" placeholder="Your message. Feel free to use Markdown." rows="10" class="flex-item"></textarea>
+  </div>
+  <div class="flex-container flex-row">
+    <input type="submit" value="Submit" class="flex-item">
+  </div>
+</form>
+<div id="comment-submitted">
+  Your comment has been submitted and is now pending moderation
+</div>
+
+    
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+<p>Be the first to comment on this article.</p>
+
+
+  
+
+
+</article>
+
+  <footer>
+
+  <div class="social-links-footer">
+
+  
+  <a href="mailto:trevor.wilson@bloggerbust.ca"><div class="social-link">Email</div></a>
+  
+
+  
+  <a href="https://github.com/bloggerbust" target="_blank"><div class="social-link">GitHub</div></a>
+  
+
+  
+
+  
+
+  
+
+  <div class="social-link">
+  <a href="https://bloggerbust.ca/index.xml" target="_blank">RSS</a>
+  </div>
+
+</div>
+
+
+  <div class="copyright"> Copyright (c) 2018, all rights reserved. </div>
+
+  <div class="poweredby">
+    Powered by <a href="https://gohugo.io/">Hugo</a>.
+  </div>
+
+  </footer>
+
+</div> 
+
+</body>
+</html>
+

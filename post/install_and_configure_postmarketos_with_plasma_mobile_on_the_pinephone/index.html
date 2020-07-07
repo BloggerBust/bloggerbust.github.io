@@ -15,7 +15,7 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://bloggerbust.ca/post/install_and_configure_postmarketos_with_plasma_mobile_on_the_pinephone/" />
 <meta property="article:published_time" content="2020-06-07T08:04:14&#43;00:00"/>
-<meta property="article:modified_time" content="2020-06-21T08:34:51-06:00"/>
+<meta property="article:modified_time" content="2020-07-02T08:55:03-06:00"/>
 
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Install And Configure PostmarketOS With Plasma Mobile On The PinePhone"/>
@@ -28,7 +28,7 @@
 
 
 <meta itemprop="datePublished" content="2020-06-07T08:04:14&#43;00:00" />
-<meta itemprop="dateModified" content="2020-06-21T08:34:51-06:00" />
+<meta itemprop="dateModified" content="2020-07-02T08:55:03-06:00" />
 <meta itemprop="wordCount" content="19708">
 
 
@@ -1334,7 +1334,7 @@ The key&#39;s randomart image is:
 <p>I commented out <code>ForwardX11Trusted yes</code> on purpose. Only set <code>ForwardX11Trusted yes</code> if you fully trust the server, i.e. your PinePhone. You may choose to leave that option commented out and instead pass <code>-Y</code> optional flag only when you require x-forwarding and untrusted X11 forwarding fails. For the purposes of this post I have uncommented that option for my own convenience.</p>
 
 <p>Copy ssh id to remote authorized keys (see <a href="https://linux.die.net/man/1/ssh-copy-id">ssh-copy-id(1)</a>).</p>
-<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">ssh-copy-id -i ~/.ssh/id_second-chance_rsa dustfinger@second-chance</code></pre></div><div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">/usr/bin/ssh-copy-id: INFO: Source of key(s) to be installed: &#34;/home/dustfinger/.ssh/id_second-chance_rsa.pub&#34;
+<div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">ssh-copy-id -i ~/.ssh/id_second-chance_rsa.pub dustfinger@second-chance</code></pre></div><div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">/usr/bin/ssh-copy-id: INFO: Source of key(s) to be installed: &#34;/home/dustfinger/.ssh/id_second-chance_rsa.pub&#34;
 /usr/bin/ssh-copy-id: INFO: attempting to log in with the new key(s), to filter out any that are already installed
 /usr/bin/ssh-copy-id: INFO: 1 key(s) remain to be installed -- if you are prompted now it is to install the new keys
 dustfinger@second-chance&#39;s password:

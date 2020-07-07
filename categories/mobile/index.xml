@@ -7,10 +7,21 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-CA</language>
     <copyright>Copyright (c) 2018, all rights reserved.</copyright>
-    <lastBuildDate>Sun, 07 Jun 2020 08:04:14 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 07 Jul 2020 09:04:03 +0000</lastBuildDate>
     
 	<atom:link href="https://bloggerbust.ca/categories/mobile/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>postmarketOS pmaports Mount Issue</title>
+      <link>https://bloggerbust.ca/post/postmarketos-pmaports-mount-issue/</link>
+      <pubDate>Tue, 07 Jul 2020 09:04:03 +0000</pubDate>
+      
+      <guid>https://bloggerbust.ca/post/postmarketos-pmaports-mount-issue/</guid>
+      <description>Table of Contents  What is the issue? How to tell if your system is impacted What is the impact? What to do about it? After thoughts   
+What is the issue? There is a known issue that root and boot partitions are being mounted by fstab when they should be mounted from the initramfs.
+How to tell if your system is impacted At the moment the fix is not merged, so we are all impacted.</description>
+    </item>
     
     <item>
       <title>Install And Configure PostmarketOS With Plasma Mobile On The PinePhone</title>

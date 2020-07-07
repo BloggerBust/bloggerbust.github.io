@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Issue on Blogger Bust</title>
+    <link>https://bloggerbust.ca/tags/issue/</link>
+    <description>Recent content in Issue on Blogger Bust</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-CA</language>
+    <copyright>Copyright (c) 2018, all rights reserved.</copyright>
+    <lastBuildDate>Tue, 07 Jul 2020 09:04:03 +0000</lastBuildDate>
+    
+	<atom:link href="https://bloggerbust.ca/tags/issue/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>postmarketOS pmaports Mount Issue</title>
+      <link>https://bloggerbust.ca/post/postmarketos-pmaports-mount-issue/</link>
+      <pubDate>Tue, 07 Jul 2020 09:04:03 +0000</pubDate>
+      
+      <guid>https://bloggerbust.ca/post/postmarketos-pmaports-mount-issue/</guid>
+      <description>Table of Contents  What is the issue? How to tell if your system is impacted What is the impact? What to do about it? After thoughts   
+What is the issue? There is a known issue that root and boot partitions are being mounted by fstab when they should be mounted from the initramfs.
+How to tell if your system is impacted At the moment the fix is not merged, so we are all impacted.</description>
+    </item>
+    
+  </channel>
+</rss>

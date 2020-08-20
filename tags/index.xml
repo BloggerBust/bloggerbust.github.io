@@ -114,7 +114,7 @@
     <item>
       <title>Pinephone</title>
       <link>https://bloggerbust.ca/tags/pinephone/</link>
-      <pubDate>Tue, 07 Jul 2020 09:04:03 +0000</pubDate>
+      <pubDate>Thu, 20 Aug 2020 05:54:21 +0000</pubDate>
       
       <guid>https://bloggerbust.ca/tags/pinephone/</guid>
       <description></description>
@@ -132,7 +132,7 @@
     <item>
       <title>Postmarketos</title>
       <link>https://bloggerbust.ca/tags/postmarketos/</link>
-      <pubDate>Tue, 07 Jul 2020 09:04:03 +0000</pubDate>
+      <pubDate>Thu, 20 Aug 2020 05:54:21 +0000</pubDate>
       
       <guid>https://bloggerbust.ca/tags/postmarketos/</guid>
       <description></description>
@@ -180,6 +180,15 @@
       <pubDate>Thu, 14 May 2020 12:10:42 +0000</pubDate>
       
       <guid>https://bloggerbust.ca/tags/uart/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Uboot</title>
+      <link>https://bloggerbust.ca/tags/uboot/</link>
+      <pubDate>Thu, 20 Aug 2020 05:54:21 +0000</pubDate>
+      
+      <guid>https://bloggerbust.ca/tags/uboot/</guid>
       <description></description>
     </item>
     

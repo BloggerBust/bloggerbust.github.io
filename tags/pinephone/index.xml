@@ -7,10 +7,20 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-CA</language>
     <copyright>Copyright (c) 2018, all rights reserved.</copyright>
-    <lastBuildDate>Tue, 07 Jul 2020 09:04:03 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 20 Aug 2020 05:54:21 +0000</lastBuildDate>
     
 	<atom:link href="https://bloggerbust.ca/tags/pinephone/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>How To Update U-Boot For PostmarketOS On The Pine Phone</title>
+      <link>https://bloggerbust.ca/post/how-to-update-uboot-for-postmarketos-on-the-pinephone/</link>
+      <pubDate>Thu, 20 Aug 2020 05:54:21 +0000</pubDate>
+      
+      <guid>https://bloggerbust.ca/post/how-to-update-uboot-for-postmarketos-on-the-pinephone/</guid>
+      <description>Table of Contents  Introduction What is U-Boot? What is a SoC? What is the SPL? What installs the SPL? A bit about bytes Layout of sunxi bootable storage PinePhone boot procedure Determine which bootable storage device is relevant How to determine if U-Boot needs to be upgraded? Write U-Boot+SPL to bootable storage Walking the bin Examine what we found on our walk Conclusion   
+Introduction If you are in a hurry to update U-Boot and the SPL on your PinePhone, then please proceed directly to Write U-Boot+SPL to bootable storage.</description>
+    </item>
     
     <item>
       <title>postmarketOS pmaports Mount Issue</title>

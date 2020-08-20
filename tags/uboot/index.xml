@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Uboot on Blogger Bust</title>
+    <link>https://bloggerbust.ca/tags/uboot/</link>
+    <description>Recent content in Uboot on Blogger Bust</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-CA</language>
+    <copyright>Copyright (c) 2018, all rights reserved.</copyright>
+    <lastBuildDate>Thu, 20 Aug 2020 05:54:21 +0000</lastBuildDate>
+    
+	<atom:link href="https://bloggerbust.ca/tags/uboot/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>How To Update U-Boot For PostmarketOS On The Pine Phone</title>
+      <link>https://bloggerbust.ca/post/how-to-update-uboot-for-postmarketos-on-the-pinephone/</link>
+      <pubDate>Thu, 20 Aug 2020 05:54:21 +0000</pubDate>
+      
+      <guid>https://bloggerbust.ca/post/how-to-update-uboot-for-postmarketos-on-the-pinephone/</guid>
+      <description>Table of Contents  Introduction What is U-Boot? What is a SoC? What is the SPL? What installs the SPL? A bit about bytes Layout of sunxi bootable storage PinePhone boot procedure Determine which bootable storage device is relevant How to determine if U-Boot needs to be upgraded? Write U-Boot+SPL to bootable storage Walking the bin Examine what we found on our walk Conclusion   
+Introduction If you are in a hurry to update U-Boot and the SPL on your PinePhone, then please proceed directly to Write U-Boot+SPL to bootable storage.</description>
+    </item>
+    
+  </channel>
+</rss>

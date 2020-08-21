@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Cmake on Blogger Bust</title>
+    <link>https://bloggerbust.ca/tags/cmake/</link>
+    <description>Recent content in Cmake on Blogger Bust</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-CA</language>
+    <copyright>Copyright (c) 2018, all rights reserved.</copyright>
+    <lastBuildDate>Sun, 24 Mar 2019 03:07:24 +0000</lastBuildDate>
+    
+	<atom:link href="https://bloggerbust.ca/tags/cmake/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Adding a Dependency Based on Autotools to a Bazel Project</title>
+      <link>https://bloggerbust.ca/post/adding-a-dependency-based-on-autotools-to-a-bazel-project/</link>
+      <pubDate>Sun, 24 Mar 2019 03:07:24 +0000</pubDate>
+      
+      <guid>https://bloggerbust.ca/post/adding-a-dependency-based-on-autotools-to-a-bazel-project/</guid>
+      <description>Motivation In my spare time I have been experimenting with the Bazel build runner. I wanted to add Libsodium as a dependency to my Bazel C/C++ project. The Libsodium project is not a Bazel package and therefore Bazel will not know how to treat it as a dependency. If I wish to add Libsodium as a repository based dependency to my project, then It makes sense to write a BUILD file defining how Bazel should build the Libsodium library.</description>
+    </item>
+    
+  </channel>
+</rss>

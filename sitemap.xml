@@ -14,7 +14,7 @@
   
   <url>
     <loc>https://bloggerbust.ca/post/install_and_configure_postmarketos_with_plasma_mobile_on_the_pinephone/</loc>
-    <lastmod>2020-07-19T07:23:28-06:00</lastmod>
+    <lastmod>2020-08-21T12:21:00-06:00</lastmod>
   </url>
   
   <url>
@@ -64,7 +64,7 @@
   
   <url>
     <loc>https://bloggerbust.ca/post/adding-a-dependency-based-on-autotools-to-a-bazel-project/</loc>
-    <lastmod>2019-03-28T08:12:34-06:00</lastmod>
+    <lastmod>2020-08-21T12:15:48-06:00</lastmod>
   </url>
   
   <url>
@@ -103,6 +103,12 @@
   </url>
   
   <url>
+    <loc>https://bloggerbust.ca/tags/bazel/</loc>
+    <lastmod>2020-08-21T12:15:48-06:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>https://bloggerbust.ca/</loc>
     <lastmod>2020-08-20T16:04:16-06:00</lastmod>
     <priority>0</priority>
@@ -117,6 +123,18 @@
   <url>
     <loc>https://bloggerbust.ca/categories/</loc>
     <lastmod>2019-07-03T06:46:19-06:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://bloggerbust.ca/tags/cmake/</loc>
+    <lastmod>2020-08-21T12:15:48-06:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://bloggerbust.ca/tags/cpp/</loc>
+    <lastmod>2020-08-21T12:15:48-06:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -206,7 +224,7 @@
   
   <url>
     <loc>https://bloggerbust.ca/tags/plasma_mobile/</loc>
-    <lastmod>2020-07-19T07:23:28-06:00</lastmod>
+    <lastmod>2020-08-21T12:21:00-06:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -224,7 +242,7 @@
   
   <url>
     <loc>https://bloggerbust.ca/categories/programming/</loc>
-    <lastmod>2020-03-25T08:04:14-06:00</lastmod>
+    <lastmod>2020-08-21T12:15:48-06:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -271,7 +289,13 @@
   
   <url>
     <loc>https://bloggerbust.ca/tags/</loc>
-    <lastmod>2020-03-25T08:04:14-06:00</lastmod>
+    <lastmod>2020-08-21T12:15:48-06:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://bloggerbust.ca/tags/toolchain/</loc>
+    <lastmod>2020-08-21T12:15:48-06:00</lastmod>
     <priority>0</priority>
   </url>
   

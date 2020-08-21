@@ -15,7 +15,7 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://bloggerbust.ca/post/adding-a-dependency-based-on-autotools-to-a-bazel-project/" />
 <meta property="article:published_time" content="2019-03-24T03:07:24&#43;00:00"/>
-<meta property="article:modified_time" content="2019-03-28T08:12:34-06:00"/>
+<meta property="article:modified_time" content="2020-08-21T12:15:48-06:00"/>
 
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Adding a Dependency Based on Autotools to a Bazel Project"/>
@@ -28,12 +28,12 @@
 
 
 <meta itemprop="datePublished" content="2019-03-24T03:07:24&#43;00:00" />
-<meta itemprop="dateModified" content="2019-03-28T08:12:34-06:00" />
-<meta itemprop="wordCount" content="1601">
+<meta itemprop="dateModified" content="2020-08-21T12:15:48-06:00" />
+<meta itemprop="wordCount" content="1603">
 
 
 
-<meta itemprop="keywords" content="" />
+<meta itemprop="keywords" content="bazel,toolchain,cmake,cpp," />
 
 
 <link rel="stylesheet" href="https://bloggerbust.ca/css/layout.css" />
@@ -175,11 +175,11 @@ th {
 
 <h2 id="what-you-need-to-know">What you need to know</h2>
 
-<p>Rules_foreign_cc is an <em>experimental</em> Bazel extension with build rules for interfacing with non-Bazel build systems. By the time you read this post, the API may be many versions ahead and may not maintain backwards compatibility. With that in mind, the example contained within this post will target <a href="https://github.com/bazelbuild/rules%5Fforeign%5Fcc/tree/a3593905f73ce19c09d21f9968f1d3f5bc115157">a fixed version of the API</a> right before <a href="https://github.com/bazelbuild/rules%5Fforeign%5Fcc/pull/234">they removed backwards compatibility with Bazel v0.22</a>.</p>
+<p>Rules_foreign_cc is an <em>experimental</em> Bazel extension with build rules for interfacing with non-Bazel build systems. By the time you read this post, the API may be many versions ahead and might not maintain backwards compatibility. With that in mind, the example contained within this post will target <a href="https://github.com/bazelbuild/rules%5Fforeign%5Fcc/tree/a3593905f73ce19c09d21f9968f1d3f5bc115157">a fixed version of the API</a> right before <a href="https://github.com/bazelbuild/rules%5Fforeign%5Fcc/pull/234">they removed backwards compatibility with Bazel v0.22</a>.</p>
 
-<p>This is not a tutorial on using Bazel to build C/C++ projects. If you are not familiar with the basics of building C/C++ projects with Bazel then I recommend that you start with an <a href="https://docs.bazel.build/versions/master/tutorial/cpp.html#introduction-to-bazel-building-a-c-project">Introduction to Bazel: Building a C++ Project</a> before reading on. In fact, I recommend that you read through everything in the <a href="https://docs.bazel.build/versions/master/bazel-and-cpp.html">C++ and Bazel documentation</a>, but it is not strictly necessary.</p>
+<p>This is not a tutorial on using Bazel to build C/C++ projects. If you are not familiar with the basics of building C/C++ projects with Bazel, then I recommend that you start with an <a href="https://docs.bazel.build/versions/master/tutorial/cpp.html#introduction-to-bazel-building-a-c-project">Introduction to Bazel: Building a C++ Project</a> before reading on. In fact, I recommend that you read through everything in the <a href="https://docs.bazel.build/versions/master/bazel-and-cpp.html">C++ and Bazel documentation</a>, but that is not strictly necessary.</p>
 
-<p>I would also like to point out that I have only tested this with Bazel v 0.20.0 on a Gentoo system. If you are planning to try this from a system running Microsoft Windows then you should install Bazel 0.23+. See <a href="https://github.com/bazelbuild/rules%5Fforeign%5Fcc#bazel-versions-compatibility">Bazel versions compatibility</a> for up to date compatibility information.</p>
+<p>I would also like to point out that I have only tested this with Bazel v0.20.0 on a Gentoo system. If you are planning to try this from a system running Microsoft Windows, then you should install Bazel v0.23+. See <a href="https://github.com/bazelbuild/rules%5Fforeign%5Fcc#bazel-versions-compatibility">Bazel versions compatibility</a> for up to date compatibility information.</p>
 
 <h2 id="introducing-rules-foreign-cc">Introducing rules_foreign_cc</h2>
 
@@ -187,7 +187,7 @@ th {
 
 <h2 id="project-layout">Project layout</h2>
 
-<p>The full source code is available at my <a href="https://github.com/BloggerBust/bazelLibsodiumTest">BloggerBust/bazelLibsodiumTest GitHub repository</a>. Before we get started let&rsquo;s take a brief look at the project&rsquo;s layout:</p>
+<p>The full source code is available at my <a href="https://github.com/BloggerBust/bazelLibsodiumTest">BloggerBust/bazelLibsodiumTest GitHub repository</a>. Before we get started, let&rsquo;s take a brief look at the project&rsquo;s layout:</p>
 <div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">tree ~/dev/bazelLibsodiumTest/ -I <span style="color:#ed9d13">&#34;bazel*&#34;</span></code></pre></div><div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">/home/dustfinger/dev/bazelLibsodiumTest/
 ├── BUILD
 ├── README.org
@@ -220,21 +220,21 @@ th {
 
 <h2 id="load-the-rules-foreign-cc-workspace-definitions-extension">Load the rules_foreign_cc workspace definitions extension</h2>
 
-<p>On March 11, 2019 the rules_foreign_cc project <a href="https://github.com/bazelbuild/rules%5Fforeign%5Fcc/pull/234">removed support for Bazel version less than 0.22</a>. The <a href="https://github.com/BloggerBust/bazelLibsodiumTest/blob/master/WORKSPACE">workspace file</a> in my GitHub repository has a comment explaining how to set the rules_foreign_cc master branch as the dependency, but in this post I will only discuss setting the final commit that provided support for Bazel pre version 0.22 since many distributions do not include the latest Bazel version in their stable package tree.</p>
+<p>On March 11, 2019 the rules_foreign_cc project <a href="https://github.com/bazelbuild/rules%5Fforeign%5Fcc/pull/234">removed support for Bazel version less than 0.22</a>. The <a href="https://github.com/BloggerBust/bazelLibsodiumTest/blob/master/WORKSPACE">workspace file</a> in my GitHub repository has a comment explaining how to set the rules_foreign_cc master branch as the dependency, but in this post I will only discuss setting the final commit that provided support for Bazel pre version 0.22, since many distributions do not include the latest Bazel version in their stable package tree.</p>
 
 <h3 id="determine-the-sha256-hash">Determine the sha256 hash</h3>
 
-<p>The purpose of the sha256 hash validation is to ensure that subsequent downloads from either the same or different environments are building exactly the same dependencies. It is more about build integrity then security. Please download the zip archive for commit <code>a3593905f73ce19c09d21f9968f1d3f5bc115157</code> and then calculate its sha256 hash. You can determine the URI of a commit using the pattern: <code>https://github.com/&lt;user-name&gt;/&lt;commit-hash&gt;.zip</code></p>
+<p>The purpose of the sha256 hash validation is to ensure that subsequent downloads from either the same or different environments are building exactly the same dependencies. It is more about build integrity than security. Please download the zip archive for commit <code>a3593905f73ce19c09d21f9968f1d3f5bc115157</code> and then calculate its sha256 hash. You can determine the URI of a commit using the pattern: <code>https://github.com/&lt;user-name&gt;/&lt;commit-hash&gt;.zip</code></p>
 <div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">wget https://github.com/bazelbuild/rules_foreign_cc/archive/a3593905f73ce19c09d21f9968f1d3f5bc115157.zip
 sha256sum a3593905f73ce19c09d21f9968f1d3f5bc115157.zip
 rm a3593905f73ce19c09d21f9968f1d3f5bc115157.zip</code></pre></div><div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">6f3484eacc172c90d605e79130f9f01ec827a98b99c499c396eddc597a9c219d  a3593905f73ce19c09d21f9968f1d3f5bc115157.zip</code></pre></div>
 <p>Now we know that the sha256 hash is <code>6f3484eacc172c90d605e79130f9f01ec827a98b99c499c396eddc597a9c219d</code> and with that we can configure the build to validate the hash before building the dependency.</p>
 
-<p>It is important to understand that what I have just explained is a flawed protocol if my intention was to protect myself against a sophisticated man in the middle attack. Consider that if I download the archive and calculate the hash, then ask the build to download the archive and compare to what I had previously calculated, of course I should expect it to be the same. Following this protocol I should expect the hash to validate even if a hostile proxy was delivering a modified archive. To mitigate the threat of a man in the middle attack, the Libsodium project supports <a href="https://download.libsodium.org/doc/installation#integrity-checking">cryptographic integrity checking</a> which I will not be covering in this post.</p>
+<p>It is important to understand that what I have just explained is a flawed protocol if my intention was to protect myself against a sophisticated man in the middle attack. Consider that if I download the archive and calculate the hash, then ask the build to download the same archive and compare its calculated hash to what I had previously calculated, of course I should expect the hashes to be the same. Following this protocol I should expect the hash to validate even if a hostile proxy was delivering a modified archive. To mitigate the threat of a man in the middle attack, the Libsodium project supports <a href="https://download.libsodium.org/doc/installation#integrity-checking">cryptographic integrity checking</a> which I will not be covering in this post.</p>
 
 <h3 id="add-rules-foreign-cc-as-a-dependency">Add rules_foreign_cc as a dependency</h3>
 
-<p>When the archive is extracted the root directory will be the name of the archive, followed by a hyphen, followed by the name of the branch or commit. It is best to strip away this top level archive directory since it causes issues with target paths. We do this by setting strip_prefix to <em>rules_foreign_cc-a3593905f73ce19c09d21f9968f1d3f5bc115157</em>. Additionally, we want to set the sha256 hash of the archive. If the sha256 hash of the downloaded archive does not match the value of the sha256 attribute then the build will be halted.</p>
+<p>When the archive is extracted the root directory will be the name of the archive, followed by a hyphen, followed by the name of the branch or commit. It is best to strip away this top level archive directory since it causes issues with target paths. We do this by setting strip_prefix to <em>rules_foreign_cc-a3593905f73ce19c09d21f9968f1d3f5bc115157</em>. Additionally, we want to set the sha256 hash of the archive. If the sha256 hash of the downloaded archive does not match the value of the sha256 attribute, then the build will be halted.</p>
 <div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">workspace(name = <span style="color:#ed9d13">&#34;com_github_bloggerbust_bazelLibsodiumTest&#34;</span>)
 load(<span style="color:#ed9d13">&#39;@bazel_tools//tools/build_defs/repo:http.bzl&#39;</span>, <span style="color:#ed9d13">&#39;http_archive&#39;</span>)
 
@@ -267,26 +267,26 @@ http_archive(
 <p>Now it is time to configure make. We need to let make know the following:</p>
 
 <ol>
-<li><strong>Where the library source code is for Libsodium:</strong> This is satisfied by setting the <em>lib_source</em> attribute to a label targeting the file group that we created under <a href="#configure-the-libsodium-dependency">Configure the Libsodium dependency</a></li>
-<li><strong>The path to where the compiled library binaries will be written to following a successful build:</strong> This is satisfied by setting the <em>out_lib_dir</em> attribute to a directory relative to the <em>libsodium_configure</em> package. I simply named this directory <em>lib</em></li>
+<li><strong>Where the library source code is for Libsodium:</strong> This is satisfied by setting the <em>lib_source</em> attribute to a label targeting the file group that we created under <a href="#configure-the-libsodium-dependency">Configure the Libsodium dependency</a>.</li>
+<li><strong>The path to where the compiled library binaries will be written to following a successful build:</strong> This is satisfied by setting the <em>out_lib_dir</em> attribute to a directory relative to the <em>libsodium_configure</em> package. I simply named this directory <code>lib/</code>.</li>
+<li><strong>The name of the resulting shared library that we would like bazelLibsodiumTest binary to link to:</strong> This is satisfied by setting the <em>shared_libraries</em> attribute. Alternatively you can specify a static library with the <em>static_libraries</em> attribute.</li>
+</ol>
 
-<li><p><strong>The name of the resulting shared library that we would like bazelLibsodiumTest binary to link to:</strong> This is satisfied by setting the <em>shared_libraries</em> attribute. Alternatively you can specify a static library with the <em>static_libraries</em> attribute</p>
+<!--listend-->
 <div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">load(<span style="color:#ed9d13">&#34;@rules_foreign_cc//tools/build_defs:configure.bzl&#34;</span>, <span style="color:#ed9d13">&#34;configure_make&#34;</span>)
 
 configure_make(
-name = <span style="color:#ed9d13">&#34;libsodium_configure&#34;</span>,
-lib_source = <span style="color:#ed9d13">&#34;@org_libsodium//:libsodium_all&#34;</span>,
-out_lib_dir = <span style="color:#ed9d13">&#34;lib&#34;</span>,
-shared_libraries = [<span style="color:#ed9d13">&#34;libsodium.so.23&#34;</span>],
-visibility = [<span style="color:#ed9d13">&#34;//visibility:public&#34;</span>]
-)</code></pre></div></li>
-</ol>
-
-<p>Since the BUILD file is in the root of our project the label for the configure_make target will be <code>//:libsodium_configure</code></p>
+    name = <span style="color:#ed9d13">&#34;libsodium_configure&#34;</span>,
+    lib_source = <span style="color:#ed9d13">&#34;@org_libsodium//:libsodium_all&#34;</span>,
+    out_lib_dir = <span style="color:#ed9d13">&#34;lib&#34;</span>,
+    shared_libraries = [<span style="color:#ed9d13">&#34;libsodium.so.23&#34;</span>],
+    visibility = [<span style="color:#ed9d13">&#34;//visibility:public&#34;</span>]
+)</code></pre></div>
+<p>Since the BUILD file is in the root of our project the label for the configure_make target will be <code>//:libsodium_configure</code>.</p>
 
 <h2 id="create-a-build-file-for-our-testlibsodium-library">Create a BUILD file for our TestLibsodium library</h2>
 
-<p>To add the Libsodium library as a dependency of the TestLibsodium Library package it is a simple matter of assigning the <code>//:libsodium_configure</code> label to the <em>deps</em> attribute.</p>
+<p>To add the Libsodium library as a dependency of the TestLibsodium Library package, simply assign the <code>//:libsodium_configure</code> label to the <em>deps</em> attribute.</p>
 <div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">cc_library(
     name = <span style="color:#ed9d13">&#34;test_libsodium&#34;</span>,
     srcs = glob([<span style="color:#ed9d13">&#34;*.cpp&#34;</span>]),
@@ -304,7 +304,10 @@ visibility = [<span style="color:#ed9d13">&#34;//visibility:public&#34;</span>]
 <dt><code>--experimental_cc_skylark_api_enabled_packages=@rules_foreign_cc//tools/build_defs,tools/build_defs,@foreign_cc_impl</code></dt>
 <dd>Required for Bazel 0.20 to 0.21</dd>
 <dt><code>2&gt;&amp;1</code></dt>
-<dd><p>I discovered that all the compiler output was on stderr. This redirects stderr to stdout. Perhaps this has been fixed in a more recent version of Bazel.</p>
+<dd>I discovered that all the compiler output was sent to <code>stderr</code>. This redirects <code>stderr</code> to <code>stdout</code>. Perhaps this has been fixed in a more recent version of Bazel.</dd>
+</dl>
+
+<!--listend-->
 <div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">env <span style="color:#40ffff">TMPDIR</span>=~/dev/tmp bazel build --experimental_cc_skylark_api_enabled_packages=@rules_foreign_cc//tools/build_defs,tools/build_defs,@foreign_cc_impl //src:main <span style="color:#3677a9">2</span>&gt;&amp;<span style="color:#3677a9">1</span></code></pre></div><div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">INFO: Invocation ID: b03a9e49-ba0f-46bb-a232-43cf82087212
 Loading:
 Loading: 0 packages loaded
@@ -313,29 +316,43 @@ INFO: Analysed target //src:main (0 packages loaded, 0 targets configured).
 INFO: Found 1 target...
 [0 / 1] [-----] BazelWorkspaceStatusAction stable-status.txt
 Target //src:main up-to-date:
-bazel-bin/src/main
+  bazel-bin/src/main
 INFO: Elapsed time: 0.062s, Critical Path: 0.00s
 INFO: 0 processes.
 INFO: Build completed successfully, 1 total action
-INFO: Build completed successfully, 1 total action</code></pre></div></dd>
-</dl>
-
+INFO: Build completed successfully, 1 total action</code></pre></div>
 <p>Since the build was successful we should be able to run the <em>main</em> binary and see a message stating that Libsodium has been initialized.</p>
 <div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">bazel run --experimental_cc_skylark_api_enabled_packages=@rules_foreign_cc//tools/build_defs,tools/build_defs,@foreign_cc_impl //src:main</code></pre></div><div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">going to initialize Libsodium, wish me luck
 //////////////////////////////////////////////////////
 // W00t! the Libsodium library has been initialized //
 //////////////////////////////////////////////////////</code></pre></div>
-<p>If anything goes wrong then add <code>--verbose_failures --sandbox_debug</code> optional flags to the build command.</p>
+<p>If anything goes wrong, then add <code>--verbose_failures --sandbox_debug</code> optional flags to the build command.</p>
 
 <h2 id="conclusion">Conclusion</h2>
 
-<p>Thanks to the rules_foreign_cc project adding Libsodium as a dependency was easy. For GNU configure/make Autotools based projects with foreign dependencies of their own additional work would be needed. Also, keep in mind that the project is experimental and is unlikely to maintain backwards compatibility until it is deemed stable. I hope that you found this post useful.</p>
+<p>Thanks to the rules_foreign_cc project adding Libsodium as a dependency was easy. For projects based on GNU configure/make Autotools that have foreign dependencies of their own, additional work would be needed. Also, keep in mind that the project is experimental and is unlikely to maintain backwards compatibility until it is deemed stable. I hope that you found this post useful.</p>
  </div>
     <footer class="post-footer">
 
   <div class="post-footer-data">
     
 <div class="tags">
+    
+      <div class="tag">
+        <a href="https://bloggerbust.ca/tags/bazel">#bazel</a>
+      </div>
+    
+      <div class="tag">
+        <a href="https://bloggerbust.ca/tags/toolchain">#toolchain</a>
+      </div>
+    
+      <div class="tag">
+        <a href="https://bloggerbust.ca/tags/cmake">#cmake</a>
+      </div>
+    
+      <div class="tag">
+        <a href="https://bloggerbust.ca/tags/cpp">#cpp</a>
+      </div>
     
 </div>
 

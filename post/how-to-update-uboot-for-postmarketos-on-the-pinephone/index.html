@@ -16,7 +16,7 @@ Introduction If you are in a hurry to update U-Boot and the SPL on your PinePhon
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://bloggerbust.ca/post/how-to-update-uboot-for-postmarketos-on-the-pinephone/" />
 <meta property="article:published_time" content="2020-08-20T05:54:21&#43;00:00"/>
-<meta property="article:modified_time" content="2020-08-22T08:17:33-06:00"/>
+<meta property="article:modified_time" content="2020-08-22T08:23:50-06:00"/>
 
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="How To Update U-Boot For PostmarketOS On The Pine Phone"/>
@@ -31,8 +31,8 @@ Introduction If you are in a hurry to update U-Boot and the SPL on your PinePhon
 
 
 <meta itemprop="datePublished" content="2020-08-20T05:54:21&#43;00:00" />
-<meta itemprop="dateModified" content="2020-08-22T08:17:33-06:00" />
-<meta itemprop="wordCount" content="3007">
+<meta itemprop="dateModified" content="2020-08-22T08:23:50-06:00" />
+<meta itemprop="wordCount" content="3011">
 
 
 
@@ -425,17 +425,17 @@ mmcblk2boot1 disk</code></pre></div>
 
 <tr>
 <td>bs</td>
-<td>block size, or number of bytes per count. Not to be confused with disk blocksize. It is purposely set to <code>1024B</code> so that each count represents <code>1 KiB</code></td>
+<td>block size, or number of bytes per count. Not to be confused with disk blocksize or a rude expletive. It is purposely set to <code>1024B</code> so that each count represents <code>1 KiB</code>.</td>
 </tr>
 
 <tr>
 <td>skip</td>
-<td>number of input blocks to skip. We know from <a href="#layout-of-sunxi-bootable-storage">Layout of sunxi bootable storage</a> that we can ignore the first <code>8KiB</code></td>
+<td>number of input blocks to skip. We know from <a href="#layout-of-sunxi-bootable-storage">Layout of sunxi bootable storage</a> that we can ignore the first <code>8KiB</code>.</td>
 </tr>
 
 <tr>
 <td>count</td>
-<td>number of input blocks to parse. In our case, <code>dd</code> just sends those blocks to <code>stdout</code></td>
+<td>number of input blocks to parse. In our case, <code>dd</code> just sends those blocks to <code>stdout</code>.</td>
 </tr>
 </tbody>
 </table>

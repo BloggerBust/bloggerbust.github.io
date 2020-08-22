@@ -16,7 +16,7 @@ Introduction If you are in a hurry to update U-Boot and the SPL on your PinePhon
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://bloggerbust.ca/post/how-to-update-uboot-for-postmarketos-on-the-pinephone/" />
 <meta property="article:published_time" content="2020-08-20T05:54:21&#43;00:00"/>
-<meta property="article:modified_time" content="2020-08-21T14:12:05-06:00"/>
+<meta property="article:modified_time" content="2020-08-22T08:17:33-06:00"/>
 
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="How To Update U-Boot For PostmarketOS On The Pine Phone"/>
@@ -31,8 +31,8 @@ Introduction If you are in a hurry to update U-Boot and the SPL on your PinePhon
 
 
 <meta itemprop="datePublished" content="2020-08-20T05:54:21&#43;00:00" />
-<meta itemprop="dateModified" content="2020-08-21T14:12:05-06:00" />
-<meta itemprop="wordCount" content="3015">
+<meta itemprop="dateModified" content="2020-08-22T08:17:33-06:00" />
+<meta itemprop="wordCount" content="3007">
 
 
 
@@ -385,11 +385,11 @@ mmcblk2      disk
 └─mmcblk2p2  part
 mmcblk2boot0 disk
 mmcblk2boot1 disk</code></pre></div>
-<p>The disk corresponding to the <code>/boot</code> mountpoint is the name of the block special device that postmarketOS is currently running form. The device path to the relevant boot storage device is therefore <code>/dev/mmcblk0</code>. We will be using this device name in the next section to determine if an upgrade is needed, but you must be careful to use the device name that is relevant to your own running environment if you are following along.</p>
+<p>The disk corresponding to the <code>/boot</code> mountpoint is the name of the block special device that postmarketOS is currently running form. The device path to the relevant boot storage device is therefore <code>/dev/mmcblk0</code>. We will be using this device name in the next two sections to determine if an upgrade is needed and again to perform the actual upgrade if warranted. You must be careful to use the device name that is relevant to your own running environment if you are following along.</p>
 
 <h2 id="how-to-determine-if-u-boot-needs-to-be-upgraded">How to determine if U-Boot needs to be upgraded?</h2>
 
-<p>First, <a href="#determine-which-bootable-storage-device-is-relevant">determine which bootable storage device is relevant</a> for your running environment. After that, you can determine if an upgrade is necessary simply by comparing the version of U-Boot installed by the <code>u-boot-pinephone</code> package with the version of U-Boot that is written to the relevant bootable storage device.</p>
+<p>You can determine if an upgrade is necessary simply by comparing the version of U-Boot installed by the <code>u-boot-pinephone</code> package with the version of U-Boot that is written to <a href="#determine-which-bootable-storage-device-is-relevant">the bootable storage device which is relevant to your running environment</a>.</p>
 
 <p>To see which version of <code>U-Boot</code> was installed by the <code>u-boot-pinephone</code> package, simply run the <code>apk policy</code> sub command as shown below:</p>
 <div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">second-chance:~/$ apk policy u-boot-pinephone</code></pre></div><div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">u-boot-pinephone policy:
@@ -440,13 +440,13 @@ mmcblk2boot1 disk</code></pre></div>
 </tbody>
 </table>
 
-<p>Finally, since the version of U-Boot compiled into <code>/usr/share/u-boot/pine64-pinephone/u-boot-sunxi-with-spl.bin</code> is newer then the the version written to bootable storage <code>/dev/mmcblk0</code>, I know that it is time to upgrade U-Boot.</p>
+<p>Finally, since the version of U-Boot compiled into <code>/usr/share/u-boot/pine64-pinephone/u-boot-sunxi-with-spl.bin</code> is newer than the the version written to bootable storage <code>/dev/mmcblk0</code>, I know that it is time to upgrade U-Boot.</p>
 
 <table>
 <thead>
 <tr>
-<th></th>
-<th>version</th>
+<th>Name</th>
+<th>Version</th>
 </tr>
 </thead>
 
@@ -467,11 +467,11 @@ mmcblk2boot1 disk</code></pre></div>
 
 <p>Back in June, <a href="https://github.com/crust-firmware/crust">Crust</a> firmware was added to pmaport and, in the same commit, <a href="https://gitlab.com/postmarketOS/pmaports/-/commit/c5f26eeb65fb2292c2f2a0a82045c9dffafa7290#76dfa9fc47a3e569570ed17a25caab62acb90b42%5F35%5F36">the u-boot-pinephone a-pack was updated</a> to include the <a href="https://gitlab.com/postmarketOS/pmaports/-/commit/c5f26eeb65fb2292c2f2a0a82045c9dffafa7290#be17589e1fe5ec006101adc48bc853a906a0c339">update-u-boot</a> script. The <code>update-u-boot</code> script, which originated in the <a href="https://git.alpinelinux.org/aports/tree/main/u-boot">alpine Linux u-boot repository</a>, provides the simplest way for you to upgrade your boot storage to the latest version of U-BOOT+SPL. Simply run:</p>
 <div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">second-chance:~$ update-u-boot</code></pre></div>
-<p>To see if your version of <code>u-boot-pinephone</code> includes the <code>upgrade-u-boot</code> script, simply run:</p>
+<p>To see if your version of <code>u-boot-pinephone</code> includes the <code>upgrade-u-boot</code> script, use the <code>apk info</code> sub command:</p>
 <div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">second-chance:~$ apk info -L u-boot-pinephone</code></pre></div><div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">u-boot-pinephone-2020.07_git20200612-r1 contains:
 usr/sbin/update-u-boot
 usr/share/u-boot/pine64-pinephone/u-boot-sunxi-with-spl.bin</code></pre></div>
-<p>If your version of <code>u-boot-pinephone</code> does not include <code>usr/sbin/update-u-boot</code>, or if you are just curious about how to upgrade U-Boot without the <code>upgrade-u-boot</code> command, then read on. If you haven&rsquo;t already, first <a href="#determine-which-bootable-storage-device-is-relevant">determine which bootable storage device is relevant</a> for your running environment. After that, Use the <code>dd</code> command to write the latest version of u-boot to your bootable storage. Be sure to replace <code>/dev/mmcblk0</code> with the path to the bootable storage device that is relevant for your running environment:</p>
+<p>If your version of <code>u-boot-pinephone</code> does not include <code>usr/sbin/update-u-boot</code>, or if you are just curious about how to upgrade U-Boot without the <code>upgrade-u-boot</code> command, then read on. Use the <code>dd</code> command to write the latest version of u-boot to your bootable storage. Be sure to replace <code>/dev/mmcblk0</code> with the path to <a href="#determine-which-bootable-storage-device-is-relevant">the bootable storage device that is relevant for your running environment</a>:</p>
 <div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">second-chance:~$ sudo dd <span style="color:#6ab825;font-weight:bold">if</span>=/usr/share/u-boot/pine64-pinephone/u-boot-sunxi-with-spl.bin <span style="color:#40ffff">of</span>=/dev/mmcblk0 <span style="color:#40ffff">bs</span>=<span style="color:#3677a9">1024</span> <span style="color:#40ffff">seek</span>=<span style="color:#3677a9">8</span></code></pre></div><div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">486+1 records in
 486+1 records out</code></pre></div>
 <p>In case you are not confident using the <code>dd</code> command, here is a breakdown of the optional flags that I used in the above:</p>
@@ -497,7 +497,7 @@ usr/share/u-boot/pine64-pinephone/u-boot-sunxi-with-spl.bin</code></pre></div>
 
 <tr>
 <td>bs</td>
-<td>block size, or number of bytes per count. Not to be confused with disk blocksize. It is purposely set to <code>1024B</code> so that each count represents <code>1 KiB</code>.</td>
+<td>block size, or number of bytes per count. Not to be confused with disk blocksize or a rude expletive. It is purposely set to <code>1024B</code> so that each count represents <code>1 KiB</code>.</td>
 </tr>
 
 <tr>
@@ -540,7 +540,7 @@ tar: Ignoring unknown extended header keyword &#39;APK-TOOLS.checksum.SHA1&#39;<
 325944        0x4F938         CRC32 polynomial table, little endian
 490112        0x77A80         device tree image (dtb)
 523168        0x7FBA0         device tree image (dtb)</code></pre></div>
-<p>Binwalk recognizes three <em>device tree blobs</em> (DTB) and one cyclic redundancy check table. Notice, that the first DTB is located at offset <code>32768B</code>, exactly <code>32 KiB</code> from the start of the file. Thanks to binwalk, we know the offsets of 4 binary blobs. Let&rsquo;s extract all four blobs for further examination.</p>
+<p>Binwalk recognizes three <em>device tree blobs</em> (DTB) and one cyclic redundancy check table. Notice, that the first DTB is located at offset <code>32768B</code>, exactly <code>32 KiB</code> from the start of the file. Thanks to <code>binwalk</code>, we know the offsets of 4 binary blobs. Let&rsquo;s extract all four blobs for further examination.</p>
 <div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">binwalk -q --dd=<span style="color:#ed9d13">&#39;device.*:dtb&#39;</span> --dd=<span style="color:#ed9d13">&#39;crc32.*:crc&#39;</span> u-boot-sunxi-with-spl.bin
 tree</code></pre></div><div class="highlight"><pre style="color:#d0d0d0;background-color:#202020;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">.
 ├── u-boot-pinephone-2020.07_git20200612-r1.apk
@@ -680,7 +680,7 @@ tree</code></pre></div><div class="highlight"><pre style="color:#d0d0d0;backgrou
 </tbody>
 </table>
 
-<p>Using the offsets found within the device tree source, we could continue to reverse engineer <code>u-boot-sunxi-with-spl.bin</code> by extracting the firmware into individual binary files. Then, we could scan each extracted file using binwalk, perhaps it will find something new. I will leave that as an exercise to the curious reader.</p>
+<p>Using the offsets found within the device tree source, we could continue to reverse engineer <code>u-boot-sunxi-with-spl.bin</code> by extracting the firmware into individual binary files. Then, we could scan each extracted file using <code>binwalk</code>, perhaps it will find something new. I will leave that as an exercise to the curious reader.</p>
 
 <h2 id="conclusion">Conclusion</h2>
 

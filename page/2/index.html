@@ -8,14 +8,15 @@
 <meta name="description" content="a place for me to bust out a blog on programming, infosec, emacs and things that interest me." />
 <meta name="keywords" content="[programming coding infosec cybersecurity webextensions blog blogger bust docker linux emacs free software]" />
 <meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1">
-<meta name="generator" content="Hugo 0.53-DEV" />
+<meta name="generator" content="Hugo 0.55.0-DEV" />
 
-<link rel="canonical" href="/">
+<link rel="canonical" href="https://bloggerbust.ca/">
 <meta property="og:title" content="Blogger Bust" />
 <meta property="og:description" content="" />
 <meta property="og:type" content="website" />
-<meta property="og:url" content="/" />
-<meta property="og:updated_time" content="2018-10-11T06:07:13-06:00"/>
+<meta property="og:url" content="https://bloggerbust.ca/" />
+
+<meta property="og:updated_time" content="2018-11-09T00:00:00-07:00"/>
 
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Blogger Bust"/>
@@ -28,7 +29,7 @@
 
 
 
-<link rel="stylesheet" href="/css/layout.css" />
+<link rel="stylesheet" href="https://bloggerbust.ca/css/layout.css" />
 <style type="text/css">
 body {
   background-color: #26282A;
@@ -95,6 +96,8 @@ th {
 
 </style>
 
+<link rel="stylesheet" href="https://bloggerbust.ca/css/site.css">
+
 
 
 <title>
@@ -115,16 +118,18 @@ th {
 
   <nav>
     <div class="siteTitle">
-      <a href="/">Blogger Bust</a>
+      <a href="https://bloggerbust.ca/">Blogger Bust</a>
     </div> 
 
     
     
-    <a class="nav-item" href="/about/"><div class="nav-item-title">About</div></a>
+    <a class="nav-item" href="https://bloggerbust.ca/about/"><div class="nav-item-title">About</div></a>
     
-    <a class="nav-item" href="/series"><div class="nav-item-title">Series</div></a>
+    <a class="nav-item" href="https://bloggerbust.ca/series"><div class="nav-item-title">Series</div></a>
     
-    <a class="nav-item" href="/post/"><div class="nav-item-title">Posts</div></a>
+    <a class="nav-item" href="https://bloggerbust.ca/page/"><div class="nav-item-title">Pages</div></a>
+    
+    <a class="nav-item" href="https://bloggerbust.ca/post/"><div class="nav-item-title">Posts</div></a>
     
 
   </nav>
@@ -160,19 +165,19 @@ th {
     <article class="post-preview">
 
   <header>
-    <h2 class="title"> <a href='/post/separate-dependencies-from-implementation-using-nauci-base-entry-docker-image/'> Separate Dependencies From Implementation Using POSIX ACL Extended Attributes &amp; Docker</a> </h2>
+    <h2 class="title"> <a href='https://bloggerbust.ca/post/licensed-nauci-base-entry-with-apache-version-2/'> Licensed Nauci Base Entry With Apache Version 2</a> </h2>
     <div class="meta">
-      Oct 11, 2018 - 17 minutes
+      Nov 9, 2018 - 1 minutes
     </div>
     
 <div class="tags">
     
       <div class="tag">
-        <a href="/tags/nauci">#nauci</a>
+        <a href="https://bloggerbust.ca/tags/nauci">#nauci</a>
       </div>
     
       <div class="tag">
-        <a href="/tags/docker">#docker</a>
+        <a href="https://bloggerbust.ca/tags/docker">#docker</a>
       </div>
     
 </div>
@@ -180,8 +185,9 @@ th {
   </header>
 
   <div class="summary">
-    The motivation I am going to develop a responsive web-extension using angular. The web-extension is for a project that I am starting called nauci. I will talk about nauci more in future posts. In this post I intend to introduce the nauci base entry docker image and how I am using it to encapsulate the nauci project dependencies in a docker sub image, but not the source code. The plan is to bind my local nauci source directory to a docker container built with the nauci dependencies image, thereby separating dependency and tooling concerns from project implementation.
-    <a href='/post/separate-dependencies-from-implementation-using-nauci-base-entry-docker-image/' class="rmore">Read more ...</a>
+    Today I released the nauci base init source under Apache version 2.0.
+Broken Links I noticed that all of my cross post anchor links are broken. They no longer link to anchors within the post, but instead link to the post itself. I will resolve this issue over the weekend.
+    <a href='https://bloggerbust.ca/post/licensed-nauci-base-entry-with-apache-version-2/' class="rmore">Read more ...</a>
   </div>
 
   <div class="rmore">
@@ -193,7 +199,73 @@ th {
     <article class="post-preview">
 
   <header>
-    <h2 class="title"> <a href='/post/literate-programming/'> Literate Programming</a> </h2>
+    <h2 class="title"> <a href='https://bloggerbust.ca/post/encapsulate-angular-webextension-dependencies-in-a-docker-image/'> Encapsulate Angular WebExtension Dependencies In a Docker Image</a> </h2>
+    <div class="meta">
+      Oct 13, 2018 - 35 minutes
+    </div>
+    
+<div class="tags">
+    
+      <div class="tag">
+        <a href="https://bloggerbust.ca/tags/nauci">#nauci</a>
+      </div>
+    
+      <div class="tag">
+        <a href="https://bloggerbust.ca/tags/docker">#docker</a>
+      </div>
+    
+</div>
+
+  </header>
+
+  <div class="summary">
+    A quick recap The purpose of this article is to provide a concrete example detailing precisely how to encapsulate the dependencies of an Angular WebExtension inside of a docker container whilst keeping the source code and optional tooling on the host system, thereby separating the dependencies from the implementation. In order for the two systems to work in tandem, files that are written to from within the container must remain writable outside of the container and vice versa.
+    <a href='https://bloggerbust.ca/post/encapsulate-angular-webextension-dependencies-in-a-docker-image/' class="rmore">Read more ...</a>
+  </div>
+
+  <div class="rmore">
+  </div>
+
+</article>
+
+
+    <article class="post-preview">
+
+  <header>
+    <h2 class="title"> <a href='https://bloggerbust.ca/post/separate-dependencies-from-implementation-using-nauci-base-entry-docker-image/'> Separate Dependencies From Implementation Using POSIX ACL Extended Attributes &amp; Docker</a> </h2>
+    <div class="meta">
+      Oct 11, 2018 - 17 minutes
+    </div>
+    
+<div class="tags">
+    
+      <div class="tag">
+        <a href="https://bloggerbust.ca/tags/nauci">#nauci</a>
+      </div>
+    
+      <div class="tag">
+        <a href="https://bloggerbust.ca/tags/docker">#docker</a>
+      </div>
+    
+</div>
+
+  </header>
+
+  <div class="summary">
+    The motivation I am going to develop a responsive web-extension using angular. The web-extension is for a project that I am starting called nauci. I will talk about nauci more in future posts. In this post I intend to introduce the nauci base entry docker image and how I am using it to encapsulate the nauci project dependencies in a docker sub image, but not the source code. The plan is to bind my local nauci source directory to a docker container built with the nauci dependencies image, thereby separating dependency and tooling concerns from project implementation.
+    <a href='https://bloggerbust.ca/post/separate-dependencies-from-implementation-using-nauci-base-entry-docker-image/' class="rmore">Read more ...</a>
+  </div>
+
+  <div class="rmore">
+  </div>
+
+</article>
+
+
+    <article class="post-preview">
+
+  <header>
+    <h2 class="title"> <a href='https://bloggerbust.ca/post/literate-programming/'> Literate Programming</a> </h2>
     <div class="meta">
       Sep 1, 2018 - 2 minutes
     </div>
@@ -201,15 +273,19 @@ th {
 <div class="tags">
     
       <div class="tag">
-        <a href="/tags/emacs">#emacs</a>
+        <a href="https://bloggerbust.ca/tags/emacs">#emacs</a>
       </div>
     
       <div class="tag">
-        <a href="/tags/org-mode">#org-mode</a>
+        <a href="https://bloggerbust.ca/tags/org-mode">#org-mode</a>
       </div>
     
       <div class="tag">
-        <a href="/tags/hugo">#hugo</a>
+        <a href="https://bloggerbust.ca/tags/hugo">#hugo</a>
+      </div>
+    
+      <div class="tag">
+        <a href="https://bloggerbust.ca/tags/literate-programming">#literate-programming</a>
       </div>
     
 </div>
@@ -218,7 +294,7 @@ th {
 
   <div class="summary">
     A quick note about my use of Literate Programming My blog is generated using a static site generator called Hugo. Hugo naively supports both Markdown and Org-Mode format, so naturally I have chosen to compose my blog posts in emacs Org-Mode. Org-mode is similar to Markdown in the sense that it uses a simple plain text markup syntax for formatting documents. However, Org-Mode has far more features than Markdown and has fantastic literate programming support via Org-Babel.
-    <a href='/post/literate-programming/' class="rmore">Read more ...</a>
+    <a href='https://bloggerbust.ca/post/literate-programming/' class="rmore">Read more ...</a>
   </div>
 
   <div class="rmore">
@@ -232,7 +308,7 @@ th {
 <div class="page-nav">
   <div class="page-prev">
     
-        <a href="/" title="Previous page" > &lt;&lt; </a>
+        <a href="https://bloggerbust.ca/" title="Previous page" > &lt;&lt; </a>
     
   </div> 
 
@@ -267,7 +343,7 @@ th {
   
 
   <div class="social-link">
-  <a href="/index.xml" target="_blank">RSS</a>
+  <a href="https://bloggerbust.ca/index.xml" target="_blank">RSS</a>
   </div>
 
 </div>
